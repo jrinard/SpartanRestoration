@@ -90,7 +90,7 @@ export function UnderConstruction() {
             ))}
           </div>
 
-          <p className="mt-12 text-xs tracking-widest text-[#2c73b5]/80 uppercase">
+          <p className="mt-12 text-md tracking-widest text-white uppercase">
             {siteConfig.domain}
           </p>
         </main>
