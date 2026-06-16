@@ -9,6 +9,7 @@ import {
   Source_Serif_4,
 } from "next/font/google";
 import { SiteJsonLd } from "@/components/seo/JsonLd";
+import { siteConfig } from "@/config/site";
 import { createMetadata } from "@/lib/seo";
 import { pageSeo } from "@/lib/seo-content";
 import "./globals.css";
@@ -52,7 +53,8 @@ export const metadata: Metadata = createMetadata({
   title: pageSeo.home.title,
   description: pageSeo.home.description,
   path: pageSeo.home.path,
-  noIndex: pageSeo.home.noIndex,
+  ogImage: siteConfig.assets.logo,
+  ogImageAlt: pageSeo.home.ogImageAlt,
 });
 
 export default function RootLayout({

@@ -31,7 +31,7 @@ const utilitySocial = [
 ];
 
 /** Main nav minus Contact — shown in the utility row instead. */
-const primaryNav = siteConfig.nav.filter((item) => item.href !== "/contact");
+const primaryNav = [...siteConfig.nav];
 
 /** Logo left, utility + social top-right, primary nav on a darker strip below. */
 export function HeaderV3({ className }: HeaderV3Props) {

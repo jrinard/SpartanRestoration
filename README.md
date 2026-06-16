@@ -1,42 +1,43 @@
-# LifeSpring Starter
+# Spartan Restoration Website
 
-A **Next.js website starter** built by [LifeSpring Design](https://lifespringdesign.com) — the foundation used to design, preview, and launch client marketing sites that are fast, accessible, and search-engine friendly.
+Custom marketing website for **Spartan Restoration** — water damage and property restoration.
 
-If you are evaluating LifeSpring for a new website, this repo reflects how projects are built: modular page sections, live design preview, and SEO handled from the start — not added as an afterthought.
+**Website:** [spartanrestorationnw.com](https://spartanrestorationnw.com)
 
 ---
 
-## What you get
+## Built by LifeSpring Design
 
-- **Flexible page sections** — headers, heroes, services, testimonials, calls-to-action, footers
-- **Design preview** — try layouts, colors, and typography before launch
-- **SEO-ready** — page metadata, sitemap, structured data for search engines
-- **Simple configuration** — business name, contact info, navigation, and logos in one place
+This site was designed and developed by **[LifeSpring Design](https://lifespringdesign.com)**.
 
-The live homepage (`/`) currently shows an under-construction screen while projects are in development.
+For questions about the site or future updates, visit [lifespringdesign.com](https://lifespringdesign.com).
 
 ---
 
 ## Tech stack
 
-- **Next.js** (App Router) · **TypeScript** · **Tailwind CSS**
-- Deployed on **Vercel**
-- No database or paid services required to run locally
+- [Next.js](https://nextjs.org) 16 (App Router)
+- [React](https://react.dev) 19
+- [TypeScript](https://www.typescriptlang.org)
+- [Tailwind CSS](https://tailwindcss.com) v4
+- Hosted on [Vercel](https://vercel.com)
 
 ---
 
-## Local setup
+## Install and run locally
 
-**Requirements:** Node.js 20+ and npm.
+**Requirements:** [Node.js](https://nodejs.org) 20 or newer and npm.
 
 ```bash
 git clone <your-repo-url>
-cd lifespring-starter
+cd SpartanRestoration-Website
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+**Other commands:**
 
 ```bash
 npm run build   # Production build
@@ -44,35 +45,4 @@ npm run start   # Run production build locally
 npm run lint    # Lint
 ```
 
-### Environment variables
-
-The project runs without env vars by default. For future integrations (email, CRM, analytics), use `.env.example` as a template and keep secrets in a local `.env` file — never commit it.
-
----
-
-## New client project
-
-1. Update **`config/site.ts`** — business name, domain, contact info, navigation, logos
-2. Replace copy and images in **`public/`**
-3. Build out pages from the section components in **`components/sections/`**
-4. Deploy to Vercel and connect the client’s domain
-
-A detailed launch checklist (metadata, sitemap, go-live steps) lives in **`docs/SEO.md`**.
-
----
-
-## Deployment
-
-1. Push to GitHub
-2. Import the repo in [Vercel](https://vercel.com)
-3. Set the production domain in Vercel and in `config/site.ts`
-
-No API keys or secrets are needed for the default build.
-
----
-
-## About LifeSpring Design
-
-LifeSpring Design builds modern marketing websites for businesses that want a polished online presence without unnecessary complexity.
-
-**Questions or want to hire?** [lifespringdesign.com](https://lifespringdesign.com)
+No database or environment variables are required to run the site locally.

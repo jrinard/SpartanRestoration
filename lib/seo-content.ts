@@ -1,49 +1,57 @@
 import { siteConfig } from "@/config/site";
 
-/** Per-route metadata copy — swap for client launch. */
+/** Homepage metadata — matches the under-construction page at `/`. */
+export const underConstructionSeo = {
+  title: "Under Construction",
+  statusLine: "Our new site is on the way.",
+  description: `${siteConfig.name} — ${siteConfig.tagline} Our new site is on the way.`,
+  contactSummary: siteConfig.teamContacts
+    .map((contact) => `${contact.name} ${contact.phone}`)
+    .join(" · "),
+  ogImageAlt: `${siteConfig.name} logo — ${siteConfig.tagline}`,
+} as const;
+
+/** Per-route metadata copy — update other routes when those pages are built out. */
 export const pageSeo = {
   home: {
-    title: "Under Construction",
-    description:
-      "LifeSpring Design is crafting something extraordinary. Expert web design and digital experiences for businesses ready to grow.",
+    title: underConstructionSeo.title,
+    description: `${underConstructionSeo.description} ${underConstructionSeo.contactSummary}.`,
     path: "/",
-    noIndex: true,
+    ogImageAlt: underConstructionSeo.ogImageAlt,
   },
   about: {
     title: "About",
-    description:
-      "Learn about LifeSpring Design — our mission, approach, and commitment to building fast, beautiful marketing websites.",
+    description: "About Spartan Restoration — page coming soon.",
     path: "/about",
+    noIndex: true,
   },
   services: {
     title: "Services",
-    description:
-      "Web design, development, and SEO services from LifeSpring Design. Custom sites built with Next.js and search-ready architecture.",
+    description: "Spartan Restoration services — page coming soon.",
     path: "/services",
+    noIndex: true,
   },
   contact: {
     title: "Contact",
-    description:
-      "Contact LifeSpring Design for a free consultation. Tell us about your project and we'll help you plan a site that converts.",
+    description: "Contact Spartan Restoration — page coming soon.",
     path: "/contact",
+    noIndex: true,
   },
   blog: {
     title: "Blog",
-    description:
-      "Insights on web design, branding, and digital marketing from the LifeSpring Design team.",
+    description: "Spartan Restoration blog — page coming soon.",
     path: "/blog",
+    noIndex: true,
   },
   playground: {
     title: "Playground",
-    description:
-      "Internal preview of the LifeSpring Starter section library, color themes, and OSP-style trade services layout.",
+    description: "Internal design preview — not for public indexing.",
     path: "/playground",
     noIndex: true,
   },
   preview: {
     title: "Preview",
-    description:
-      "Alternate homepage layout preview — agency-style hero, feature tiles, and testimonial sections.",
+    description: "Internal layout preview — not for public indexing.",
     path: "/preview",
     noIndex: true,
   },

@@ -1,39 +1,43 @@
 export const siteConfig = {
-  name: "LifeSpring Design",
-  domain: "lifespringdesign.com",
-  url: "https://lifespringdesign.com",
-  tagline: "Crafting digital experiences that help businesses grow.",
+  name: "Spartan Restoration",
+  domain: "spartanrestorationnw.com",
+  url: "https://spartanrestorationnw.com",
+  tagline: "The best defense in water damage.",
   description:
-    "LifeSpring Design builds fast, beautiful marketing websites for businesses ready to grow.",
-  phone: "503-555-0100",
-  email: "hello@lifespringdesign.com",
-  address: "",
+    "Spartan Restoration — The best defense in water damage. Our new site is on the way.",
+  phone: "503-975-9082",
+  email: "Stonepillarcontractors@gmail.com",
+  address: "Vancouver, WA",
   social: {
     facebook: "#",
     instagram: "#",
     linkedin: "#",
     twitter: "#",
   },
-  nav: [
-    { label: "Home", href: "/" },
-    { label: "Playground", href: "/playground" },
-    { label: "Preview", href: "/preview" },
-    { label: "About", href: "/about" },
-    { label: "Services", href: "/services" },
-    { label: "Blog", href: "/blog" },
-    { label: "Contact", href: "/contact" },
-  ],
+  nav: [{ label: "Home", href: "/" }],
   assets: {
-    logo: "/logo.png",
-    logoWhite: "/LS-logo-white.png",
-    logoBlack: "/LS-logo-black.png",
-    ogImage: "/ls-logo-color.png",
+    logo: "/Spartan-Logo-1.JPG",
+    logoWhite: "/Spartan-Logo-1.JPG",
+    logoBlack: "/Spartan-Logo-1.JPG",
+    ogImage: "/Spartan-Logo-1.JPG",
   },
   launch: {
     mode: "under-construction" as "under-construction" | "live",
     previewPlaygroundPath: "/playground",
     previewPath: "/preview",
   },
+  teamContacts: [
+    {
+      name: "Justin Dauven",
+      phone: "503-975-9082",
+      email: "Stonepillarcontractors@gmail.com",
+    },
+    {
+      name: "Curt Farber",
+      phone: "360-608-6640",
+      email: "charlesfarber7111@gmail.com",
+    },
+  ],
 } as const;
 
 export type SiteConfig = typeof siteConfig;

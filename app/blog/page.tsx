@@ -8,6 +8,7 @@ export const metadata = createMetadata({
   title: pageSeo.blog.title,
   description: pageSeo.blog.description,
   path: pageSeo.blog.path,
+  noIndex: pageSeo.blog.noIndex,
 });
 
 export default function BlogPage() {

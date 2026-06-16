@@ -9,6 +9,7 @@ export const metadata = createMetadata({
   title: pageSeo.about.title,
   description: pageSeo.about.description,
   path: pageSeo.about.path,
+  noIndex: pageSeo.about.noIndex,
 });
 
 export default function AboutPage() {

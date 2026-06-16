@@ -69,6 +69,7 @@ export const colorThemes: ColorTheme[] = [
   {
     id: "spartan",
     label: "Spartan",
+    headerWordmark: "SPARTAN",
     colors: [
       { label: "Light", hex: "#EDDED8" },
       { label: "Tan", hex: "#CCA384" },
@@ -95,7 +96,7 @@ export const colorThemes: ColorTheme[] = [
   },
 ];
 
-export const defaultColorThemeId: ColorThemeId = "dark";
+export const defaultColorThemeId: ColorThemeId = "spartan";
 
 export function getColorTheme(id: ColorThemeId | string): ColorTheme {
   const normalizedId = id === "washing" ? "ocean" : id;

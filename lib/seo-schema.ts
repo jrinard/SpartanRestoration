@@ -7,6 +7,35 @@ function phoneDigits(phone: string): string {
   return phone.replace(/\D/g, "");
 }
 
+function buildPostalAddress(): JsonLd {
+  const address = siteConfig.address.trim();
+
+  if (!address) {
+    return {
+      "@type": "PostalAddress",
+      addressLocality: "Vancouver",
+      addressRegion: "WA",
+      addressCountry: "US",
+    };
+  }
+
+  if (address.includes(",")) {
+    const [locality, region] = address.split(",").map((part) => part.trim());
+    return {
+      "@type": "PostalAddress",
+      addressLocality: locality,
+      addressRegion: region,
+      addressCountry: "US",
+    };
+  }
+
+  return {
+    "@type": "PostalAddress",
+    streetAddress: address,
+    addressCountry: "US",
+  };
+}
+
 export function buildOrganizationSchema(): JsonLd {
   const sameAs = getSocialProfileUrls();
 
@@ -16,14 +45,11 @@ export function buildOrganizationSchema(): JsonLd {
     name: siteConfig.name,
     url: siteConfig.url,
     description: siteConfig.description,
+    slogan: siteConfig.tagline,
+    logo: `${siteConfig.url}${siteConfig.assets.logo}`,
     ...(siteConfig.email && { email: siteConfig.email }),
     ...(siteConfig.phone && { telephone: siteConfig.phone }),
-    ...(siteConfig.address.length > 0 && {
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: siteConfig.address,
-      },
-    }),
+    address: buildPostalAddress(),
     ...(sameAs.length > 0 && { sameAs }),
   };
 }

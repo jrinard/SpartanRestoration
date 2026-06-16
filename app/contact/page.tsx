@@ -9,6 +9,7 @@ export const metadata = createMetadata({
   title: pageSeo.contact.title,
   description: pageSeo.contact.description,
   path: pageSeo.contact.path,
+  noIndex: pageSeo.contact.noIndex,
 });
 
 export default function ContactPage() {

@@ -8,9 +8,24 @@ type PageSEO = {
   noIndex?: boolean;
   ogImage?: string;
   ogImageAlt?: string;
+  keywords?: string[];
 };
 
 const defaultOgImage = siteConfig.assets.ogImage;
+
+/** Block crawlers from internal dev/preview routes. */
+export const noIndexRobots: Metadata["robots"] = {
+  index: false,
+  follow: false,
+  nocache: true,
+  googleBot: {
+    index: false,
+    follow: false,
+    noimageindex: true,
+    nosnippet: true,
+    noarchive: true,
+  },
+};
 
 export function createMetadata({
   title,
@@ -19,15 +34,17 @@ export function createMetadata({
   noIndex = false,
   ogImage = defaultOgImage,
   ogImageAlt,
+  keywords,
 }: PageSEO = {}): Metadata {
   const pageTitle = title ? `${title} | ${siteConfig.name}` : siteConfig.name;
   const pageDescription = description ?? siteConfig.description;
   const url = `${siteConfig.url}${path}`;
-  const imageAlt = ogImageAlt ?? siteConfig.name;
+  const imageAlt = ogImageAlt ?? `${siteConfig.name} — ${siteConfig.tagline}`;
 
   return {
     title: pageTitle,
     description: pageDescription,
+    ...(keywords && keywords.length > 0 && { keywords }),
     metadataBase: new URL(siteConfig.url),
     alternates: { canonical: url },
     openGraph: {
@@ -52,6 +69,6 @@ export function createMetadata({
       description: pageDescription,
       images: [ogImage],
     },
-    robots: noIndex ? { index: false, follow: false } : { index: true, follow: true },
+    robots: noIndex ? noIndexRobots : { index: true, follow: true },
   };
 }

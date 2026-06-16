@@ -2075,3 +2075,32 @@ body {
     margin-top: 0;
   }
 }
+
+/* Under construction — gradient text treatments */
+.under-construction-brand-title {
+  background: linear-gradient(
+    135deg,
+    #fff2b8 0%,
+    #f3c35d 28%,
+    #d4a044 58%,
+    #8f6120 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(3px 4px 4px rgba(0, 0, 0, 0.65)) drop-shadow(6px 8px 14px rgba(0, 0, 0, 0.35));
+}
+
+.under-construction-brand-tagline {
+  background: linear-gradient(
+    135deg,
+    #b8e4ff 0%,
+    #6aa8e8 35%,
+    #438ed2 68%,
+    #2c73b5 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(2px 3px 3px rgba(0, 0, 0, 0.55)) drop-shadow(4px 6px 10px rgba(0, 0, 0, 0.3));
+}
