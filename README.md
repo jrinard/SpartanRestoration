@@ -46,3 +46,4 @@ npm run lint    # Lint
 ```
 
 No database or environment variables are required to run the site locally.
+---
