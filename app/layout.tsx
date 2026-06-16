@@ -8,6 +8,7 @@ import {
   Source_Sans_3,
   Source_Serif_4,
 } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { SiteJsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/config/site";
 import { createMetadata } from "@/lib/seo";
@@ -73,6 +74,7 @@ export default function RootLayout({
       >
         <SiteJsonLd />
         {children}
+        <Analytics />
       </body>
     </html>
   );
