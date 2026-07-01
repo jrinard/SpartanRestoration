@@ -4,6 +4,7 @@ import { HeaderV2 } from "@/components/layout/Header-v2";
 import { HeaderV3 } from "@/components/layout/Header-v3";
 import { HeroV1 } from "@/components/sections/Hero-v1";
 import { HeroV2 } from "@/components/sections/Hero-v2";
+import { HeroV21 } from "@/components/sections/Hero-v2.1";
 import { HeroV3 } from "@/components/sections/Hero-v3";
 import { HeroWashingV1 } from "@/components/sections/HeroWashing-v1";
 import { HeroWashingV2 } from "@/components/sections/HeroWashing-v2";
@@ -17,12 +18,20 @@ import { NarrativeV1 } from "@/components/sections/Narrative-v1";
 import { TestimonialsV3 } from "@/components/sections/Testimonials-v3";
 import { LogoBarV1 } from "@/components/sections/LogoBar-v1";
 import { LogoBarV2 } from "@/components/sections/LogoBar-v2";
-import { ServicesV3 } from "@/components/sections/Services-v3";
-import { ServicesV1 } from "@/components/sections/Services-v1";
+import {
+  SpacerFade,
+  SpacerLine,
+} from "@/components/sections/Spacer";
+import { SpacerGradientWithPreview } from "@/components/dev/SpacerGradientWithPreview";
+import { SpacerStripeWithPreview } from "@/components/dev/SpacerStripeWithPreview";
+import { ServicesV1WithLayout } from "@/components/dev/ServicesV1WithLayout";
 import { ServicesV2 } from "@/components/sections/Services-v2";
+import { ServicesV3 } from "@/components/sections/Services-v3";
 import { ServicesIconsV1 } from "@/components/sections/ServicesIcons-v1";
 import { CTAV1 } from "@/components/sections/CTA-v1";
 import { CTAV2 } from "@/components/sections/CTA-v2";
+import { ContactV1 } from "@/components/sections/Contact-v1";
+import { ReviewboxV1 } from "@/components/sections/Reviewbox-v1";
 import { FooterV1 } from "@/components/sections/Footer-v1";
 import { FooterV2 } from "@/components/layout/Footer-v2";
 import { FooterV3 } from "@/components/layout/Footer-v3";
@@ -32,13 +41,18 @@ import {
   detailedServices,
   featureTiles,
   heroDemo,
+  heroV21Demo,
   iconServices,
   narrativeContent,
   partnerLogos,
   projects,
+  brandingProjects,
   simpleServices,
+  servicesV1Cta,
   testimonials,
   ctaContent,
+  contactContent,
+  reviewboxContent,
   logoBarHeading,
   servicesIconsHeading,
   servicesIconsSubheading,
@@ -109,6 +123,18 @@ export const sectionGroups = {
           />
         ),
       },
+      "hero-v2.1": {
+        label: "Hero-v2.1",
+        render: () => (
+          <HeroV21
+            headlineLines={heroV21Demo.headlineLines}
+            subtextLines={heroV21Demo.subtextLines}
+            highlights={heroV21Demo.highlights}
+            ctaLabel={heroV21Demo.ctaLabel}
+            ctaHref={heroV21Demo.ctaHref}
+          />
+        ),
+      },
       "hero-v3": {
         label: "Hero-v3",
         render: () => (
@@ -175,13 +201,37 @@ export const sectionGroups = {
       },
     },
   },
+  spacer: {
+    label: "Spacer",
+    defaultVariant: "spacer-v1",
+    variants: {
+      "spacer-v1": {
+        label: "Spacer-v1 (Stripe)",
+        render: () => <SpacerStripeWithPreview />,
+      },
+      "spacer-v2": {
+        label: "Spacer-v2 (Gradient)",
+        render: () => <SpacerGradientWithPreview />,
+      },
+      "spacer-v3": {
+        label: "Spacer-v3 (Line)",
+        render: () => <SpacerLine />,
+      },
+      "spacer-v4": {
+        label: "Spacer-v4 (Fade)",
+        render: () => <SpacerFade />,
+      },
+    },
+  },
   portfolio: {
     label: "Portfolio",
     defaultVariant: "portfolio-v1",
     variants: {
       "portfolio-v1": {
         label: "Portfolio-v1",
-        render: () => <PortfolioV1 projects={projects} ctaHref="/projects" />,
+        render: () => (
+          <PortfolioV1 heading="Projects" projects={projects} brandingProjects={brandingProjects} />
+        ),
       },
     },
   },
@@ -261,16 +311,12 @@ export const sectionGroups = {
   },
   services: {
     label: "Services",
-    defaultVariant: "services-v2",
+    defaultVariant: "services-v1",
     variants: {
       "services-v1": {
         label: "Services-v1",
         render: () => (
-          <ServicesV1
-            heading="What We Do"
-            subheading="Placeholder content — customize per client."
-            services={simpleServices}
-          />
+          <ServicesV1WithLayout heading="Services" services={simpleServices} cta={servicesV1Cta} />
         ),
       },
       "services-v2": {
@@ -326,6 +372,52 @@ export const sectionGroups = {
             subtext={ctaContent.subtext}
             ctaLabel={ctaContent.ctaLabel}
             ctaHref={ctaContent.ctaHref}
+          />
+        ),
+      },
+    },
+  },
+  reviewbox: {
+    label: "Reviewbox",
+    defaultVariant: "reviewbox-v1",
+    variants: {
+      "reviewbox-v1": {
+        label: "Reviewbox-v1",
+        render: () => (
+          <ReviewboxV1
+            logoSrc={reviewboxContent.logoSrc}
+            logoAlt={reviewboxContent.logoAlt}
+            headlineLines={reviewboxContent.headlineLines}
+            subtext={reviewboxContent.subtext}
+            productLink={reviewboxContent.productLink}
+            bullets={reviewboxContent.bullets}
+            features={reviewboxContent.features}
+            featuresLabel={reviewboxContent.featuresLabel}
+            ctaLabel={reviewboxContent.ctaLabel}
+            ctaSubtext={reviewboxContent.ctaSubtext}
+            ctaHref={reviewboxContent.ctaHref}
+            desktop={reviewboxContent.desktop}
+            leftExample={reviewboxContent.leftExample}
+            rightMessage={reviewboxContent.rightMessage}
+          />
+        ),
+      },
+    },
+  },
+  contact: {
+    label: "Contact",
+    defaultVariant: "contact-v1",
+    variants: {
+      "contact-v1": {
+        label: "Contact-v1",
+        render: () => (
+          <ContactV1
+            title={contactContent.title}
+            subtext={contactContent.subtext}
+            phonePrefix={contactContent.phonePrefix}
+            phone={siteConfig.phone}
+            formDivider={contactContent.formDivider}
+            formIntro={contactContent.formIntro}
           />
         ),
       },

@@ -9,6 +9,7 @@ import {
   Source_Serif_4,
 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { RecaptchaProvider } from "@/components/forms/RecaptchaProvider";
 import { SiteJsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/config/site";
 import { createMetadata } from "@/lib/seo";
@@ -73,7 +74,9 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <SiteJsonLd />
-        {children}
+        <RecaptchaProvider>
+          {children}
+        </RecaptchaProvider>
         <Analytics />
       </body>
     </html>

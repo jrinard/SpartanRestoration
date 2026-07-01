@@ -69,7 +69,6 @@ export const colorThemes: ColorTheme[] = [
   {
     id: "spartan",
     label: "Spartan",
-    headerWordmark: "SPARTAN",
     colors: [
       { label: "Light", hex: "#EDDED8" },
       { label: "Tan", hex: "#CCA384" },

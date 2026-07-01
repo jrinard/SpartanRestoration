@@ -1,3 +1,9 @@
+export type TeamContact = {
+  name: string;
+  phone: string;
+  email: string;
+};
+
 export const siteConfig = {
   name: "Spartan Restoration",
   domain: "spartanrestorationnw.com",
@@ -6,26 +12,10 @@ export const siteConfig = {
   description:
     "Spartan Restoration — The best defense in water damage. Our new site is on the way.",
   phone: "503-975-9082",
+  serviceArea: "Serving Vancouver, WA and the Pacific Northwest",
   email: "Stonepillarcontractors@gmail.com",
   address: "Vancouver, WA",
-  social: {
-    facebook: "#",
-    instagram: "#",
-    linkedin: "#",
-    twitter: "#",
-  },
-  nav: [{ label: "Home", href: "/" }],
-  assets: {
-    logo: "/Spartan-Logo-1.JPG",
-    logoWhite: "/Spartan-Logo-1.JPG",
-    logoBlack: "/Spartan-Logo-1.JPG",
-    ogImage: "/Spartan-Logo-1.JPG",
-  },
-  launch: {
-    mode: "under-construction" as "under-construction" | "live",
-    previewPlaygroundPath: "/playground",
-    previewPath: "/preview",
-  },
+  /** Optional contacts shown on the under construction page. Falls back to site phone/email when empty. */
   teamContacts: [
     {
       name: "Justin Dauven",
@@ -37,7 +27,47 @@ export const siteConfig = {
       phone: "360-608-6640",
       email: "charlesfarber7111@gmail.com",
     },
+  ] as TeamContact[],
+  underConstruction: {
+    headline: "Under Construction",
+    subheadline: "Our new site is on the way.",
+    brandTitleLines: ["Spartan", "Restoration"],
+  },
+  social: {
+    facebook: "#",
+    instagram: "#",
+    linkedin: "#",
+    twitter: "#",
+  },
+  /** Full site nav — dev/scaffold footers and legacy layouts */
+  nav: [
+    { label: "Home", href: "/" },
+    { label: "Playground", href: "/playground" },
+    { label: "Preview", href: "/preview" },
+    { label: "About", href: "/about" },
+    { label: "Services", href: "/services" },
+    { label: "Blog", href: "/blog" },
+    { label: "Contact", href: "/contact" },
   ],
+  /** Primary marketing nav — header v3, footer v3 */
+  primaryNav: [
+    { label: "Home", href: "/" },
+    { label: "Services", href: "#services" },
+    { label: "Projects", href: "#portfolio" },
+    { label: "Contact", href: "/contact" },
+  ],
+  assets: {
+    logo: "/Spartan-Logo-1.JPG",
+    logoWhite: "/Spartan-Logo-1.JPG",
+    logoBlack: "/Spartan-Logo-1.JPG",
+    logoColor: "/Spartan-Logo-1.JPG",
+    ogImage: "/Spartan-Logo-1.JPG",
+  },
+  launch: {
+    mode: "under-construction" as "under-construction" | "live",
+    previewPlaygroundPath: "/playground",
+    previewPath: "/preview",
+  },
 } as const;
 
 export type SiteConfig = typeof siteConfig;

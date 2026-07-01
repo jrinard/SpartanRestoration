@@ -7,33 +7,8 @@ function phoneDigits(phone: string): string {
   return phone.replace(/\D/g, "");
 }
 
-function buildPostalAddress(): JsonLd {
-  const address = siteConfig.address.trim();
-
-  if (!address) {
-    return {
-      "@type": "PostalAddress",
-      addressLocality: "Vancouver",
-      addressRegion: "WA",
-      addressCountry: "US",
-    };
-  }
-
-  if (address.includes(",")) {
-    const [locality, region] = address.split(",").map((part) => part.trim());
-    return {
-      "@type": "PostalAddress",
-      addressLocality: locality,
-      addressRegion: region,
-      addressCountry: "US",
-    };
-  }
-
-  return {
-    "@type": "PostalAddress",
-    streetAddress: address,
-    addressCountry: "US",
-  };
+function siteDescription(): string {
+  return siteConfig.description || siteConfig.tagline;
 }
 
 export function buildOrganizationSchema(): JsonLd {
@@ -44,12 +19,24 @@ export function buildOrganizationSchema(): JsonLd {
     "@type": "Organization",
     name: siteConfig.name,
     url: siteConfig.url,
-    description: siteConfig.description,
-    slogan: siteConfig.tagline,
-    logo: `${siteConfig.url}${siteConfig.assets.logo}`,
+    description: siteDescription(),
     ...(siteConfig.email && { email: siteConfig.email }),
     ...(siteConfig.phone && { telephone: siteConfig.phone }),
-    address: buildPostalAddress(),
+    ...(siteConfig.serviceArea && { areaServed: siteConfig.serviceArea }),
+    knowsAbout: [
+      "Web Design",
+      "Custom Software Development",
+      "Branding",
+      "Graphic Design",
+      "Online Reputation Management",
+      "Reviewbox.io",
+    ],
+    ...(siteConfig.address.length > 0 && {
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: siteConfig.address,
+      },
+    }),
     ...(sameAs.length > 0 && { sameAs }),
   };
 }
@@ -111,11 +98,70 @@ export function buildWebSiteSchema(): JsonLd {
     "@type": "WebSite",
     name: siteConfig.name,
     url: siteConfig.url,
-    description: siteConfig.description,
+    description: siteDescription(),
     publisher: {
       "@type": "Organization",
       name: siteConfig.name,
       url: siteConfig.url,
     },
+  };
+}
+
+type PortfolioSchemaProject = {
+  title: string;
+  description?: string;
+  href?: string;
+  imageSrc?: string;
+};
+
+export function buildPortfolioItemListSchema(
+  projects: PortfolioSchemaProject[],
+  listName = "LifeSpring Design Portfolio",
+): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: listName,
+    itemListElement: projects.map((project, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "CreativeWork",
+        name: project.title,
+        ...(project.description && { description: project.description }),
+        ...(project.href && { url: project.href }),
+        ...(project.imageSrc && { image: `${siteConfig.url}${project.imageSrc}` }),
+        creator: {
+          "@type": "Organization",
+          name: siteConfig.name,
+          url: siteConfig.url,
+        },
+      },
+    })),
+  };
+}
+
+export function buildServicesItemListSchema(
+  services: { title: string; description: string }[],
+): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `${siteConfig.name} Services`,
+    itemListElement: services.map((service, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Service",
+        name: service.title,
+        description: service.description,
+        provider: {
+          "@type": "Organization",
+          name: siteConfig.name,
+          url: siteConfig.url,
+        },
+        areaServed: siteConfig.serviceArea,
+      },
+    })),
   };
 }

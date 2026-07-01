@@ -1,0 +1,10 @@
+{
+  "sections": [
+    {
+      "group": "header",
+      "variant": "header-v1"
+    }
+  ],
+  "colorThemeId": "spartan",
+  "fontThemeId": "editorial"
+}

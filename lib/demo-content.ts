@@ -4,15 +4,180 @@ export const heroDemo = {
   headline: siteConfig.name,
   lines: ["Expert", "Design", "Partners"],
   subtext: "Grow your business. Reach your goals. Enjoy the process.",
-  ctaLabel: "Start a Conversation",
+  ctaLabel: "Let's Talk",
   ctaHref: "/contact",
 };
 
+export const heroV21Demo = {
+  headlineLines: ["Technology That Works", "The Way Your Business Works"],
+  subtextLines: [
+    "Custom websites, software, and digital solutions that solve real business problems so you can focus on what you do best.",
+    "Built around your goals, your workflow, and the way your business operates.",
+    "A trusted technology partner helping your business grow with confidence.",
+    "From websites to custom software, we create solutions that move your business forward.",
+  ],
+  ctaLabel: "Let's Talk",
+  ctaHref: "/contact",
+  highlights: [
+    {
+      title: "Websites That Grow Your Business",
+      description:
+        "Build trust, attract customers, and create a strong online presence with a website designed around your goals.",
+      href: "#services",
+    },
+    {
+      title: "Get More Customer Reviews",
+      description:
+        "Turn happy customers into positive Google reviews and build trust with future customers.",
+      href: "#reviewbox",
+    },
+  ],
+};
+
 export const projects = [
-  { title: "Riverside Bistro", tags: "Branding, Website Design, Menu Design" },
-  { title: "Summit Legal Group", tags: "Website Design, SEO, Content" },
-  { title: "Valley Health Co-op", tags: "Branding, Website Design" },
-  { title: "Bright Path Learning", tags: "Website Design, Graphic Design" },
+  {
+    title: "OS Power and Softwash",
+    tags: "Website Design, Pressure Washing",
+    description:
+      "Keep your home clean and protected with the right mix of soft washing and pressure washing for roofs, siding, and concrete. We remove dirt, mold, and buildup without damaging your surfaces—boosting curb appeal and protecting your property.",
+    href: "https://ospnwcleanpros.com/",
+    imageSrc: "/lsd/portfolio-sites/ospower-example.png",
+    imageAlt:
+      "OS Power and Softwash pressure washing website homepage designed by LifeSpring Design",
+  },
+  {
+    title: "Reviewbox.io",
+    tags: "Product Design, Review Software",
+    description:
+      "Reviewbox simplifies online reviews by texting customers a direct link so they can leave a rating in seconds. It helps you build a consistent five-star reputation by reminding happy customers to share their positive experiences.",
+    href: "https://reviewbox.io",
+    imageSrc: "/lsd/rvbx-example-desktop.png",
+    imageAlt: "Reviewbox.io review management software dashboard designed by LifeSpring Design",
+  },
+  {
+    title: "Genesis Feed Products",
+    tags: "Website Design, Organic Agriculture",
+    href: "https://genesisfeedproducts.com/",
+    imageSrc: "/lsd/portfolio-sites/gfp-example.png",
+    imageAlt: "Genesis Feed Products organic agriculture website designed by LifeSpring Design",
+  },
+  {
+    title: "Content Management System",
+    tags: "Custom Software Solution",
+    description:
+      "A custom Ruby on Rails CRM for customer management with HappyFox and QuickBooks integrations, dark/light themes, and a Kanban board for sales workflows.",
+    imageSrc: "/lsd/portfolio-sites/port-crm-example.jpg",
+    imageAlt:
+      "Custom Ruby on Rails CRM dashboard with Kanban board built by LifeSpring Design",
+  },
+  {
+    title: "Gold Co Idaho Classic",
+    tags: "Website Design",
+    imageSrc: "/lsd/portfolio-sites/port-example-gold.png",
+    imageAlt: "Gold Co Idaho Classic event website homepage designed by LifeSpring Design",
+  },
+  {
+    title: "Phonefixation",
+    tags: "Website Design, Mobile Repair",
+    imageSrc: "/lsd/portfolio-sites/PhoneFix-example.png",
+    imageAlt: "Phonefixation mobile repair shop website designed by LifeSpring Design",
+  },
+  {
+    title: "Eternal Zoe Design",
+    tags: "Website Design, Branding",
+    imageSrc: "/lsd/portfolio-sites/port-zoe-example.png",
+    imageAlt: "Eternal Zoe Design interior design website and branding by LifeSpring Design",
+  },
+  {
+    title: "Momentum",
+    tags: "Team and Event Management",
+    description:
+      "Momentum is a new software project that allows non profit organizations or social movements to organize their internal structure.",
+    stack: "Made with Ruby on Rails, HTML, CSS, JavaScript, Heroku.",
+    imageSrc: "/lsd/portfolio-sites/port-mom-example.jpg",
+    imageAlt: "Momentum nonprofit team management web application by LifeSpring Design",
+  },
+  {
+    title: "Port Closet",
+    tags: "Custom Software, Inventory",
+    description:
+      "Closets helps you remember what you wore and when. Store selfies, outfit details, dates, and events—then search by date or save favorites. Built mobile-first for easy use on the go.",
+    stack: "Made with Ruby on Rails, HTML, CSS, JavaScript, Heroku, AWS.",
+    imageSrc: "/lsd/portfolio-sites/port-closet-example.jpg",
+    imageAlt: "Port Closet wardrobe tracking mobile web app by LifeSpring Design",
+  },
+  {
+    title: "Blue Lakes Inn Boutique Hotel",
+    tags: "Website Design, Branding",
+    description:
+      "A boutique hotel in southern Idaho offering short-term and extended stays.",
+    href: "https://bluelakesinn.com/",
+    imageSrc: "/lsd/portfolio-sites/port-bli-example.jpg",
+    imageAlt: "Blue Lakes Inn Boutique Hotel website homepage designed by LifeSpring Design",
+  },
+  {
+    title: "Stoken Joe Coffee",
+    tags: "Website Design, Branding, Print Advertising, Packaging",
+    imageSrc: "/lsd/portfolio-sites/port-stoken-example.jpg",
+    imageAlt: "Stoken Joe Coffee website and branding designed by LifeSpring Design",
+  },
+  {
+    title: "Orpheum Theater",
+    tags: "Website Design, Branding",
+    imageSrc: "/lsd/portfolio-sites/port-orph-example.png",
+    imageAlt: "Orpheum Theater website and branding designed by LifeSpring Design",
+  },
+];
+
+export const brandingProjects = [
+  {
+    title: "Branding Project 1",
+    tags: "Branding",
+    imageSrc: "/lsd/portfolio_images/port-brand-1.png",
+    imageAlt: "Logo and brand identity design portfolio sample 1 by LifeSpring Design",
+  },
+  {
+    title: "Branding Project 2",
+    tags: "Branding",
+    imageSrc: "/lsd/portfolio_images/port-brand-2.png",
+    imageAlt: "Logo and brand identity design portfolio sample 2 by LifeSpring Design",
+  },
+  {
+    title: "Branding Project 3",
+    tags: "Branding",
+    imageSrc: "/lsd/portfolio_images/port-brand-3.png",
+    imageAlt: "Print and packaging brand design portfolio sample 3 by LifeSpring Design",
+  },
+  {
+    title: "Branding Project 4",
+    tags: "Branding",
+    imageSrc: "/lsd/portfolio_images/port-brand-4.png",
+    imageAlt: "Print and packaging brand design portfolio sample 4 by LifeSpring Design",
+  },
+  {
+    title: "Branding Project 5",
+    tags: "Branding",
+    imageSrc: "/lsd/portfolio_images/port-brand-5.png",
+    imageAlt: "Business branding and marketing design portfolio sample 5 by LifeSpring Design",
+  },
+  {
+    title: "Branding Project 6",
+    tags: "Branding",
+    imageSrc: "/lsd/portfolio_images/port-brand-6.png",
+    imageAlt: "Business branding and marketing design portfolio sample 6 by LifeSpring Design",
+  },
+  {
+    title: "Branding Project 7",
+    tags: "Branding",
+    imageSrc: "/lsd/portfolio_images/port-brand-7.png",
+    imageAlt: "Visual identity and logo design portfolio sample 7 by LifeSpring Design",
+  },
+  {
+    title: "Branding Project 8",
+    tags: "Branding",
+    imageSrc: "/lsd/portfolio_images/port-brand-8.png",
+    imageAlt: "Visual identity and logo design portfolio sample 8 by LifeSpring Design",
+  },
 ];
 
 export const featureTiles = [
@@ -39,47 +204,111 @@ export const featureTiles = [
 export const testimonials = [
   {
     quote:
-      "LifeSpring Design listened closely, moved quickly, and delivered a site that finally feels like us.",
-    name: "Northline Studio",
-    role: "Creative Agency",
+      "LifeSpring built our website and made the whole process straightforward. The site looks professional and we finally feel proud to send people there.",
+    name: "OS Power and Softwash",
+    role: "Pressure Washing · Vancouver, WA",
   },
   {
     quote:
-      "The process was smooth from start to finish. Our new site looks polished and is easy to update.",
-    name: "Harbor & Co.",
-    role: "Retail Brand",
+      "Josh and the team listened to what we needed, moved quickly, and delivered software that actually fits how we work.",
+    name: "Genesis Feed Products",
+    role: "Organic Agriculture · Idaho",
   },
   {
     quote:
-      "They explained everything clearly and built a site we are proud to share with customers.",
-    name: "Red Oak Dental",
-    role: "Healthcare Practice",
+      "From branding to the live site, LifeSpring helped us look polished online without overcomplicating things.",
+    name: "Blue Lakes Inn",
+    role: "Boutique Hotel · Southern Idaho",
   },
   {
     quote:
-      "Professional, responsive, and detail-oriented. We saw a real difference after launch.",
-    name: "Fieldstone Builders",
-    role: "Construction Company",
+      "Responsive, clear, and detail-oriented. Our new presence online matches the quality we want customers to expect.",
+    name: "Phonefixation",
+    role: "Mobile Repair",
   },
 ];
 
+/** LifeSpring services — used by Services-v1 and future service sections */
 export const simpleServices = [
   {
-    title: "Web Design",
-    description: "Beautiful, responsive websites tailored to your brand.",
-    icon: "🎨",
+    title: "Websites That Represent Your Business",
+    description:
+      "Websites designed to attract customers, build trust, and represent your business online.",
+    icon: "/lsd/demo-website-design.png",
+    iconAlt: "Website design and development service icon",
+    bullets: [
+      "Custom website design",
+      "Mobile-friendly development",
+      "Hosting and maintenance",
+      "Security updates",
+      "Ongoing improvements",
+    ],
   },
   {
-    title: "Development",
-    description: "Fast, modern sites built with Next.js and best practices.",
-    icon: "⚡",
+    title: "Custom Software Built Around Your Workflow",
+    description:
+      "Stop adapting your business to software. We build tools that fit the way you already work.",
+    icon: "/lsd/demo-custom-soft.png",
+    iconAlt: "Custom software development service icon",
+    bullets: [
+      "Internal business applications",
+      "Customer portals",
+      "Custom dashboards",
+      "Workflow tools",
+      "Business process solutions",
+    ],
   },
   {
-    title: "SEO",
-    description: "Search-optimized architecture from day one.",
-    icon: "🔍",
+    title: "Grow Business Reputation with Reviewbox.io",
+    description:
+      "to consistently get better quality Google reviews for building a better online reputation.",
+    icon: "/lsd/Reviewbox-logo.png",
+    iconAlt: "Reviewbox.io online review management software logo",
+    productLink: { label: "Reviewbox.io", href: "https://reviewbox.io" },
+    bullets: [
+      "Simple, clean review requests at the right moment",
+      "Google, Yelp, and Facebook in one simple flow",
+      "Custom review templates",
+      "Multi-location support and team management",
+      "Statistics and reputation insights",
+    ],
+  },
+  {
+    title: "Graphic Design & Brand Support",
+    description:
+      "Professional designs that help your business stand out and create a consistent brand.",
+    icon: "/lsd/Square-2026.jpg",
+    iconAlt: "Graphic design and brand support service icon",
+    bullets: [
+      "Logos and branding materials",
+      "Business cards and print materials",
+      "Social media graphics",
+      "Marketing materials",
+      "Custom digital designs",
+    ],
+  },
+  {
+    title: "Ongoing Technology Support",
+    description:
+      "Your business changes over time. We help your technology evolve with it through ongoing updates, improvements, and support.",
+    icon: "/lsd/demo-icon-dia-green.png",
+    iconAlt: "Ongoing technology support service icon",
+    bullets: [
+      "Website updates",
+      "Software improvements",
+      "Security maintenance",
+      "Feature enhancements",
+      "Ongoing technical support",
+    ],
   },
 ];
+
+export const servicesV1Cta = {
+  headline: "Great businesses need a trusted developer.",
+  text: "We can help you.",
+  ctaLabel: "Let's Go",
+  ctaHref: heroDemo.ctaHref,
+};
 
 export const iconServices = [
   {
@@ -173,11 +402,12 @@ export const storyFrameClosing = {
 };
 
 export const partnerLogos = [
-  "Client One",
-  "Client Two",
-  "Client Three",
-  "Client Four",
-  "Client Five",
+  "OS Power and Softwash",
+  "Genesis Feed Products",
+  "Reviewbox.io",
+  "Blue Lakes Inn",
+  "Phonefixation",
+  "Gold Co Idaho Classic",
 ];
 
 export const ctaContent = {
@@ -185,6 +415,53 @@ export const ctaContent = {
   subtext: "Let us talk about what you are building and what comes next.",
   ctaLabel: "Contact Us",
   ctaHref: "/contact",
+};
+
+export const contactContent = {
+  title: "Let's Talk",
+  subtext: "Let's start the conversation with a Free Consultation",
+  phonePrefix: "Call us at",
+  formDivider: "or",
+  formIntro: "Send us a message",
+};
+
+export const reviewboxContent = {
+  logoSrc: "/lsd/Reviewbox-logo.png",
+  logoAlt: "Reviewbox.io logo — online review management software",
+  headlineLines: ["Better reviews.", "Less effort."],
+  subtext:
+    "helps your customers leave consistent, quality reviews on Google, Yelp, and Facebook—so your reputation keeps growing while you stay focused on the work.",
+  productLink: {
+    label: "Reviewbox",
+    href: "https://reviewbox.io",
+  },
+  bullets: [
+    "Simple, clean review requests at the right moment",
+    "Google, Yelp, and Facebook in one simple flow",
+    "Built for local businesses that care about reputation",
+  ],
+  features: [
+    "Multi-location support",
+    "Custom review templates",
+    "Statistics & insights",
+    "Team management",
+  ],
+  featuresLabel: "Also includes",
+  ctaLabel: "Sign up",
+  ctaSubtext: "Free for 30 days. No card required.",
+  ctaHref: "https://reviewbox.io",
+  desktop: {
+    imageSrc: "/lsd/rvbx-example-desktop.png",
+    imageAlt: "Reviewbox.io review management dashboard on desktop",
+  },
+  leftExample: {
+    imageSrc: "/lsd/rvbx-os-example.png",
+    imageAlt: "Reviewbox.io review request widget on a local business website",
+  },
+  rightMessage: {
+    imageSrc: "/lsd/rvbx-example-message-send.png",
+    imageAlt: "Reviewbox.io SMS review request message on a mobile phone",
+  },
 };
 
 export const logoBarHeading = "Companies We Work With";

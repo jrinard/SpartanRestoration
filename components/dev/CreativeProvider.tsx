@@ -43,13 +43,24 @@ export function useCreativeThemeOptional() {
 
 type CreativeProviderProps = {
   children: ReactNode;
+  initialColorThemeId?: ColorThemeId;
+  initialFontThemeId?: FontThemeId;
+  /** When false, theme is fixed (live homepage). Default true for playground. */
+  persistTheme?: boolean;
 };
 
-export function CreativeProvider({ children }: CreativeProviderProps) {
-  const [fontThemeId, setFontThemeIdState] = useState<FontThemeId>(defaultFontThemeId);
-  const [colorThemeId, setColorThemeIdState] = useState<ColorThemeId>(defaultColorThemeId);
+export function CreativeProvider({
+  children,
+  initialColorThemeId = defaultColorThemeId,
+  initialFontThemeId = defaultFontThemeId,
+  persistTheme = true,
+}: CreativeProviderProps) {
+  const [fontThemeId, setFontThemeIdState] = useState<FontThemeId>(initialFontThemeId);
+  const [colorThemeId, setColorThemeIdState] = useState<ColorThemeId>(initialColorThemeId);
 
   useEffect(() => {
+    if (!persistTheme) return;
+
     const storedFont = localStorage.getItem(creativeStorageKeys.fontTheme);
     if (storedFont) {
       setFontThemeIdState(getFontTheme(storedFont).id);
@@ -63,16 +74,20 @@ export function CreativeProvider({ children }: CreativeProviderProps) {
         localStorage.setItem(creativeStorageKeys.colorTheme, theme.id);
       }
     }
-  }, []);
+  }, [persistTheme]);
 
   function setFontThemeId(id: FontThemeId) {
     setFontThemeIdState(id);
-    localStorage.setItem(creativeStorageKeys.fontTheme, id);
+    if (persistTheme) {
+      localStorage.setItem(creativeStorageKeys.fontTheme, id);
+    }
   }
 
   function setColorThemeId(id: ColorThemeId) {
     setColorThemeIdState(id);
-    localStorage.setItem(creativeStorageKeys.colorTheme, id);
+    if (persistTheme) {
+      localStorage.setItem(creativeStorageKeys.colorTheme, id);
+    }
   }
 
   const fontTheme = getFontTheme(fontThemeId);

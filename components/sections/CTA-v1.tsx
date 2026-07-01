@@ -1,5 +1,8 @@
+"use client";
+
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { useContactNavigation } from "@/lib/use-contact-navigation";
 
 type CTAV1Props = {
   headline: string;
@@ -9,6 +12,8 @@ type CTAV1Props = {
 };
 
 export function CTAV1({ headline, subtext, ctaLabel, ctaHref }: CTAV1Props) {
+  const navigateContact = useContactNavigation();
+
   return (
     <section className="py-24">
       <Container>
@@ -20,7 +25,7 @@ export function CTAV1({ headline, subtext, ctaLabel, ctaHref }: CTAV1Props) {
             <p className="mx-auto mt-4 max-w-xl text-muted">{subtext}</p>
           )}
           <div className="mt-8">
-            <a href={ctaHref}>
+            <a href={ctaHref} onClick={(event) => navigateContact(ctaHref, event)}>
               <Button size="lg">{ctaLabel}</Button>
             </a>
           </div>

@@ -1,15 +1,26 @@
-import { SectionSwitcher } from "@/components/dev/SectionSwitcher";
+"use client";
+
+import { SectionPreview } from "@/components/dev/SectionPreview";
+import { getPlaygroundSectionVariant } from "@/lib/playground-sections";
+import { usePlaygroundSections } from "@/lib/use-playground-sections";
 
 export function PreviewPage() {
+  const { previewSections, ready } = usePlaygroundSections();
+
+  if (!ready) {
+    return <main id="main-content" />;
+  }
+
   return (
     <main id="main-content">
-      <SectionSwitcher group="header" defaultVariant="header-v2" />
-      <SectionSwitcher group="hero" defaultVariant="heroVideo-v1" />
-      <SectionSwitcher group="featureTiles" />
-      <SectionSwitcher group="testimonials" />
-      <SectionSwitcher group="services" defaultVariant="servicesIcons-v1" />
-      <SectionSwitcher group="cta" />
-      <SectionSwitcher group="footer" defaultVariant="footer-v2" />
+      {previewSections.map((config) => (
+        <SectionPreview
+          key={config.id}
+          group={config.group}
+          variant={getPlaygroundSectionVariant(config)}
+          sectionId={config.id}
+        />
+      ))}
     </main>
   );
 }
