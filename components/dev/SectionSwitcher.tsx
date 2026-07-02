@@ -2,6 +2,14 @@
 
 import { useState, type ReactNode } from "react";
 import {
+  NavBarPreviewProvider,
+  NavBarPreviewControls,
+} from "@/components/dev/NavBarPreviewContext";
+import {
+  TopBarPreviewProvider,
+  TopBarPreviewControls,
+} from "@/components/dev/TopBarPreviewContext";
+import {
   HeaderV3PreviewProvider,
   HeaderV3PreviewControls,
 } from "@/components/dev/HeaderV3PreviewContext";
@@ -23,6 +31,10 @@ import {
   FooterV3PreviewControls,
 } from "@/components/dev/FooterV3PreviewContext";
 import {
+  FooterV1PreviewProvider,
+  FooterV1PreviewControls,
+} from "@/components/dev/FooterV1PreviewContext";
+import {
   ReviewboxPreviewProvider,
   ReviewboxBackgroundControls,
 } from "@/components/dev/ReviewboxPreviewContext";
@@ -32,11 +44,16 @@ import {
 import {
   SpacerStripePreviewProvider,
   SpacerStripePreviewControls,
+  SpacerContainedLayoutControls,
 } from "@/components/dev/SpacerStripePreviewContext";
 import {
   TextIconsV3PreviewProvider,
   TextIconsV3BackgroundControls,
 } from "@/components/dev/TextIconsV3PreviewContext";
+import {
+  TextImagePreviewProvider,
+  TextImagePreviewControls,
+} from "@/components/dev/TextImagePreviewContext";
 import { headerVariantUsesPreviewControls } from "@/lib/header-v3-gradient";
 import {
   getSectionVariant,
@@ -75,6 +92,8 @@ export function SectionSwitcher({
   const activeVariantId = resolveSectionVariantId(group, variant ?? variantId);
   const activeVariant = getSectionVariant(group, activeVariantId);
   const isSpacer = group === "spacer";
+  const isTopBar = group === "topBar";
+  const isNavBar = group === "nav";
   const isHeaderWithPreview =
     group === "header" && headerVariantUsesPreviewControls(activeVariantId);
   const isHeroV1 = group === "hero" && activeVariantId === "hero-v1";
@@ -82,9 +101,11 @@ export function SectionSwitcher({
   const isHeroV21 = group === "hero" && activeVariantId === "hero-v2.1";
   const isPortfolioV1 = group === "portfolio" && activeVariantId === "portfolio-v1";
   const isFooterV3 = group === "footer" && activeVariantId === "footer-v3";
+  const isFooterV1 = group === "footer" && activeVariantId === "footer-v1";
   const isReviewboxV1 = group === "reviewbox" && activeVariantId === "reviewbox-v1";
   const isContactV1 = group === "contact" && activeVariantId === "contact-v1";
   const isTextIconsV3 = group === "content" && activeVariantId === "text-icons-v3";
+  const isTextImageV1 = group === "content" && activeVariantId === "text-image-v1";
 
   const switcher = (
     <div
@@ -126,6 +147,12 @@ export function SectionSwitcher({
           (activeVariantId === "spacer-v1" || activeVariantId === "spacer-v2") && (
             <SpacerStripePreviewControls variantId={activeVariantId} />
           )}
+        {group === "spacer" &&
+          (activeVariantId === "spacer-v3" || activeVariantId === "spacer-v4") && (
+            <SpacerContainedLayoutControls />
+          )}
+        {isTopBar && <TopBarPreviewControls />}
+        {isNavBar && <NavBarPreviewControls />}
         {isHeaderWithPreview && <HeaderV3PreviewControls variantId={activeVariantId} />}
         {isHeroV1 && <HeroV1PreviewControls />}
         {isHeroBanner && <HeroBannerPreviewControls />}
@@ -137,9 +164,11 @@ export function SectionSwitcher({
         )}
         {isPortfolioV1 && <PortfolioPreviewControls />}
         {isFooterV3 && <FooterV3PreviewControls />}
+        {isFooterV1 && <FooterV1PreviewControls />}
         {isReviewboxV1 && <ReviewboxBackgroundControls />}
         {isContactV1 && <ContactV1PreviewControls />}
         {isTextIconsV3 && <TextIconsV3BackgroundControls />}
+        {isTextImageV1 && <TextImagePreviewControls />}
         {extraControls?.(activeVariantId)}
       </div>
       {activeVariant.render()}
@@ -156,6 +185,14 @@ export function SectionSwitcher({
         {switcher}
       </SpacerStripePreviewProvider>
     );
+  }
+
+  if (isTopBar) {
+    return <TopBarPreviewProvider>{switcher}</TopBarPreviewProvider>;
+  }
+
+  if (isNavBar) {
+    return <NavBarPreviewProvider>{switcher}</NavBarPreviewProvider>;
   }
 
   if (isHeaderWithPreview) {
@@ -182,12 +219,24 @@ export function SectionSwitcher({
     return <FooterV3PreviewProvider>{switcher}</FooterV3PreviewProvider>;
   }
 
+  if (isFooterV1) {
+    return <FooterV1PreviewProvider>{switcher}</FooterV1PreviewProvider>;
+  }
+
   if (isReviewboxV1) {
     return <ReviewboxPreviewProvider>{switcher}</ReviewboxPreviewProvider>;
   }
 
   if (isTextIconsV3) {
-    return <TextIconsV3PreviewProvider>{switcher}</TextIconsV3PreviewProvider>;
+    return (
+      <TextIconsV3PreviewProvider instanceId={sectionId}>{switcher}</TextIconsV3PreviewProvider>
+    );
+  }
+
+  if (isTextImageV1) {
+    return (
+      <TextImagePreviewProvider instanceId={sectionId}>{switcher}</TextImagePreviewProvider>
+    );
   }
 
   return switcher;

@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import { HeaderV1 } from "@/components/layout/Header-v1";
 import { HeaderV2 } from "@/components/layout/Header-v2";
 import { HeaderV3 } from "@/components/layout/Header-v3";
+import { TopBarV1 } from "@/components/sections/TopBar-v1";
+import { NavV1 } from "@/components/sections/Nav-v1";
 import { HeroV1 } from "@/components/sections/Hero-v1";
 import { HeroV2 } from "@/components/sections/Hero-v2";
 import { HeroV21 } from "@/components/sections/Hero-v2.1";
@@ -11,6 +13,7 @@ import { HeroWashingV2 } from "@/components/sections/HeroWashing-v2";
 import { HeroVideoV1 } from "@/components/sections/HeroVideo-v1";
 import { FlipCards } from "@/components/sections/FlipCards";
 import { TextIconsV3 } from "@/components/sections/TextIcons-v3";
+import { TextImageV1 } from "@/components/sections/TextImage-v1";
 import { PortfolioV1 } from "@/components/sections/Portfolio-v1";
 import { FeatureTilesV1 } from "@/components/sections/FeatureTiles-v1";
 import { TestimonialsV1 } from "@/components/sections/Testimonials-v1";
@@ -19,11 +22,9 @@ import { NarrativeV1 } from "@/components/sections/Narrative-v1";
 import { TestimonialsV3 } from "@/components/sections/Testimonials-v3";
 import { LogoBarV1 } from "@/components/sections/LogoBar-v1";
 import { LogoBarV2 } from "@/components/sections/LogoBar-v2";
-import {
-  SpacerFade,
-  SpacerLine,
-} from "@/components/sections/Spacer";
 import { SpacerStripeWithPreview } from "@/components/dev/SpacerStripeWithPreview";
+import { SpacerLineWithPreview } from "@/components/dev/SpacerLineWithPreview";
+import { SpacerFadeWithPreview } from "@/components/dev/SpacerFadeWithPreview";
 import { ServicesV1WithLayout } from "@/components/dev/ServicesV1WithLayout";
 import { ServicesV2 } from "@/components/sections/Services-v2";
 import { ServicesV3 } from "@/components/sections/Services-v3";
@@ -66,6 +67,7 @@ import {
   associationNetwork,
   washingFooter,
   spartanTextIconsContent,
+  spartanTextImageContent,
 } from "@/lib/demo-content";
 
 export type SectionVariant = {
@@ -80,6 +82,16 @@ export type SectionGroup = {
 };
 
 export const sectionGroups = {
+  topBar: {
+    label: "TopBar",
+    defaultVariant: "top-bar-v1",
+    variants: {
+      "top-bar-v1": {
+        label: "TopBar-v1",
+        render: () => <TopBarV1 />,
+      },
+    },
+  },
   header: {
     label: "Header",
     defaultVariant: "header-v1",
@@ -95,6 +107,16 @@ export const sectionGroups = {
       "header-v3": {
         label: "Header-v3",
         render: () => <HeaderV3 />,
+      },
+    },
+  },
+  nav: {
+    label: "Nav",
+    defaultVariant: "nav-v1",
+    variants: {
+      "nav-v1": {
+        label: "Nav-v1",
+        render: () => <NavV1 />,
       },
     },
   },
@@ -203,6 +225,21 @@ export const sectionGroups = {
           />
         ),
       },
+      "text-image-v1": {
+        label: "Text and Image",
+        render: () => (
+          <TextImageV1
+            eyebrow={spartanTextImageContent.eyebrow}
+            headlineLines={spartanTextImageContent.headlineLines}
+            body={spartanTextImageContent.body}
+            phoneLabel={spartanTextImageContent.phoneLabel}
+            phoneHref={spartanTextImageContent.phoneHref}
+            imageSrc={spartanTextImageContent.imageSrc}
+            imageAlt={spartanTextImageContent.imageAlt}
+            sidebarText={spartanTextImageContent.sidebarText}
+          />
+        ),
+      },
     },
   },
   spacer: {
@@ -219,11 +256,11 @@ export const sectionGroups = {
       },
       "spacer-v3": {
         label: "Spacer-v3 (Line)",
-        render: () => <SpacerLine />,
+        render: () => <SpacerLineWithPreview />,
       },
       "spacer-v4": {
         label: "Spacer-v4 (Fade)",
-        render: () => <SpacerFade />,
+        render: () => <SpacerFadeWithPreview />,
       },
     },
   },
@@ -433,7 +470,7 @@ export const sectionGroups = {
     variants: {
       "footer-v1": {
         label: "Footer-v1",
-        render: () => <FooterV1 description={siteConfig.description} />,
+        render: () => <FooterV1 description={siteConfig.tagline} />,
       },
       "footer-v2": {
         label: "Footer-v2",

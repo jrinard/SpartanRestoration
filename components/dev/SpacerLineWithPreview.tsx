@@ -1,16 +1,15 @@
 "use client";
 
-import { SpacerGradient } from "@/components/sections/Spacer";
+import { SpacerLine } from "@/components/sections/Spacer";
 import { useSpacerPreview } from "@/components/dev/SpacerStripePreviewContext";
 
-export function SpacerGradientWithPreview() {
+export function SpacerLineWithPreview() {
   const context = useSpacerPreview();
 
   if (!context?.ready) return null;
 
   return (
-    <SpacerGradient
-      style={context.gradient}
+    <SpacerLine
       layoutWidth={context.layoutWidth}
       outerBackgroundColor={context.outerBackgroundColor}
     />

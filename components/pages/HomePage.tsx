@@ -5,13 +5,14 @@ import { PlaygroundSectionSlot } from "@/components/dev/PlaygroundSectionSlot";
 import { SectionSwitcher } from "@/components/dev/SectionSwitcher";
 import { usePlaygroundSections } from "@/components/dev/PlaygroundSectionsProvider";
 import {
+  canDuplicatePlaygroundSection,
   getPlaygroundSectionLabel,
   getPlaygroundSectionVariant,
   reorderVisiblePlaygroundSections,
 } from "@/lib/playground-sections";
 
 export function HomePage() {
-  const { sections, setSections, updateSection, duplicateSpacer, visibleSections } =
+  const { sections, setSections, updateSection, duplicateSection, visibleSections } =
     usePlaygroundSections();
   const [dragSectionId, setDragSectionId] = useState<string | null>(null);
   const [overSectionId, setOverSectionId] = useState<string | null>(null);
@@ -23,13 +24,15 @@ export function HomePage() {
           key={config.id}
           sectionId={config.id}
           label={getPlaygroundSectionLabel(sections, config)}
-          compactControls={config.group === "spacer"}
+          compactControls={config.group === "spacer" || config.group === "content"}
           previewChecked={config.preview === true}
           onPreviewChange={(checked) => updateSection(config.id, { preview: checked })}
           hiddenChecked={config.hidden === true}
           onHiddenChange={(checked) => updateSection(config.id, { hidden: checked })}
           onDuplicate={
-            config.group === "spacer" ? () => duplicateSpacer(config.id) : undefined
+            canDuplicatePlaygroundSection(config.group)
+              ? () => duplicateSection(config.id)
+              : undefined
           }
           isDragging={dragSectionId === config.id}
           isDropTarget={

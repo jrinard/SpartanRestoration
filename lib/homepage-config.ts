@@ -8,7 +8,7 @@ import type { SectionGroupId } from "@/lib/section-registry";
 export type HomepageSectionEntry = {
   group: SectionGroupId;
   variant?: string;
-  /** Unique id for duplicate spacers in the published stack. */
+  /** Unique id for duplicate spacers/content blocks in the published stack. */
   id?: string;
 };
 
@@ -22,6 +22,7 @@ export type HomepageConfig = {
 
 /** Fallback stack when nothing has been published from the playground yet. */
 export const defaultLiveHomepageSections: HomepageSectionEntry[] = [
+  { group: "topBar", variant: "top-bar-v1" },
   { group: "header", variant: "header-v3" },
   { group: "hero", variant: "hero-v2.1" },
   { group: "services", variant: "services-v1" },

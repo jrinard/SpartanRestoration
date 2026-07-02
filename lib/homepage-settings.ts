@@ -1,7 +1,9 @@
 import type { SpacerGradientStyle, SpacerStripeStyle } from "@/components/sections/Spacer";
+import type { ContentInstanceSettings } from "@/lib/content-instance-storage";
 import type { SpacerInstanceSettings } from "@/lib/spacer-instance-storage";
 import type { ContactPreviewSettings } from "@/lib/contact-preview";
 import type { FooterV3PreviewSettings } from "@/lib/footer-v3-preview";
+import type { FooterV1PreviewSettings } from "@/lib/footer-v1-preview";
 import type { HeaderV3PreviewSettings } from "@/lib/header-v3-gradient";
 import type { HeroBannerPreviewSettings } from "@/lib/hero-banner-preview";
 import type { HeroV1PreviewSettings } from "@/lib/hero-v1-preview";
@@ -9,16 +11,22 @@ import type { HeroV21PreviewSettings } from "@/lib/hero-v21-preview";
 import type { PortfolioPreviewSettings } from "@/lib/portfolio-preview";
 import type { ReviewboxPreviewSettings } from "@/lib/reviewbox-preview";
 import type { TextIconsV3PreviewSettings } from "@/lib/text-icons-v3-preview";
+import type { TextImagePreviewSettings } from "@/lib/text-image-preview";
+import type { NavBarPreviewSettings } from "@/lib/nav-bar-preview";
+import type { TopBarPreviewSettings } from "@/lib/top-bar-preview";
 import type { ServicesV1LayoutWidth } from "@/lib/services-v1-preview";
 
 /** Section-specific preview settings baked into the live homepage. */
 export type HomepagePreviewSettings = {
+  topBar?: TopBarPreviewSettings;
+  navBar?: NavBarPreviewSettings;
   heroBanner?: HeroBannerPreviewSettings;
   heroV1?: HeroV1PreviewSettings;
   heroV21?: HeroV21PreviewSettings;
   headerV3?: HeaderV3PreviewSettings;
   reviewbox?: ReviewboxPreviewSettings;
   footerV3?: FooterV3PreviewSettings;
+  footerV1?: FooterV1PreviewSettings;
   portfolio?: PortfolioPreviewSettings;
   servicesV1LayoutWidth?: ServicesV1LayoutWidth;
   /** @deprecated — first spacer without an id; use spacers instead. */
@@ -26,8 +34,11 @@ export type HomepagePreviewSettings = {
   spacerGradient?: SpacerGradientStyle;
   /** Per-spacer preview settings keyed by section id. */
   spacers?: Record<string, SpacerInstanceSettings>;
+  /** Per-content preview settings keyed by section id. */
+  contents?: Record<string, ContentInstanceSettings>;
   contact?: ContactPreviewSettings;
   textIconsV3?: TextIconsV3PreviewSettings;
+  textImage?: TextImagePreviewSettings;
 };
 
 let committedPreviewSettings: HomepagePreviewSettings | null = null;

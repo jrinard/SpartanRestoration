@@ -8,7 +8,7 @@ import { defaultColorThemeId } from "@/lib/color-themes";
 import { getBrandLogoSrc, usesLifeSpringLogo } from "@/lib/brand-logo";
 import {
   defaultHeaderV3PreviewSettings,
-  getHeaderLogoHeightPx,
+  getHeaderLogoImageHeightPx,
 } from "@/lib/header-v3-gradient";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -36,13 +36,13 @@ export function HeaderBrand({
   const headerPreview = useHeaderV3Preview();
   const colorThemeId = creativeTheme?.colorThemeId ?? defaultColorThemeId;
   const settings = headerPreview?.settings ?? defaultHeaderV3PreviewSettings;
-  const usesCustomLogoHeight =
-    (headerVariant === "header-v1" || headerVariant === "header-v2") &&
-    settings.logoHeightPx > 0;
   const customLogoHeightPx =
     headerVariant === "header-v1" || headerVariant === "header-v2"
-      ? getHeaderLogoHeightPx(settings, headerVariant)
-      : 0;
+      ? getHeaderLogoImageHeightPx(settings, headerVariant)
+      : null;
+  const usesCustomLogoHeight =
+    (headerVariant === "header-v1" || headerVariant === "header-v2") &&
+    customLogoHeightPx !== null;
 
   if (wordmark) {
     return (

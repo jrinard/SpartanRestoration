@@ -8,10 +8,12 @@ import type { FontThemeId } from "@/lib/creative-themes";
 import { getFontTheme } from "@/lib/creative-themes";
 import { contactPreviewStorageKey } from "@/lib/contact-preview-storage";
 import { footerV3PreviewStorageKey } from "@/lib/footer-v3-preview-storage";
+import { footerV1PreviewStorageKey } from "@/lib/footer-v1-preview-storage";
 import { headerV3NavGradientStorageKey } from "@/lib/header-v3-storage";
 import { heroBannerPreviewStorageKey } from "@/lib/hero-banner-preview-storage";
 import { heroV1PreviewStorageKey } from "@/lib/hero-v1-preview-storage";
 import { heroV21PreviewStorageKey, heroButtonPreviewStorageKey } from "@/lib/hero-v21-preview-storage";
+import { copyContentInstanceSettings, loadAllContentInstanceSettings } from "@/lib/content-instance-storage";
 import {
   getPlaygroundSectionVariant,
   getPreviewSections,
@@ -21,6 +23,9 @@ import {
 import { portfolioPreviewStorageKey } from "@/lib/portfolio-preview-storage";
 import { reviewboxPreviewStorageKey } from "@/lib/reviewbox-preview-storage";
 import { textIconsV3PreviewStorageKey } from "@/lib/text-icons-v3-preview-storage";
+import { textImagePreviewStorageKey } from "@/lib/text-image-preview-storage";
+import { navBarPreviewStorageKey } from "@/lib/nav-bar-preview-storage";
+import { topBarPreviewStorageKey } from "@/lib/top-bar-preview-storage";
 import { servicesV1PreviewStorageKey } from "@/lib/services-v1-preview-storage";
 import { loadAllSpacerInstanceSettings } from "@/lib/spacer-instance-storage";
 import {
@@ -48,19 +53,30 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
     (section) => ({
       group: section.group,
       variant: getPlaygroundSectionVariant(section),
-      ...(section.group === "spacer" ? { id: section.id } : {}),
+      ...(section.group === "spacer" || section.group === "content" ? { id: section.id } : {}),
     }),
   );
 
   const previewSpacers = getPreviewSections(playgroundSections).filter(
     (section) => section.group === "spacer",
   );
+  const previewContents = getPreviewSections(playgroundSections).filter(
+    (section) => section.group === "content",
+  );
   const spacerInstances = loadAllSpacerInstanceSettings();
+  const contentInstances = loadAllContentInstanceSettings();
   const spacers: HomepagePreviewSettings["spacers"] = {};
+  const contents: HomepagePreviewSettings["contents"] = {};
   for (const section of previewSpacers) {
     const settings = spacerInstances[section.id];
     if (settings) {
       spacers[section.id] = settings;
+    }
+  }
+  for (const section of previewContents) {
+    const settings = contentInstances[section.id];
+    if (settings) {
+      contents[section.id] = settings;
     }
   }
 
@@ -68,6 +84,8 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
   const storedFont = localStorage.getItem(creativeStorageKeys.fontTheme);
 
   const previewSettings: HomepagePreviewSettings = {
+    topBar: readJson(topBarPreviewStorageKey),
+    navBar: readJson(navBarPreviewStorageKey),
     heroBanner: readJson(heroBannerPreviewStorageKey),
     heroV1: readJson(heroV1PreviewStorageKey),
     heroV21:
@@ -75,6 +93,7 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
     headerV3: readJson(headerV3NavGradientStorageKey),
     reviewbox: readJson(reviewboxPreviewStorageKey),
     footerV3: readJson(footerV3PreviewStorageKey),
+    footerV1: readJson(footerV1PreviewStorageKey),
     portfolio: readJson(portfolioPreviewStorageKey),
     servicesV1LayoutWidth: readJson<{ layoutWidth?: HomepagePreviewSettings["servicesV1LayoutWidth"] }>(
       servicesV1PreviewStorageKey,
@@ -82,12 +101,14 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
     spacerStripe: readJson(spacerStripeStorageKey),
     spacerGradient: readJson(spacerGradientStorageKey),
     spacers: Object.keys(spacers).length > 0 ? spacers : undefined,
+    contents: Object.keys(contents).length > 0 ? contents : undefined,
     contact: readJson(contactPreviewStorageKey),
     textIconsV3: readJson(textIconsV3PreviewStorageKey),
+    textImage: readJson(textImagePreviewStorageKey),
   };
 
   const hasPreviewSettings = Object.entries(previewSettings).some(([key, value]) => {
-    if (key === "spacers") {
+    if (key === "spacers" || key === "contents") {
       return value !== undefined && value !== null && Object.keys(value).length > 0;
     }
     return value !== undefined && value !== null;

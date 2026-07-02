@@ -15,11 +15,16 @@ import {
   headerHeightOptions,
   headerLogoHeightOptions,
   headerLogoMarginTopOptions,
+  headerLogoSizeOptions,
+  headerLogoVerticalAlignOptions,
+  headerV1NavTextSizeOptions,
+  formatHeaderV1NavTextSizeEm,
   headerV3LayoutWidths,
   headerV3LogoVariants,
   headerVariantUsesCustomBackground,
   type HeaderV3LayoutWidth,
   type HeaderV3LogoVariant,
+  type HeaderLogoVerticalAlign,
   type HeaderV3PreviewSettings,
 } from "@/lib/header-v3-gradient";
 import {
@@ -189,7 +194,26 @@ export function HeaderV3PreviewControls({ variantId }: { variantId?: string }) {
           </label>
           <label className="flex items-center gap-2">
             <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
-              Logo H
+              Logo
+            </span>
+            <select
+              value={context.settings.logoSizePx}
+              onChange={(event) =>
+                update({ logoSizePx: Number(event.target.value) })
+              }
+              className={selectClassName}
+              aria-label="Header logo image size"
+            >
+              {headerLogoSizeOptions.map((size) => (
+                <option key={size} value={size}>
+                  {size === 0 ? "Auto" : `${size}px`}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex items-center gap-2">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+              Zone H
             </span>
             <select
               value={context.settings.logoHeightPx}
@@ -197,7 +221,7 @@ export function HeaderV3PreviewControls({ variantId }: { variantId?: string }) {
                 update({ logoHeightPx: Number(event.target.value) })
               }
               className={selectClassName}
-              aria-label="Header logo height"
+              aria-label="Header logo overflow zone height"
             >
               {headerLogoHeightOptions.map((height) => (
                 <option key={height} value={height}>
@@ -206,6 +230,50 @@ export function HeaderV3PreviewControls({ variantId }: { variantId?: string }) {
               ))}
             </select>
           </label>
+          {variantId === "header-v1" && (
+            <>
+              <label className="flex items-center gap-2">
+                <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+                  Logo V
+                </span>
+                <select
+                  value={context.settings.logoVerticalAlign}
+                  onChange={(event) =>
+                    update({
+                      logoVerticalAlign: event.target.value as HeaderLogoVerticalAlign,
+                    })
+                  }
+                  className={selectClassName}
+                  aria-label="Header logo vertical alignment"
+                >
+                  {headerLogoVerticalAlignOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="flex items-center gap-2">
+                <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+                  Nav Text
+                </span>
+                <select
+                  value={context.settings.headerV1NavTextSizeEm}
+                  onChange={(event) =>
+                    update({ headerV1NavTextSizeEm: Number(event.target.value) })
+                  }
+                  className={selectClassName}
+                  aria-label="Header v1 nav label text size"
+                >
+                  {headerV1NavTextSizeOptions.map((size) => (
+                    <option key={size} value={size}>
+                      {formatHeaderV1NavTextSizeEm(size)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </>
+          )}
           <label className="flex items-center gap-2">
             <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
               Logo Top

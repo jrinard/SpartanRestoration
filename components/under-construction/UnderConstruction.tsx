@@ -34,43 +34,48 @@ export function UnderConstruction() {
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center pb-[30px]">
         <main className="flex flex-col items-center px-6 text-center">
           <div className="mb-8 w-full max-w-lg">
-            <div className="under-construction-card px-8 py-10 text-center">
-              {hasLogo && (
-                <div className="mb-6 flex min-h-[11rem] items-center justify-center sm:min-h-[13rem]">
+            <div
+              className={`under-construction-card px-8 text-center ${hasLogo ? "py-6" : "py-10"}`}
+            >
+              {hasLogo ? (
+                <div className="flex items-center justify-center">
                   <Image
                     src={getAssetUrl(siteConfig.assets.logo)}
                     alt={siteConfig.name}
-                    width={320}
-                    height={110}
-                    className="h-44 w-auto max-w-full sm:h-52"
+                    width={1137}
+                    height={352}
+                    className="h-auto w-full max-w-[18rem] object-contain sm:max-w-[22rem]"
                     priority
                   />
                 </div>
+              ) : (
+                <>
+                  <div className="under-construction-brand-title font-semibold uppercase tracking-wide">
+                    {brandTitleLines.map((line, index) => (
+                      <span
+                        key={line}
+                        className={
+                          index === 0 && brandTitleLines.length > 1
+                            ? "block text-5xl sm:text-7xl"
+                            : index === 0
+                              ? "block text-4xl sm:text-5xl"
+                              : "block text-3xl sm:text-5xl"
+                        }
+                      >
+                        {line}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="under-construction-divider mx-auto mt-3 sm:mt-4" aria-hidden="true" />
+
+                  <p className="under-construction-brand-tagline mt-4 text-base font-medium uppercase leading-relaxed sm:text-lg">
+                    {siteConfig.tagline}
+                  </p>
+                </>
               )}
 
-              <div className="under-construction-brand-title font-semibold uppercase tracking-wide">
-                {brandTitleLines.map((line, index) => (
-                  <span
-                    key={line}
-                    className={
-                      index === 0 && brandTitleLines.length > 1
-                        ? "block text-5xl sm:text-7xl"
-                        : index === 0
-                          ? "block text-4xl sm:text-5xl"
-                          : "block text-3xl sm:text-5xl"
-                    }
-                  >
-                    {line}
-                  </span>
-                ))}
-              </div>
-
-              <div className="under-construction-divider mx-auto mt-3 sm:mt-4" aria-hidden="true" />
-
               <p className="sr-only">{siteConfig.name}</p>
-              <p className="under-construction-brand-tagline mt-4 text-base font-medium uppercase leading-relaxed sm:text-lg">
-                {siteConfig.tagline}
-              </p>
             </div>
           </div>
 

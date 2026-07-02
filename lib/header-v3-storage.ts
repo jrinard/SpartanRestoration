@@ -1,10 +1,15 @@
 import {
   formatButtonBackgroundColor,
+  isButtonPreviewSize,
   normalizeButtonBorderRadiusPx,
   parseButtonBackgroundColor,
 } from "@/lib/button-preview";
 import {
   defaultHeaderV3PreviewSettings,
+  headerHeightOptions,
+  headerV1NavTextSizeOptions,
+  snapHeaderV1NavTextSizeEm,
+  type HeaderLogoVerticalAlign,
   type HeaderV3LayoutWidth,
   type HeaderV3LogoVariant,
   type HeaderV3NavButtonSize,
@@ -14,7 +19,7 @@ import {
 export const headerV3NavGradientStorageKey = "lifespring-header-v3-nav-gradient";
 
 function isHeaderV3NavButtonSize(value: unknown): value is HeaderV3NavButtonSize {
-  return value === "small" || value === "medium" || value === "large";
+  return isButtonPreviewSize(value);
 }
 
 function isHeaderV3LogoVariant(value: unknown): value is HeaderV3LogoVariant {
@@ -45,6 +50,35 @@ function isPreviewGradientDirection(value: unknown): value is PreviewGradientDir
   );
 }
 
+function isHeaderV3LogoVerticalAlign(value: unknown): value is HeaderLogoVerticalAlign {
+  return value === "top" || value === "center" || value === "bottom";
+}
+
+function normalizeHeaderV1NavTextSizeEm(
+  value: Partial<HeaderV3PreviewSettings> & { headerV1NavTextSizePx?: number },
+): number {
+  if (typeof value.headerV1NavTextSizeEm === "number") {
+    return snapHeaderV1NavTextSizeEm(value.headerV1NavTextSizeEm);
+  }
+
+  if (typeof value.headerV1NavTextSizePx === "number") {
+    const legacyMap: Record<number, (typeof headerV1NavTextSizeOptions)[number]> = {
+      9: 0.65,
+      10: 0.75,
+      11: 0.85,
+      12: 1,
+      13: 1,
+      14: 1.2,
+      16: 1.2,
+      18: 1.5,
+    };
+    const legacyPx = Math.round(value.headerV1NavTextSizePx);
+    return legacyMap[legacyPx] ?? defaultHeaderV3PreviewSettings.headerV1NavTextSizeEm;
+  }
+
+  return defaultHeaderV3PreviewSettings.headerV1NavTextSizeEm;
+}
+
 export function normalizeHeaderV3PreviewSettings(
   value: Partial<HeaderV3PreviewSettings>,
 ): HeaderV3PreviewSettings {
@@ -67,13 +101,22 @@ export function normalizeHeaderV3PreviewSettings(
       ? value.layoutWidth
       : defaultHeaderV3PreviewSettings.layoutWidth,
     headerHeightPx:
-      typeof value.headerHeightPx === "number" && value.headerHeightPx >= 48
+      typeof value.headerHeightPx === "number" &&
+      headerHeightOptions.includes(
+        Math.round(value.headerHeightPx) as (typeof headerHeightOptions)[number],
+      )
         ? Math.round(value.headerHeightPx)
-        : defaultHeaderV3PreviewSettings.headerHeightPx,
+        : typeof value.headerHeightPx === "number" && value.headerHeightPx >= 48
+          ? Math.min(240, Math.max(48, Math.round(value.headerHeightPx)))
+          : defaultHeaderV3PreviewSettings.headerHeightPx,
     logoHeightPx:
       typeof value.logoHeightPx === "number" && value.logoHeightPx >= 0
         ? Math.round(value.logoHeightPx)
         : defaultHeaderV3PreviewSettings.logoHeightPx,
+    logoSizePx:
+      typeof value.logoSizePx === "number" && value.logoSizePx >= 0
+        ? Math.round(value.logoSizePx)
+        : defaultHeaderV3PreviewSettings.logoSizePx,
     logoBackgroundColor:
       typeof value.logoBackgroundColor === "string"
         ? formatButtonBackgroundColor(parseButtonBackgroundColor(value.logoBackgroundColor))
@@ -82,10 +125,14 @@ export function normalizeHeaderV3PreviewSettings(
       typeof value.logoMarginTopPx === "number" && value.logoMarginTopPx >= 0
         ? Math.round(value.logoMarginTopPx)
         : defaultHeaderV3PreviewSettings.logoMarginTopPx,
+    logoVerticalAlign: isHeaderV3LogoVerticalAlign(value.logoVerticalAlign)
+      ? value.logoVerticalAlign
+      : defaultHeaderV3PreviewSettings.logoVerticalAlign,
     navButtonRadiusPx:
       typeof value.navButtonRadiusPx === "number"
         ? normalizeButtonBorderRadiusPx(Math.round(value.navButtonRadiusPx))
         : defaultHeaderV3PreviewSettings.navButtonRadiusPx,
+    headerV1NavTextSizeEm: normalizeHeaderV1NavTextSizeEm(value),
   };
 }
 

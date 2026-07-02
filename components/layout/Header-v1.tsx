@@ -2,10 +2,9 @@
 
 import type { CSSProperties } from "react";
 import { useHeaderV3Preview } from "@/components/dev/HeaderV3PreviewContext";
-import { siteConfig } from "@/config/site";
 import { HeaderBrand } from "@/components/ui/HeaderBrand";
 import { HeaderBrandLink } from "@/components/ui/HeaderBrandLink";
-import { HeaderV3Nav } from "@/components/layout/HeaderV3Nav";
+import { HeaderV1Nav } from "@/components/layout/HeaderV1Nav";
 import {
   defaultHeaderV3PreviewSettings,
   getHeaderBackgroundLayerHeightPx,
@@ -13,8 +12,9 @@ import {
   getHeaderCustomBackground,
   getHeaderInnerHeightStyle,
   getHeaderLayoutWidthClassName,
-  getHeaderLogoHeightPx,
+  getHeaderLogoImageHeightPx,
   getHeaderLogoLinkStyle,
+  getHeaderLogoVerticalAlignClassName,
   headerLogoOverflows,
 } from "@/lib/header-v3-gradient";
 import { cn } from "@/lib/utils";
@@ -30,14 +30,14 @@ export function HeaderV1({ className }: HeaderV1Props) {
   const layoutWidth = settings.layoutWidth;
   const isCustom = Boolean(preview);
   const logoOverflow = headerLogoOverflows(settings, "header-v1");
-  const logoHeightPx = getHeaderLogoHeightPx(settings, "header-v1");
+  const logoImageHeightPx = getHeaderLogoImageHeightPx(settings, "header-v1");
   const backgroundLayerHeightPx = getHeaderBackgroundLayerHeightPx(settings, "header-v1");
 
   const style: CSSProperties | undefined = preview
     ? {
         ...getHeaderBarButtonStyleRecord(settings),
-        ...(settings.logoHeightPx > 0
-          ? ({ "--header-logo-height": `${logoHeightPx}px` } as CSSProperties)
+        ...(logoImageHeightPx !== null
+          ? ({ "--header-logo-height": `${logoImageHeightPx}px` } as CSSProperties)
           : {}),
       }
     : undefined;
@@ -45,7 +45,7 @@ export function HeaderV1({ className }: HeaderV1Props) {
   return (
     <header
       className={cn(
-        "relative border-b border-border",
+        "header-v1 relative",
         !isCustom && "bg-background/80 backdrop-blur-sm",
         isCustom && "header-custom",
         logoOverflow && "header-logo-overflow",
@@ -53,7 +53,7 @@ export function HeaderV1({ className }: HeaderV1Props) {
       )}
       style={style}
       data-nav-button-size={settings.navButtonSize}
-      data-logo-height={settings.logoHeightPx > 0 ? logoHeightPx : undefined}
+      data-logo-height={logoImageHeightPx !== null ? logoImageHeightPx : undefined}
     >
       {isCustom && (
         <div
@@ -76,16 +76,18 @@ export function HeaderV1({ className }: HeaderV1Props) {
           className={cn(
             "header-brand-link flex shrink-0 items-center",
             logoOverflow && "header-brand-link--overflow",
-            (settings.logoMarginTopPx > 0 || settings.logoHeightPx > 0) &&
+            (settings.logoMarginTopPx > 0 ||
+              settings.logoHeightPx > 0 ||
+              settings.logoSizePx > 0) &&
               "header-brand-link--offset",
+            getHeaderLogoVerticalAlignClassName(settings.logoVerticalAlign),
           )}
           style={isCustom ? getHeaderLogoLinkStyle(settings, "header-v1") : undefined}
         >
           <HeaderBrand priority headerVariant="header-v1" />
         </HeaderBrandLink>
-        <HeaderV3Nav
-          items={siteConfig.primaryNav}
-          ariaLabel="Primary navigation"
+        <HeaderV1Nav
+          ariaLabel="Service navigation"
           className="header-custom-nav hidden justify-end md:flex"
         />
       </div>

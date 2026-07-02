@@ -4,8 +4,17 @@ import {
   type TextIconsV3PreviewSettings,
 } from "@/lib/text-icons-v3-preview";
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
+import type { SiteLayoutWidth } from "@/lib/site-layout";
 
 export const textIconsV3PreviewStorageKey = "lifespring-text-icons-v3-preview";
+
+function isSiteLayoutWidth(value: unknown): value is SiteLayoutWidth {
+  return value === "contained" || value === "full";
+}
+
+function isHexColor(value: unknown): value is string {
+  return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
+}
 
 function isPreviewGradientDirection(value: unknown): value is PreviewGradientDirection {
   return (
@@ -30,6 +39,18 @@ export function normalizeTextIconsV3PreviewSettings(
     backgroundDirection: isPreviewGradientDirection(value.backgroundDirection)
       ? value.backgroundDirection
       : defaultTextIconsV3PreviewSettings.backgroundDirection,
+    layoutWidth: isSiteLayoutWidth(value.layoutWidth)
+      ? value.layoutWidth
+      : defaultTextIconsV3PreviewSettings.layoutWidth,
+    outerBackgroundColor: isHexColor(value.outerBackgroundColor)
+      ? value.outerBackgroundColor
+      : defaultTextIconsV3PreviewSettings.outerBackgroundColor,
+    headingColor: isHexColor(value.headingColor)
+      ? value.headingColor
+      : defaultTextIconsV3PreviewSettings.headingColor,
+    subheadingColor: isHexColor(value.subheadingColor)
+      ? value.subheadingColor
+      : defaultTextIconsV3PreviewSettings.subheadingColor,
   };
 }
 

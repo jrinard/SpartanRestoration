@@ -6,7 +6,9 @@ import { Container } from "@/components/ui/Container";
 import {
   defaultTextIconsV3PreviewSettings,
   getTextIconsV3BackgroundStyle,
+  getTextIconsV3CssVariables,
 } from "@/lib/text-icons-v3-preview";
+import { getSiteLayoutWidthClassName } from "@/lib/site-layout";
 import { cn } from "@/lib/utils";
 
 export type TextIconsV3Item = {
@@ -38,33 +40,63 @@ function IconPlaceholder() {
 export function TextIconsV3({ heading, subheading, items, className }: TextIconsV3Props) {
   const preview = useTextIconsV3Preview();
   const settings = preview?.settings ?? defaultTextIconsV3PreviewSettings;
+  const isContained = settings.layoutWidth === "contained";
 
-  const style: CSSProperties = {
-    background: getTextIconsV3BackgroundStyle(settings),
+  const gradientBackground = getTextIconsV3BackgroundStyle(settings);
+  const textStyle = getTextIconsV3CssVariables(settings) as CSSProperties;
+
+  const content = (
+    <>
+      <div className="mx-auto max-w-4xl text-center">
+        <h2 className="text-icons-v3-heading font-serif text-3xl font-semibold tracking-wide sm:text-4xl">
+          {heading}
+        </h2>
+        <p className="text-icons-v3-subheading mt-4 text-sm leading-relaxed sm:text-base">
+          {subheading}
+        </p>
+      </div>
+
+      <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-8">
+        {items.map((item) => (
+          <article key={item.title} className="text-icons-v3-item flex flex-col items-center text-center">
+            <IconPlaceholder />
+            <h3 className="mt-5 text-lg font-semibold leading-snug text-white">{item.title}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-white/70">{item.description}</p>
+          </article>
+        ))}
+      </div>
+    </>
+  );
+
+  if (isContained) {
+    const sectionStyle: CSSProperties = {
+      backgroundColor: settings.outerBackgroundColor,
+      ...textStyle,
+    };
+
+    const innerStyle: CSSProperties = {
+      background: gradientBackground,
+    };
+
+    return (
+      <section className={cn("text-icons-v3", className)} style={sectionStyle}>
+        <div className={getSiteLayoutWidthClassName("contained")}>
+          <div className="py-16 lg:py-20" style={innerStyle}>
+            {content}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const sectionStyle: CSSProperties = {
+    background: gradientBackground,
+    ...textStyle,
   };
 
   return (
-    <section className={cn("text-icons-v3 py-16 lg:py-20", className)} style={style}>
-      <Container>
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-icons-v3-heading font-serif text-3xl font-semibold tracking-wide text-white sm:text-4xl">
-            {heading}
-          </h2>
-          <p className="text-icons-v3-subheading mt-4 text-sm leading-relaxed text-white/75 sm:text-base">
-            {subheading}
-          </p>
-        </div>
-
-        <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-8">
-          {items.map((item) => (
-            <article key={item.title} className="text-icons-v3-item flex flex-col items-center text-center">
-              <IconPlaceholder />
-              <h3 className="mt-5 text-lg font-semibold leading-snug text-white">{item.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-white/70">{item.description}</p>
-            </article>
-          ))}
-        </div>
-      </Container>
+    <section className={cn("text-icons-v3 py-16 lg:py-20", className)} style={sectionStyle}>
+      <Container>{content}</Container>
     </section>
   );
 }

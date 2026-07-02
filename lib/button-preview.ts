@@ -1,4 +1,8 @@
-export type ButtonPreviewSize = "small" | "medium" | "large";
+export type ButtonPreviewSize = "small" | "medium" | "large" | "xlarge";
+
+export function isButtonPreviewSize(value: unknown): value is ButtonPreviewSize {
+  return value === "small" || value === "medium" || value === "large" || value === "xlarge";
+}
 
 export type ButtonPreviewSettings = {
   navBackground: string;
@@ -64,6 +68,7 @@ export const buttonPreviewSizes: { value: ButtonPreviewSize; label: string }[] =
   { value: "small", label: "Small" },
   { value: "medium", label: "Medium" },
   { value: "large", label: "Large" },
+  { value: "xlarge", label: "Extra Large" },
 ];
 
 function channelToHex(value: number): string {

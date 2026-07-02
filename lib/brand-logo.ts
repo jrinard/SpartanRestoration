@@ -3,7 +3,7 @@ import type { ColorThemeId } from "@/lib/color-themes";
 import type { HeaderV3LogoVariant } from "@/lib/header-v3-gradient";
 import { getLifeSpringLogoSrc } from "@/lib/lifespring-logo";
 
-export const spartanLogoSrc = "/spartan/SpartanLogo.png";
+export const spartanLogoSrc = "/spartan/SpartanLogo2.png";
 
 export function usesLifeSpringLogo(themeId: ColorThemeId): boolean {
   return themeId === "lifespring";

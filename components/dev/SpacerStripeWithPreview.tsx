@@ -8,5 +8,11 @@ export function SpacerStripeWithPreview() {
 
   if (!context?.ready) return null;
 
-  return <SpacerStripe style={context.stripe} />;
+  return (
+    <SpacerStripe
+      style={context.stripe}
+      layoutWidth={context.layoutWidth}
+      outerBackgroundColor={context.outerBackgroundColor}
+    />
+  );
 }

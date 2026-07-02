@@ -14,6 +14,12 @@ import {
   type TextIconsV3PreviewSettings,
 } from "@/lib/text-icons-v3-preview";
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
+import { siteLayoutWidthOptions } from "@/lib/site-layout";
+import type { SiteLayoutWidth } from "@/lib/site-layout";
+import {
+  loadTextIconsV3InstanceSettings,
+  saveTextIconsV3InstanceSettings,
+} from "@/lib/content-instance-storage";
 import {
   loadTextIconsV3PreviewSettings,
   normalizeTextIconsV3PreviewSettings,
@@ -29,30 +35,52 @@ const TextIconsV3PreviewContext = createContext<TextIconsV3PreviewContextValue |
 
 type TextIconsV3PreviewProviderProps = {
   children: ReactNode;
+  instanceId?: string;
   initialSettings?: TextIconsV3PreviewSettings;
 };
 
 export function TextIconsV3PreviewProvider({
   children,
+  instanceId,
   initialSettings,
 }: TextIconsV3PreviewProviderProps) {
   const lockedToPublished = initialSettings !== undefined;
 
-  const [settings, setSettingsState] = useState<TextIconsV3PreviewSettings>(() =>
-    initialSettings
-      ? normalizeTextIconsV3PreviewSettings(initialSettings)
-      : defaultTextIconsV3PreviewSettings,
-  );
+  const [settings, setSettingsState] = useState<TextIconsV3PreviewSettings>(() => {
+    if (initialSettings) {
+      return normalizeTextIconsV3PreviewSettings(initialSettings);
+    }
+    if (instanceId) {
+      return (
+        loadTextIconsV3InstanceSettings(instanceId) ?? defaultTextIconsV3PreviewSettings
+      );
+    }
+    return defaultTextIconsV3PreviewSettings;
+  });
 
   useEffect(() => {
     if (lockedToPublished) return;
+    if (instanceId) {
+      setSettingsState(
+        loadTextIconsV3InstanceSettings(instanceId) ?? loadTextIconsV3PreviewSettings(),
+      );
+      return;
+    }
     setSettingsState(loadTextIconsV3PreviewSettings());
-  }, [lockedToPublished]);
+  }, [instanceId, lockedToPublished]);
 
-  const setSettings = useCallback((next: TextIconsV3PreviewSettings) => {
-    setSettingsState(next);
-    saveTextIconsV3PreviewSettings(next);
-  }, []);
+  const setSettings = useCallback(
+    (next: TextIconsV3PreviewSettings) => {
+      const normalized = normalizeTextIconsV3PreviewSettings(next);
+      setSettingsState(normalized);
+      if (instanceId) {
+        saveTextIconsV3InstanceSettings(instanceId, normalized);
+        return;
+      }
+      saveTextIconsV3PreviewSettings(normalized);
+    },
+    [instanceId],
+  );
 
   return (
     <TextIconsV3PreviewContext.Provider value={{ settings, setSettings }}>
@@ -84,6 +112,59 @@ export function TextIconsV3BackgroundControls() {
 
   return (
     <div className="contents">
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Width</span>
+        <select
+          value={context.settings.layoutWidth}
+          onChange={(event) =>
+            update({ layoutWidth: event.target.value as SiteLayoutWidth })
+          }
+          className={selectClassName}
+          aria-label="Text-icons v3 layout width"
+        >
+          {siteLayoutWidthOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </label>
+      {context.settings.layoutWidth === "contained" && (
+        <label className="flex items-center gap-2">
+          <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+            Outer BG
+          </span>
+          <input
+            type="color"
+            value={context.settings.outerBackgroundColor}
+            onChange={(event) => update({ outerBackgroundColor: event.target.value })}
+            className={colorInputClassName}
+            aria-label="Text-icons v3 outer background color"
+          />
+        </label>
+      )}
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Title</span>
+        <input
+          type="color"
+          value={context.settings.headingColor}
+          onChange={(event) => update({ headingColor: event.target.value })}
+          className={colorInputClassName}
+          aria-label="Text-icons v3 heading color"
+        />
+      </label>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+          Subtitle
+        </span>
+        <input
+          type="color"
+          value={context.settings.subheadingColor}
+          onChange={(event) => update({ subheadingColor: event.target.value })}
+          className={colorInputClassName}
+          aria-label="Text-icons v3 subheading color"
+        />
+      </label>
       <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">BG 1</span>
         <input

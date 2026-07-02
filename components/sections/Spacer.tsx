@@ -1,8 +1,11 @@
-import { Container } from "@/components/ui/Container";
+import type { CSSProperties, ReactNode } from "react";
 import type { PreviewGradientDirection, PreviewGradientMode } from "@/lib/preview-gradient";
 import { getSpacerStripeBackground } from "@/lib/preview-gradient";
 import { getDefaultSpacerStripeStyle } from "@/lib/spacer-defaults";
+import { getSiteLayoutWidthClassName, type SiteLayoutWidth } from "@/lib/site-layout";
 import { cn } from "@/lib/utils";
+
+export const defaultSpacerOuterBackgroundColor = "#ffffff";
 
 export type SpacerStripeStyle = {
   from: string;
@@ -17,15 +20,72 @@ export type SpacerStripeStyle = {
 export const defaultSpacerStripeStyle: SpacerStripeStyle =
   getDefaultSpacerStripeStyle("dark");
 
-type SpacerStripeProps = {
+type SpacerLayoutOptions = {
+  layoutWidth?: SiteLayoutWidth;
+  outerBackgroundColor?: string;
+};
+
+function getSpacerSectionStyle({
+  layoutWidth = "full",
+  outerBackgroundColor = defaultSpacerOuterBackgroundColor,
+}: SpacerLayoutOptions): CSSProperties | undefined {
+  if (layoutWidth === "contained") {
+    return { backgroundColor: outerBackgroundColor };
+  }
+
+  return undefined;
+}
+
+type SpacerLayoutShellProps = {
+  layoutWidth: SiteLayoutWidth;
+  children: ReactNode;
+  className?: string;
+};
+
+/** Wraps spacer content in the site contained width or full bleed. */
+export function SpacerLayoutShell({
+  layoutWidth,
+  children,
+  className,
+}: SpacerLayoutShellProps) {
+  if (layoutWidth === "contained") {
+    return (
+      <div className={cn(getSiteLayoutWidthClassName("contained"), className)}>{children}</div>
+    );
+  }
+
+  return <div className={cn("w-full", className)}>{children}</div>;
+}
+
+type SpacerStripeProps = SpacerLayoutOptions & {
   style?: SpacerStripeStyle;
 };
 
 /** Full-bleed accent stripe with soft fade at the edges. */
-export function SpacerStripe({ style = defaultSpacerStripeStyle }: SpacerStripeProps) {
+export function SpacerStripe({
+  style = defaultSpacerStripeStyle,
+  layoutWidth = "full",
+  outerBackgroundColor = defaultSpacerOuterBackgroundColor,
+}: SpacerStripeProps) {
   const overlap = style.overlap === true;
   const halfHeight = style.heightPx / 2;
   const bleedPx = overlap ? 1 : 0;
+
+  const stripeBand = (
+    <div
+      className="block w-full"
+      style={{
+        height: `${style.heightPx + bleedPx * 2}px`,
+        background: getSpacerStripeBackground(
+          style.from,
+          style.to,
+          style.direction,
+          style.mode,
+          overlap,
+        ),
+      }}
+    />
+  );
 
   return (
     <section
@@ -33,29 +93,18 @@ export function SpacerStripe({ style = defaultSpacerStripeStyle }: SpacerStripeP
         "spacer-stripe bg-transparent p-0 leading-none",
         overlap && "spacer-overlap relative z-10",
       )}
-      style={
-        overlap
+      style={{
+        ...getSpacerSectionStyle({ layoutWidth, outerBackgroundColor }),
+        ...(overlap
           ? {
               marginTop: -(halfHeight + bleedPx),
               marginBottom: -(halfHeight + bleedPx),
             }
-          : undefined
-      }
+          : {}),
+      }}
       aria-hidden="true"
     >
-      <div
-        className="block w-full"
-        style={{
-          height: `${style.heightPx + bleedPx * 2}px`,
-          background: getSpacerStripeBackground(
-            style.from,
-            style.to,
-            style.direction,
-            style.mode,
-            overlap,
-          ),
-        }}
-      />
+      <SpacerLayoutShell layoutWidth={layoutWidth}>{stripeBand}</SpacerLayoutShell>
     </section>
   );
 }
@@ -69,33 +118,66 @@ export const defaultSpacerGradientStyle: SpacerGradientStyle = {
   heightPx: 40,
 };
 
-type SpacerGradientProps = {
+type SpacerGradientProps = SpacerLayoutOptions & {
   style?: SpacerGradientStyle;
 };
 
-export function SpacerGradient({ style = defaultSpacerGradientStyle }: SpacerGradientProps) {
+export function SpacerGradient({
+  style = defaultSpacerGradientStyle,
+  layoutWidth = "full",
+  outerBackgroundColor = defaultSpacerOuterBackgroundColor,
+}: SpacerGradientProps) {
   return (
-    <section className="py-6" aria-hidden="true">
-      <div
-        className="spacer-gradient-h-band w-full"
-        style={{ height: `${style.heightPx}px` }}
-      />
+    <section
+      className="py-6"
+      style={getSpacerSectionStyle({ layoutWidth, outerBackgroundColor })}
+      aria-hidden="true"
+    >
+      <SpacerLayoutShell layoutWidth={layoutWidth}>
+        <div
+          className="spacer-gradient-h-band w-full"
+          style={{ height: `${style.heightPx}px` }}
+        />
+      </SpacerLayoutShell>
     </section>
   );
 }
 
-/** Contained hairline rule. */
-export function SpacerLine() {
+type SpacerLineProps = SpacerLayoutOptions;
+
+/** Hairline rule. */
+export function SpacerLine({
+  layoutWidth = "contained",
+  outerBackgroundColor = defaultSpacerOuterBackgroundColor,
+}: SpacerLineProps) {
   return (
-    <section className="py-1" aria-hidden="true">
-      <Container>
+    <section
+      className="py-1"
+      style={getSpacerSectionStyle({ layoutWidth, outerBackgroundColor })}
+      aria-hidden="true"
+    >
+      <SpacerLayoutShell layoutWidth={layoutWidth}>
         <hr className="border-0 border-t border-border" />
-      </Container>
+      </SpacerLayoutShell>
     </section>
   );
 }
+
+type SpacerFadeProps = SpacerLayoutOptions;
 
 /** Soft vertical fade — subtle breathing room between sections. */
-export function SpacerFade() {
-  return <section className="spacer-fade-band h-14 sm:h-16" aria-hidden="true" />;
+export function SpacerFade({
+  layoutWidth = "full",
+  outerBackgroundColor = defaultSpacerOuterBackgroundColor,
+}: SpacerFadeProps) {
+  return (
+    <section
+      style={getSpacerSectionStyle({ layoutWidth, outerBackgroundColor })}
+      aria-hidden="true"
+    >
+      <SpacerLayoutShell layoutWidth={layoutWidth}>
+        <div className="spacer-fade-band h-14 w-full sm:h-16" />
+      </SpacerLayoutShell>
+    </section>
+  );
 }

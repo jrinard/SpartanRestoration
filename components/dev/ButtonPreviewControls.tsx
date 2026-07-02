@@ -16,6 +16,11 @@ import {
 } from "@/lib/button-preview";
 import { useHeaderV3Preview } from "@/components/dev/HeaderV3PreviewContext";
 import { useHeroV21Preview } from "@/components/dev/HeroV21PreviewContext";
+import { useTextImagePreview } from "@/components/dev/TextImagePreviewContext";
+import {
+  defaultTextImageButtonSettings,
+  pickTextImageButtonSettings,
+} from "@/lib/text-image-preview";
 
 const colorInputClassName =
   "h-8 w-8 cursor-pointer rounded border border-accent-purple/40 bg-background/90 p-0.5";
@@ -29,7 +34,7 @@ const buttonClassName =
 const alphaRangeClassName =
   "h-1.5 w-16 cursor-pointer accent-accent-purple";
 
-type ButtonPreviewTarget = "header" | "hero";
+type ButtonPreviewTarget = "header" | "hero" | "textImage";
 
 type ButtonPreviewControlsProps = {
   target: ButtonPreviewTarget;
@@ -87,20 +92,31 @@ export function ButtonPreviewControls({
 }: ButtonPreviewControlsProps) {
   const headerPreview = useHeaderV3Preview();
   const heroPreview = useHeroV21Preview();
+  const textImagePreview = useTextImagePreview();
 
   const settings: ButtonPreviewSettings | undefined =
     target === "header"
       ? headerPreview
         ? pickButtonPreviewSettings(headerPreview.settings)
         : undefined
-      : heroPreview
-        ? heroPreview.settings.button
-        : undefined;
+      : target === "textImage"
+        ? textImagePreview
+          ? pickTextImageButtonSettings(textImagePreview.settings)
+          : undefined
+        : heroPreview
+          ? heroPreview.settings.button
+          : undefined;
 
   const updateSettings = (patch: Partial<ButtonPreviewSettings>) => {
     if (target === "header") {
       if (!headerPreview) return;
       headerPreview.setSettings(mergeButtonPreviewSettings(headerPreview.settings, patch));
+      return;
+    }
+
+    if (target === "textImage") {
+      if (!textImagePreview) return;
+      textImagePreview.setSettings(mergeButtonPreviewSettings(textImagePreview.settings, patch));
       return;
     }
 
@@ -113,7 +129,11 @@ export function ButtonPreviewControls({
 
   const handleReset = () => {
     const defaults =
-      target === "header" ? defaultHeaderButtonPreviewSettings : defaultHeroButtonPreviewSettings;
+      target === "header"
+        ? defaultHeaderButtonPreviewSettings
+        : target === "textImage"
+          ? defaultTextImageButtonSettings
+          : defaultHeroButtonPreviewSettings;
     updateSettings(defaults);
   };
 

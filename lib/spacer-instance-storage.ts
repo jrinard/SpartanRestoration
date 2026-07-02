@@ -9,11 +9,19 @@ import {
   spacerGradientStorageKey,
   spacerStripeStorageKey,
 } from "@/lib/spacer-preview-storage";
+import type { SiteLayoutWidth } from "@/lib/site-layout";
+
+export const defaultSpacerOuterBackgroundColor = "#ffffff";
 
 export type SpacerInstanceSettings = {
   stripe?: SpacerStripeStyle;
   gradient?: SpacerGradientStyle;
+  layoutWidth?: SiteLayoutWidth;
+  /** Full-width background behind the spacer (visible in contained mode). */
+  outerBackgroundColor?: string;
 };
+
+export const defaultSpacerLayoutWidth: SiteLayoutWidth = "full";
 
 export const spacerInstancesStorageKey = "lifespring-spacer-instances";
 
@@ -82,5 +90,7 @@ export function getDefaultSpacerInstanceSettings(
   return {
     stripe: getDefaultSpacerStripeStyle(colorThemeId),
     gradient: defaultSpacerGradientStyle,
+    layoutWidth: defaultSpacerLayoutWidth,
+    outerBackgroundColor: defaultSpacerOuterBackgroundColor,
   };
 }

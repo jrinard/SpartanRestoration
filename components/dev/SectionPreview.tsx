@@ -1,15 +1,19 @@
 "use client";
 
+import { TopBarPreviewProvider } from "@/components/dev/TopBarPreviewContext";
+import { NavBarPreviewProvider } from "@/components/dev/NavBarPreviewContext";
 import { HeroBannerPreviewProvider } from "@/components/dev/HeroBannerPreviewContext";
 import { HeroV1PreviewProvider } from "@/components/dev/HeroV1PreviewContext";
 import { HeroV21PreviewProvider } from "@/components/dev/HeroV21PreviewContext";
 import { HeaderV3PreviewProvider } from "@/components/dev/HeaderV3PreviewContext";
 import { PortfolioPreviewProvider } from "@/components/dev/PortfolioPreviewContext";
 import { FooterV3PreviewProvider } from "@/components/dev/FooterV3PreviewContext";
+import { FooterV1PreviewProvider } from "@/components/dev/FooterV1PreviewContext";
 import { ReviewboxPreviewProvider } from "@/components/dev/ReviewboxPreviewContext";
 import { ServicesV1LayoutProvider } from "@/components/dev/ServicesV1LayoutContext";
 import { SpacerStripePreviewProvider } from "@/components/dev/SpacerStripePreviewContext";
 import { TextIconsV3PreviewProvider } from "@/components/dev/TextIconsV3PreviewContext";
+import { TextImagePreviewProvider } from "@/components/dev/TextImagePreviewContext";
 import { headerVariantUsesPreviewControls } from "@/lib/header-v3-gradient";
 import type { HomepagePreviewSettings } from "@/lib/homepage-settings";
 import {
@@ -33,6 +37,22 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
   const activeVariant = getSectionVariant(group, variantId);
   const content = activeVariant.render();
 
+  if (group === "topBar") {
+    return (
+      <TopBarPreviewProvider initialSettings={previewSettings?.topBar}>
+        {content}
+      </TopBarPreviewProvider>
+    );
+  }
+
+  if (group === "nav") {
+    return (
+      <NavBarPreviewProvider initialSettings={previewSettings?.navBar}>
+        {content}
+      </NavBarPreviewProvider>
+    );
+  }
+
   if (group === "services") {
     return <ServicesV1LayoutProvider>{content}</ServicesV1LayoutProvider>;
   }
@@ -48,7 +68,11 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
         : undefined);
 
     return (
-      <SpacerStripePreviewProvider instanceId={sectionId} initialSettings={spacerSettings}>
+      <SpacerStripePreviewProvider
+        instanceId={sectionId}
+        variantId={variantId}
+        initialSettings={spacerSettings}
+      >
         {content}
       </SpacerStripePreviewProvider>
     );
@@ -98,15 +122,41 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
     );
   }
 
+  if (group === "footer" && variantId === "footer-v1") {
+    return (
+      <FooterV1PreviewProvider initialSettings={previewSettings?.footerV1}>
+        {content}
+      </FooterV1PreviewProvider>
+    );
+  }
+
   if (group === "reviewbox" && variantId === "reviewbox-v1") {
     return <ReviewboxPreviewProvider>{content}</ReviewboxPreviewProvider>;
   }
 
   if (group === "content" && variantId === "text-icons-v3") {
+    const instanceSettings =
+      sectionId && previewSettings?.contents?.[sectionId]?.textIconsV3
+        ? previewSettings.contents[sectionId].textIconsV3
+        : previewSettings?.textIconsV3;
+
     return (
-      <TextIconsV3PreviewProvider initialSettings={previewSettings?.textIconsV3}>
+      <TextIconsV3PreviewProvider instanceId={sectionId} initialSettings={instanceSettings}>
         {content}
       </TextIconsV3PreviewProvider>
+    );
+  }
+
+  if (group === "content" && variantId === "text-image-v1") {
+    const instanceSettings =
+      sectionId && previewSettings?.contents?.[sectionId]?.textImage
+        ? previewSettings.contents[sectionId].textImage
+        : previewSettings?.textImage;
+
+    return (
+      <TextImagePreviewProvider instanceId={sectionId} initialSettings={instanceSettings}>
+        {content}
+      </TextImagePreviewProvider>
     );
   }
 

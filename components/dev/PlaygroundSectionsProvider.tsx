@@ -11,9 +11,10 @@ import {
 import { creativeStorageKeys } from "@/lib/creative-themes";
 import { getColorTheme } from "@/lib/color-themes";
 import { copySpacerInstanceSettings } from "@/lib/spacer-instance-storage";
+import { copyContentInstanceSettings } from "@/lib/content-instance-storage";
 import {
   defaultPlaygroundSections,
-  duplicateSpacerSection,
+  duplicatePlaygroundSection,
   getPreviewSections,
   getVisiblePlaygroundSections,
   mergePlaygroundSectionOrder,
@@ -25,7 +26,7 @@ type PlaygroundSectionsContextValue = {
   sections: PlaygroundSectionConfig[];
   setSections: (sections: PlaygroundSectionConfig[]) => void;
   updateSection: (id: string, patch: Partial<PlaygroundSectionConfig>) => void;
-  duplicateSpacer: (sourceId: string) => void;
+  duplicateSection: (sourceId: string) => void;
   previewSections: PlaygroundSectionConfig[];
   visibleSections: PlaygroundSectionConfig[];
   ready: boolean;
@@ -67,14 +68,21 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
     [],
   );
 
-  const duplicateSpacer = useCallback((sourceId: string) => {
+  const duplicateSection = useCallback((sourceId: string) => {
     setSectionsState((current) => {
-      const result = duplicateSpacerSection(current, sourceId);
+      const result = duplicatePlaygroundSection(current, sourceId);
       if (!result) return current;
 
-      const storedColor = localStorage.getItem(creativeStorageKeys.colorTheme);
-      const colorThemeId = storedColor ? getColorTheme(storedColor).id : getColorTheme("lifespring").id;
-      copySpacerInstanceSettings(sourceId, result.newId, colorThemeId);
+      const source = current.find((section) => section.id === sourceId);
+      if (source?.group === "spacer") {
+        const storedColor = localStorage.getItem(creativeStorageKeys.colorTheme);
+        const colorThemeId = storedColor
+          ? getColorTheme(storedColor).id
+          : getColorTheme("lifespring").id;
+        copySpacerInstanceSettings(sourceId, result.newId, colorThemeId);
+      } else if (source?.group === "content") {
+        copyContentInstanceSettings(sourceId, result.newId);
+      }
 
       localStorage.setItem(playgroundSectionOrderKey, JSON.stringify(result.sections));
       return result.sections;
@@ -85,7 +93,7 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
     sections,
     setSections,
     updateSection,
-    duplicateSpacer,
+    duplicateSection,
     previewSections: getPreviewSections(sections),
     visibleSections: getVisiblePlaygroundSections(sections),
     ready,

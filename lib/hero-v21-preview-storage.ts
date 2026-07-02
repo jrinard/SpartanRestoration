@@ -1,5 +1,6 @@
 import {
   defaultHeroButtonPreviewSettings,
+  isButtonPreviewSize,
   normalizeButtonBorderRadiusPx,
   type ButtonPreviewSettings,
   type ButtonPreviewSize,
@@ -18,8 +19,8 @@ export const heroV21PreviewStorageKey = "lifespring-hero-v21-preview";
 /** @deprecated Legacy key — migrated on read. */
 export const heroButtonPreviewStorageKey = "lifespring-hero-button-preview";
 
-function isButtonPreviewSize(value: unknown): value is ButtonPreviewSize {
-  return value === "small" || value === "medium" || value === "large";
+function isHeroButtonPreviewSize(value: unknown): value is ButtonPreviewSize {
+  return isButtonPreviewSize(value);
 }
 
 function isHeroV21BackgroundSettings(value: unknown): value is Partial<HeroV21BackgroundSettings> {
@@ -49,7 +50,7 @@ function normalizeButtonSettings(value: Partial<ButtonPreviewSettings>): ButtonP
   return {
     ...defaultHeroButtonPreviewSettings,
     ...value,
-    navButtonSize: isButtonPreviewSize(value.navButtonSize)
+    navButtonSize: isHeroButtonPreviewSize(value.navButtonSize)
       ? value.navButtonSize
       : defaultHeroButtonPreviewSettings.navButtonSize,
     navButtonRadiusPx:

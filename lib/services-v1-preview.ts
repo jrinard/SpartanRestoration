@@ -15,7 +15,7 @@ export function getServicesV1ContainerClassName(layoutWidth: ServicesV1LayoutWid
   return "";
 }
 
-/** Card width matches the contained 3-column layout at max-w-6xl (~22rem). */
+/** Card width matches the contained 3-column layout (~22rem). */
 export function getServicesV1GridClassName(layoutWidth: ServicesV1LayoutWidth): string {
   if (layoutWidth === "full") {
     return "grid grid-cols-[repeat(auto-fill,minmax(min(100%,280px),22rem))] justify-start";

@@ -10,9 +10,9 @@ export const siteConfig = {
   url: "https://spartanrestorationnw.com",
   tagline: "The best defense in water damage.",
   description:
-    "Spartan Restoration — The best defense in water damage. Our new site is on the way.",
+    "The best defense in water damage. Our new site is on the way.",
   phone: "503-975-9082",
-  serviceArea: "Serving Vancouver, WA and the Pacific Northwest",
+  serviceArea: "Serving Vancouver, WA and Portland, OR and the Pacific Northwest",
   email: "Stonepillarcontractors@gmail.com",
   address: "Vancouver, WA",
   /** Optional contacts shown on the under construction page. Falls back to site phone/email when empty. */
@@ -56,11 +56,23 @@ export const siteConfig = {
     { label: "Insurance", href: "#insurance" },
     { label: "Gallery", href: "#gallery" },
   ],
+  /** Footer v1 link row — matches secondary nav labels where possible. */
+  footerNav: [
+    { label: "Home", href: "/" },
+    { label: "Our Services", href: "#services" },
+    { label: "Insurance", href: "#insurance" },
+    { label: "Gallery", href: "#gallery" },
+    { label: "Service Area", href: "#service-area" },
+  ],
+  designerCredit: {
+    label: "LifeSpring Design",
+    href: "https://www.lifespringdesign.com/",
+  },
   assets: {
-    logo: "/spartan/SpartanLogo.png",
-    logoWhite: "/spartan/SpartanLogo.png",
-    logoBlack: "/spartan/SpartanLogo.png",
-    logoColor: "/spartan/SpartanLogo.png",
+    logo: "/spartan/SpartanLogo2.png",
+    logoWhite: "/spartan/SpartanLogo2.png",
+    logoBlack: "/spartan/SpartanLogo2.png",
+    logoColor: "/spartan/SpartanLogo2.png",
     ogImage: "/spartan/SpartanLogo.png",
   },
   launch: {

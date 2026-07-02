@@ -76,6 +76,19 @@ export const tradeDemoSeo = {
   ],
 } as const;
 
+/** Spartan Restoration — matches footer v1 NAP, service area, and schema. */
+export const spartanRestorationSeo = {
+  areaServed: ["Vancouver, WA", "Portland, OR", "Pacific Northwest"],
+  serviceTypes: [
+    "Water Damage Restoration",
+    "Fire Damage Restoration",
+    "Mold Damage Remediation",
+    "Emergency Restoration",
+    "Insurance Claim Assistance",
+    "Structural Drying",
+  ],
+} as const;
+
 export function getSocialProfileUrls(): string[] {
   return Object.values(siteConfig.social).filter(
     (url) => typeof url === "string" && url.length > 0 && url !== "#",

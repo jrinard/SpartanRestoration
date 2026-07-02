@@ -17,12 +17,20 @@ export type PlaygroundSectionConfig = {
 
 export const playgroundSectionOrderKey = "lifespring-playground-section-order";
 
+const duplicatableSectionGroups = new Set<SectionGroupId>(["spacer", "content"]);
+
+export function canDuplicatePlaygroundSection(group: SectionGroupId): boolean {
+  return duplicatableSectionGroups.has(group);
+}
+
 const LEGACY_SECTION_GROUP_ALIASES: Partial<Record<string, SectionGroupId>> = {
   flipCards: "content",
 };
 
 const defaultSectionDefs: Omit<PlaygroundSectionConfig, "id">[] = [
+  { group: "topBar", defaultVariant: "top-bar-v1", preview: false },
   { group: "header", defaultVariant: "header-v3", preview: false },
+  { group: "nav", defaultVariant: "nav-v1", preview: false },
   { group: "hero", defaultVariant: "heroWashing-v1", preview: false },
   { group: "spacer", defaultVariant: "spacer-v1", preview: false },
   { group: "content", defaultVariant: "text-icons-v3", preview: false },
@@ -62,12 +70,12 @@ export function getPlaygroundSectionLabel(
   sections: PlaygroundSectionConfig[],
   config: PlaygroundSectionConfig,
 ): string {
-  if (config.group === "spacer") {
+  if (config.group === "spacer" || config.group === "content") {
     const sectionIndex = sections.findIndex((section) => section.id === config.id);
-    const spacerIndex = sections
+    const groupIndex = sections
       .slice(0, sectionIndex + 1)
-      .filter((section) => section.group === "spacer").length;
-    return `${sectionGroups[config.group].label} ${spacerIndex}`;
+      .filter((section) => section.group === config.group).length;
+    return `${sectionGroups[config.group].label} ${groupIndex}`;
   }
 
   return sectionGroups[config.group].label;
@@ -138,7 +146,7 @@ export function mergePlaygroundSectionOrder(stored: unknown): PlaygroundSectionC
     const section = normalizeStoredSection(item);
     if (!section) continue;
 
-    if (section.group !== "spacer") {
+    if (!canDuplicatePlaygroundSection(section.group)) {
       if (seenNonSpacerGroups.has(section.group)) continue;
       seenNonSpacerGroups.add(section.group);
     }
@@ -147,9 +155,21 @@ export function mergePlaygroundSectionOrder(stored: unknown): PlaygroundSectionC
   }
 
   for (const fallback of defaultPlaygroundSections) {
-    if (fallback.group === "spacer") continue;
+    if (canDuplicatePlaygroundSection(fallback.group)) continue;
     if (!seenNonSpacerGroups.has(fallback.group)) {
-      merged.push({ ...fallback, id: createPlaygroundSectionId(fallback.group) });
+      if (fallback.group === "topBar") {
+        merged.unshift({ ...fallback, id: createPlaygroundSectionId(fallback.group) });
+      } else if (fallback.group === "nav") {
+        const headerIndex = merged.findIndex((section) => section.group === "header");
+        const navSection = { ...fallback, id: createPlaygroundSectionId(fallback.group) };
+        if (headerIndex !== -1) {
+          merged.splice(headerIndex + 1, 0, navSection);
+        } else {
+          merged.push(navSection);
+        }
+      } else {
+        merged.push({ ...fallback, id: createPlaygroundSectionId(fallback.group) });
+      }
       seenNonSpacerGroups.add(fallback.group);
     }
   }
@@ -157,15 +177,17 @@ export function mergePlaygroundSectionOrder(stored: unknown): PlaygroundSectionC
   return merged.length > 0 ? merged : defaultPlaygroundSections;
 }
 
-export function duplicateSpacerSection(
+export function duplicatePlaygroundSection(
   sections: PlaygroundSectionConfig[],
   sourceId: string,
 ): { sections: PlaygroundSectionConfig[]; newId: string } | null {
   const index = sections.findIndex((section) => section.id === sourceId);
-  if (index === -1 || sections[index]?.group !== "spacer") return null;
+  if (index === -1) return null;
 
   const source = sections[index];
-  const newId = createPlaygroundSectionId("spacer");
+  if (!canDuplicatePlaygroundSection(source.group)) return null;
+
+  const newId = createPlaygroundSectionId(source.group);
   const copy: PlaygroundSectionConfig = {
     ...source,
     id: newId,
@@ -174,4 +196,12 @@ export function duplicateSpacerSection(
   const next = [...sections];
   next.splice(index + 1, 0, copy);
   return { sections: next, newId };
+}
+
+/** @deprecated Use duplicatePlaygroundSection */
+export function duplicateSpacerSection(
+  sections: PlaygroundSectionConfig[],
+  sourceId: string,
+): { sections: PlaygroundSectionConfig[]; newId: string } | null {
+  return duplicatePlaygroundSection(sections, sourceId);
 }

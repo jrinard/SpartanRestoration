@@ -9,20 +9,35 @@ import {
 } from "@/components/sections/Spacer";
 import { previewGradientDirections } from "@/lib/preview-gradient";
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
+import { siteLayoutWidthOptions } from "@/lib/site-layout";
+import type { SiteLayoutWidth } from "@/lib/site-layout";
 import { getDefaultSpacerStripeStyleForVariant } from "@/lib/spacer-defaults";
 import type { SpacerInstanceSettings } from "@/lib/spacer-instance-storage";
 import {
   loadSpacerGradientStyle,
+  loadSpacerLayoutWidth,
+  loadSpacerOuterBackgroundColor,
   loadSpacerStripeStyle,
+  normalizeSpacerLayoutWidth,
+  normalizeSpacerOuterBackgroundColor,
   saveSpacerGradientStyle,
+  saveSpacerLayoutWidth,
+  saveSpacerOuterBackgroundColor,
   saveSpacerStripeStyle,
 } from "@/lib/spacer-preview-storage";
+import {
+  defaultSpacerLayoutWidth,
+} from "@/lib/spacer-instance-storage";
 
 type SpacerPreviewContextValue = {
   stripe: SpacerStripeStyle;
   setStripe: (stripe: SpacerStripeStyle) => void;
   gradient: SpacerGradientStyle;
   setGradient: (gradient: SpacerGradientStyle) => void;
+  layoutWidth: SiteLayoutWidth;
+  setLayoutWidth: (layoutWidth: SiteLayoutWidth) => void;
+  outerBackgroundColor: string;
+  setOuterBackgroundColor: (color: string) => void;
   ready: boolean;
 };
 
@@ -51,6 +66,14 @@ export function SpacerStripePreviewProvider({
   const [gradient, setGradientState] = useState<SpacerGradientStyle>(
     () => initialSettings?.gradient ?? defaultSpacerGradientStyle,
   );
+  const [layoutWidth, setLayoutWidthState] = useState<SiteLayoutWidth>(() =>
+    initialSettings
+      ? normalizeSpacerLayoutWidth(initialSettings)
+      : defaultSpacerLayoutWidth,
+  );
+  const [outerBackgroundColor, setOuterBackgroundColorState] = useState<string>(() =>
+    normalizeSpacerOuterBackgroundColor(initialSettings?.outerBackgroundColor),
+  );
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -61,6 +84,8 @@ export function SpacerStripePreviewProvider({
 
     setStripeState(loadSpacerStripeStyle(colorThemeId, instanceId, variantId));
     setGradientState(loadSpacerGradientStyle(instanceId));
+    setLayoutWidthState(loadSpacerLayoutWidth(instanceId, variantId));
+    setOuterBackgroundColorState(loadSpacerOuterBackgroundColor(instanceId));
     setReady(true);
   }, [colorThemeId, instanceId, lockedToPublished, variantId]);
 
@@ -80,9 +105,35 @@ export function SpacerStripePreviewProvider({
     [instanceId],
   );
 
+  const setLayoutWidth = useCallback(
+    (next: SiteLayoutWidth) => {
+      setLayoutWidthState(next);
+      saveSpacerLayoutWidth(next, instanceId);
+    },
+    [instanceId],
+  );
+
+  const setOuterBackgroundColor = useCallback(
+    (next: string) => {
+      setOuterBackgroundColorState(next);
+      saveSpacerOuterBackgroundColor(next, instanceId);
+    },
+    [instanceId],
+  );
+
   return (
     <SpacerPreviewContext.Provider
-      value={{ stripe, setStripe, gradient, setGradient, ready }}
+      value={{
+        stripe,
+        setStripe,
+        gradient,
+        setGradient,
+        layoutWidth,
+        setLayoutWidth,
+        outerBackgroundColor,
+        setOuterBackgroundColor,
+        ready,
+      }}
     >
       {children}
     </SpacerPreviewContext.Provider>
@@ -110,6 +161,60 @@ const buttonClassName =
 export const spacerStripeHeightOptions = [
   1, 2, 3, 4, 5, 8, 12, 16, 24, 32, 40, 48, 64, 80, 96, 128,
 ] as const;
+
+export function SpacerLayoutWidthControl() {
+  const context = useSpacerPreview();
+  if (!context) return null;
+
+  return (
+    <select
+      value={context.layoutWidth}
+      onChange={(event) =>
+        context.setLayoutWidth(event.target.value as SiteLayoutWidth)
+      }
+      className={selectClassName}
+      aria-label="Spacer layout width"
+    >
+      {siteLayoutWidthOptions.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+export function SpacerOuterBackgroundControl() {
+  const context = useSpacerPreview();
+  if (!context || context.layoutWidth !== "contained") return null;
+
+  return (
+    <label className="flex items-center gap-1.5">
+      <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+        Outer BG
+      </span>
+      <input
+        type="color"
+        value={context.outerBackgroundColor}
+        onChange={(event) => context.setOuterBackgroundColor(event.target.value)}
+        className={colorInputClassName}
+        aria-label="Spacer outer background color"
+      />
+    </label>
+  );
+}
+
+export function SpacerContainedLayoutControls() {
+  const context = useSpacerPreview();
+  if (!context) return null;
+
+  return (
+    <>
+      <SpacerLayoutWidthControl />
+      <SpacerOuterBackgroundControl />
+    </>
+  );
+}
 
 export function SpacerStripePreviewControls({ variantId }: { variantId?: string }) {
   const context = useSpacerPreview();
@@ -181,6 +286,8 @@ export function SpacerStripePreviewControls({ variantId }: { variantId?: string 
             </option>
           ))}
       </select>
+      <SpacerLayoutWidthControl />
+      <SpacerOuterBackgroundControl />
       <select
         value={context.stripe.heightPx}
         onChange={(event) =>

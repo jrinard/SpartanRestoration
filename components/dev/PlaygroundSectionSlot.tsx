@@ -76,6 +76,16 @@ export function PlaygroundSectionSlot({
           compactControls ? "top-1.5" : "top-4",
         )}
       >
+        {onDuplicate && (
+          <button
+            type="button"
+            onClick={onDuplicate}
+            className="rounded border border-accent-purple/40 bg-background/90 px-2 py-1.5 font-mono text-xs tracking-wide text-accent-purple uppercase backdrop-blur-sm transition-colors hover:border-accent-purple hover:bg-accent-purple/10"
+            aria-label={`Add another ${label} section`}
+          >
+            Add
+          </button>
+        )}
         <label className="flex cursor-pointer items-center gap-1.5 rounded border border-accent-purple/40 bg-background/90 px-2 py-1.5 backdrop-blur-sm">
           <input
             type="checkbox"
@@ -88,7 +98,7 @@ export function PlaygroundSectionSlot({
             Preview
           </span>
         </label>
-        <label className="flex cursor-pointer items-center gap-1.5 rounded border border-white/20 bg-background/90 px-2 py-1.5 backdrop-blur-sm">
+        <label className="flex cursor-pointer items-center gap-1.5 rounded border border-neutral-400/50 bg-background/90 px-2 py-1.5 backdrop-blur-sm">
           <input
             type="checkbox"
             checked={hiddenChecked}
@@ -96,18 +106,8 @@ export function PlaygroundSectionSlot({
             className="h-3.5 w-3.5 accent-accent-purple"
             aria-label={`Hide ${label} from playground`}
           />
-          <span className="font-mono text-xs tracking-wide text-white/70 uppercase">Hide</span>
+          <span className="font-mono text-xs tracking-wide text-neutral-500 uppercase">Hide</span>
         </label>
-        {onDuplicate && (
-          <button
-            type="button"
-            onClick={onDuplicate}
-            className="rounded border border-accent-purple/40 bg-background/90 px-2 py-1.5 font-mono text-xs tracking-wide text-accent-purple uppercase backdrop-blur-sm transition-colors hover:border-accent-purple hover:bg-accent-purple/10"
-            aria-label={`Duplicate ${label} section`}
-          >
-            Duplicate
-          </button>
-        )}
         <button
           type="button"
           draggable

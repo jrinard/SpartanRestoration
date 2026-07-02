@@ -710,3 +710,25 @@ export const spartanTextIconsContent = {
     },
   ],
 };
+
+function phoneTelHref(phone: string): string {
+  const digits = phone.replace(/\D/g, "");
+  return digits ? `tel:+${digits.length === 10 ? `1${digits}` : digits}` : "tel:";
+}
+
+export const spartanTextImageContent = {
+  eyebrow: "Spartan Restoration.",
+  headlineLines: [
+    "24/7 Emergency Restoration",
+    "You Can Count On Water,",
+    "Fire & Mold Damage",
+  ],
+  body:
+    "Disasters don't wait for business hours — and neither do we. Spartan Restoration is a locally trusted emergency restoration company serving Vancouver and the Pacific Northwest. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough.",
+  phoneLabel: siteConfig.phone,
+  phoneHref: phoneTelHref(siteConfig.phone),
+  imageSrc: "/spartan/Sample-Content-Image.png",
+  imageAlt: "Spartan Restoration team responding to a property emergency",
+  sidebarText:
+    "We help navigate your insurance claim | Certified technicians |  Professional drying and remediation equipment.",
+};

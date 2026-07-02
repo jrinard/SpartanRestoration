@@ -6,25 +6,138 @@ import {
 import type { ColorThemeId } from "@/lib/color-themes";
 import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
 import { getDefaultSpacerStripeStyleForVariant } from "@/lib/spacer-defaults";
+import type { SiteLayoutWidth } from "@/lib/site-layout";
 import {
   loadSpacerInstanceSettings,
   saveSpacerInstanceSettings,
+  defaultSpacerLayoutWidth,
+  defaultSpacerOuterBackgroundColor,
   type SpacerInstanceSettings,
 } from "@/lib/spacer-instance-storage";
 
 export const spacerStripeStorageKey = "lifespring-spacer-stripe-style";
 export const spacerGradientStorageKey = "lifespring-spacer-gradient-style";
 
+function isSiteLayoutWidth(value: unknown): value is SiteLayoutWidth {
+  return value === "contained" || value === "full";
+}
+
 function normalizeSpacerStripeStyle(
   style: SpacerStripeStyle,
   colorThemeId: ColorThemeId,
   variantId?: string,
 ): SpacerStripeStyle {
+  const defaults = getDefaultSpacerStripeStyleForVariant(variantId, colorThemeId);
+  const { layoutWidth: _legacyLayoutWidth, ...rest } = style as SpacerStripeStyle & {
+    layoutWidth?: SiteLayoutWidth;
+  };
+
   return {
-    ...getDefaultSpacerStripeStyleForVariant(variantId, colorThemeId),
-    ...style,
+    ...defaults,
+    ...rest,
     overlap: style.overlap === true,
   };
+}
+
+export function normalizeSpacerLayoutWidth(
+  settings: Partial<SpacerInstanceSettings> & {
+    stripe?: Partial<SpacerStripeStyle> & { layoutWidth?: SiteLayoutWidth };
+  },
+): SiteLayoutWidth {
+  if (isSiteLayoutWidth(settings.layoutWidth)) {
+    return settings.layoutWidth;
+  }
+
+  if (isSiteLayoutWidth(settings.stripe?.layoutWidth)) {
+    return settings.stripe.layoutWidth;
+  }
+
+  return defaultSpacerLayoutWidth;
+}
+
+export function loadSpacerLayoutWidth(instanceId?: string, variantId?: string): SiteLayoutWidth {
+  const committed = getCommittedSpacerSettings(instanceId);
+  if (committed) {
+    return normalizeSpacerLayoutWidth(committed);
+  }
+
+  if (instanceId) {
+    const instance = loadSpacerInstanceSettings(instanceId);
+    if (instance) {
+      return normalizeSpacerLayoutWidth(instance);
+    }
+  }
+
+  if (typeof window === "undefined") {
+    return defaultSpacerLayoutWidth;
+  }
+
+  const legacy = loadLegacyStripeFromStorage();
+  if (legacy) {
+    return normalizeSpacerLayoutWidth({ stripe: legacy });
+  }
+
+  if (variantId === "spacer-v3") {
+    return "contained";
+  }
+
+  return defaultSpacerLayoutWidth;
+}
+
+export function saveSpacerLayoutWidth(layoutWidth: SiteLayoutWidth, instanceId?: string): void {
+  if (typeof window === "undefined") return;
+
+  if (instanceId) {
+    const current = loadSpacerInstanceSettings(instanceId) ?? {};
+    saveSpacerInstanceSettings(instanceId, { ...current, layoutWidth });
+    return;
+  }
+
+  const legacy = loadLegacyStripeFromStorage();
+  if (legacy) {
+    localStorage.setItem(
+      spacerStripeStorageKey,
+      JSON.stringify({ ...legacy, layoutWidth }),
+    );
+  }
+}
+
+function isHexColor(value: unknown): value is string {
+  return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
+}
+
+export function normalizeSpacerOuterBackgroundColor(value: unknown): string {
+  return isHexColor(value) ? value : defaultSpacerOuterBackgroundColor;
+}
+
+export function loadSpacerOuterBackgroundColor(instanceId?: string): string {
+  const committed = getCommittedSpacerSettings(instanceId);
+  if (committed?.outerBackgroundColor) {
+    return normalizeSpacerOuterBackgroundColor(committed.outerBackgroundColor);
+  }
+
+  if (instanceId) {
+    const instance = loadSpacerInstanceSettings(instanceId);
+    if (instance?.outerBackgroundColor) {
+      return normalizeSpacerOuterBackgroundColor(instance.outerBackgroundColor);
+    }
+  }
+
+  return defaultSpacerOuterBackgroundColor;
+}
+
+export function saveSpacerOuterBackgroundColor(
+  outerBackgroundColor: string,
+  instanceId?: string,
+): void {
+  if (typeof window === "undefined") return;
+
+  const normalized = normalizeSpacerOuterBackgroundColor(outerBackgroundColor);
+
+  if (instanceId) {
+    const current = loadSpacerInstanceSettings(instanceId) ?? {};
+    saveSpacerInstanceSettings(instanceId, { ...current, outerBackgroundColor: normalized });
+  }
 }
 
 function isSpacerStripeStyle(value: unknown): value is SpacerStripeStyle {

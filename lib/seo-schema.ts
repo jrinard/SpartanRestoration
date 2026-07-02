@@ -1,5 +1,9 @@
 import { siteConfig } from "@/config/site";
-import { getSocialProfileUrls, tradeDemoSeo } from "@/lib/seo-content";
+import {
+  buildFooterV1ContactPointSchema,
+  footerV1LogoUrl,
+} from "@/lib/footer-v1-seo";
+import { getSocialProfileUrls, spartanRestorationSeo } from "@/lib/seo-content";
 
 type JsonLd = Record<string, unknown>;
 
@@ -11,82 +15,76 @@ function siteDescription(): string {
   return siteConfig.description || siteConfig.tagline;
 }
 
+function businessAddress(): JsonLd {
+  if (siteConfig.address.length > 0) {
+    return {
+      "@type": "PostalAddress",
+      addressLocality: siteConfig.address,
+      addressRegion: "WA",
+      addressCountry: "US",
+    };
+  }
+
+  return {
+    "@type": "PostalAddress",
+    addressLocality: "Vancouver",
+    addressRegion: "WA",
+    addressCountry: "US",
+  };
+}
+
+function areaServedSchema(): JsonLd[] {
+  return spartanRestorationSeo.areaServed.map((name) => ({
+    "@type": "AdministrativeArea",
+    name,
+  }));
+}
+
 export function buildOrganizationSchema(): JsonLd {
   const sameAs = getSocialProfileUrls();
+  const contactPoints = buildFooterV1ContactPointSchema();
 
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: siteConfig.name,
     url: siteConfig.url,
+    logo: footerV1LogoUrl(),
     description: siteDescription(),
     ...(siteConfig.email && { email: siteConfig.email }),
     ...(siteConfig.phone && { telephone: siteConfig.phone }),
     ...(siteConfig.serviceArea && { areaServed: siteConfig.serviceArea }),
-    knowsAbout: [
-      "Web Design",
-      "Custom Software Development",
-      "Branding",
-      "Graphic Design",
-      "Online Reputation Management",
-      "Reviewbox.io",
-    ],
-    ...(siteConfig.address.length > 0 && {
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: siteConfig.address,
-      },
-    }),
+    knowsAbout: spartanRestorationSeo.serviceTypes,
+    address: businessAddress(),
+    ...(contactPoints.length > 0 && { contactPoint: contactPoints }),
     ...(sameAs.length > 0 && { sameAs }),
   };
 }
 
 export function buildLocalBusinessSchema(): JsonLd {
   const sameAs = getSocialProfileUrls();
+  const contactPoints = buildFooterV1ContactPointSchema();
+  const primaryPhone = siteConfig.phone || contactPoints[0]?.telephone;
 
   return {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
     name: siteConfig.name,
     url: siteConfig.url,
-    description: tradeDemoSeo.description,
-    ...(siteConfig.phone && {
-      telephone: siteConfig.phone,
-      contactPoint: {
-        "@type": "ContactPoint",
-        telephone: siteConfig.phone,
-        contactType: "customer service",
-        areaServed: tradeDemoSeo.areaServed,
-        availableLanguage: "English",
-      },
-    }),
+    logo: footerV1LogoUrl(),
+    description: siteDescription(),
+    ...(primaryPhone && { telephone: primaryPhone }),
     ...(siteConfig.email && { email: siteConfig.email }),
-    ...(siteConfig.address.length > 0
-      ? {
-          address: {
-            "@type": "PostalAddress",
-            streetAddress: siteConfig.address,
-          },
-        }
-      : {
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: "Vancouver",
-            addressRegion: "WA",
-            addressCountry: "US",
-          },
-        }),
-    areaServed: tradeDemoSeo.areaServed.map((name) => ({
-      "@type": "City",
-      name,
-    })),
-    knowsAbout: tradeDemoSeo.serviceTypes,
+    address: businessAddress(),
+    areaServed: areaServedSchema(),
+    knowsAbout: spartanRestorationSeo.serviceTypes,
+    ...(contactPoints.length > 0 && { contactPoint: contactPoints }),
     ...(sameAs.length > 0 && { sameAs }),
-    ...(siteConfig.phone && {
+    ...(primaryPhone && {
       potentialAction: {
         "@type": "ContactAction",
-        target: `tel:${phoneDigits(siteConfig.phone)}`,
-        name: "Call for a free quote",
+        target: `tel:+${phoneDigits(primaryPhone).length === 10 ? `1${phoneDigits(primaryPhone)}` : phoneDigits(primaryPhone)}`,
+        name: "Call Spartan Restoration",
       },
     }),
   };
@@ -103,6 +101,7 @@ export function buildWebSiteSchema(): JsonLd {
       "@type": "Organization",
       name: siteConfig.name,
       url: siteConfig.url,
+      logo: footerV1LogoUrl(),
     },
   };
 }
