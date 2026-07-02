@@ -2,6 +2,7 @@ import { Container } from "@/components/ui/Container";
 import type { PreviewGradientDirection, PreviewGradientMode } from "@/lib/preview-gradient";
 import { getSpacerStripeBackground } from "@/lib/preview-gradient";
 import { getDefaultSpacerStripeStyle } from "@/lib/spacer-defaults";
+import { cn } from "@/lib/utils";
 
 export type SpacerStripeStyle = {
   from: string;
@@ -9,6 +10,8 @@ export type SpacerStripeStyle = {
   direction: PreviewGradientDirection;
   mode: PreviewGradientMode;
   heightPx: number;
+  /** Pulls half the band height into adjacent sections above and below. */
+  overlap?: boolean;
 };
 
 export const defaultSpacerStripeStyle: SpacerStripeStyle =
@@ -20,17 +23,36 @@ type SpacerStripeProps = {
 
 /** Full-bleed accent stripe with soft fade at the edges. */
 export function SpacerStripe({ style = defaultSpacerStripeStyle }: SpacerStripeProps) {
+  const overlap = style.overlap === true;
+  const halfHeight = style.heightPx / 2;
+  const bleedPx = overlap ? 1 : 0;
+
   return (
-    <section className="py-1" aria-hidden="true">
+    <section
+      className={cn(
+        "spacer-stripe bg-transparent p-0 leading-none",
+        overlap && "spacer-overlap relative z-10",
+      )}
+      style={
+        overlap
+          ? {
+              marginTop: -(halfHeight + bleedPx),
+              marginBottom: -(halfHeight + bleedPx),
+            }
+          : undefined
+      }
+      aria-hidden="true"
+    >
       <div
-        className="w-full"
+        className="block w-full"
         style={{
-          height: `${style.heightPx}px`,
+          height: `${style.heightPx + bleedPx * 2}px`,
           background: getSpacerStripeBackground(
             style.from,
             style.to,
             style.direction,
             style.mode,
+            overlap,
           ),
         }}
       />

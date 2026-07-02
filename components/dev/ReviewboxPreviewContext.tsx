@@ -83,7 +83,7 @@ export function ReviewboxBackgroundControls() {
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-x-3.5 gap-y-2">
+    <div className="contents">
       <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Theme</span>
         <select

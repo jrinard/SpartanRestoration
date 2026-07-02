@@ -3,13 +3,18 @@ import type { SpacerInstanceSettings } from "@/lib/spacer-instance-storage";
 import type { ContactPreviewSettings } from "@/lib/contact-preview";
 import type { FooterV3PreviewSettings } from "@/lib/footer-v3-preview";
 import type { HeaderV3PreviewSettings } from "@/lib/header-v3-gradient";
+import type { HeroBannerPreviewSettings } from "@/lib/hero-banner-preview";
+import type { HeroV1PreviewSettings } from "@/lib/hero-v1-preview";
 import type { HeroV21PreviewSettings } from "@/lib/hero-v21-preview";
 import type { PortfolioPreviewSettings } from "@/lib/portfolio-preview";
 import type { ReviewboxPreviewSettings } from "@/lib/reviewbox-preview";
+import type { TextIconsV3PreviewSettings } from "@/lib/text-icons-v3-preview";
 import type { ServicesV1LayoutWidth } from "@/lib/services-v1-preview";
 
 /** Section-specific preview settings baked into the live homepage. */
 export type HomepagePreviewSettings = {
+  heroBanner?: HeroBannerPreviewSettings;
+  heroV1?: HeroV1PreviewSettings;
   heroV21?: HeroV21PreviewSettings;
   headerV3?: HeaderV3PreviewSettings;
   reviewbox?: ReviewboxPreviewSettings;
@@ -22,6 +27,7 @@ export type HomepagePreviewSettings = {
   /** Per-spacer preview settings keyed by section id. */
   spacers?: Record<string, SpacerInstanceSettings>;
   contact?: ContactPreviewSettings;
+  textIconsV3?: TextIconsV3PreviewSettings;
 };
 
 let committedPreviewSettings: HomepagePreviewSettings | null = null;

@@ -2,10 +2,10 @@
 
 import { SectionPreview } from "@/components/dev/SectionPreview";
 import { getPlaygroundSectionVariant } from "@/lib/playground-sections";
-import { usePlaygroundSections } from "@/lib/use-playground-sections";
+import { usePlaygroundSectionsStorage } from "@/components/dev/PlaygroundSectionsProvider";
 
 export function PreviewPage() {
-  const { previewSections, ready } = usePlaygroundSections();
+  const { previewSections, ready } = usePlaygroundSectionsStorage();
 
   if (!ready) {
     return <main id="main-content" />;

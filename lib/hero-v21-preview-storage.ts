@@ -1,5 +1,6 @@
 import {
   defaultHeroButtonPreviewSettings,
+  normalizeButtonBorderRadiusPx,
   type ButtonPreviewSettings,
   type ButtonPreviewSize,
 } from "@/lib/button-preview";
@@ -51,6 +52,10 @@ function normalizeButtonSettings(value: Partial<ButtonPreviewSettings>): ButtonP
     navButtonSize: isButtonPreviewSize(value.navButtonSize)
       ? value.navButtonSize
       : defaultHeroButtonPreviewSettings.navButtonSize,
+    navButtonRadiusPx:
+      typeof value.navButtonRadiusPx === "number"
+        ? normalizeButtonBorderRadiusPx(Math.round(value.navButtonRadiusPx))
+        : defaultHeroButtonPreviewSettings.navButtonRadiusPx,
   };
 }
 

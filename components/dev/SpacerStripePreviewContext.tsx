@@ -9,7 +9,7 @@ import {
 } from "@/components/sections/Spacer";
 import { previewGradientDirections } from "@/lib/preview-gradient";
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
-import { getDefaultSpacerStripeStyle } from "@/lib/spacer-defaults";
+import { getDefaultSpacerStripeStyleForVariant } from "@/lib/spacer-defaults";
 import type { SpacerInstanceSettings } from "@/lib/spacer-instance-storage";
 import {
   loadSpacerGradientStyle,
@@ -32,18 +32,21 @@ type SpacerStripePreviewProviderProps = {
   children: ReactNode;
   instanceId?: string;
   initialSettings?: SpacerInstanceSettings;
+  variantId?: string;
 };
 
 export function SpacerStripePreviewProvider({
   children,
   instanceId,
   initialSettings,
+  variantId,
 }: SpacerStripePreviewProviderProps) {
   const { colorThemeId } = useCreativeTheme();
   const lockedToPublished = initialSettings !== undefined;
 
   const [stripe, setStripeState] = useState<SpacerStripeStyle>(() =>
-    initialSettings?.stripe ?? getDefaultSpacerStripeStyle(colorThemeId),
+    initialSettings?.stripe ??
+      getDefaultSpacerStripeStyleForVariant(variantId, colorThemeId),
   );
   const [gradient, setGradientState] = useState<SpacerGradientStyle>(
     () => initialSettings?.gradient ?? defaultSpacerGradientStyle,
@@ -56,10 +59,10 @@ export function SpacerStripePreviewProvider({
       return;
     }
 
-    setStripeState(loadSpacerStripeStyle(colorThemeId, instanceId));
+    setStripeState(loadSpacerStripeStyle(colorThemeId, instanceId, variantId));
     setGradientState(loadSpacerGradientStyle(instanceId));
     setReady(true);
-  }, [colorThemeId, instanceId, lockedToPublished]);
+  }, [colorThemeId, instanceId, lockedToPublished, variantId]);
 
   const setStripe = useCallback(
     (next: SpacerStripeStyle) => {
@@ -104,14 +107,16 @@ const colorInputClassName =
 const buttonClassName =
   "rounded border border-accent-purple/40 bg-background/90 px-2 py-1 font-mono text-xs text-accent-purple backdrop-blur-sm transition-colors hover:border-accent-purple hover:bg-accent-purple/10";
 
-export const spacerStripeHeightOptions = [1, 2, 3, 4, 5, 8, 12, 16, 24] as const;
+export const spacerStripeHeightOptions = [
+  1, 2, 3, 4, 5, 8, 12, 16, 24, 32, 40, 48, 64, 80, 96, 128,
+] as const;
 
-export const spacerGradientHeightOptions = [24, 32, 40, 48, 64, 80, 96, 128] as const;
-
-export function SpacerStripePreviewControls() {
+export function SpacerStripePreviewControls({ variantId }: { variantId?: string }) {
   const context = useSpacerPreview();
   const { colorThemeId } = useCreativeTheme();
   if (!context) return null;
+
+  const resetDefaults = getDefaultSpacerStripeStyleForVariant(variantId, colorThemeId);
 
   return (
     <>
@@ -193,9 +198,21 @@ export function SpacerStripePreviewControls() {
           </option>
         ))}
       </select>
+      <label className="flex items-center gap-1.5">
+        <input
+          type="checkbox"
+          checked={context.stripe.overlap === true}
+          onChange={(event) =>
+            context.setStripe({ ...context.stripe, overlap: event.target.checked })
+          }
+          className="h-3.5 w-3.5 cursor-pointer accent-accent-purple"
+          aria-label="Spacer overlap adjacent sections"
+        />
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Overlap</span>
+      </label>
       <button
         type="button"
-        onClick={() => context.setStripe(getDefaultSpacerStripeStyle(colorThemeId))}
+        onClick={() => context.setStripe(resetDefaults)}
         className={buttonClassName}
         aria-label="Reset spacer stripe to defaults"
       >
@@ -205,37 +222,7 @@ export function SpacerStripePreviewControls() {
   );
 }
 
+/** @deprecated Spacer-v2 uses SpacerStripePreviewControls */
 export function SpacerGradientPreviewControls() {
-  const context = useSpacerPreview();
-  if (!context) return null;
-
-  return (
-    <>
-      <select
-        value={context.gradient.heightPx}
-        onChange={(event) =>
-          context.setGradient({
-            ...context.gradient,
-            heightPx: Number(event.target.value),
-          })
-        }
-        className={selectClassName}
-        aria-label="Spacer gradient height"
-      >
-        {spacerGradientHeightOptions.map((height) => (
-          <option key={height} value={height}>
-            {height}px
-          </option>
-        ))}
-      </select>
-      <button
-        type="button"
-        onClick={() => context.setGradient(defaultSpacerGradientStyle)}
-        className={buttonClassName}
-        aria-label="Reset spacer gradient to defaults"
-      >
-        Reset
-      </button>
-    </>
-  );
+  return <SpacerStripePreviewControls variantId="spacer-v2" />;
 }

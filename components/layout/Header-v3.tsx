@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { useHeaderV3Preview } from "@/components/dev/HeaderV3PreviewContext";
 import { siteConfig } from "@/config/site";
 import { HeaderBrand } from "@/components/ui/HeaderBrand";
+import { HeaderBrandLink } from "@/components/ui/HeaderBrandLink";
 import { HeaderV3Nav } from "@/components/layout/HeaderV3Nav";
 import { HeaderV3NavBar } from "@/components/layout/HeaderV3NavBar";
 import {
@@ -126,9 +126,9 @@ export function HeaderV3({ className }: HeaderV3Props) {
       <div className={getHeaderV3InnerClassName(layoutWidth)}>
         <div className="md:hidden">
           <div className="flex flex-col items-center">
-            <Link href="/" className="my-2.5 shrink-0">
+            <HeaderBrandLink className="my-2.5 shrink-0">
               <HeaderBrand priority className="h-[4.25rem]" width={240} height={82} />
-            </Link>
+            </HeaderBrandLink>
           </div>
 
           <div className="relative mt-2 flex items-center justify-center">
@@ -147,9 +147,9 @@ export function HeaderV3({ className }: HeaderV3Props) {
         </div>
 
         <div className="hidden items-center gap-4 md:flex lg:gap-10">
-          <Link href="/" className="my-2.5 shrink-0 self-center">
+          <HeaderBrandLink className="my-2.5 shrink-0 self-center">
             <HeaderBrand priority className="h-[4.25rem] lg:h-20" width={240} height={82} />
-          </Link>
+          </HeaderBrandLink>
 
           <div className="min-w-0 flex-1 flex-col">
             <div className="header-v3-utility-bar mt-2 flex flex-wrap items-center justify-end gap-x-5 gap-y-2 border-b border-border pb-3">

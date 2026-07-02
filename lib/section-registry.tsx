@@ -5,11 +5,12 @@ import { HeaderV3 } from "@/components/layout/Header-v3";
 import { HeroV1 } from "@/components/sections/Hero-v1";
 import { HeroV2 } from "@/components/sections/Hero-v2";
 import { HeroV21 } from "@/components/sections/Hero-v2.1";
-import { HeroV3 } from "@/components/sections/Hero-v3";
+import { HeroBanner } from "@/components/sections/Hero-banner";
 import { HeroWashingV1 } from "@/components/sections/HeroWashing-v1";
 import { HeroWashingV2 } from "@/components/sections/HeroWashing-v2";
 import { HeroVideoV1 } from "@/components/sections/HeroVideo-v1";
 import { FlipCards } from "@/components/sections/FlipCards";
+import { TextIconsV3 } from "@/components/sections/TextIcons-v3";
 import { PortfolioV1 } from "@/components/sections/Portfolio-v1";
 import { FeatureTilesV1 } from "@/components/sections/FeatureTiles-v1";
 import { TestimonialsV1 } from "@/components/sections/Testimonials-v1";
@@ -22,7 +23,6 @@ import {
   SpacerFade,
   SpacerLine,
 } from "@/components/sections/Spacer";
-import { SpacerGradientWithPreview } from "@/components/dev/SpacerGradientWithPreview";
 import { SpacerStripeWithPreview } from "@/components/dev/SpacerStripeWithPreview";
 import { ServicesV1WithLayout } from "@/components/dev/ServicesV1WithLayout";
 import { ServicesV2 } from "@/components/sections/Services-v2";
@@ -65,6 +65,7 @@ import {
   associationHeading,
   associationNetwork,
   washingFooter,
+  spartanTextIconsContent,
 } from "@/lib/demo-content";
 
 export type SectionVariant = {
@@ -99,7 +100,7 @@ export const sectionGroups = {
   },
   hero: {
     label: "Hero",
-    defaultVariant: "hero-v3",
+    defaultVariant: "hero-banner",
     variants: {
       "hero-v1": {
         label: "Hero-v1",
@@ -135,16 +136,9 @@ export const sectionGroups = {
           />
         ),
       },
-      "hero-v3": {
-        label: "Hero-v3",
-        render: () => (
-          <HeroV3
-            lines={heroDemo.lines}
-            subtext={heroDemo.subtext}
-            ctaLabel={heroDemo.ctaLabel}
-            ctaHref={heroDemo.ctaHref}
-          />
-        ),
+      "hero-banner": {
+        label: "Hero-banner",
+        render: () => <HeroBanner />,
       },
       "heroVideo-v1": {
         label: "HeroVideo-v1",
@@ -187,17 +181,27 @@ export const sectionGroups = {
       },
     },
   },
-  flipCards: {
-    label: "Flip Cards",
-    defaultVariant: "flipCards-v1",
+  content: {
+    label: "Content",
+    defaultVariant: "text-icons-v3",
     variants: {
       "flipCards-v1": {
-        label: "FlipCards-v1 (3)",
+        label: "Flip Cards v1",
         render: () => <FlipCards cards={washingFlipCards} layout="three" />,
       },
       "flipCards-v2": {
-        label: "FlipCards-v2 (4)",
+        label: "Flip Cards v2",
         render: () => <FlipCards cards={fourFlipCards} layout="four" />,
+      },
+      "text-icons-v3": {
+        label: "Text-icons v3",
+        render: () => (
+          <TextIconsV3
+            heading={spartanTextIconsContent.heading}
+            subheading={spartanTextIconsContent.subheading}
+            items={spartanTextIconsContent.items}
+          />
+        ),
       },
     },
   },
@@ -211,7 +215,7 @@ export const sectionGroups = {
       },
       "spacer-v2": {
         label: "Spacer-v2 (Gradient)",
-        render: () => <SpacerGradientWithPreview />,
+        render: () => <SpacerStripeWithPreview />,
       },
       "spacer-v3": {
         label: "Spacer-v3 (Line)",
@@ -455,8 +459,20 @@ export const sectionGroups = {
 
 export type SectionGroupId = keyof typeof sectionGroups;
 
+const heroVariantAliases: Record<string, string> = {
+  "hero-v3": "hero-banner",
+};
+
+export function resolveSectionVariantId(group: SectionGroupId, variantId: string): string {
+  if (group === "hero") {
+    return heroVariantAliases[variantId] ?? variantId;
+  }
+  return variantId;
+}
+
 export function getSectionVariant(group: SectionGroupId, variantId: string): SectionVariant {
   const section = sectionGroups[group];
   const variants = section.variants as Record<string, SectionVariant>;
-  return variants[variantId] ?? variants[section.defaultVariant];
+  const resolvedId = resolveSectionVariantId(group, variantId);
+  return variants[resolvedId] ?? variants[section.defaultVariant];
 }

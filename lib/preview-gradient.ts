@@ -43,9 +43,13 @@ export function getSpacerStripeBackground(
   to: string,
   direction: PreviewGradientDirection,
   mode: PreviewGradientMode,
+  overlap?: boolean,
 ): string {
   if (mode === "center-fade") {
     const axis = direction === "none" ? "to right" : direction;
+    if (overlap) {
+      return `linear-gradient(${axis}, ${from} 0%, ${from} 32%, ${to} 68%, ${to} 100%)`;
+    }
     return `linear-gradient(${axis}, transparent 0%, ${from} 32%, ${to} 68%, transparent 100%)`;
   }
 

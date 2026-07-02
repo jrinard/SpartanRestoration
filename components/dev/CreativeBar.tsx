@@ -6,6 +6,7 @@ import { colorThemes, getThemeColors } from "@/lib/color-themes";
 import { fontThemes } from "@/lib/creative-themes";
 import { useCreativeTheme } from "@/components/dev/CreativeProvider";
 import { HomepageLaunchButtons } from "@/components/dev/HomepageLaunchButtons";
+import { PlaygroundSectionsMenu } from "@/components/dev/PlaygroundSectionsMenu";
 import type { ColorThemeId } from "@/lib/color-themes";
 import type { FontThemeId } from "@/lib/creative-themes";
 import { cn } from "@/lib/utils";
@@ -62,6 +63,8 @@ export function CreativeBar() {
               ))}
             </select>
           </label>
+
+          {isPlayground && <PlaygroundSectionsMenu />}
         </div>
 
         {isPlayground && (

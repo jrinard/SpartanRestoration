@@ -9,6 +9,8 @@ import { getFontTheme } from "@/lib/creative-themes";
 import { contactPreviewStorageKey } from "@/lib/contact-preview-storage";
 import { footerV3PreviewStorageKey } from "@/lib/footer-v3-preview-storage";
 import { headerV3NavGradientStorageKey } from "@/lib/header-v3-storage";
+import { heroBannerPreviewStorageKey } from "@/lib/hero-banner-preview-storage";
+import { heroV1PreviewStorageKey } from "@/lib/hero-v1-preview-storage";
 import { heroV21PreviewStorageKey, heroButtonPreviewStorageKey } from "@/lib/hero-v21-preview-storage";
 import {
   getPlaygroundSectionVariant,
@@ -18,6 +20,7 @@ import {
 } from "@/lib/playground-sections";
 import { portfolioPreviewStorageKey } from "@/lib/portfolio-preview-storage";
 import { reviewboxPreviewStorageKey } from "@/lib/reviewbox-preview-storage";
+import { textIconsV3PreviewStorageKey } from "@/lib/text-icons-v3-preview-storage";
 import { servicesV1PreviewStorageKey } from "@/lib/services-v1-preview-storage";
 import { loadAllSpacerInstanceSettings } from "@/lib/spacer-instance-storage";
 import {
@@ -65,6 +68,8 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
   const storedFont = localStorage.getItem(creativeStorageKeys.fontTheme);
 
   const previewSettings: HomepagePreviewSettings = {
+    heroBanner: readJson(heroBannerPreviewStorageKey),
+    heroV1: readJson(heroV1PreviewStorageKey),
     heroV21:
       readJson(heroV21PreviewStorageKey) ?? readJson(heroButtonPreviewStorageKey),
     headerV3: readJson(headerV3NavGradientStorageKey),
@@ -78,6 +83,7 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
     spacerGradient: readJson(spacerGradientStorageKey),
     spacers: Object.keys(spacers).length > 0 ? spacers : undefined,
     contact: readJson(contactPreviewStorageKey),
+    textIconsV3: readJson(textIconsV3PreviewStorageKey),
   };
 
   const hasPreviewSettings = Object.entries(previewSettings).some(([key, value]) => {

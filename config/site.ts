@@ -49,19 +49,19 @@ export const siteConfig = {
     { label: "Blog", href: "/blog" },
     { label: "Contact", href: "/contact" },
   ],
-  /** Primary marketing nav — header v3, footer v3 */
+  /** Primary marketing nav — headers, footer v3 */
   primaryNav: [
     { label: "Home", href: "/" },
     { label: "Services", href: "#services" },
-    { label: "Projects", href: "#portfolio" },
-    { label: "Contact", href: "/contact" },
+    { label: "Insurance", href: "#insurance" },
+    { label: "Gallery", href: "#gallery" },
   ],
   assets: {
-    logo: "/Spartan-Logo-1.JPG",
-    logoWhite: "/Spartan-Logo-1.JPG",
-    logoBlack: "/Spartan-Logo-1.JPG",
-    logoColor: "/Spartan-Logo-1.JPG",
-    ogImage: "/Spartan-Logo-1.JPG",
+    logo: "/spartan/SpartanLogo.png",
+    logoWhite: "/spartan/SpartanLogo.png",
+    logoBlack: "/spartan/SpartanLogo.png",
+    logoColor: "/spartan/SpartanLogo.png",
+    ogImage: "/spartan/SpartanLogo.png",
   },
   launch: {
     mode: "under-construction" as "under-construction" | "live",

@@ -10,17 +10,32 @@ import {
 } from "react";
 import {
   defaultHeaderV3PreviewSettings,
+  getDefaultHeaderV3PreviewSettingsForVariant,
+  getDefaultHeaderHeightPx,
+  headerHeightOptions,
+  headerLogoHeightOptions,
+  headerLogoMarginTopOptions,
   headerV3LayoutWidths,
   headerV3LogoVariants,
+  headerVariantUsesCustomBackground,
   type HeaderV3LayoutWidth,
   type HeaderV3LogoVariant,
   type HeaderV3PreviewSettings,
 } from "@/lib/header-v3-gradient";
 import {
   loadHeaderV3PreviewSettings,
+  normalizeHeaderV3PreviewSettings,
   saveHeaderV3PreviewSettings,
 } from "@/lib/header-v3-storage";
 import { ButtonPreviewControls } from "@/components/dev/ButtonPreviewControls";
+import {
+  alphaPercentFromBackground,
+  colorInputHexFromBackground,
+  setBackgroundColorAlpha,
+  setBackgroundColorRgb,
+} from "@/lib/button-preview";
+import { previewGradientDirections } from "@/lib/preview-gradient";
+import type { PreviewGradientDirection } from "@/lib/preview-gradient";
 
 type HeaderV3PreviewContextValue = {
   settings: HeaderV3PreviewSettings;
@@ -29,14 +44,27 @@ type HeaderV3PreviewContextValue = {
 
 const HeaderV3PreviewContext = createContext<HeaderV3PreviewContextValue | null>(null);
 
-export function HeaderV3PreviewProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettingsState] = useState<HeaderV3PreviewSettings>(
-    defaultHeaderV3PreviewSettings,
+type HeaderV3PreviewProviderProps = {
+  children: ReactNode;
+  initialSettings?: HeaderV3PreviewSettings;
+};
+
+export function HeaderV3PreviewProvider({
+  children,
+  initialSettings,
+}: HeaderV3PreviewProviderProps) {
+  const lockedToPublished = initialSettings !== undefined;
+
+  const [settings, setSettingsState] = useState<HeaderV3PreviewSettings>(() =>
+    initialSettings
+      ? normalizeHeaderV3PreviewSettings(initialSettings)
+      : defaultHeaderV3PreviewSettings,
   );
 
   useEffect(() => {
+    if (lockedToPublished) return;
     setSettingsState(loadHeaderV3PreviewSettings());
-  }, []);
+  }, [lockedToPublished]);
 
   const setSettings = useCallback((next: HeaderV3PreviewSettings) => {
     setSettingsState(next);
@@ -63,16 +91,22 @@ const selectClassName =
 const buttonClassName =
   "rounded border border-accent-purple/40 bg-background/90 px-2 py-1 font-mono text-xs text-accent-purple backdrop-blur-sm transition-colors hover:border-accent-purple hover:bg-accent-purple/10";
 
-export function HeaderV3PreviewControls() {
+const alphaRangeClassName = "h-1.5 w-16 cursor-pointer accent-accent-purple";
+
+export function HeaderV3PreviewControls({ variantId }: { variantId?: string }) {
   const context = useHeaderV3Preview();
   if (!context) return null;
+
+  const showCustomHeaderControls = variantId
+    ? headerVariantUsesCustomBackground(variantId)
+    : false;
 
   const update = (patch: Partial<HeaderV3PreviewSettings>) => {
     context.setSettings({ ...context.settings, ...patch });
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-x-3.5 gap-y-2">
+    <div className="contents">
       <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">BG 1</span>
         <input
@@ -93,6 +127,147 @@ export function HeaderV3PreviewControls() {
           aria-label="Header nav gradient end color"
         />
       </label>
+      {showCustomHeaderControls && (
+        <>
+          <select
+            value={context.settings.backgroundMode}
+            onChange={(event) =>
+              update({
+                backgroundMode: event.target.value as HeaderV3PreviewSettings["backgroundMode"],
+                backgroundDirection:
+                  event.target.value === "center-fade" &&
+                  context.settings.backgroundDirection === "none"
+                    ? "to right"
+                    : context.settings.backgroundDirection,
+              })
+            }
+            className={selectClassName}
+            aria-label="Header background gradient style"
+          >
+            <option value="linear">Linear</option>
+            <option value="center-fade">Center fade</option>
+          </select>
+          <select
+            value={context.settings.backgroundDirection}
+            onChange={(event) =>
+              update({
+                backgroundDirection: event.target.value as PreviewGradientDirection,
+              })
+            }
+            className={selectClassName}
+            aria-label="Header background gradient direction"
+          >
+            {previewGradientDirections
+              .filter(
+                (option) =>
+                  context.settings.backgroundMode === "linear" || option.value !== "none",
+              )
+              .map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+          </select>
+          <label className="flex items-center gap-2">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+              Height
+            </span>
+            <select
+              value={context.settings.headerHeightPx}
+              onChange={(event) =>
+                update({ headerHeightPx: Number(event.target.value) })
+              }
+              className={selectClassName}
+              aria-label="Header height"
+            >
+              {headerHeightOptions.map((height) => (
+                <option key={height} value={height}>
+                  {height}px
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex items-center gap-2">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+              Logo H
+            </span>
+            <select
+              value={context.settings.logoHeightPx}
+              onChange={(event) =>
+                update({ logoHeightPx: Number(event.target.value) })
+              }
+              className={selectClassName}
+              aria-label="Header logo height"
+            >
+              {headerLogoHeightOptions.map((height) => (
+                <option key={height} value={height}>
+                  {height === 0 ? "Auto" : `${height}px`}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex items-center gap-2">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+              Logo Top
+            </span>
+            <select
+              value={context.settings.logoMarginTopPx}
+              onChange={(event) =>
+                update({ logoMarginTopPx: Number(event.target.value) })
+              }
+              className={selectClassName}
+              aria-label="Header logo top margin"
+            >
+              {headerLogoMarginTopOptions.map((margin) => (
+                <option key={margin} value={margin}>
+                  {margin}px
+                </option>
+              ))}
+            </select>
+          </label>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+              Logo BG
+            </span>
+            <input
+              type="color"
+              value={colorInputHexFromBackground(context.settings.logoBackgroundColor)}
+              onChange={(event) =>
+                update({
+                  logoBackgroundColor: setBackgroundColorRgb(
+                    context.settings.logoBackgroundColor,
+                    event.target.value,
+                  ),
+                })
+              }
+              className={colorInputClassName}
+              aria-label="Header logo background color"
+            />
+            <label className="flex items-center gap-1.5">
+              <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">A</span>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={alphaPercentFromBackground(context.settings.logoBackgroundColor)}
+                onChange={(event) =>
+                  update({
+                    logoBackgroundColor: setBackgroundColorAlpha(
+                      context.settings.logoBackgroundColor,
+                      Number(event.target.value),
+                    ),
+                  })
+                }
+                className={alphaRangeClassName}
+                aria-label="Header logo background alpha"
+              />
+              <span className="w-8 font-mono text-[0.65rem] text-accent-purple">
+                {alphaPercentFromBackground(context.settings.logoBackgroundColor)}%
+              </span>
+            </label>
+          </div>
+        </>
+      )}
       <ButtonPreviewControls target="header" />
       <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Logo</span>
@@ -130,7 +305,9 @@ export function HeaderV3PreviewControls() {
       </label>
       <button
         type="button"
-        onClick={() => context.setSettings(defaultHeaderV3PreviewSettings)}
+        onClick={() =>
+          context.setSettings(getDefaultHeaderV3PreviewSettingsForVariant(variantId))
+        }
         className={buttonClassName}
         aria-label="Reset header settings to defaults"
       >

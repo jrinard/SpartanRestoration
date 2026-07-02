@@ -1,5 +1,7 @@
 "use client";
 
+import { HeroBannerPreviewProvider } from "@/components/dev/HeroBannerPreviewContext";
+import { HeroV1PreviewProvider } from "@/components/dev/HeroV1PreviewContext";
 import { HeroV21PreviewProvider } from "@/components/dev/HeroV21PreviewContext";
 import { HeaderV3PreviewProvider } from "@/components/dev/HeaderV3PreviewContext";
 import { PortfolioPreviewProvider } from "@/components/dev/PortfolioPreviewContext";
@@ -7,11 +9,14 @@ import { FooterV3PreviewProvider } from "@/components/dev/FooterV3PreviewContext
 import { ReviewboxPreviewProvider } from "@/components/dev/ReviewboxPreviewContext";
 import { ServicesV1LayoutProvider } from "@/components/dev/ServicesV1LayoutContext";
 import { SpacerStripePreviewProvider } from "@/components/dev/SpacerStripePreviewContext";
+import { TextIconsV3PreviewProvider } from "@/components/dev/TextIconsV3PreviewContext";
+import { headerVariantUsesPreviewControls } from "@/lib/header-v3-gradient";
 import type { HomepagePreviewSettings } from "@/lib/homepage-settings";
 import {
   getSectionVariant,
   sectionGroups,
   type SectionGroupId,
+  resolveSectionVariantId,
 } from "@/lib/section-registry";
 
 type SectionPreviewProps = {
@@ -24,7 +29,7 @@ type SectionPreviewProps = {
 /** Renders a section variant with no playground controls. */
 export function SectionPreview({ group, variant, sectionId, previewSettings }: SectionPreviewProps) {
   const section = sectionGroups[group];
-  const variantId = variant ?? section.defaultVariant;
+  const variantId = resolveSectionVariantId(group, variant ?? section.defaultVariant);
   const activeVariant = getSectionVariant(group, variantId);
   const content = activeVariant.render();
 
@@ -49,8 +54,28 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
     );
   }
 
-  if (group === "header" && variantId === "header-v3") {
-    return <HeaderV3PreviewProvider>{content}</HeaderV3PreviewProvider>;
+  if (group === "header" && headerVariantUsesPreviewControls(variantId)) {
+    return (
+      <HeaderV3PreviewProvider initialSettings={previewSettings?.headerV3}>
+        {content}
+      </HeaderV3PreviewProvider>
+    );
+  }
+
+  if (group === "hero" && variantId === "hero-banner") {
+    return (
+      <HeroBannerPreviewProvider initialSettings={previewSettings?.heroBanner}>
+        {content}
+      </HeroBannerPreviewProvider>
+    );
+  }
+
+  if (group === "hero" && variantId === "hero-v1") {
+    return (
+      <HeroV1PreviewProvider initialSettings={previewSettings?.heroV1}>
+        {content}
+      </HeroV1PreviewProvider>
+    );
   }
 
   if (group === "hero" && variantId === "hero-v2.1") {
@@ -75,6 +100,14 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
 
   if (group === "reviewbox" && variantId === "reviewbox-v1") {
     return <ReviewboxPreviewProvider>{content}</ReviewboxPreviewProvider>;
+  }
+
+  if (group === "content" && variantId === "text-icons-v3") {
+    return (
+      <TextIconsV3PreviewProvider initialSettings={previewSettings?.textIconsV3}>
+        {content}
+      </TextIconsV3PreviewProvider>
+    );
   }
 
   return content;

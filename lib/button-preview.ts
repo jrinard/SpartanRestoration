@@ -6,7 +6,23 @@ export type ButtonPreviewSettings = {
   navTextHoverColor: string;
   navHoverBackground: string;
   navButtonSize: ButtonPreviewSize;
+  /** Nav / CTA button corner radius (px). */
+  navButtonRadiusPx: number;
 };
+
+export const defaultButtonBorderRadiusPx = 4;
+
+export const buttonBorderRadiusOptions = [0, 4, 8, 10, 20] as const;
+
+export function normalizeButtonBorderRadiusPx(value: number): number {
+  if (buttonBorderRadiusOptions.includes(value as (typeof buttonBorderRadiusOptions)[number])) {
+    return value;
+  }
+
+  return buttonBorderRadiusOptions.reduce((closest, option) =>
+    Math.abs(option - value) < Math.abs(closest - value) ? option : closest,
+  );
+}
 
 export type ParsedButtonBackgroundColor = {
   r: number;
@@ -21,6 +37,7 @@ export const defaultButtonPreviewSettings: ButtonPreviewSettings = {
   navTextHoverColor: "#85a33f",
   navHoverBackground: "transparent",
   navButtonSize: "medium",
+  navButtonRadiusPx: defaultButtonBorderRadiusPx,
 };
 
 /** Hero CTA defaults — independent from header nav buttons. */
@@ -30,6 +47,7 @@ export const defaultHeroButtonPreviewSettings: ButtonPreviewSettings = {
   navTextHoverColor: "#85a33f",
   navHoverBackground: "transparent",
   navButtonSize: "large",
+  navButtonRadiusPx: defaultButtonBorderRadiusPx,
 };
 
 /** Header nav buttons default to transparent fill on the strip. */
@@ -39,6 +57,7 @@ export const defaultHeaderButtonPreviewSettings: ButtonPreviewSettings = {
   navTextHoverColor: "#85a33f",
   navHoverBackground: "transparent",
   navButtonSize: "medium",
+  navButtonRadiusPx: defaultButtonBorderRadiusPx,
 };
 
 export const buttonPreviewSizes: { value: ButtonPreviewSize; label: string }[] = [
@@ -132,6 +151,7 @@ export function getButtonPreviewStyleRecord(
     "--header-v3-nav-color": settings.navTextColor,
     "--header-v3-nav-hover-color": settings.navTextHoverColor,
     "--header-v3-nav-hover-bg": settings.navHoverBackground,
+    "--header-v3-nav-radius": `${settings.navButtonRadiusPx}px`,
   };
 }
 
@@ -151,5 +171,6 @@ export function pickButtonPreviewSettings(
     navTextHoverColor: settings.navTextHoverColor,
     navHoverBackground: settings.navHoverBackground,
     navButtonSize: settings.navButtonSize,
+    navButtonRadiusPx: settings.navButtonRadiusPx,
   };
 }

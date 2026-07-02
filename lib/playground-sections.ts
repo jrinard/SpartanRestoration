@@ -1,4 +1,5 @@
 import type { SectionGroupId } from "@/lib/section-registry";
+import { sectionGroups } from "@/lib/section-registry";
 import { createPlaygroundSectionId } from "@/lib/playground-section-id";
 
 export type PlaygroundSectionConfig = {
@@ -10,15 +11,21 @@ export type PlaygroundSectionConfig = {
   variant?: string;
   /** When true, section appears on /preview. */
   preview?: boolean;
+  /** When true, section is hidden from the playground builder UI. */
+  hidden?: boolean;
 };
 
 export const playgroundSectionOrderKey = "lifespring-playground-section-order";
+
+const LEGACY_SECTION_GROUP_ALIASES: Partial<Record<string, SectionGroupId>> = {
+  flipCards: "content",
+};
 
 const defaultSectionDefs: Omit<PlaygroundSectionConfig, "id">[] = [
   { group: "header", defaultVariant: "header-v3", preview: false },
   { group: "hero", defaultVariant: "heroWashing-v1", preview: false },
   { group: "spacer", defaultVariant: "spacer-v1", preview: false },
-  { group: "flipCards", preview: false },
+  { group: "content", defaultVariant: "text-icons-v3", preview: false },
   { group: "services", defaultVariant: "services-v1", preview: false },
   { group: "reviewbox", defaultVariant: "reviewbox-v1", preview: false },
   { group: "portfolio", preview: false },
@@ -45,6 +52,50 @@ export function getPreviewSections(sections: PlaygroundSectionConfig[]): Playgro
   return sections.filter((section) => section.preview === true);
 }
 
+export function getVisiblePlaygroundSections(
+  sections: PlaygroundSectionConfig[],
+): PlaygroundSectionConfig[] {
+  return sections.filter((section) => section.hidden !== true);
+}
+
+export function getPlaygroundSectionLabel(
+  sections: PlaygroundSectionConfig[],
+  config: PlaygroundSectionConfig,
+): string {
+  if (config.group === "spacer") {
+    const sectionIndex = sections.findIndex((section) => section.id === config.id);
+    const spacerIndex = sections
+      .slice(0, sectionIndex + 1)
+      .filter((section) => section.group === "spacer").length;
+    return `${sectionGroups[config.group].label} ${spacerIndex}`;
+  }
+
+  return sectionGroups[config.group].label;
+}
+
+export function reorderVisiblePlaygroundSections(
+  sections: PlaygroundSectionConfig[],
+  fromId: string,
+  toId: string,
+): PlaygroundSectionConfig[] {
+  if (fromId === toId) return sections;
+
+  const visible = getVisiblePlaygroundSections(sections);
+  const fromIndex = visible.findIndex((section) => section.id === fromId);
+  const toIndex = visible.findIndex((section) => section.id === toId);
+  if (fromIndex === -1 || toIndex === -1) return sections;
+
+  const reorderedVisible = [...visible];
+  const [moved] = reorderedVisible.splice(fromIndex, 1);
+  reorderedVisible.splice(toIndex, 0, moved);
+
+  let visibleIndex = 0;
+  return sections.map((section) => {
+    if (section.hidden) return section;
+    return reorderedVisible[visibleIndex++] ?? section;
+  });
+}
+
 function fallbackForGroup(group: SectionGroupId): PlaygroundSectionConfig | undefined {
   return defaultPlaygroundSections.find((section) => section.group === group);
 }
@@ -54,7 +105,8 @@ function normalizeStoredSection(item: unknown): PlaygroundSectionConfig | null {
     return null;
   }
 
-  const group = item.group as SectionGroupId;
+  const groupRaw = item.group as string;
+  const group = (LEGACY_SECTION_GROUP_ALIASES[groupRaw] ?? groupRaw) as SectionGroupId;
   if (!knownGroups.has(group)) return null;
 
   const fallback = fallbackForGroup(group);
@@ -70,6 +122,7 @@ function normalizeStoredSection(item: unknown): PlaygroundSectionConfig | null {
     variant: typeof record.variant === "string" ? record.variant : undefined,
     preview:
       typeof record.preview === "boolean" ? record.preview : fallback?.preview ?? false,
+    hidden: typeof record.hidden === "boolean" ? record.hidden : false,
   };
 }
 

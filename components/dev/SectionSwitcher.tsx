@@ -5,6 +5,8 @@ import {
   HeaderV3PreviewProvider,
   HeaderV3PreviewControls,
 } from "@/components/dev/HeaderV3PreviewContext";
+import { HeroBannerPreviewProvider, HeroBannerPreviewControls } from "@/components/dev/HeroBannerPreviewContext";
+import { HeroV1PreviewProvider, HeroV1PreviewControls } from "@/components/dev/HeroV1PreviewContext";
 import { HeroV21PreviewProvider, HeroV21BackgroundControls } from "@/components/dev/HeroV21PreviewContext";
 import { ButtonPreviewControls } from "@/components/dev/ButtonPreviewControls";
 import {
@@ -30,10 +32,15 @@ import {
 import {
   SpacerStripePreviewProvider,
   SpacerStripePreviewControls,
-  SpacerGradientPreviewControls,
 } from "@/components/dev/SpacerStripePreviewContext";
 import {
+  TextIconsV3PreviewProvider,
+  TextIconsV3BackgroundControls,
+} from "@/components/dev/TextIconsV3PreviewContext";
+import { headerVariantUsesPreviewControls } from "@/lib/header-v3-gradient";
+import {
   getSectionVariant,
+  resolveSectionVariantId,
   sectionGroups,
   type SectionGroupId,
 } from "@/lib/section-registry";
@@ -65,36 +72,30 @@ export function SectionSwitcher({
   const initialVariant = defaultVariant ?? section.defaultVariant;
   const [variantId, setVariantId] = useState(initialVariant);
   const isControlled = onVariantChange !== undefined;
-  const activeVariantId = variant ?? variantId;
-
+  const activeVariantId = resolveSectionVariantId(group, variant ?? variantId);
   const activeVariant = getSectionVariant(group, activeVariantId);
   const isSpacer = group === "spacer";
-  const isHeaderV3 = group === "header" && activeVariantId === "header-v3";
+  const isHeaderWithPreview =
+    group === "header" && headerVariantUsesPreviewControls(activeVariantId);
+  const isHeroV1 = group === "hero" && activeVariantId === "hero-v1";
+  const isHeroBanner = group === "hero" && activeVariantId === "hero-banner";
   const isHeroV21 = group === "hero" && activeVariantId === "hero-v2.1";
   const isPortfolioV1 = group === "portfolio" && activeVariantId === "portfolio-v1";
   const isFooterV3 = group === "footer" && activeVariantId === "footer-v3";
   const isReviewboxV1 = group === "reviewbox" && activeVariantId === "reviewbox-v1";
   const isContactV1 = group === "contact" && activeVariantId === "contact-v1";
-  const usesButtonPreview = isHeaderV3 || isHeroV21;
-  const usesExtraControls =
-    usesButtonPreview || isPortfolioV1 || isFooterV3 || isReviewboxV1 || isContactV1;
+  const isTextIconsV3 = group === "content" && activeVariantId === "text-icons-v3";
 
   const switcher = (
     <div
       className={cn(
-        "relative",
-        isSpacer && "pt-9",
-        usesExtraControls && "pt-14",
+        "relative bg-transparent",
+        isSpacer && "section-switcher-spacer",
         className,
       )}
     >
-      <label
-        className={cn(
-          "absolute left-6 z-20 flex flex-wrap items-center gap-2 lg:left-8",
-          isSpacer || usesExtraControls ? "top-1.5" : "top-4",
-        )}
-      >
-        <span className="section-switcher-label font-mono text-sm tracking-widest text-accent-purple uppercase">
+      <div className="section-switcher-controls relative z-20 flex w-full min-w-0 flex-wrap items-center gap-x-3.5 gap-y-2 px-6 py-1.5 lg:px-8">
+        <span className="section-switcher-label shrink-0 font-mono text-sm tracking-widest text-accent-purple uppercase">
           {section.label}
         </span>
         <select
@@ -107,7 +108,7 @@ export function SectionSwitcher({
               setVariantId(nextVariant);
             }
           }}
-          className="section-switcher-select rounded border border-accent-purple/40 bg-background/90 px-2 py-1 font-mono text-sm text-accent-purple backdrop-blur-sm focus:border-accent-purple focus:outline-none"
+          className="section-switcher-select shrink-0 rounded border border-accent-purple/40 bg-background/90 px-2 py-1 font-mono text-sm text-accent-purple backdrop-blur-sm focus:border-accent-purple focus:outline-none"
         >
           {Object.entries(section.variants).map(([key, variant]) => (
             <option key={key} value={key}>
@@ -121,9 +122,13 @@ export function SectionSwitcher({
             <ServicesV1BackgroundSelects />
           </>
         )}
-        {group === "spacer" && activeVariantId === "spacer-v1" && <SpacerStripePreviewControls />}
-        {group === "spacer" && activeVariantId === "spacer-v2" && <SpacerGradientPreviewControls />}
-        {isHeaderV3 && <HeaderV3PreviewControls />}
+        {group === "spacer" &&
+          (activeVariantId === "spacer-v1" || activeVariantId === "spacer-v2") && (
+            <SpacerStripePreviewControls variantId={activeVariantId} />
+          )}
+        {isHeaderWithPreview && <HeaderV3PreviewControls variantId={activeVariantId} />}
+        {isHeroV1 && <HeroV1PreviewControls />}
+        {isHeroBanner && <HeroBannerPreviewControls />}
         {isHeroV21 && (
           <>
             <HeroV21BackgroundControls />
@@ -134,8 +139,9 @@ export function SectionSwitcher({
         {isFooterV3 && <FooterV3PreviewControls />}
         {isReviewboxV1 && <ReviewboxBackgroundControls />}
         {isContactV1 && <ContactV1PreviewControls />}
+        {isTextIconsV3 && <TextIconsV3BackgroundControls />}
         {extraControls?.(activeVariantId)}
-      </label>
+      </div>
       {activeVariant.render()}
     </div>
   );
@@ -146,12 +152,22 @@ export function SectionSwitcher({
 
   if (group === "spacer") {
     return (
-      <SpacerStripePreviewProvider instanceId={sectionId}>{switcher}</SpacerStripePreviewProvider>
+      <SpacerStripePreviewProvider instanceId={sectionId} variantId={activeVariantId}>
+        {switcher}
+      </SpacerStripePreviewProvider>
     );
   }
 
-  if (isHeaderV3) {
+  if (isHeaderWithPreview) {
     return <HeaderV3PreviewProvider>{switcher}</HeaderV3PreviewProvider>;
+  }
+
+  if (isHeroV1) {
+    return <HeroV1PreviewProvider>{switcher}</HeroV1PreviewProvider>;
+  }
+
+  if (isHeroBanner) {
+    return <HeroBannerPreviewProvider>{switcher}</HeroBannerPreviewProvider>;
   }
 
   if (isHeroV21) {
@@ -168,6 +184,10 @@ export function SectionSwitcher({
 
   if (isReviewboxV1) {
     return <ReviewboxPreviewProvider>{switcher}</ReviewboxPreviewProvider>;
+  }
+
+  if (isTextIconsV3) {
+    return <TextIconsV3PreviewProvider>{switcher}</TextIconsV3PreviewProvider>;
   }
 
   return switcher;

@@ -20,5 +20,36 @@ export function getDefaultSpacerStripeStyle(colorThemeId: ColorThemeId): SpacerS
     direction: "none",
     mode: "linear",
     heightPx: 3,
+    overlap: false,
   };
+}
+
+/** Spacer-v2 — horizontal gradient band, light grey left to black right. */
+export function getDefaultSpacerV2StripeStyle(colorThemeId: ColorThemeId): SpacerStripeStyle {
+  const from =
+    colorThemeId === "spartan"
+      ? "#748B9F"
+      : colorThemeId === "dark"
+        ? "#8888A0"
+        : "#56616A";
+
+  return {
+    from,
+    to: "#000000",
+    direction: "to right",
+    mode: "linear",
+    heightPx: 40,
+    overlap: false,
+  };
+}
+
+export function getDefaultSpacerStripeStyleForVariant(
+  variantId: string | undefined,
+  colorThemeId: ColorThemeId,
+): SpacerStripeStyle {
+  if (variantId === "spacer-v2") {
+    return getDefaultSpacerV2StripeStyle(colorThemeId);
+  }
+
+  return getDefaultSpacerStripeStyle(colorThemeId);
 }

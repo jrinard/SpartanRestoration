@@ -682,3 +682,31 @@ export const washingFooter = {
     "WA Contractors License #OSPREPW741CJ",
   ],
 };
+
+export const spartanTextIconsContent = {
+  heading: "Why Choose Spartan Restoration?",
+  subheading:
+    "Water and mold damage move fast. Your restoration team should too. Spartan Restoration serves Vancouver and the Pacific Northwest with the urgency and care a damaged home deserves.",
+  items: [
+    {
+      title: "24/7 Emergency Response",
+      description:
+        "A live person answers day or night. When you're facing damage, you get a real response, not a voicemail loop.",
+    },
+    {
+      title: "Quality You Can See",
+      description:
+        "We keep you informed from the first visit through completion, with work built to last, not just look good on day one.",
+    },
+    {
+      title: "Honest, Competitive Estimates",
+      description:
+        "Clear pricing up front, no surprises. Have a written quote from another licensed contractor? Talk to us. We'll work to earn your business.",
+    },
+    {
+      title: "Licensed, Insured & Certified",
+      description:
+        "Fully insured crews trained to IICRC industry standards, so your property is in qualified hands from start to finish.",
+    },
+  ],
+};

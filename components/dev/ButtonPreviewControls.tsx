@@ -2,6 +2,7 @@
 
 import {
   alphaPercentFromBackground,
+  buttonBorderRadiusOptions,
   buttonPreviewSizes,
   colorInputHexFromBackground,
   defaultHeaderButtonPreviewSettings,
@@ -118,8 +119,13 @@ export function ButtonPreviewControls({
 
   if (!settings) return null;
 
+  const radiusIndex = buttonBorderRadiusOptions.indexOf(
+    settings.navButtonRadiusPx as (typeof buttonBorderRadiusOptions)[number],
+  );
+  const sliderIndex = radiusIndex >= 0 ? radiusIndex : 1;
+
   return (
-    <div className="flex flex-wrap items-center gap-x-3.5 gap-y-2">
+    <div className="contents">
       <BackgroundColorControl
         label="btn-bg"
         value={settings.navBackground}
@@ -168,6 +174,31 @@ export function ButtonPreviewControls({
             </option>
           ))}
         </select>
+      </label>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+          btn-radius
+        </span>
+        <input
+          type="range"
+          min={0}
+          max={buttonBorderRadiusOptions.length - 1}
+          step={1}
+          value={sliderIndex}
+          onChange={(event) =>
+            updateSettings({
+              navButtonRadiusPx: buttonBorderRadiusOptions[Number(event.target.value)],
+            })
+          }
+          className={alphaRangeClassName}
+          aria-label={`${target} button border radius`}
+          aria-valuemin={buttonBorderRadiusOptions[0]}
+          aria-valuemax={buttonBorderRadiusOptions[buttonBorderRadiusOptions.length - 1]}
+          aria-valuenow={settings.navButtonRadiusPx}
+        />
+        <span className="w-8 font-mono text-[0.65rem] text-accent-purple">
+          {settings.navButtonRadiusPx}px
+        </span>
       </label>
       {buttonOnlyReset && (
         <button

@@ -4,18 +4,20 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type PlaygroundSectionSlotProps = {
-  index: number;
+  sectionId: string;
   label: string;
   compactControls?: boolean;
   previewChecked: boolean;
   onPreviewChange: (checked: boolean) => void;
+  hiddenChecked: boolean;
+  onHiddenChange: (checked: boolean) => void;
   onDuplicate?: () => void;
   isDragging: boolean;
   isDropTarget: boolean;
-  onDragStart: (index: number) => void;
+  onDragStart: (sectionId: string) => void;
   onDragEnd: () => void;
-  onDragOver: (index: number) => void;
-  onDrop: (fromIndex: number, toIndex: number) => void;
+  onDragOver: (sectionId: string) => void;
+  onDrop: (fromSectionId: string, toSectionId: string) => void;
   children: ReactNode;
 };
 
@@ -31,11 +33,13 @@ function HamburgerIcon() {
 }
 
 export function PlaygroundSectionSlot({
-  index,
+  sectionId,
   label,
   compactControls = false,
   previewChecked,
   onPreviewChange,
+  hiddenChecked,
+  onHiddenChange,
   onDuplicate,
   isDragging,
   isDropTarget,
@@ -48,20 +52,21 @@ export function PlaygroundSectionSlot({
   return (
     <div
       className={cn(
-        "relative transition-shadow",
+        "playground-section-slot relative transition-shadow",
+        compactControls && "playground-section-slot--spacer",
         isDragging && "opacity-60",
         isDropTarget && "ring-2 ring-inset ring-accent-purple/50",
       )}
       onDragOver={(event) => {
         event.preventDefault();
         event.dataTransfer.dropEffect = "move";
-        onDragOver(index);
+        onDragOver(sectionId);
       }}
       onDrop={(event) => {
         event.preventDefault();
-        const fromIndex = Number(event.dataTransfer.getData("text/plain"));
-        if (!Number.isNaN(fromIndex)) {
-          onDrop(fromIndex, index);
+        const fromSectionId = event.dataTransfer.getData("text/plain");
+        if (fromSectionId) {
+          onDrop(fromSectionId, sectionId);
         }
       }}
     >
@@ -83,6 +88,16 @@ export function PlaygroundSectionSlot({
             Preview
           </span>
         </label>
+        <label className="flex cursor-pointer items-center gap-1.5 rounded border border-white/20 bg-background/90 px-2 py-1.5 backdrop-blur-sm">
+          <input
+            type="checkbox"
+            checked={hiddenChecked}
+            onChange={(event) => onHiddenChange(event.target.checked)}
+            className="h-3.5 w-3.5 accent-accent-purple"
+            aria-label={`Hide ${label} from playground`}
+          />
+          <span className="font-mono text-xs tracking-wide text-white/70 uppercase">Hide</span>
+        </label>
         {onDuplicate && (
           <button
             type="button"
@@ -98,8 +113,8 @@ export function PlaygroundSectionSlot({
           draggable
           onDragStart={(event) => {
             event.dataTransfer.effectAllowed = "move";
-            event.dataTransfer.setData("text/plain", String(index));
-            onDragStart(index);
+            event.dataTransfer.setData("text/plain", sectionId);
+            onDragStart(sectionId);
           }}
           onDragEnd={onDragEnd}
           className="flex h-8 w-8 cursor-grab items-center justify-center rounded border border-accent-purple/40 bg-background/90 text-accent-purple backdrop-blur-sm active:cursor-grabbing"

@@ -1,4 +1,9 @@
 import {
+  formatButtonBackgroundColor,
+  normalizeButtonBorderRadiusPx,
+  parseButtonBackgroundColor,
+} from "@/lib/button-preview";
+import {
   defaultHeaderV3PreviewSettings,
   type HeaderV3LayoutWidth,
   type HeaderV3LogoVariant,
@@ -20,12 +25,38 @@ function isHeaderV3LayoutWidth(value: unknown): value is HeaderV3LayoutWidth {
   return value === "contained" || value === "full";
 }
 
-function normalizeHeaderV3PreviewSettings(
+import type { PreviewGradientDirection, PreviewGradientMode } from "@/lib/preview-gradient";
+
+function isPreviewGradientMode(value: unknown): value is PreviewGradientMode {
+  return value === "linear" || value === "center-fade";
+}
+
+function isPreviewGradientDirection(value: unknown): value is PreviewGradientDirection {
+  return (
+    value === "none" ||
+    value === "to bottom" ||
+    value === "to top" ||
+    value === "to right" ||
+    value === "to left" ||
+    value === "to bottom right" ||
+    value === "to bottom left" ||
+    value === "to top right" ||
+    value === "to top left"
+  );
+}
+
+export function normalizeHeaderV3PreviewSettings(
   value: Partial<HeaderV3PreviewSettings>,
 ): HeaderV3PreviewSettings {
   return {
     ...defaultHeaderV3PreviewSettings,
     ...value,
+    backgroundMode: isPreviewGradientMode(value.backgroundMode)
+      ? value.backgroundMode
+      : defaultHeaderV3PreviewSettings.backgroundMode,
+    backgroundDirection: isPreviewGradientDirection(value.backgroundDirection)
+      ? value.backgroundDirection
+      : defaultHeaderV3PreviewSettings.backgroundDirection,
     navButtonSize: isHeaderV3NavButtonSize(value.navButtonSize)
       ? value.navButtonSize
       : defaultHeaderV3PreviewSettings.navButtonSize,
@@ -35,6 +66,26 @@ function normalizeHeaderV3PreviewSettings(
     layoutWidth: isHeaderV3LayoutWidth(value.layoutWidth)
       ? value.layoutWidth
       : defaultHeaderV3PreviewSettings.layoutWidth,
+    headerHeightPx:
+      typeof value.headerHeightPx === "number" && value.headerHeightPx >= 48
+        ? Math.round(value.headerHeightPx)
+        : defaultHeaderV3PreviewSettings.headerHeightPx,
+    logoHeightPx:
+      typeof value.logoHeightPx === "number" && value.logoHeightPx >= 0
+        ? Math.round(value.logoHeightPx)
+        : defaultHeaderV3PreviewSettings.logoHeightPx,
+    logoBackgroundColor:
+      typeof value.logoBackgroundColor === "string"
+        ? formatButtonBackgroundColor(parseButtonBackgroundColor(value.logoBackgroundColor))
+        : defaultHeaderV3PreviewSettings.logoBackgroundColor,
+    logoMarginTopPx:
+      typeof value.logoMarginTopPx === "number" && value.logoMarginTopPx >= 0
+        ? Math.round(value.logoMarginTopPx)
+        : defaultHeaderV3PreviewSettings.logoMarginTopPx,
+    navButtonRadiusPx:
+      typeof value.navButtonRadiusPx === "number"
+        ? normalizeButtonBorderRadiusPx(Math.round(value.navButtonRadiusPx))
+        : defaultHeaderV3PreviewSettings.navButtonRadiusPx,
   };
 }
 

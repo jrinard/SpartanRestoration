@@ -3,60 +3,48 @@
 import { useState } from "react";
 import { PlaygroundSectionSlot } from "@/components/dev/PlaygroundSectionSlot";
 import { SectionSwitcher } from "@/components/dev/SectionSwitcher";
-import { sectionGroups } from "@/lib/section-registry";
+import { usePlaygroundSections } from "@/components/dev/PlaygroundSectionsProvider";
 import {
+  getPlaygroundSectionLabel,
   getPlaygroundSectionVariant,
-  type PlaygroundSectionConfig,
+  reorderVisiblePlaygroundSections,
 } from "@/lib/playground-sections";
-import { usePlaygroundSections } from "@/lib/use-playground-sections";
-
-function reorderSections(
-  sections: PlaygroundSectionConfig[],
-  fromIndex: number,
-  toIndex: number,
-) {
-  if (fromIndex === toIndex) return sections;
-
-  const next = [...sections];
-  const [moved] = next.splice(fromIndex, 1);
-  next.splice(toIndex, 0, moved);
-  return next;
-}
 
 export function HomePage() {
-  const { sections, setSections, updateSection, duplicateSpacer } = usePlaygroundSections();
-  const [dragIndex, setDragIndex] = useState<number | null>(null);
-  const [overIndex, setOverIndex] = useState<number | null>(null);
+  const { sections, setSections, updateSection, duplicateSpacer, visibleSections } =
+    usePlaygroundSections();
+  const [dragSectionId, setDragSectionId] = useState<string | null>(null);
+  const [overSectionId, setOverSectionId] = useState<string | null>(null);
 
   return (
-    <main id="main-content">
-      {sections.map((config, index) => (
+    <main id="main-content" className="playground-sections">
+      {visibleSections.map((config) => (
         <PlaygroundSectionSlot
           key={config.id}
-          index={index}
-          label={
-            config.group === "spacer"
-              ? `${sectionGroups[config.group].label} ${sections.slice(0, index + 1).filter((s) => s.group === "spacer").length}`
-              : sectionGroups[config.group].label
-          }
+          sectionId={config.id}
+          label={getPlaygroundSectionLabel(sections, config)}
           compactControls={config.group === "spacer"}
           previewChecked={config.preview === true}
           onPreviewChange={(checked) => updateSection(config.id, { preview: checked })}
+          hiddenChecked={config.hidden === true}
+          onHiddenChange={(checked) => updateSection(config.id, { hidden: checked })}
           onDuplicate={
             config.group === "spacer" ? () => duplicateSpacer(config.id) : undefined
           }
-          isDragging={dragIndex === index}
-          isDropTarget={overIndex === index && dragIndex !== null && dragIndex !== index}
-          onDragStart={setDragIndex}
+          isDragging={dragSectionId === config.id}
+          isDropTarget={
+            overSectionId === config.id && dragSectionId !== null && dragSectionId !== config.id
+          }
+          onDragStart={setDragSectionId}
           onDragEnd={() => {
-            setDragIndex(null);
-            setOverIndex(null);
+            setDragSectionId(null);
+            setOverSectionId(null);
           }}
-          onDragOver={setOverIndex}
-          onDrop={(fromIndex, toIndex) => {
-            setSections(reorderSections(sections, fromIndex, toIndex));
-            setDragIndex(null);
-            setOverIndex(null);
+          onDragOver={setOverSectionId}
+          onDrop={(fromSectionId, toSectionId) => {
+            setSections(reorderVisiblePlaygroundSections(sections, fromSectionId, toSectionId));
+            setDragSectionId(null);
+            setOverSectionId(null);
           }}
         >
           <SectionSwitcher

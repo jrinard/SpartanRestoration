@@ -5,7 +5,7 @@ import {
 } from "@/components/sections/Spacer";
 import type { ColorThemeId } from "@/lib/color-themes";
 import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
-import { getDefaultSpacerStripeStyle } from "@/lib/spacer-defaults";
+import { getDefaultSpacerStripeStyleForVariant } from "@/lib/spacer-defaults";
 import {
   loadSpacerInstanceSettings,
   saveSpacerInstanceSettings,
@@ -14,6 +14,18 @@ import {
 
 export const spacerStripeStorageKey = "lifespring-spacer-stripe-style";
 export const spacerGradientStorageKey = "lifespring-spacer-gradient-style";
+
+function normalizeSpacerStripeStyle(
+  style: SpacerStripeStyle,
+  colorThemeId: ColorThemeId,
+  variantId?: string,
+): SpacerStripeStyle {
+  return {
+    ...getDefaultSpacerStripeStyleForVariant(variantId, colorThemeId),
+    ...style,
+    overlap: style.overlap === true,
+  };
+}
 
 function isSpacerStripeStyle(value: unknown): value is SpacerStripeStyle {
   if (!value || typeof value !== "object") return false;
@@ -86,23 +98,30 @@ function getCommittedSpacerSettings(instanceId?: string): SpacerInstanceSettings
 export function loadSpacerStripeStyle(
   colorThemeId: ColorThemeId,
   instanceId?: string,
+  variantId?: string,
 ): SpacerStripeStyle {
   const committed = getCommittedSpacerSettings(instanceId);
-  if (committed?.stripe) return committed.stripe;
+  if (committed?.stripe) {
+    return normalizeSpacerStripeStyle(committed.stripe, colorThemeId, variantId);
+  }
 
   if (instanceId) {
     const instance = loadSpacerInstanceSettings(instanceId);
-    if (instance?.stripe) return instance.stripe;
+    if (instance?.stripe) {
+      return normalizeSpacerStripeStyle(instance.stripe, colorThemeId, variantId);
+    }
   }
 
   if (typeof window === "undefined") {
-    return getDefaultSpacerStripeStyle(colorThemeId);
+    return getDefaultSpacerStripeStyleForVariant(variantId, colorThemeId);
   }
 
   const legacy = loadLegacyStripeFromStorage();
-  if (legacy) return legacy;
+  if (legacy) {
+    return normalizeSpacerStripeStyle(legacy, colorThemeId, variantId);
+  }
 
-  return getDefaultSpacerStripeStyle(colorThemeId);
+  return getDefaultSpacerStripeStyleForVariant(variantId, colorThemeId);
 }
 
 export function loadSpacerGradientStyle(instanceId?: string): SpacerGradientStyle {
