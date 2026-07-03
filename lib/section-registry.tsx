@@ -29,6 +29,7 @@ import { ServicesV1WithLayout } from "@/components/dev/ServicesV1WithLayout";
 import { ServicesV2 } from "@/components/sections/Services-v2";
 import { ServicesV3 } from "@/components/sections/Services-v3";
 import { ServicesIconsV1 } from "@/components/sections/ServicesIcons-v1";
+import { ServicesIconsV2WithPreview } from "@/components/dev/ServicesIconsV2WithPreview";
 import { CTAV1 } from "@/components/sections/CTA-v1";
 import { CTAV2 } from "@/components/sections/CTA-v2";
 import { ContactV1 } from "@/components/sections/Contact-v1";
@@ -57,6 +58,10 @@ import {
   logoBarHeading,
   servicesIconsHeading,
   servicesIconsSubheading,
+  servicesIconsV2Heading,
+  servicesIconsV2SeoDescription,
+  servicesIconsV2Services,
+  servicesIconsV2Cta,
   washingHero,
   washingFlipCards,
   fourFlipCards,
@@ -381,6 +386,17 @@ export const sectionGroups = {
             services={iconServices}
             ctaLabel={heroDemo.ctaLabel}
             ctaHref={heroDemo.ctaHref}
+          />
+        ),
+      },
+      "servicesIcons-v2": {
+        label: "ServicesIcons-v2",
+        render: () => (
+          <ServicesIconsV2WithPreview
+            heading={servicesIconsV2Heading}
+            seoDescription={servicesIconsV2SeoDescription}
+            services={[...servicesIconsV2Services]}
+            cta={servicesIconsV2Cta}
           />
         ),
       },

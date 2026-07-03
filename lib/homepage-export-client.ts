@@ -30,6 +30,7 @@ import { textImagePreviewStorageKey } from "@/lib/text-image-preview-storage";
 import { navBarPreviewStorageKey } from "@/lib/nav-bar-preview-storage";
 import { topBarPreviewStorageKey } from "@/lib/top-bar-preview-storage";
 import { servicesV1PreviewStorageKey } from "@/lib/services-v1-preview-storage";
+import { servicesIconsV2PreviewStorageKey } from "@/lib/services-icons-v2-preview-storage";
 import { loadAllSpacerInstanceSettings } from "@/lib/spacer-instance-storage";
 import {
   spacerGradientStorageKey,
@@ -107,6 +108,7 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
     contact: readJson(contactPreviewStorageKey),
     textIconsV3: readJson(textIconsV3PreviewStorageKey),
     textImage: readJson(textImagePreviewStorageKey),
+    servicesIconsV2: readJson(servicesIconsV2PreviewStorageKey),
   };
 
   const hasPreviewSettings = Object.entries(previewSettings).some(([key, value]) => {

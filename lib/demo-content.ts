@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import type { SiteIconName } from "@/lib/site-icons";
 
 export const heroDemo = {
   headline: siteConfig.name,
@@ -469,6 +470,89 @@ export const logoBarHeading = "Companies We Work With";
 export const servicesIconsHeading = "Our Services";
 
 export const servicesIconsSubheading = `${siteConfig.name} offers design, development, and marketing support under one roof. Tell us what you need—we will help you get there.`;
+
+export const servicesIconsV2Heading = "Our Services";
+
+export const servicesIconsV2SeoDescription = `${siteConfig.name} provides emergency water damage restoration, mold remediation, structural drying, and insurance claim support in Vancouver, WA and Portland, OR.`;
+
+export const servicesIconsV2Services: ReadonlyArray<{
+  id: string;
+  title: string;
+  icon: SiteIconName;
+  description: string;
+}> = [
+  {
+    id: "water-mitigation",
+    title: "Water Mitigation & Extraction",
+    icon: "droplets",
+    description: "Emergency water mitigation and extraction for flooded properties.",
+  },
+  {
+    id: "structural-drying",
+    title: "Structural Drying",
+    icon: "wind",
+    description: "Structural drying and dehumidification to prevent secondary damage.",
+  },
+  {
+    id: "mold-remediation",
+    title: "Mold Remediation",
+    icon: "biohazard",
+    description: "Mold remediation and microbial treatment for affected structures.",
+  },
+  {
+    id: "hepa-vacuum",
+    title: "HEPA Vacuum & Air Scrubbing",
+    icon: "fan",
+    description: "HEPA vacuuming and air scrubbing to improve indoor air quality.",
+  },
+  {
+    id: "cleaning-sanitization",
+    title: "Cleaning & Sanitization",
+    icon: "sparkles",
+    description: "Structural cleaning and sanitization after water or fire damage.",
+  },
+  {
+    id: "flood-cleanup",
+    title: "Flood Damage Cleanup",
+    icon: "waves",
+    description: "Flood damage cleanup for residential and commercial properties.",
+  },
+  {
+    id: "moisture-mapping",
+    title: "Moisture Mapping & Inspection",
+    icon: "scan-search",
+    description: "Moisture mapping and inspections to locate hidden water damage.",
+  },
+  {
+    id: "odor-removal",
+    title: "Odor Removal",
+    icon: "air-vent",
+    description: "Odor removal and air treatment after restoration work.",
+  },
+  {
+    id: "insurance-claims",
+    title: "Insurance Claim Support",
+    icon: "clipboard-check",
+    description: "Insurance documentation and claim support throughout your project.",
+  },
+  {
+    id: "demolition",
+    title: "Demolition & Debris Removal",
+    icon: "hammer",
+    description: "Demolition of water-damaged materials and debris removal.",
+  },
+  {
+    id: "contents-protection",
+    title: "Contents Protection",
+    icon: "package",
+    description: "Contents protection and jobsite containment during restoration.",
+  },
+];
+
+export const servicesIconsV2Cta = {
+  label: siteConfig.phone,
+  href: `tel:${siteConfig.phone.replace(/\D/g, "")}`,
+};
 
 /** OSP-style washing demo content — paraphrased placeholders for preview. */
 export const washingHero = {

@@ -164,3 +164,42 @@ export function buildServicesItemListSchema(
     })),
   };
 }
+
+export type ServicesIconsV2SchemaService = {
+  name: string;
+  description?: string;
+};
+
+/** ItemList JSON-LD for ServicesIcons-v2 — uses resolved card labels. */
+export function buildServicesIconsV2ItemListSchema(
+  heading: string,
+  seoDescription: string,
+  services: ServicesIconsV2SchemaService[],
+): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: heading,
+    description: seoDescription,
+    numberOfItems: services.length,
+    itemListElement: services.map((service, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Service",
+        name: service.name,
+        ...(service.description && { description: service.description }),
+        provider: {
+          "@type": "HomeAndConstructionBusiness",
+          name: siteConfig.name,
+          url: siteConfig.url,
+          ...(siteConfig.phone && { telephone: siteConfig.phone }),
+        },
+        areaServed: spartanRestorationSeo.areaServed.map((name) => ({
+          "@type": "AdministrativeArea",
+          name,
+        })),
+      },
+    })),
+  };
+}

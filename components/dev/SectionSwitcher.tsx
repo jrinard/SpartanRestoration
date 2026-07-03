@@ -24,6 +24,10 @@ import {
   ServicesV1BackgroundSelects,
 } from "@/components/dev/ServicesV1LayoutContext";
 import {
+  ServicesIconsV2PreviewProvider,
+  ServicesIconsV2PreviewControls,
+} from "@/components/dev/ServicesIconsV2PreviewContext";
+import {
   PortfolioPreviewProvider,
   PortfolioPreviewControls,
 } from "@/components/dev/PortfolioPreviewContext";
@@ -107,6 +111,7 @@ export function SectionSwitcher({
   const isContactV1 = group === "contact" && activeVariantId === "contact-v1";
   const isTextIconsV3 = group === "content" && activeVariantId === "text-icons-v3";
   const isTextImageV1 = group === "content" && activeVariantId === "text-image-v1";
+  const isServicesIconsV2 = group === "services" && activeVariantId === "servicesIcons-v2";
 
   const switcher = (
     <div
@@ -144,6 +149,7 @@ export function SectionSwitcher({
             <ServicesV1BackgroundSelects />
           </>
         )}
+        {isServicesIconsV2 && <ServicesIconsV2PreviewControls />}
         {group === "spacer" &&
           (activeVariantId === "spacer-v1" || activeVariantId === "spacer-v2") && (
             <SpacerStripePreviewControls variantId={activeVariantId} />
@@ -180,6 +186,12 @@ export function SectionSwitcher({
       {activeVariant.render()}
     </div>
   );
+
+  if (isServicesIconsV2) {
+    return (
+      <ServicesIconsV2PreviewProvider enableContentEditing>{switcher}</ServicesIconsV2PreviewProvider>
+    );
+  }
 
   if (group === "services") {
     return <ServicesV1LayoutProvider>{switcher}</ServicesV1LayoutProvider>;

@@ -11,6 +11,7 @@ import { FooterV3PreviewProvider } from "@/components/dev/FooterV3PreviewContext
 import { FooterV1PreviewProvider } from "@/components/dev/FooterV1PreviewContext";
 import { ReviewboxPreviewProvider } from "@/components/dev/ReviewboxPreviewContext";
 import { ServicesV1LayoutProvider } from "@/components/dev/ServicesV1LayoutContext";
+import { ServicesIconsV2PreviewProvider } from "@/components/dev/ServicesIconsV2PreviewContext";
 import { SpacerStripePreviewProvider } from "@/components/dev/SpacerStripePreviewContext";
 import { TextIconsV3PreviewProvider } from "@/components/dev/TextIconsV3PreviewContext";
 import { TextImagePreviewProvider } from "@/components/dev/TextImagePreviewContext";
@@ -50,6 +51,14 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
       <NavBarPreviewProvider initialSettings={previewSettings?.navBar}>
         {content}
       </NavBarPreviewProvider>
+    );
+  }
+
+  if (group === "services" && variantId === "servicesIcons-v2") {
+    return (
+      <ServicesIconsV2PreviewProvider initialSettings={previewSettings?.servicesIconsV2}>
+        {content}
+      </ServicesIconsV2PreviewProvider>
     );
   }
 
