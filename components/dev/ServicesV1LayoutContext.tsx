@@ -18,10 +18,12 @@ import {
   servicesV1LayoutWidths,
   type ServicesV1LayoutWidth,
 } from "@/lib/services-v1-preview";
+import { loadServicesV1LayoutWidth, saveServicesV1LayoutWidth } from "@/lib/services-v1-preview-storage";
 import {
-  loadServicesV1LayoutWidth,
-  saveServicesV1LayoutWidth,
-} from "@/lib/services-v1-preview-storage";
+  loadSectionInstanceField,
+  patchSectionInstanceSettings,
+  type ServicesV1InstanceSettings,
+} from "@/lib/section-instance-storage";
 
 type ServicesV1LayoutContextValue = {
   layoutWidth: ServicesV1LayoutWidth;
@@ -40,20 +42,75 @@ const gradientDirections = previewGradientDirections;
 
 const ServicesV1LayoutContext = createContext<ServicesV1LayoutContextValue | null>(null);
 
-export function ServicesV1LayoutProvider({ children }: { children: ReactNode }) {
+function loadServicesV1Instance(instanceId?: string): ServicesV1InstanceSettings {
+  if (instanceId) {
+    const stored = loadSectionInstanceField(instanceId, "servicesV1");
+    if (stored) return stored;
+  }
+
+  return { layoutWidth: loadServicesV1LayoutWidth(), background: defaultBackground };
+}
+
+type ServicesV1LayoutProviderProps = {
+  children: ReactNode;
+  instanceId?: string;
+  initialSettings?: ServicesV1InstanceSettings;
+};
+
+export function ServicesV1LayoutProvider({
+  children,
+  instanceId,
+  initialSettings,
+}: ServicesV1LayoutProviderProps) {
+  const lockedToPublished = initialSettings !== undefined;
+  const seed = initialSettings ?? loadServicesV1Instance(instanceId);
+
   const [layoutWidth, setLayoutWidthState] = useState<ServicesV1LayoutWidth>(
-    defaultServicesV1LayoutWidth,
+    seed.layoutWidth ?? defaultServicesV1LayoutWidth,
   );
-  const [background, setBackground] = useState<ServicesV1Background>(defaultBackground);
+  const [background, setBackgroundState] = useState<ServicesV1Background>(
+    seed.background ?? defaultBackground,
+  );
 
   useEffect(() => {
-    setLayoutWidthState(loadServicesV1LayoutWidth());
-  }, []);
+    if (lockedToPublished) return;
+    const next = loadServicesV1Instance(instanceId);
+    setLayoutWidthState(next.layoutWidth ?? defaultServicesV1LayoutWidth);
+    setBackgroundState(next.background ?? defaultBackground);
+  }, [instanceId, lockedToPublished]);
 
-  const setLayoutWidth = useCallback((next: ServicesV1LayoutWidth) => {
-    setLayoutWidthState(next);
-    saveServicesV1LayoutWidth(next);
-  }, []);
+  const persist = useCallback(
+    (patch: Partial<ServicesV1InstanceSettings>) => {
+      if (lockedToPublished) return;
+      if (instanceId) {
+        const current = loadSectionInstanceField(instanceId, "servicesV1") ?? {};
+        patchSectionInstanceSettings(instanceId, {
+          servicesV1: { ...current, ...patch },
+        });
+        return;
+      }
+      if (patch.layoutWidth) {
+        saveServicesV1LayoutWidth(patch.layoutWidth);
+      }
+    },
+    [instanceId, lockedToPublished],
+  );
+
+  const setLayoutWidth = useCallback(
+    (next: ServicesV1LayoutWidth) => {
+      setLayoutWidthState(next);
+      persist({ layoutWidth: next, background });
+    },
+    [background, persist],
+  );
+
+  const setBackground = useCallback(
+    (next: ServicesV1Background) => {
+      setBackgroundState(next);
+      persist({ layoutWidth, background: next });
+    },
+    [layoutWidth, persist],
+  );
 
   return (
     <ServicesV1LayoutContext.Provider
@@ -87,7 +144,7 @@ export function ServicesV1LayoutSelect() {
           context.setLayoutWidth(event.target.value as ServicesV1LayoutWidth)
         }
         className={selectClassName}
-        aria-label="Services layout width"
+        aria-label="Services section layout width"
       >
         {servicesV1LayoutWidths.map((option) => (
           <option key={option.value} value={option.value}>
@@ -105,8 +162,8 @@ export function ServicesV1BackgroundSelects() {
 
   return (
     <>
-      <label className="flex items-center gap-1.5">
-        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">BG 1</span>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">From</span>
         <input
           type="color"
           value={context.background.from}
@@ -114,11 +171,11 @@ export function ServicesV1BackgroundSelects() {
             context.setBackground({ ...context.background, from: event.target.value })
           }
           className={colorInputClassName}
-          aria-label="Services v1 background gradient start color"
+          aria-label="Services background gradient start color"
         />
       </label>
-      <label className="flex items-center gap-1.5">
-        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">BG 2</span>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">To</span>
         <input
           type="color"
           value={context.background.to}
@@ -126,26 +183,29 @@ export function ServicesV1BackgroundSelects() {
             context.setBackground({ ...context.background, to: event.target.value })
           }
           className={colorInputClassName}
-          aria-label="Services v1 background gradient end color"
+          aria-label="Services background gradient end color"
         />
       </label>
-      <select
-        value={context.background.direction}
-        onChange={(event) =>
-          context.setBackground({
-            ...context.background,
-            direction: event.target.value as ServicesV1GradientDirection,
-          })
-        }
-        className={selectClassName}
-        aria-label="Services v1 background gradient direction"
-      >
-        {gradientDirections.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Dir</span>
+        <select
+          value={context.background.direction}
+          onChange={(event) =>
+            context.setBackground({
+              ...context.background,
+              direction: event.target.value as ServicesV1GradientDirection,
+            })
+          }
+          className={selectClassName}
+          aria-label="Services background gradient direction"
+        >
+          {gradientDirections.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </label>
     </>
   );
 }

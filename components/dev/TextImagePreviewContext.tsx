@@ -15,16 +15,14 @@ import {
   parseTextImageHeadlineDraft,
   resolveTextImageContent,
   textImageEntranceSpeedOptions,
+  textImagePhoneButtonMarginOptions,
   textImageSectionThemes,
   type TextImageContent,
   type TextImagePreviewSettings,
   type TextImageSectionTheme,
 } from "@/lib/text-image-preview";
+import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import { phoneTelHref } from "@/lib/phone";
-import {
-  loadTextImageInstanceSettings,
-  saveTextImageInstanceSettings,
-} from "@/lib/content-instance-storage";
 import {
   loadTextImagePreviewSettings,
   normalizeTextImagePreviewSettings,
@@ -59,39 +57,22 @@ export function TextImagePreviewProvider({
   initialSettings,
   enableContentEditing = false,
 }: TextImagePreviewProviderProps) {
-  const [settings, setSettingsState] = useState<TextImagePreviewSettings>(() => {
-    if (initialSettings) {
-      return normalizeTextImagePreviewSettings(initialSettings);
-    }
-    if (instanceId) {
-      return loadTextImageInstanceSettings(instanceId) ?? defaultTextImagePreviewSettings;
-    }
-    return defaultTextImagePreviewSettings;
+  const { settings, setSettings: persistSettings } = useInstancePreviewSettings({
+    instanceId,
+    field: "textImage",
+    initialSettings,
+    defaultSettings: defaultTextImagePreviewSettings,
+    loadGlobal: loadTextImagePreviewSettings,
+    saveGlobal: saveTextImagePreviewSettings,
+    normalize: normalizeTextImagePreviewSettings,
   });
-
-  useEffect(() => {
-    if (initialSettings !== undefined) return;
-    if (instanceId) {
-      setSettingsState(
-        loadTextImageInstanceSettings(instanceId) ?? loadTextImagePreviewSettings(),
-      );
-      return;
-    }
-    setSettingsState(loadTextImagePreviewSettings());
-  }, [instanceId, initialSettings]);
 
   const setSettings = useCallback(
     (next: TextImagePreviewSettings) => {
       if (!enableContentEditing) return;
-      const normalized = normalizeTextImagePreviewSettings(next);
-      setSettingsState(normalized);
-      if (instanceId) {
-        saveTextImageInstanceSettings(instanceId, normalized);
-        return;
-      }
-      saveTextImagePreviewSettings(normalized);
+      persistSettings(next);
     },
-    [enableContentEditing, instanceId],
+    [enableContentEditing, persistSettings],
   );
 
   const getContent = useCallback(
@@ -102,9 +83,7 @@ export function TextImagePreviewProvider({
   const setContentEyebrow = useCallback(
     (value: string) => {
       if (!enableContentEditing) return;
-      const trimmed = value.trim();
-      if (!trimmed) return;
-      setSettings({ ...settings, contentEyebrow: trimmed });
+      setSettings({ ...settings, contentEyebrow: value.trim() });
     },
     [enableContentEditing, settings, setSettings],
   );
@@ -112,7 +91,6 @@ export function TextImagePreviewProvider({
   const setContentHeadlineLines = useCallback(
     (lines: string[]) => {
       if (!enableContentEditing) return;
-      if (lines.length === 0) return;
       setSettings({ ...settings, contentHeadlineLines: lines });
     },
     [enableContentEditing, settings, setSettings],
@@ -121,9 +99,7 @@ export function TextImagePreviewProvider({
   const setContentBody = useCallback(
     (value: string) => {
       if (!enableContentEditing) return;
-      const trimmed = value.trim();
-      if (!trimmed) return;
-      setSettings({ ...settings, contentBody: trimmed });
+      setSettings({ ...settings, contentBody: value.trim() });
     },
     [enableContentEditing, settings, setSettings],
   );
@@ -131,9 +107,7 @@ export function TextImagePreviewProvider({
   const setContentSidebarText = useCallback(
     (value: string) => {
       if (!enableContentEditing) return;
-      const trimmed = value.trim();
-      if (!trimmed) return;
-      setSettings({ ...settings, contentSidebarText: trimmed });
+      setSettings({ ...settings, contentSidebarText: value.trim() });
     },
     [enableContentEditing, settings, setSettings],
   );
@@ -142,11 +116,12 @@ export function TextImagePreviewProvider({
     (label: string, href?: string) => {
       if (!enableContentEditing) return;
       const trimmedLabel = label.trim();
-      if (!trimmedLabel) return;
       setSettings({
         ...settings,
         contentPhoneLabel: trimmedLabel,
-        contentPhoneHref: href?.trim() || phoneTelHref(trimmedLabel),
+        contentPhoneHref: trimmedLabel
+          ? href?.trim() || phoneTelHref(trimmedLabel)
+          : "",
       });
     },
     [enableContentEditing, settings, setSettings],
@@ -312,6 +287,21 @@ export function TextImagePreviewControls() {
         />
       </label>
       <ButtonPreviewControls target="textImage" />
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Btn Top</span>
+        <select
+          value={context.settings.phoneButtonMarginTopPx}
+          onChange={(event) => update({ phoneButtonMarginTopPx: Number(event.target.value) })}
+          className={selectClassName}
+          aria-label="Text and image phone button top margin"
+        >
+          {textImagePhoneButtonMarginOptions.map((margin) => (
+            <option key={margin} value={margin}>
+              {margin}px
+            </option>
+          ))}
+        </select>
+      </label>
       <label className="flex cursor-pointer items-center gap-1.5 rounded border border-accent-purple/40 bg-background/90 px-2 py-1.5 backdrop-blur-sm">
         <input
           type="checkbox"

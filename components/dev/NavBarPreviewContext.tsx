@@ -16,6 +16,7 @@ import {
   type NavBarPreviewSettings,
 } from "@/lib/nav-bar-preview";
 import { playgroundNavSyncEvent } from "@/lib/playground-nav-sync";
+import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadNavBarPreviewSettings,
   normalizeNavBarPreviewSettings,
@@ -31,46 +32,41 @@ const NavBarPreviewContext = createContext<NavBarPreviewContextValue | null>(nul
 
 type NavBarPreviewProviderProps = {
   children: ReactNode;
+  instanceId?: string;
   initialSettings?: NavBarPreviewSettings;
 };
 
+function mergeNavBarLinksFromGlobal(settings: NavBarPreviewSettings): NavBarPreviewSettings {
+  const global = loadNavBarPreviewSettings();
+  return normalizeNavBarPreviewSettings({ ...settings, items: global.items });
+}
+
 export function NavBarPreviewProvider({
   children,
+  instanceId,
   initialSettings,
 }: NavBarPreviewProviderProps) {
-  const lockedToPublished = initialSettings !== undefined;
-
-  const [settings, setSettingsState] = useState<NavBarPreviewSettings>(() =>
-    initialSettings
-      ? normalizeNavBarPreviewSettings(initialSettings)
-      : defaultNavBarPreviewSettings,
-  );
-
-  useEffect(() => {
-    if (lockedToPublished) return;
-    setSettingsState(loadNavBarPreviewSettings());
-  }, [lockedToPublished]);
+  const { settings, setSettings, lockedToPublished, reload } = useInstancePreviewSettings({
+    instanceId,
+    field: "navBar",
+    initialSettings,
+    defaultSettings: defaultNavBarPreviewSettings,
+    loadGlobal: loadNavBarPreviewSettings,
+    saveGlobal: saveNavBarPreviewSettings,
+    normalize: normalizeNavBarPreviewSettings,
+    afterLoad: mergeNavBarLinksFromGlobal,
+  });
 
   useEffect(() => {
     if (lockedToPublished) return;
 
     const handleNavSync = () => {
-      setSettingsState(loadNavBarPreviewSettings());
+      setSettings(reload());
     };
 
     window.addEventListener(playgroundNavSyncEvent, handleNavSync);
     return () => window.removeEventListener(playgroundNavSyncEvent, handleNavSync);
-  }, [lockedToPublished]);
-
-  const setSettings = useCallback(
-    (next: NavBarPreviewSettings) => {
-      if (lockedToPublished) return;
-      const normalized = normalizeNavBarPreviewSettings(next);
-      setSettingsState(normalized);
-      saveNavBarPreviewSettings(normalized);
-    },
-    [lockedToPublished],
-  );
+  }, [lockedToPublished, reload, setSettings]);
 
   return (
     <NavBarPreviewContext.Provider value={{ settings, setSettings }}>

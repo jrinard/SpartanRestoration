@@ -43,6 +43,7 @@ function EditableTextBlock({
   rows,
   onSave,
   className,
+  style,
   children,
 }: {
   editingEnabled: boolean;
@@ -53,12 +54,13 @@ function EditableTextBlock({
   rows?: number;
   onSave?: (value: string) => void;
   className?: string;
+  style?: CSSProperties;
   children: ReactNode;
 }) {
   const [editorOpen, setEditorOpen] = useState(false);
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn("relative", className)} style={style}>
       {children}
       {editingEnabled && onSave && (
         <>
@@ -179,12 +181,14 @@ export function TextImageV1({
               value={content.eyebrow}
               onSave={preview ? (value) => preview.setContentEyebrow(value) : undefined}
             >
-              <p
-                className="text-image-v1-eyebrow text-xs font-semibold uppercase tracking-[0.18em] sm:text-sm"
-                style={{ color: settings.eyebrowColor }}
-              >
-                {content.eyebrow}
-              </p>
+              {(content.eyebrow || editingEnabled) && (
+                <p
+                  className="text-image-v1-eyebrow text-xs font-semibold uppercase tracking-[0.18em] sm:text-sm"
+                  style={{ color: settings.eyebrowColor }}
+                >
+                  {content.eyebrow}
+                </p>
+              )}
             </EditableTextBlock>
 
             <EditableTextBlock
@@ -202,20 +206,22 @@ export function TextImageV1({
                   : undefined
               }
             >
-              <div className="space-y-2">
-                {content.headlineLines.map((line, index) => (
-                  <h2
-                    key={`${line}-${index}`}
-                    className={cn(
-                      "text-image-v1-headline font-serif text-3xl font-semibold uppercase leading-tight sm:text-4xl lg:text-[2.5rem]",
-                      index === 0 && "italic",
-                    )}
-                    style={{ color: settings.headlineColor }}
-                  >
-                    {line}
-                  </h2>
-                ))}
-              </div>
+              {(content.headlineLines.length > 0 || editingEnabled) && (
+                <div className="space-y-2">
+                  {content.headlineLines.map((line, index) => (
+                    <h2
+                      key={`${line}-${index}`}
+                      className={cn(
+                        "text-image-v1-headline font-serif text-3xl font-semibold uppercase leading-tight sm:text-4xl lg:text-[2.5rem]",
+                        index === 0 && "italic",
+                      )}
+                      style={{ color: settings.headlineColor }}
+                    >
+                      {line}
+                    </h2>
+                  ))}
+                </div>
+              )}
             </EditableTextBlock>
 
             <EditableTextBlock
@@ -228,34 +234,41 @@ export function TextImageV1({
               className="mt-6"
               onSave={preview ? (value) => preview.setContentBody(value) : undefined}
             >
-              <p
-                className="text-image-v1-body max-w-xl text-base leading-relaxed sm:text-lg"
-                style={{ color: settings.bodyColor }}
-              >
-                {content.body}
-              </p>
+              {(content.body || editingEnabled) && (
+                <p
+                  className="text-image-v1-body max-w-xl text-base leading-relaxed sm:text-lg"
+                  style={{ color: settings.bodyColor }}
+                >
+                  {content.body}
+                </p>
+              )}
             </EditableTextBlock>
 
-            <EditableTextBlock
-              editingEnabled={editingEnabled}
-              ariaLabel="Edit call button text"
-              editorTitle="Edit button"
-              value={content.phoneLabel}
-              className="mt-8 inline-block"
-              onSave={preview ? (value) => preview.setContentPhone(value) : undefined}
-            >
-              <a
-                href={content.phoneHref}
-                className={cn(
-                  "text-image-v1-phone-btn radial-hover-shine inline-flex items-center justify-center font-semibold no-underline transition-colors",
-                  isCustom && "text-image-v1-phone-btn--custom",
-                )}
-                style={buttonStyle}
-                data-nav-button-size={buttonSettings.navButtonSize}
+            {(content.phoneLabel || editingEnabled) && (
+              <EditableTextBlock
+                editingEnabled={editingEnabled}
+                ariaLabel="Edit call button text"
+                editorTitle="Edit button"
+                value={content.phoneLabel}
+                className="inline-block"
+                style={{ marginTop: settings.phoneButtonMarginTopPx }}
+                onSave={preview ? (value) => preview.setContentPhone(value) : undefined}
               >
-                <span className="relative z-[1]">{content.phoneLabel}</span>
-              </a>
-            </EditableTextBlock>
+                {content.phoneLabel ? (
+                  <a
+                    href={content.phoneHref}
+                    className={cn(
+                      "text-image-v1-phone-btn radial-hover-shine inline-flex items-center justify-center font-semibold no-underline transition-colors",
+                      isCustom && "text-image-v1-phone-btn--custom",
+                    )}
+                    style={buttonStyle}
+                    data-nav-button-size={buttonSettings.navButtonSize}
+                  >
+                    <span className="relative z-[1]">{content.phoneLabel}</span>
+                  </a>
+                ) : null}
+              </EditableTextBlock>
+            )}
           </div>
 
           <div className="text-image-v1-media">
@@ -307,12 +320,14 @@ export function TextImageV1({
               className="mt-6"
               onSave={preview ? (value) => preview.setContentSidebarText(value) : undefined}
             >
-              <p
-                className="text-image-v1-sidebar text-base leading-relaxed sm:text-lg"
-                style={{ color: settings.sidebarTextColor }}
-              >
-                {content.sidebarText}
-              </p>
+              {(content.sidebarText || editingEnabled) && (
+                <p
+                  className="text-image-v1-sidebar text-base leading-relaxed sm:text-lg"
+                  style={{ color: settings.sidebarTextColor }}
+                >
+                  {content.sidebarText}
+                </p>
+              )}
             </EditableTextBlock>
           </div>
         </div>

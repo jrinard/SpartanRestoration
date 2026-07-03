@@ -16,6 +16,7 @@ import {
   defaultHeroV21PreviewSettings,
   type HeroV21PreviewSettings,
 } from "@/lib/hero-v21-preview";
+import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadHeroV21PreviewSettings,
   saveHeroV21PreviewSettings,
@@ -28,19 +29,23 @@ type HeroV21PreviewContextValue = {
 
 const HeroV21PreviewContext = createContext<HeroV21PreviewContextValue | null>(null);
 
-export function HeroV21PreviewProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettingsState] = useState<HeroV21PreviewSettings>(
-    defaultHeroV21PreviewSettings,
-  );
-
-  useEffect(() => {
-    setSettingsState(loadHeroV21PreviewSettings());
-  }, []);
-
-  const setSettings = useCallback((next: HeroV21PreviewSettings) => {
-    setSettingsState(next);
-    saveHeroV21PreviewSettings(next);
-  }, []);
+export function HeroV21PreviewProvider({
+  children,
+  instanceId,
+  initialSettings,
+}: {
+  children: ReactNode;
+  instanceId?: string;
+  initialSettings?: HeroV21PreviewSettings;
+}) {
+  const { settings, setSettings } = useInstancePreviewSettings({
+    instanceId,
+    field: "heroV21",
+    initialSettings,
+    defaultSettings: defaultHeroV21PreviewSettings,
+    loadGlobal: loadHeroV21PreviewSettings,
+    saveGlobal: saveHeroV21PreviewSettings,
+  });
 
   return (
     <HeroV21PreviewContext.Provider value={{ settings, setSettings }}>

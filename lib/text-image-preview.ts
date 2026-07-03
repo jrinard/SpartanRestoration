@@ -3,6 +3,7 @@ import {
   defaultButtonPreviewSettings,
   type ButtonPreviewSettings,
 } from "@/lib/button-preview";
+import { phoneTelHref } from "@/lib/phone";
 
 export type TextImageSectionTheme = "light" | "dark";
 
@@ -23,6 +24,8 @@ export type TextImagePreviewSettings = TextImageTextColors &
     entranceAnimationSpeedMs: number;
     /** When true, image column is left and text column is right. */
     layoutInverted: boolean;
+    /** Space above the phone CTA on the text column. */
+    phoneButtonMarginTopPx: number;
     /** Playground copy overrides. */
     contentEyebrow?: string;
     contentHeadlineLines?: string[];
@@ -47,11 +50,14 @@ export type TextImageContent = {
 
 export function normalizeTextImageHeadlineLines(value: unknown): string[] | undefined {
   if (!Array.isArray(value)) return undefined;
+  if (value.length === 0) return [];
+
   const lines = value
     .filter((line): line is string => typeof line === "string")
     .map((line) => line.trim())
     .filter(Boolean);
-  return lines.length > 0 ? lines : undefined;
+
+  return lines;
 }
 
 export function parseTextImageHeadlineDraft(draft: string): string[] {
@@ -61,20 +67,30 @@ export function parseTextImageHeadlineDraft(draft: string): string[] {
     .filter(Boolean);
 }
 
+function resolveContentString(override: string | undefined, defaultValue: string): string {
+  return override !== undefined ? override : defaultValue;
+}
+
 export function resolveTextImageContent(
   defaults: TextImageContent,
   settings: TextImagePreviewSettings,
 ): TextImageContent {
+  const phoneLabel = resolveContentString(settings.contentPhoneLabel, defaults.phoneLabel);
+
   return {
-    eyebrow: settings.contentEyebrow?.trim() || defaults.eyebrow,
+    eyebrow: resolveContentString(settings.contentEyebrow, defaults.eyebrow),
     headlineLines:
-      settings.contentHeadlineLines && settings.contentHeadlineLines.length > 0
+      settings.contentHeadlineLines !== undefined
         ? settings.contentHeadlineLines
         : defaults.headlineLines,
-    body: settings.contentBody?.trim() || defaults.body,
-    sidebarText: settings.contentSidebarText?.trim() || defaults.sidebarText,
-    phoneLabel: settings.contentPhoneLabel?.trim() || defaults.phoneLabel,
-    phoneHref: settings.contentPhoneHref?.trim() || defaults.phoneHref,
+    body: resolveContentString(settings.contentBody, defaults.body),
+    sidebarText: resolveContentString(settings.contentSidebarText, defaults.sidebarText),
+    phoneLabel,
+    phoneHref:
+      settings.contentPhoneLabel !== undefined
+        ? settings.contentPhoneHref?.trim() ||
+          (phoneLabel ? phoneTelHref(phoneLabel) : "")
+        : defaults.phoneHref,
     imageSrc: settings.contentImageSrc?.trim() || defaults.imageSrc,
     imageAlt: settings.contentImageAlt?.trim() || defaults.imageAlt,
   };
@@ -118,6 +134,14 @@ export function getTextImageColorsForTheme(theme: TextImageSectionTheme): TextIm
   return theme === "dark" ? textImageDarkTheme : textImageLightTheme;
 }
 
+export const textImagePhoneButtonMarginOptions = [
+  0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128,
+] as const;
+
+export type TextImagePhoneButtonMarginPx = (typeof textImagePhoneButtonMarginOptions)[number];
+
+export const defaultTextImagePhoneButtonMarginTopPx: TextImagePhoneButtonMarginPx = 32;
+
 export const defaultTextImageButtonSettings: ButtonPreviewSettings = {
   ...defaultButtonPreviewSettings,
   navBackground: "#2C73B5",
@@ -135,6 +159,7 @@ export const defaultTextImagePreviewSettings: TextImagePreviewSettings = {
   entranceAnimationEnabled: true,
   entranceAnimationSpeedMs: 800,
   layoutInverted: false,
+  phoneButtonMarginTopPx: defaultTextImagePhoneButtonMarginTopPx,
 };
 
 export function pickTextImageButtonSettings(

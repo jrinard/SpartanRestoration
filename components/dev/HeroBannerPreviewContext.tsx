@@ -19,6 +19,7 @@ import {
   type HeroBannerPreviewSettings,
   type HeroBannerTransition,
 } from "@/lib/hero-banner-preview";
+import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadHeroBannerPreviewSettings,
   normalizeHeroBannerPreviewSettings,
@@ -34,34 +35,24 @@ const HeroBannerPreviewContext = createContext<HeroBannerPreviewContextValue | n
 
 type HeroBannerPreviewProviderProps = {
   children: ReactNode;
+  instanceId?: string;
   initialSettings?: HeroBannerPreviewSettings;
 };
 
 export function HeroBannerPreviewProvider({
   children,
+  instanceId,
   initialSettings,
 }: HeroBannerPreviewProviderProps) {
-  const lockedToPublished = initialSettings !== undefined;
-
-  const [settings, setSettingsState] = useState<HeroBannerPreviewSettings>(() =>
-    initialSettings
-      ? normalizeHeroBannerPreviewSettings(initialSettings)
-      : defaultHeroBannerPreviewSettings,
-  );
-
-  useEffect(() => {
-    if (lockedToPublished) return;
-    setSettingsState(loadHeroBannerPreviewSettings());
-  }, [lockedToPublished]);
-
-  const setSettings = useCallback(
-    (next: HeroBannerPreviewSettings) => {
-      if (lockedToPublished) return;
-      setSettingsState(next);
-      saveHeroBannerPreviewSettings(next);
-    },
-    [lockedToPublished],
-  );
+  const { settings, setSettings } = useInstancePreviewSettings({
+    instanceId,
+    field: "heroBanner",
+    initialSettings,
+    defaultSettings: defaultHeroBannerPreviewSettings,
+    loadGlobal: loadHeroBannerPreviewSettings,
+    saveGlobal: saveHeroBannerPreviewSettings,
+    normalize: normalizeHeroBannerPreviewSettings,
+  });
 
   return (
     <HeroBannerPreviewContext.Provider value={{ settings, setSettings }}>

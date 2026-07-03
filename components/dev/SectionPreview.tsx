@@ -10,6 +10,7 @@ import { PortfolioPreviewProvider } from "@/components/dev/PortfolioPreviewConte
 import { FooterV3PreviewProvider } from "@/components/dev/FooterV3PreviewContext";
 import { FooterV1PreviewProvider } from "@/components/dev/FooterV1PreviewContext";
 import { ReviewboxPreviewProvider } from "@/components/dev/ReviewboxPreviewContext";
+import { ContactV1PreviewProvider } from "@/components/dev/ContactV1PreviewContext";
 import { ServicesV1LayoutProvider } from "@/components/dev/ServicesV1LayoutContext";
 import { ServicesIconsV2PreviewProvider } from "@/components/dev/ServicesIconsV2PreviewContext";
 import { SpacerStripePreviewProvider } from "@/components/dev/SpacerStripePreviewContext";
@@ -17,6 +18,7 @@ import { TextIconsV3PreviewProvider } from "@/components/dev/TextIconsV3PreviewC
 import { TextImagePreviewProvider } from "@/components/dev/TextImagePreviewContext";
 import { headerVariantUsesPreviewControls } from "@/lib/header-v3-gradient";
 import type { HomepagePreviewSettings } from "@/lib/homepage-settings";
+import { resolvePublishedSectionInstanceSettings } from "@/lib/section-instance-copy";
 import {
   getSectionVariant,
   sectionGroups,
@@ -37,10 +39,17 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
   const variantId = resolveSectionVariantId(group, variant ?? section.defaultVariant);
   const activeVariant = getSectionVariant(group, variantId);
   const content = activeVariant.render();
+  const slot = resolvePublishedSectionInstanceSettings(sectionId, previewSettings);
+
+  const published = <T,>(slotValue: T | undefined, legacyValue: T | undefined): T | undefined =>
+    slotValue ?? legacyValue;
 
   if (group === "topBar") {
     return (
-      <TopBarPreviewProvider initialSettings={previewSettings?.topBar}>
+      <TopBarPreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.topBar, previewSettings?.topBar)}
+      >
         {content}
       </TopBarPreviewProvider>
     );
@@ -48,7 +57,10 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
 
   if (group === "nav") {
     return (
-      <NavBarPreviewProvider initialSettings={previewSettings?.navBar}>
+      <NavBarPreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.navBar, previewSettings?.navBar)}
+      >
         {content}
       </NavBarPreviewProvider>
     );
@@ -56,19 +68,33 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
 
   if (group === "services" && variantId === "servicesIcons-v2") {
     return (
-      <ServicesIconsV2PreviewProvider initialSettings={previewSettings?.servicesIconsV2}>
+      <ServicesIconsV2PreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.servicesIconsV2, previewSettings?.servicesIconsV2)}
+      >
         {content}
       </ServicesIconsV2PreviewProvider>
     );
   }
 
   if (group === "services") {
-    return <ServicesV1LayoutProvider>{content}</ServicesV1LayoutProvider>;
+    const servicesV1Settings =
+      slot?.servicesV1 ??
+      (previewSettings?.servicesV1LayoutWidth
+        ? { layoutWidth: previewSettings.servicesV1LayoutWidth }
+        : undefined);
+
+    return (
+      <ServicesV1LayoutProvider instanceId={sectionId} initialSettings={servicesV1Settings}>
+        {content}
+      </ServicesV1LayoutProvider>
+    );
   }
 
   if (group === "spacer") {
     const spacerSettings =
-      (sectionId && previewSettings?.spacers?.[sectionId]) ||
+      slot?.spacer ??
+      (sectionId ? previewSettings?.spacers?.[sectionId] : undefined) ??
       (!sectionId && previewSettings?.spacerStripe
         ? {
             stripe: previewSettings.spacerStripe,
@@ -89,7 +115,10 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
 
   if (group === "header" && headerVariantUsesPreviewControls(variantId)) {
     return (
-      <HeaderV3PreviewProvider initialSettings={previewSettings?.headerV3}>
+      <HeaderV3PreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.headerV3, previewSettings?.headerV3)}
+      >
         {content}
       </HeaderV3PreviewProvider>
     );
@@ -97,7 +126,10 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
 
   if (group === "hero" && variantId === "hero-banner") {
     return (
-      <HeroBannerPreviewProvider initialSettings={previewSettings?.heroBanner}>
+      <HeroBannerPreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.heroBanner, previewSettings?.heroBanner)}
+      >
         {content}
       </HeroBannerPreviewProvider>
     );
@@ -105,19 +137,32 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
 
   if (group === "hero" && variantId === "hero-v1") {
     return (
-      <HeroV1PreviewProvider initialSettings={previewSettings?.heroV1}>
+      <HeroV1PreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.heroV1, previewSettings?.heroV1)}
+      >
         {content}
       </HeroV1PreviewProvider>
     );
   }
 
   if (group === "hero" && variantId === "hero-v2.1") {
-    return <HeroV21PreviewProvider>{content}</HeroV21PreviewProvider>;
+    return (
+      <HeroV21PreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.heroV21, previewSettings?.heroV21)}
+      >
+        {content}
+      </HeroV21PreviewProvider>
+    );
   }
 
   if (group === "portfolio" && variantId === "portfolio-v1") {
     return (
-      <PortfolioPreviewProvider initialSettings={previewSettings?.portfolio}>
+      <PortfolioPreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.portfolio, previewSettings?.portfolio)}
+      >
         {content}
       </PortfolioPreviewProvider>
     );
@@ -125,7 +170,10 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
 
   if (group === "footer" && variantId === "footer-v3") {
     return (
-      <FooterV3PreviewProvider initialSettings={previewSettings?.footerV3}>
+      <FooterV3PreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.footerV3, previewSettings?.footerV3)}
+      >
         {content}
       </FooterV3PreviewProvider>
     );
@@ -133,37 +181,54 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
 
   if (group === "footer" && variantId === "footer-v1") {
     return (
-      <FooterV1PreviewProvider initialSettings={previewSettings?.footerV1}>
+      <FooterV1PreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.footerV1, previewSettings?.footerV1)}
+      >
         {content}
       </FooterV1PreviewProvider>
     );
   }
 
   if (group === "reviewbox" && variantId === "reviewbox-v1") {
-    return <ReviewboxPreviewProvider>{content}</ReviewboxPreviewProvider>;
+    return (
+      <ReviewboxPreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.reviewbox, previewSettings?.reviewbox)}
+      >
+        {content}
+      </ReviewboxPreviewProvider>
+    );
+  }
+
+  if (group === "contact" && variantId === "contact-v1") {
+    return (
+      <ContactV1PreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.contact, previewSettings?.contact)}
+      >
+        {content}
+      </ContactV1PreviewProvider>
+    );
   }
 
   if (group === "content" && variantId === "text-icons-v3") {
-    const instanceSettings =
-      sectionId && previewSettings?.contents?.[sectionId]?.textIconsV3
-        ? previewSettings.contents[sectionId].textIconsV3
-        : previewSettings?.textIconsV3;
-
     return (
-      <TextIconsV3PreviewProvider instanceId={sectionId} initialSettings={instanceSettings}>
+      <TextIconsV3PreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.textIconsV3, previewSettings?.textIconsV3)}
+      >
         {content}
       </TextIconsV3PreviewProvider>
     );
   }
 
   if (group === "content" && variantId === "text-image-v1") {
-    const instanceSettings =
-      sectionId && previewSettings?.contents?.[sectionId]?.textImage
-        ? previewSettings.contents[sectionId].textImage
-        : previewSettings?.textImage;
-
     return (
-      <TextImagePreviewProvider instanceId={sectionId} initialSettings={instanceSettings}>
+      <TextImagePreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.textImage, previewSettings?.textImage)}
+      >
         {content}
       </TextImagePreviewProvider>
     );

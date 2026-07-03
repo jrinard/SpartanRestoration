@@ -1,6 +1,7 @@
 import type { SpacerGradientStyle, SpacerStripeStyle } from "@/components/sections/Spacer";
 import type { ContentInstanceSettings } from "@/lib/content-instance-storage";
 import type { SpacerInstanceSettings } from "@/lib/spacer-instance-storage";
+import type { SectionInstanceSettings } from "@/lib/section-instance-storage";
 import type { ContactPreviewSettings } from "@/lib/contact-preview";
 import type { FooterV3PreviewSettings } from "@/lib/footer-v3-preview";
 import type { FooterV1PreviewSettings } from "@/lib/footer-v1-preview";
@@ -37,6 +38,8 @@ export type HomepagePreviewSettings = {
   spacers?: Record<string, SpacerInstanceSettings>;
   /** Per-content preview settings keyed by section id. */
   contents?: Record<string, ContentInstanceSettings>;
+  /** Per-section preview settings keyed by unique section slot id. */
+  sections?: Record<string, SectionInstanceSettings>;
   contact?: ContactPreviewSettings;
   textIconsV3?: TextIconsV3PreviewSettings;
   textImage?: TextImagePreviewSettings;

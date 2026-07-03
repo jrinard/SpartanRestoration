@@ -50,9 +50,7 @@ export function TextImageTextEditor({
   }, [onClose]);
 
   function save() {
-    const trimmed = draft.trim();
-    if (!trimmed) return;
-    onChange(trimmed);
+    onChange(draft.trim());
     onClose();
   }
 

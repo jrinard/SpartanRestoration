@@ -27,6 +27,7 @@ import {
   type HeaderLogoVerticalAlign,
   type HeaderV3PreviewSettings,
 } from "@/lib/header-v3-gradient";
+import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadHeaderV3PreviewSettings,
   normalizeHeaderV3PreviewSettings,
@@ -51,30 +52,24 @@ const HeaderV3PreviewContext = createContext<HeaderV3PreviewContextValue | null>
 
 type HeaderV3PreviewProviderProps = {
   children: ReactNode;
+  instanceId?: string;
   initialSettings?: HeaderV3PreviewSettings;
 };
 
 export function HeaderV3PreviewProvider({
   children,
+  instanceId,
   initialSettings,
 }: HeaderV3PreviewProviderProps) {
-  const lockedToPublished = initialSettings !== undefined;
-
-  const [settings, setSettingsState] = useState<HeaderV3PreviewSettings>(() =>
-    initialSettings
-      ? normalizeHeaderV3PreviewSettings(initialSettings)
-      : defaultHeaderV3PreviewSettings,
-  );
-
-  useEffect(() => {
-    if (lockedToPublished) return;
-    setSettingsState(loadHeaderV3PreviewSettings());
-  }, [lockedToPublished]);
-
-  const setSettings = useCallback((next: HeaderV3PreviewSettings) => {
-    setSettingsState(next);
-    saveHeaderV3PreviewSettings(next);
-  }, []);
+  const { settings, setSettings } = useInstancePreviewSettings({
+    instanceId,
+    field: "headerV3",
+    initialSettings,
+    defaultSettings: defaultHeaderV3PreviewSettings,
+    loadGlobal: loadHeaderV3PreviewSettings,
+    saveGlobal: saveHeaderV3PreviewSettings,
+    normalize: normalizeHeaderV3PreviewSettings,
+  });
 
   return (
     <HeaderV3PreviewContext.Provider value={{ settings, setSettings }}>

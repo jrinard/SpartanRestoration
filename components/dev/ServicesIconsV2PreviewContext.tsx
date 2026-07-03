@@ -18,6 +18,7 @@ import type { SiteIconName } from "@/lib/site-icons";
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
 import { siteLayoutWidthOptions } from "@/lib/site-layout";
 import type { SiteLayoutWidth } from "@/lib/site-layout";
+import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadServicesIconsV2PreviewSettings,
   normalizeServicesIconsV2PreviewSettings,
@@ -45,6 +46,7 @@ const ServicesIconsV2PreviewContext = createContext<ServicesIconsV2PreviewContex
 
 type ServicesIconsV2PreviewProviderProps = {
   children: ReactNode;
+  instanceId?: string;
   initialSettings?: ServicesIconsV2PreviewSettings;
   /** Playground-only — enables per-card editors and persists to localStorage. */
   enableContentEditing?: boolean;
@@ -52,28 +54,26 @@ type ServicesIconsV2PreviewProviderProps = {
 
 export function ServicesIconsV2PreviewProvider({
   children,
+  instanceId,
   initialSettings,
   enableContentEditing = false,
 }: ServicesIconsV2PreviewProviderProps) {
-  const [settings, setSettingsState] = useState<ServicesIconsV2PreviewSettings>(() =>
-    initialSettings
-      ? normalizeServicesIconsV2PreviewSettings(initialSettings)
-      : defaultServicesIconsV2PreviewSettings,
-  );
-
-  useEffect(() => {
-    if (initialSettings !== undefined) return;
-    setSettingsState(loadServicesIconsV2PreviewSettings());
-  }, [initialSettings]);
+  const { settings, setSettings: persistSettings } = useInstancePreviewSettings({
+    instanceId,
+    field: "servicesIconsV2",
+    initialSettings,
+    defaultSettings: defaultServicesIconsV2PreviewSettings,
+    loadGlobal: loadServicesIconsV2PreviewSettings,
+    saveGlobal: saveServicesIconsV2PreviewSettings,
+    normalize: normalizeServicesIconsV2PreviewSettings,
+  });
 
   const setSettings = useCallback(
     (next: ServicesIconsV2PreviewSettings) => {
       if (!enableContentEditing) return;
-      const normalized = normalizeServicesIconsV2PreviewSettings(next);
-      setSettingsState(normalized);
-      saveServicesIconsV2PreviewSettings(normalized);
+      persistSettings(next);
     },
-    [enableContentEditing],
+    [enableContentEditing, persistSettings],
   );
 
   const getServiceIcon = useCallback(

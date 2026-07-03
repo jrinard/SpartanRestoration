@@ -19,6 +19,7 @@ import {
 } from "@/lib/footer-v1-preview";
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
 import type { SiteLayoutWidth } from "@/lib/site-layout";
+import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadFooterV1PreviewSettings,
   normalizeFooterV1PreviewSettings,
@@ -34,31 +35,24 @@ const FooterV1PreviewContext = createContext<FooterV1PreviewContextValue | null>
 
 type FooterV1PreviewProviderProps = {
   children: ReactNode;
+  instanceId?: string;
   initialSettings?: FooterV1PreviewSettings;
 };
 
 export function FooterV1PreviewProvider({
   children,
+  instanceId,
   initialSettings,
 }: FooterV1PreviewProviderProps) {
-  const lockedToPublished = initialSettings !== undefined;
-
-  const [settings, setSettingsState] = useState<FooterV1PreviewSettings>(() =>
-    initialSettings
-      ? normalizeFooterV1PreviewSettings(initialSettings)
-      : defaultFooterV1PreviewSettings,
-  );
-
-  useEffect(() => {
-    if (lockedToPublished) return;
-    setSettingsState(loadFooterV1PreviewSettings());
-  }, [lockedToPublished]);
-
-  const setSettings = useCallback((next: FooterV1PreviewSettings) => {
-    const normalized = normalizeFooterV1PreviewSettings(next);
-    setSettingsState(normalized);
-    saveFooterV1PreviewSettings(normalized);
-  }, []);
+  const { settings, setSettings } = useInstancePreviewSettings({
+    instanceId,
+    field: "footerV1",
+    initialSettings,
+    defaultSettings: defaultFooterV1PreviewSettings,
+    loadGlobal: loadFooterV1PreviewSettings,
+    saveGlobal: saveFooterV1PreviewSettings,
+    normalize: normalizeFooterV1PreviewSettings,
+  });
 
   return (
     <FooterV1PreviewContext.Provider value={{ settings, setSettings }}>

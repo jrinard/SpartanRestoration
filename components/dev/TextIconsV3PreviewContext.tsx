@@ -16,10 +16,7 @@ import {
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
 import { siteLayoutWidthOptions } from "@/lib/site-layout";
 import type { SiteLayoutWidth } from "@/lib/site-layout";
-import {
-  loadTextIconsV3InstanceSettings,
-  saveTextIconsV3InstanceSettings,
-} from "@/lib/content-instance-storage";
+import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadTextIconsV3PreviewSettings,
   normalizeTextIconsV3PreviewSettings,
@@ -44,43 +41,15 @@ export function TextIconsV3PreviewProvider({
   instanceId,
   initialSettings,
 }: TextIconsV3PreviewProviderProps) {
-  const lockedToPublished = initialSettings !== undefined;
-
-  const [settings, setSettingsState] = useState<TextIconsV3PreviewSettings>(() => {
-    if (initialSettings) {
-      return normalizeTextIconsV3PreviewSettings(initialSettings);
-    }
-    if (instanceId) {
-      return (
-        loadTextIconsV3InstanceSettings(instanceId) ?? defaultTextIconsV3PreviewSettings
-      );
-    }
-    return defaultTextIconsV3PreviewSettings;
+  const { settings, setSettings } = useInstancePreviewSettings({
+    instanceId,
+    field: "textIconsV3",
+    initialSettings,
+    defaultSettings: defaultTextIconsV3PreviewSettings,
+    loadGlobal: loadTextIconsV3PreviewSettings,
+    saveGlobal: saveTextIconsV3PreviewSettings,
+    normalize: normalizeTextIconsV3PreviewSettings,
   });
-
-  useEffect(() => {
-    if (lockedToPublished) return;
-    if (instanceId) {
-      setSettingsState(
-        loadTextIconsV3InstanceSettings(instanceId) ?? loadTextIconsV3PreviewSettings(),
-      );
-      return;
-    }
-    setSettingsState(loadTextIconsV3PreviewSettings());
-  }, [instanceId, lockedToPublished]);
-
-  const setSettings = useCallback(
-    (next: TextIconsV3PreviewSettings) => {
-      const normalized = normalizeTextIconsV3PreviewSettings(next);
-      setSettingsState(normalized);
-      if (instanceId) {
-        saveTextIconsV3InstanceSettings(instanceId, normalized);
-        return;
-      }
-      saveTextIconsV3PreviewSettings(normalized);
-    },
-    [instanceId],
-  );
 
   return (
     <TextIconsV3PreviewContext.Provider value={{ settings, setSettings }}>

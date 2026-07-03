@@ -8,7 +8,7 @@ import type { SectionGroupId } from "@/lib/section-registry";
 export type HomepageSectionEntry = {
   group: SectionGroupId;
   variant?: string;
-  /** Unique id for duplicate spacers/content blocks in the published stack. */
+  /** Unique section slot id — every published section carries its instance settings. */
   id?: string;
 };
 

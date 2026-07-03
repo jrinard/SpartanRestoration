@@ -18,6 +18,7 @@ import {
   type FooterV3PreviewSettings,
   type FooterV3Theme,
 } from "@/lib/footer-v3-preview";
+import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadFooterV3PreviewSettings,
   normalizeFooterV3PreviewSettings,
@@ -33,30 +34,24 @@ const FooterV3PreviewContext = createContext<FooterV3PreviewContextValue | null>
 
 type FooterV3PreviewProviderProps = {
   children: ReactNode;
+  instanceId?: string;
   initialSettings?: FooterV3PreviewSettings;
 };
 
 export function FooterV3PreviewProvider({
   children,
+  instanceId,
   initialSettings,
 }: FooterV3PreviewProviderProps) {
-  const lockedToPublished = initialSettings !== undefined;
-
-  const [settings, setSettingsState] = useState<FooterV3PreviewSettings>(() =>
-    initialSettings
-      ? normalizeFooterV3PreviewSettings(initialSettings)
-      : defaultFooterV3PreviewSettings,
-  );
-
-  useEffect(() => {
-    if (lockedToPublished) return;
-    setSettingsState(loadFooterV3PreviewSettings());
-  }, [lockedToPublished]);
-
-  const setSettings = useCallback((next: FooterV3PreviewSettings) => {
-    setSettingsState(next);
-    saveFooterV3PreviewSettings(next);
-  }, []);
+  const { settings, setSettings } = useInstancePreviewSettings({
+    instanceId,
+    field: "footerV3",
+    initialSettings,
+    defaultSettings: defaultFooterV3PreviewSettings,
+    loadGlobal: loadFooterV3PreviewSettings,
+    saveGlobal: saveFooterV3PreviewSettings,
+    normalize: normalizeFooterV3PreviewSettings,
+  });
 
   return (
     <FooterV3PreviewContext.Provider value={{ settings, setSettings }}>

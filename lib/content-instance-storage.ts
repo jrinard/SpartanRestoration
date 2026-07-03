@@ -8,72 +8,70 @@ import {
 } from "@/lib/text-image-preview-storage";
 import type { TextIconsV3PreviewSettings } from "@/lib/text-icons-v3-preview";
 import type { TextImagePreviewSettings } from "@/lib/text-image-preview";
+import type { ColorThemeId } from "@/lib/color-themes";
+import { copyEffectiveSectionInstanceSettings } from "@/lib/section-instance-copy";
+import type { SectionGroupId } from "@/lib/section-registry";
+import {
+  loadAllSectionInstanceSettings,
+  loadSectionInstanceField,
+  patchSectionInstanceSettings,
+  type SectionInstanceSettings,
+} from "@/lib/section-instance-storage";
 
-export type ContentInstanceSettings = {
-  textIconsV3?: TextIconsV3PreviewSettings;
-  textImage?: TextImagePreviewSettings;
-};
+export type ContentInstanceSettings = Pick<
+  SectionInstanceSettings,
+  "textIconsV3" | "textImage"
+>;
 
+/** @deprecated Use sectionInstancesStorageKey */
 export const contentInstancesStorageKey = "lifespring-content-instances";
-
-function readJson<T>(raw: string | null): T | undefined {
-  if (!raw) return undefined;
-  try {
-    return JSON.parse(raw) as T;
-  } catch {
-    return undefined;
-  }
-}
-
-function readAllContentInstances(): Record<string, ContentInstanceSettings> {
-  if (typeof window === "undefined") return {};
-  return (
-    readJson<Record<string, ContentInstanceSettings>>(
-      localStorage.getItem(contentInstancesStorageKey),
-    ) ?? {}
-  );
-}
-
-function writeAllContentInstances(instances: Record<string, ContentInstanceSettings>): void {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(contentInstancesStorageKey, JSON.stringify(instances));
-}
 
 export function loadContentInstanceSettings(
   instanceId: string,
 ): ContentInstanceSettings | undefined {
-  return readAllContentInstances()[instanceId];
+  const textIconsV3 = loadSectionInstanceField(instanceId, "textIconsV3");
+  const textImage = loadSectionInstanceField(instanceId, "textImage");
+
+  if (!textIconsV3 && !textImage) return undefined;
+
+  return { textIconsV3, textImage };
 }
 
 export function saveContentInstanceSettings(
   instanceId: string,
   settings: ContentInstanceSettings,
 ): void {
-  const instances = readAllContentInstances();
-  instances[instanceId] = settings;
-  writeAllContentInstances(instances);
+  patchSectionInstanceSettings(instanceId, settings);
 }
 
 export function loadAllContentInstanceSettings(): Record<string, ContentInstanceSettings> {
-  return readAllContentInstances();
+  const all = loadAllSectionInstanceSettings();
+  const contents: Record<string, ContentInstanceSettings> = {};
+
+  for (const [id, settings] of Object.entries(all)) {
+    if (settings.textIconsV3 || settings.textImage) {
+      contents[id] = {
+        textIconsV3: settings.textIconsV3,
+        textImage: settings.textImage,
+      };
+    }
+  }
+
+  return contents;
 }
 
 export function loadTextIconsV3InstanceSettings(
   instanceId: string,
 ): TextIconsV3PreviewSettings | undefined {
-  const instance = loadContentInstanceSettings(instanceId);
-  return instance?.textIconsV3
-    ? normalizeTextIconsV3PreviewSettings(instance.textIconsV3)
-    : undefined;
+  const stored = loadSectionInstanceField(instanceId, "textIconsV3");
+  return stored ? normalizeTextIconsV3PreviewSettings(stored) : undefined;
 }
 
 export function saveTextIconsV3InstanceSettings(
   instanceId: string,
   settings: TextIconsV3PreviewSettings,
 ): void {
-  const current = loadContentInstanceSettings(instanceId) ?? {};
-  saveContentInstanceSettings(instanceId, {
-    ...current,
+  patchSectionInstanceSettings(instanceId, {
     textIconsV3: normalizeTextIconsV3PreviewSettings(settings),
   });
 }
@@ -81,19 +79,15 @@ export function saveTextIconsV3InstanceSettings(
 export function loadTextImageInstanceSettings(
   instanceId: string,
 ): TextImagePreviewSettings | undefined {
-  const instance = loadContentInstanceSettings(instanceId);
-  return instance?.textImage
-    ? normalizeTextImagePreviewSettings(instance.textImage)
-    : undefined;
+  const stored = loadSectionInstanceField(instanceId, "textImage");
+  return stored ? normalizeTextImagePreviewSettings(stored) : undefined;
 }
 
 export function saveTextImageInstanceSettings(
   instanceId: string,
   settings: TextImagePreviewSettings,
 ): void {
-  const current = loadContentInstanceSettings(instanceId) ?? {};
-  saveContentInstanceSettings(instanceId, {
-    ...current,
+  patchSectionInstanceSettings(instanceId, {
     textImage: normalizeTextImagePreviewSettings(settings),
   });
 }
@@ -118,12 +112,13 @@ export function copyEffectiveContentInstanceSettings(
   fromId: string,
   toId: string,
   sourceVariant?: string,
+  colorThemeId: ColorThemeId = "spartan",
 ): void {
   const current = loadContentInstanceSettings(toId) ?? {};
   const variant = sourceVariant ?? "text-icons-v3";
 
   if (variant === "text-image-v1") {
-    saveContentInstanceSettings(toId, {
+    patchSectionInstanceSettings(toId, {
       ...current,
       textImage: structuredClone(loadEffectiveTextImageInstanceSettings(fromId)),
     });
@@ -131,21 +126,12 @@ export function copyEffectiveContentInstanceSettings(
   }
 
   if (variant === "text-icons-v3") {
-    saveContentInstanceSettings(toId, {
+    patchSectionInstanceSettings(toId, {
       ...current,
       textIconsV3: structuredClone(loadEffectiveTextIconsV3InstanceSettings(fromId)),
     });
     return;
   }
 
-  const from = loadContentInstanceSettings(fromId);
-  if (from) {
-    saveContentInstanceSettings(toId, structuredClone(from));
-    return;
-  }
-
-  saveContentInstanceSettings(toId, {
-    textIconsV3: loadTextIconsV3PreviewSettings(),
-    textImage: loadTextImagePreviewSettings(),
-  });
+  copyEffectiveSectionInstanceSettings(fromId, toId, "content" as SectionGroupId, variant, colorThemeId);
 }

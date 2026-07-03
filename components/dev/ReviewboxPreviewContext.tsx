@@ -19,6 +19,7 @@ import {
   type ReviewboxPreviewSettings,
   type ReviewboxSectionTheme,
 } from "@/lib/reviewbox-preview";
+import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadReviewboxPreviewSettings,
   saveReviewboxPreviewSettings,
@@ -31,19 +32,23 @@ type ReviewboxPreviewContextValue = {
 
 const ReviewboxPreviewContext = createContext<ReviewboxPreviewContextValue | null>(null);
 
-export function ReviewboxPreviewProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettingsState] = useState<ReviewboxPreviewSettings>(
-    defaultReviewboxPreviewSettings,
-  );
-
-  useEffect(() => {
-    setSettingsState(loadReviewboxPreviewSettings());
-  }, []);
-
-  const setSettings = useCallback((next: ReviewboxPreviewSettings) => {
-    setSettingsState(next);
-    saveReviewboxPreviewSettings(next);
-  }, []);
+export function ReviewboxPreviewProvider({
+  children,
+  instanceId,
+  initialSettings,
+}: {
+  children: ReactNode;
+  instanceId?: string;
+  initialSettings?: ReviewboxPreviewSettings;
+}) {
+  const { settings, setSettings } = useInstancePreviewSettings({
+    instanceId,
+    field: "reviewbox",
+    initialSettings,
+    defaultSettings: defaultReviewboxPreviewSettings,
+    loadGlobal: loadReviewboxPreviewSettings,
+    saveGlobal: saveReviewboxPreviewSettings,
+  });
 
   return (
     <ReviewboxPreviewContext.Provider value={{ settings, setSettings }}>

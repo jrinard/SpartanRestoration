@@ -15,6 +15,7 @@ import {
   type TopBarLayoutWidth,
   type TopBarPreviewSettings,
 } from "@/lib/top-bar-preview";
+import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadTopBarPreviewSettings,
   normalizeTopBarPreviewSettings,
@@ -30,34 +31,24 @@ const TopBarPreviewContext = createContext<TopBarPreviewContextValue | null>(nul
 
 type TopBarPreviewProviderProps = {
   children: ReactNode;
+  instanceId?: string;
   initialSettings?: TopBarPreviewSettings;
 };
 
 export function TopBarPreviewProvider({
   children,
+  instanceId,
   initialSettings,
 }: TopBarPreviewProviderProps) {
-  const lockedToPublished = initialSettings !== undefined;
-
-  const [settings, setSettingsState] = useState<TopBarPreviewSettings>(() =>
-    initialSettings
-      ? normalizeTopBarPreviewSettings(initialSettings)
-      : defaultTopBarPreviewSettings,
-  );
-
-  useEffect(() => {
-    if (lockedToPublished) return;
-    setSettingsState(loadTopBarPreviewSettings());
-  }, [lockedToPublished]);
-
-  const setSettings = useCallback(
-    (next: TopBarPreviewSettings) => {
-      if (lockedToPublished) return;
-      setSettingsState(next);
-      saveTopBarPreviewSettings(next);
-    },
-    [lockedToPublished],
-  );
+  const { settings, setSettings } = useInstancePreviewSettings({
+    instanceId,
+    field: "topBar",
+    initialSettings,
+    defaultSettings: defaultTopBarPreviewSettings,
+    loadGlobal: loadTopBarPreviewSettings,
+    saveGlobal: saveTopBarPreviewSettings,
+    normalize: normalizeTopBarPreviewSettings,
+  });
 
   return (
     <TopBarPreviewContext.Provider value={{ settings, setSettings }}>

@@ -9,6 +9,7 @@ import {
   getTextImageColorsForTheme,
   normalizeTextImageHeadlineLines,
   textImageEntranceSpeedValues,
+  textImagePhoneButtonMarginOptions,
   type TextImagePreviewSettings,
   type TextImageSectionTheme,
 } from "@/lib/text-image-preview";
@@ -82,15 +83,28 @@ export function normalizeTextImagePreviewSettings(
       typeof value.layoutInverted === "boolean"
         ? value.layoutInverted
         : defaultTextImagePreviewSettings.layoutInverted,
-    contentEyebrow: normalizeOptionalString(value.contentEyebrow),
+    phoneButtonMarginTopPx:
+      typeof value.phoneButtonMarginTopPx === "number" &&
+      textImagePhoneButtonMarginOptions.includes(
+        Math.round(value.phoneButtonMarginTopPx) as (typeof textImagePhoneButtonMarginOptions)[number],
+      )
+        ? Math.round(value.phoneButtonMarginTopPx)
+        : defaultTextImagePreviewSettings.phoneButtonMarginTopPx,
+    contentEyebrow: normalizeContentOverrideString(value.contentEyebrow),
     contentHeadlineLines: normalizeTextImageHeadlineLines(value.contentHeadlineLines),
-    contentBody: normalizeOptionalString(value.contentBody),
-    contentSidebarText: normalizeOptionalString(value.contentSidebarText),
-    contentPhoneLabel: normalizeOptionalString(value.contentPhoneLabel),
+    contentBody: normalizeContentOverrideString(value.contentBody),
+    contentSidebarText: normalizeContentOverrideString(value.contentSidebarText),
+    contentPhoneLabel: normalizeContentOverrideString(value.contentPhoneLabel),
     contentPhoneHref: normalizePhoneHref(value.contentPhoneHref),
     contentImageSrc: normalizeImageLibrarySrc(value.contentImageSrc),
-    contentImageAlt: normalizeOptionalString(value.contentImageAlt),
+    contentImageAlt: normalizeContentOverrideString(value.contentImageAlt),
   };
+}
+
+function normalizeContentOverrideString(value: unknown): string | undefined {
+  if (value === undefined || value === null) return undefined;
+  if (typeof value !== "string") return undefined;
+  return value.trim();
 }
 
 function normalizeOptionalString(value: unknown): string | undefined {
@@ -100,9 +114,12 @@ function normalizeOptionalString(value: unknown): string | undefined {
 }
 
 function normalizePhoneHref(value: unknown): string | undefined {
-  const href = normalizeOptionalString(value);
-  if (!href?.startsWith("tel:")) return undefined;
-  return href;
+  if (value === undefined || value === null) return undefined;
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+  if (!trimmed.startsWith("tel:")) return undefined;
+  return trimmed;
 }
 
 function isTextImagePreviewSettings(value: unknown): value is Partial<TextImagePreviewSettings> {

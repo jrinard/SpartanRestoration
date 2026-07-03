@@ -12,6 +12,7 @@ import {
   defaultHeroV1PreviewSettings,
   type HeroV1PreviewSettings,
 } from "@/lib/hero-v1-preview";
+import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadHeroV1PreviewSettings,
   normalizeHeroV1PreviewSettings,
@@ -27,34 +28,24 @@ const HeroV1PreviewContext = createContext<HeroV1PreviewContextValue | null>(nul
 
 type HeroV1PreviewProviderProps = {
   children: ReactNode;
+  instanceId?: string;
   initialSettings?: HeroV1PreviewSettings;
 };
 
 export function HeroV1PreviewProvider({
   children,
+  instanceId,
   initialSettings,
 }: HeroV1PreviewProviderProps) {
-  const lockedToPublished = initialSettings !== undefined;
-
-  const [settings, setSettingsState] = useState<HeroV1PreviewSettings>(() =>
-    initialSettings
-      ? normalizeHeroV1PreviewSettings(initialSettings)
-      : defaultHeroV1PreviewSettings,
-  );
-
-  useEffect(() => {
-    if (lockedToPublished) return;
-    setSettingsState(loadHeroV1PreviewSettings());
-  }, [lockedToPublished]);
-
-  const setSettings = useCallback(
-    (next: HeroV1PreviewSettings) => {
-      if (lockedToPublished) return;
-      setSettingsState(next);
-      saveHeroV1PreviewSettings(next);
-    },
-    [lockedToPublished],
-  );
+  const { settings, setSettings } = useInstancePreviewSettings({
+    instanceId,
+    field: "heroV1",
+    initialSettings,
+    defaultSettings: defaultHeroV1PreviewSettings,
+    loadGlobal: loadHeroV1PreviewSettings,
+    saveGlobal: saveHeroV1PreviewSettings,
+    normalize: normalizeHeroV1PreviewSettings,
+  });
 
   return (
     <HeroV1PreviewContext.Provider value={{ settings, setSettings }}>

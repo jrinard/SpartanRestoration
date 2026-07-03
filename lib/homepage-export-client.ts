@@ -13,7 +13,7 @@ import { headerV3NavGradientStorageKey } from "@/lib/header-v3-storage";
 import { heroBannerPreviewStorageKey } from "@/lib/hero-banner-preview-storage";
 import { heroV1PreviewStorageKey } from "@/lib/hero-v1-preview-storage";
 import { heroV21PreviewStorageKey, heroButtonPreviewStorageKey } from "@/lib/hero-v21-preview-storage";
-import { copyContentInstanceSettings, loadAllContentInstanceSettings } from "@/lib/content-instance-storage";
+import { loadAllSectionInstanceSettings } from "@/lib/section-instance-storage";
 import {
   getPlaygroundPageSections,
   homePlaygroundPageId,
@@ -31,7 +31,6 @@ import { navBarPreviewStorageKey } from "@/lib/nav-bar-preview-storage";
 import { topBarPreviewStorageKey } from "@/lib/top-bar-preview-storage";
 import { servicesV1PreviewStorageKey } from "@/lib/services-v1-preview-storage";
 import { servicesIconsV2PreviewStorageKey } from "@/lib/services-icons-v2-preview-storage";
-import { loadAllSpacerInstanceSettings } from "@/lib/spacer-instance-storage";
 import {
   spacerGradientStorageKey,
   spacerStripeStorageKey,
@@ -56,30 +55,31 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
     (section) => ({
       group: section.group,
       variant: getPlaygroundSectionVariant(section),
-      ...(section.group === "spacer" || section.group === "content" ? { id: section.id } : {}),
+      id: section.id,
     }),
   );
 
-  const previewSpacers = getPreviewSections(playgroundSections).filter(
-    (section) => section.group === "spacer",
-  );
-  const previewContents = getPreviewSections(playgroundSections).filter(
-    (section) => section.group === "content",
-  );
-  const spacerInstances = loadAllSpacerInstanceSettings();
-  const contentInstances = loadAllContentInstanceSettings();
+  const previewSectionSlots = getPreviewSections(playgroundSections);
+  const sectionInstances = loadAllSectionInstanceSettings();
+  const publishedSections: HomepagePreviewSettings["sections"] = {};
   const spacers: HomepagePreviewSettings["spacers"] = {};
   const contents: HomepagePreviewSettings["contents"] = {};
-  for (const section of previewSpacers) {
-    const settings = spacerInstances[section.id];
-    if (settings) {
-      spacers[section.id] = settings;
+
+  for (const section of previewSectionSlots) {
+    const settings = sectionInstances[section.id];
+    if (!settings) continue;
+
+    publishedSections[section.id] = settings;
+
+    if (settings.spacer) {
+      spacers[section.id] = settings.spacer;
     }
-  }
-  for (const section of previewContents) {
-    const settings = contentInstances[section.id];
-    if (settings) {
-      contents[section.id] = settings;
+
+    if (settings.textIconsV3 || settings.textImage) {
+      contents[section.id] = {
+        textIconsV3: settings.textIconsV3,
+        textImage: settings.textImage,
+      };
     }
   }
 
@@ -105,6 +105,7 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
     spacerGradient: readJson(spacerGradientStorageKey),
     spacers: Object.keys(spacers).length > 0 ? spacers : undefined,
     contents: Object.keys(contents).length > 0 ? contents : undefined,
+    sections: Object.keys(publishedSections).length > 0 ? publishedSections : undefined,
     contact: readJson(contactPreviewStorageKey),
     textIconsV3: readJson(textIconsV3PreviewStorageKey),
     textImage: readJson(textImagePreviewStorageKey),
@@ -112,7 +113,7 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
   };
 
   const hasPreviewSettings = Object.entries(previewSettings).some(([key, value]) => {
-    if (key === "spacers" || key === "contents") {
+    if (key === "spacers" || key === "contents" || key === "sections") {
       return value !== undefined && value !== null && Object.keys(value).length > 0;
     }
     return value !== undefined && value !== null;

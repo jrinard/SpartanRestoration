@@ -10,6 +10,11 @@ import {
   spacerStripeStorageKey,
 } from "@/lib/spacer-preview-storage";
 import type { SiteLayoutWidth } from "@/lib/site-layout";
+import {
+  loadAllSectionInstanceSettings,
+  loadSectionInstanceField,
+  saveSectionInstanceField,
+} from "@/lib/section-instance-storage";
 
 export const defaultSpacerOuterBackgroundColor = "#ffffff";
 
@@ -23,6 +28,7 @@ export type SpacerInstanceSettings = {
 
 export const defaultSpacerLayoutWidth: SiteLayoutWidth = "full";
 
+/** @deprecated Use sectionInstancesStorageKey */
 export const spacerInstancesStorageKey = "lifespring-spacer-instances";
 
 function readJson<T>(raw: string | null): T | undefined {
@@ -34,33 +40,28 @@ function readJson<T>(raw: string | null): T | undefined {
   }
 }
 
-function readAllSpacerInstances(): Record<string, SpacerInstanceSettings> {
-  if (typeof window === "undefined") return {};
-  return readJson<Record<string, SpacerInstanceSettings>>(
-    localStorage.getItem(spacerInstancesStorageKey),
-  ) ?? {};
-}
-
-function writeAllSpacerInstances(instances: Record<string, SpacerInstanceSettings>): void {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(spacerInstancesStorageKey, JSON.stringify(instances));
-}
-
 export function loadSpacerInstanceSettings(instanceId: string): SpacerInstanceSettings | undefined {
-  return readAllSpacerInstances()[instanceId];
+  return loadSectionInstanceField(instanceId, "spacer");
 }
 
 export function saveSpacerInstanceSettings(
   instanceId: string,
   settings: SpacerInstanceSettings,
 ): void {
-  const instances = readAllSpacerInstances();
-  instances[instanceId] = settings;
-  writeAllSpacerInstances(instances);
+  saveSectionInstanceField(instanceId, "spacer", settings);
 }
 
 export function loadAllSpacerInstanceSettings(): Record<string, SpacerInstanceSettings> {
-  return readAllSpacerInstances();
+  const all = loadAllSectionInstanceSettings();
+  const spacers: Record<string, SpacerInstanceSettings> = {};
+
+  for (const [id, settings] of Object.entries(all)) {
+    if (settings.spacer) {
+      spacers[id] = settings.spacer;
+    }
+  }
+
+  return spacers;
 }
 
 export function copySpacerInstanceSettings(

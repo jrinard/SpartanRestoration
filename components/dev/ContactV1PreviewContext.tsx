@@ -14,6 +14,7 @@ import {
   type ContactBackgroundMode,
   type ContactPreviewSettings,
 } from "@/lib/contact-preview";
+import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadContactPreviewSettings,
   saveContactPreviewSettings,
@@ -26,19 +27,23 @@ type ContactV1PreviewContextValue = {
 
 const ContactV1PreviewContext = createContext<ContactV1PreviewContextValue | null>(null);
 
-export function ContactV1PreviewProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettingsState] = useState<ContactPreviewSettings>(
-    defaultContactPreviewSettings,
-  );
-
-  useEffect(() => {
-    setSettingsState(loadContactPreviewSettings());
-  }, []);
-
-  const setSettings = useCallback((next: ContactPreviewSettings) => {
-    setSettingsState(next);
-    saveContactPreviewSettings(next);
-  }, []);
+export function ContactV1PreviewProvider({
+  children,
+  instanceId,
+  initialSettings,
+}: {
+  children: ReactNode;
+  instanceId?: string;
+  initialSettings?: ContactPreviewSettings;
+}) {
+  const { settings, setSettings } = useInstancePreviewSettings({
+    instanceId,
+    field: "contact",
+    initialSettings,
+    defaultSettings: defaultContactPreviewSettings,
+    loadGlobal: loadContactPreviewSettings,
+    saveGlobal: saveContactPreviewSettings,
+  });
 
   return (
     <ContactV1PreviewContext.Provider value={{ settings, setSettings }}>

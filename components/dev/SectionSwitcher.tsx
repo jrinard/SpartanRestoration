@@ -44,6 +44,7 @@ import {
   ReviewboxBackgroundControls,
 } from "@/components/dev/ReviewboxPreviewContext";
 import {
+  ContactV1PreviewProvider,
   ContactV1PreviewControls,
 } from "@/components/dev/ContactV1PreviewContext";
 import {
@@ -189,12 +190,14 @@ export function SectionSwitcher({
 
   if (isServicesIconsV2) {
     return (
-      <ServicesIconsV2PreviewProvider enableContentEditing>{switcher}</ServicesIconsV2PreviewProvider>
+      <ServicesIconsV2PreviewProvider instanceId={sectionId} enableContentEditing>
+        {switcher}
+      </ServicesIconsV2PreviewProvider>
     );
   }
 
   if (group === "services") {
-    return <ServicesV1LayoutProvider>{switcher}</ServicesV1LayoutProvider>;
+    return <ServicesV1LayoutProvider instanceId={sectionId}>{switcher}</ServicesV1LayoutProvider>;
   }
 
   if (group === "spacer") {
@@ -206,43 +209,47 @@ export function SectionSwitcher({
   }
 
   if (isTopBar) {
-    return <TopBarPreviewProvider>{switcher}</TopBarPreviewProvider>;
+    return <TopBarPreviewProvider instanceId={sectionId}>{switcher}</TopBarPreviewProvider>;
   }
 
   if (isNavBar) {
-    return <NavBarPreviewProvider>{switcher}</NavBarPreviewProvider>;
+    return <NavBarPreviewProvider instanceId={sectionId}>{switcher}</NavBarPreviewProvider>;
   }
 
   if (isHeaderWithPreview) {
-    return <HeaderV3PreviewProvider>{switcher}</HeaderV3PreviewProvider>;
+    return <HeaderV3PreviewProvider instanceId={sectionId}>{switcher}</HeaderV3PreviewProvider>;
   }
 
   if (isHeroV1) {
-    return <HeroV1PreviewProvider>{switcher}</HeroV1PreviewProvider>;
+    return <HeroV1PreviewProvider instanceId={sectionId}>{switcher}</HeroV1PreviewProvider>;
   }
 
   if (isHeroBanner) {
-    return <HeroBannerPreviewProvider>{switcher}</HeroBannerPreviewProvider>;
+    return <HeroBannerPreviewProvider instanceId={sectionId}>{switcher}</HeroBannerPreviewProvider>;
   }
 
   if (isHeroV21) {
-    return <HeroV21PreviewProvider>{switcher}</HeroV21PreviewProvider>;
+    return <HeroV21PreviewProvider instanceId={sectionId}>{switcher}</HeroV21PreviewProvider>;
   }
 
   if (isPortfolioV1) {
-    return <PortfolioPreviewProvider>{switcher}</PortfolioPreviewProvider>;
+    return <PortfolioPreviewProvider instanceId={sectionId}>{switcher}</PortfolioPreviewProvider>;
   }
 
   if (isFooterV3) {
-    return <FooterV3PreviewProvider>{switcher}</FooterV3PreviewProvider>;
+    return <FooterV3PreviewProvider instanceId={sectionId}>{switcher}</FooterV3PreviewProvider>;
   }
 
   if (isFooterV1) {
-    return <FooterV1PreviewProvider>{switcher}</FooterV1PreviewProvider>;
+    return <FooterV1PreviewProvider instanceId={sectionId}>{switcher}</FooterV1PreviewProvider>;
   }
 
   if (isReviewboxV1) {
-    return <ReviewboxPreviewProvider>{switcher}</ReviewboxPreviewProvider>;
+    return <ReviewboxPreviewProvider instanceId={sectionId}>{switcher}</ReviewboxPreviewProvider>;
+  }
+
+  if (isContactV1) {
+    return <ContactV1PreviewProvider instanceId={sectionId}>{switcher}</ContactV1PreviewProvider>;
   }
 
   if (isTextIconsV3) {

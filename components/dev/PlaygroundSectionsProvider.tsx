@@ -11,12 +11,11 @@ import {
 } from "react";
 import { creativeStorageKeys } from "@/lib/creative-themes";
 import { getColorTheme } from "@/lib/color-themes";
-import { copyEffectiveContentInstanceSettings } from "@/lib/content-instance-storage";
 import {
   copyPlaygroundSectionInstanceSettings,
+  copyPlaygroundSectionInstanceSettingsByConfig,
   runPlaygroundPageInstanceRepairIfNeeded,
 } from "@/lib/playground-page-instance-clone";
-import { copyEffectiveSpacerInstanceSettings } from "@/lib/spacer-preview-storage";
 import { playgroundNavSyncEvent, syncPlaygroundNavFromPages } from "@/lib/playground-nav-sync";
 import {
   clonePlaygroundPageSectionsFromHome,
@@ -162,23 +161,13 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
       if (!result) return current;
 
       const source = pageSections.find((section) => section.id === sourceId);
-      if (source?.group === "spacer") {
+      const target = result.sections.find((section) => section.id === result.newId);
+      if (source && target) {
         const storedColor = localStorage.getItem(creativeStorageKeys.colorTheme);
         const colorThemeId = storedColor
           ? getColorTheme(storedColor).id
           : getColorTheme("lifespring").id;
-        copyEffectiveSpacerInstanceSettings(
-          sourceId,
-          result.newId,
-          colorThemeId,
-          getPlaygroundSectionVariant(source),
-        );
-      } else if (source?.group === "content") {
-        copyEffectiveContentInstanceSettings(
-          sourceId,
-          result.newId,
-          getPlaygroundSectionVariant(source),
-        );
+        copyPlaygroundSectionInstanceSettingsByConfig(source, target, colorThemeId);
       }
 
       return updatePlaygroundPageSections(current, current.activePageId, result.sections);

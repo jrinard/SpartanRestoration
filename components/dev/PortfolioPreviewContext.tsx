@@ -14,6 +14,7 @@ import {
   type PortfolioPreviewSettings,
   type PortfolioSectionTheme,
 } from "@/lib/portfolio-preview";
+import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadPortfolioPreviewSettings,
   savePortfolioPreviewSettings,
@@ -28,29 +29,24 @@ const PortfolioPreviewContext = createContext<PortfolioPreviewContextValue | nul
 
 type PortfolioPreviewProviderProps = {
   children: ReactNode;
+  instanceId?: string;
   /** Published homepage settings — skips localStorage on the live site. */
   initialSettings?: PortfolioPreviewSettings;
 };
 
 export function PortfolioPreviewProvider({
   children,
+  instanceId,
   initialSettings,
 }: PortfolioPreviewProviderProps) {
-  const lockedToPublished = initialSettings !== undefined;
-
-  const [settings, setSettingsState] = useState<PortfolioPreviewSettings>(() =>
-    initialSettings ?? defaultPortfolioPreviewSettings,
-  );
-
-  useEffect(() => {
-    if (lockedToPublished) return;
-    setSettingsState(loadPortfolioPreviewSettings());
-  }, [lockedToPublished]);
-
-  const setSettings = useCallback((next: PortfolioPreviewSettings) => {
-    setSettingsState(next);
-    savePortfolioPreviewSettings(next);
-  }, []);
+  const { settings, setSettings } = useInstancePreviewSettings({
+    instanceId,
+    field: "portfolio",
+    initialSettings,
+    defaultSettings: defaultPortfolioPreviewSettings,
+    loadGlobal: loadPortfolioPreviewSettings,
+    saveGlobal: savePortfolioPreviewSettings,
+  });
 
   return (
     <PortfolioPreviewContext.Provider value={{ settings, setSettings }}>
