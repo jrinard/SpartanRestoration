@@ -1,4 +1,4 @@
-import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
+import { getCommittedHomepagePreviewSettings, shouldUsePlaygroundPreviewSettings } from "@/lib/homepage-settings";
 import {
   isButtonPreviewSize,
   normalizeButtonBorderRadiusPx,
@@ -7,10 +7,12 @@ import {
 import {
   defaultTextImagePreviewSettings,
   getTextImageColorsForTheme,
+  normalizeTextImageHeadlineLines,
   textImageEntranceSpeedValues,
   type TextImagePreviewSettings,
   type TextImageSectionTheme,
 } from "@/lib/text-image-preview";
+import { normalizeImageLibrarySrc } from "@/lib/image-library";
 
 export const textImagePreviewStorageKey = "lifespring-text-image-preview";
 
@@ -80,7 +82,27 @@ export function normalizeTextImagePreviewSettings(
       typeof value.layoutInverted === "boolean"
         ? value.layoutInverted
         : defaultTextImagePreviewSettings.layoutInverted,
+    contentEyebrow: normalizeOptionalString(value.contentEyebrow),
+    contentHeadlineLines: normalizeTextImageHeadlineLines(value.contentHeadlineLines),
+    contentBody: normalizeOptionalString(value.contentBody),
+    contentSidebarText: normalizeOptionalString(value.contentSidebarText),
+    contentPhoneLabel: normalizeOptionalString(value.contentPhoneLabel),
+    contentPhoneHref: normalizePhoneHref(value.contentPhoneHref),
+    contentImageSrc: normalizeImageLibrarySrc(value.contentImageSrc),
+    contentImageAlt: normalizeOptionalString(value.contentImageAlt),
   };
+}
+
+function normalizeOptionalString(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  return trimmed || undefined;
+}
+
+function normalizePhoneHref(value: unknown): string | undefined {
+  const href = normalizeOptionalString(value);
+  if (!href?.startsWith("tel:")) return undefined;
+  return href;
 }
 
 function isTextImagePreviewSettings(value: unknown): value is Partial<TextImagePreviewSettings> {
@@ -91,8 +113,10 @@ function isTextImagePreviewSettings(value: unknown): value is Partial<TextImageP
 }
 
 export function loadTextImagePreviewSettings(): TextImagePreviewSettings {
-  const committed = getCommittedHomepagePreviewSettings()?.textImage;
-  if (committed) return normalizeTextImagePreviewSettings(committed);
+  if (!shouldUsePlaygroundPreviewSettings()) {
+    const committed = getCommittedHomepagePreviewSettings()?.textImage;
+    if (committed) return normalizeTextImagePreviewSettings(committed);
+  }
 
   if (typeof window === "undefined") {
     return defaultTextImagePreviewSettings;

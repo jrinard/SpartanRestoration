@@ -23,7 +23,62 @@ export type TextImagePreviewSettings = TextImageTextColors &
     entranceAnimationSpeedMs: number;
     /** When true, image column is left and text column is right. */
     layoutInverted: boolean;
+    /** Playground copy overrides. */
+    contentEyebrow?: string;
+    contentHeadlineLines?: string[];
+    contentBody?: string;
+    contentSidebarText?: string;
+    contentPhoneLabel?: string;
+    contentPhoneHref?: string;
+    contentImageSrc?: string;
+    contentImageAlt?: string;
   };
+
+export type TextImageContent = {
+  eyebrow: string;
+  headlineLines: string[];
+  body: string;
+  sidebarText: string;
+  phoneLabel: string;
+  phoneHref: string;
+  imageSrc: string;
+  imageAlt: string;
+};
+
+export function normalizeTextImageHeadlineLines(value: unknown): string[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  const lines = value
+    .filter((line): line is string => typeof line === "string")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  return lines.length > 0 ? lines : undefined;
+}
+
+export function parseTextImageHeadlineDraft(draft: string): string[] {
+  return draft
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+export function resolveTextImageContent(
+  defaults: TextImageContent,
+  settings: TextImagePreviewSettings,
+): TextImageContent {
+  return {
+    eyebrow: settings.contentEyebrow?.trim() || defaults.eyebrow,
+    headlineLines:
+      settings.contentHeadlineLines && settings.contentHeadlineLines.length > 0
+        ? settings.contentHeadlineLines
+        : defaults.headlineLines,
+    body: settings.contentBody?.trim() || defaults.body,
+    sidebarText: settings.contentSidebarText?.trim() || defaults.sidebarText,
+    phoneLabel: settings.contentPhoneLabel?.trim() || defaults.phoneLabel,
+    phoneHref: settings.contentPhoneHref?.trim() || defaults.phoneHref,
+    imageSrc: settings.contentImageSrc?.trim() || defaults.imageSrc,
+    imageAlt: settings.contentImageAlt?.trim() || defaults.imageAlt,
+  };
+}
 
 export const textImageEntranceSpeedOptions = [
   { value: 500, label: "Fast" },

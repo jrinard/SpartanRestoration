@@ -12,11 +12,15 @@ import { ButtonPreviewControls } from "@/components/dev/ButtonPreviewControls";
 import {
   defaultTextImagePreviewSettings,
   getTextImageColorsForTheme,
+  parseTextImageHeadlineDraft,
+  resolveTextImageContent,
   textImageEntranceSpeedOptions,
   textImageSectionThemes,
+  type TextImageContent,
   type TextImagePreviewSettings,
   type TextImageSectionTheme,
 } from "@/lib/text-image-preview";
+import { phoneTelHref } from "@/lib/phone";
 import {
   loadTextImageInstanceSettings,
   saveTextImageInstanceSettings,
@@ -30,6 +34,14 @@ import {
 type TextImagePreviewContextValue = {
   settings: TextImagePreviewSettings;
   setSettings: (settings: TextImagePreviewSettings) => void;
+  contentEditingEnabled: boolean;
+  getContent: (defaults: TextImageContent) => TextImageContent;
+  setContentEyebrow: (value: string) => void;
+  setContentHeadlineLines: (lines: string[]) => void;
+  setContentBody: (value: string) => void;
+  setContentSidebarText: (value: string) => void;
+  setContentPhone: (label: string, href?: string) => void;
+  setContentImage: (src: string, alt: string) => void;
 };
 
 const TextImagePreviewContext = createContext<TextImagePreviewContextValue | null>(null);
@@ -38,15 +50,15 @@ type TextImagePreviewProviderProps = {
   children: ReactNode;
   instanceId?: string;
   initialSettings?: TextImagePreviewSettings;
+  enableContentEditing?: boolean;
 };
 
 export function TextImagePreviewProvider({
   children,
   instanceId,
   initialSettings,
+  enableContentEditing = false,
 }: TextImagePreviewProviderProps) {
-  const lockedToPublished = initialSettings !== undefined;
-
   const [settings, setSettingsState] = useState<TextImagePreviewSettings>(() => {
     if (initialSettings) {
       return normalizeTextImagePreviewSettings(initialSettings);
@@ -58,7 +70,7 @@ export function TextImagePreviewProvider({
   });
 
   useEffect(() => {
-    if (lockedToPublished) return;
+    if (initialSettings !== undefined) return;
     if (instanceId) {
       setSettingsState(
         loadTextImageInstanceSettings(instanceId) ?? loadTextImagePreviewSettings(),
@@ -66,11 +78,11 @@ export function TextImagePreviewProvider({
       return;
     }
     setSettingsState(loadTextImagePreviewSettings());
-  }, [instanceId, lockedToPublished]);
+  }, [instanceId, initialSettings]);
 
   const setSettings = useCallback(
     (next: TextImagePreviewSettings) => {
-      if (lockedToPublished) return;
+      if (!enableContentEditing) return;
       const normalized = normalizeTextImagePreviewSettings(next);
       setSettingsState(normalized);
       if (instanceId) {
@@ -79,11 +91,97 @@ export function TextImagePreviewProvider({
       }
       saveTextImagePreviewSettings(normalized);
     },
-    [instanceId, lockedToPublished],
+    [enableContentEditing, instanceId],
+  );
+
+  const getContent = useCallback(
+    (defaults: TextImageContent) => resolveTextImageContent(defaults, settings),
+    [settings],
+  );
+
+  const setContentEyebrow = useCallback(
+    (value: string) => {
+      if (!enableContentEditing) return;
+      const trimmed = value.trim();
+      if (!trimmed) return;
+      setSettings({ ...settings, contentEyebrow: trimmed });
+    },
+    [enableContentEditing, settings, setSettings],
+  );
+
+  const setContentHeadlineLines = useCallback(
+    (lines: string[]) => {
+      if (!enableContentEditing) return;
+      if (lines.length === 0) return;
+      setSettings({ ...settings, contentHeadlineLines: lines });
+    },
+    [enableContentEditing, settings, setSettings],
+  );
+
+  const setContentBody = useCallback(
+    (value: string) => {
+      if (!enableContentEditing) return;
+      const trimmed = value.trim();
+      if (!trimmed) return;
+      setSettings({ ...settings, contentBody: trimmed });
+    },
+    [enableContentEditing, settings, setSettings],
+  );
+
+  const setContentSidebarText = useCallback(
+    (value: string) => {
+      if (!enableContentEditing) return;
+      const trimmed = value.trim();
+      if (!trimmed) return;
+      setSettings({ ...settings, contentSidebarText: trimmed });
+    },
+    [enableContentEditing, settings, setSettings],
+  );
+
+  const setContentPhone = useCallback(
+    (label: string, href?: string) => {
+      if (!enableContentEditing) return;
+      const trimmedLabel = label.trim();
+      if (!trimmedLabel) return;
+      setSettings({
+        ...settings,
+        contentPhoneLabel: trimmedLabel,
+        contentPhoneHref: href?.trim() || phoneTelHref(trimmedLabel),
+      });
+    },
+    [enableContentEditing, settings, setSettings],
+  );
+
+  const setContentImage = useCallback(
+    (src: string, alt: string) => {
+      if (!enableContentEditing) return;
+      const trimmedSrc = src.trim();
+      const trimmedAlt = alt.trim();
+      if (!trimmedSrc || !trimmedAlt) return;
+      setSettings({
+        ...settings,
+        contentImageSrc: trimmedSrc,
+        contentImageAlt: trimmedAlt,
+      });
+    },
+    [enableContentEditing, settings, setSettings],
   );
 
   return (
-    <TextImagePreviewContext.Provider value={{ settings, setSettings }}>
+    <TextImagePreviewContext.Provider
+      value={{
+        settings,
+        setSettings,
+        contentEditingEnabled: enableContentEditing,
+        getContent,
+        setContentEyebrow,
+        setContentHeadlineLines,
+        setContentBody,
+        setContentSidebarText,
+        setContentPhone,
+        setContentImage,
+      }}
+    >
       {children}
     </TextImagePreviewContext.Provider>
   );
@@ -92,6 +190,8 @@ export function TextImagePreviewProvider({
 export function useTextImagePreview() {
   return useContext(TextImagePreviewContext);
 }
+
+export { parseTextImageHeadlineDraft };
 
 const colorInputClassName =
   "h-8 w-8 cursor-pointer rounded border border-accent-purple/40 bg-background/90 p-0.5";
@@ -104,7 +204,7 @@ const buttonClassName =
 
 export function TextImagePreviewControls() {
   const context = useTextImagePreview();
-  if (!context) return null;
+  if (!context?.contentEditingEnabled) return null;
 
   const update = (patch: Partial<TextImagePreviewSettings>) => {
     context.setSettings({ ...context.settings, ...patch });

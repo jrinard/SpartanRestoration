@@ -253,7 +253,9 @@ export function SectionSwitcher({
 
   if (isTextImageV1) {
     return (
-      <TextImagePreviewProvider instanceId={sectionId}>{switcher}</TextImagePreviewProvider>
+      <TextImagePreviewProvider instanceId={sectionId} enableContentEditing>
+        {switcher}
+      </TextImagePreviewProvider>
     );
   }
 
