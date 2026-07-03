@@ -16,6 +16,7 @@ import { ServicesIconsV2PreviewProvider } from "@/components/dev/ServicesIconsV2
 import { SpacerStripePreviewProvider } from "@/components/dev/SpacerStripePreviewContext";
 import { TextIconsV3PreviewProvider } from "@/components/dev/TextIconsV3PreviewContext";
 import { TextImagePreviewProvider } from "@/components/dev/TextImagePreviewContext";
+import { TextImagesPreviewProvider } from "@/components/dev/TextImagesPreviewContext";
 import { headerVariantUsesPreviewControls } from "@/lib/header-v3-gradient";
 import type { HomepagePreviewSettings } from "@/lib/homepage-settings";
 import { resolvePublishedSectionInstanceSettings } from "@/lib/section-instance-copy";
@@ -231,6 +232,17 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
       >
         {content}
       </TextImagePreviewProvider>
+    );
+  }
+
+  if (group === "content" && variantId === "text-images-v1") {
+    return (
+      <TextImagesPreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.textImages, previewSettings?.textImages)}
+      >
+        {content}
+      </TextImagesPreviewProvider>
     );
   }
 

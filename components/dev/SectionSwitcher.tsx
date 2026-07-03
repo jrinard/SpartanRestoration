@@ -5,7 +5,7 @@ import {
   NavBarPreviewProvider,
   NavBarPreviewControls,
 } from "@/components/dev/NavBarPreviewContext";
-import { NavBarLinkOrderControls } from "@/components/dev/NavBarLinkOrderControls";
+import { NavBarLinksControls } from "@/components/dev/NavBarLinksControls";
 import {
   TopBarPreviewProvider,
   TopBarPreviewControls,
@@ -60,6 +60,10 @@ import {
   TextImagePreviewProvider,
   TextImagePreviewControls,
 } from "@/components/dev/TextImagePreviewContext";
+import {
+  TextImagesPreviewProvider,
+  TextImagesPreviewControls,
+} from "@/components/dev/TextImagesPreviewContext";
 import { headerVariantUsesPreviewControls } from "@/lib/header-v3-gradient";
 import {
   getSectionVariant,
@@ -112,6 +116,7 @@ export function SectionSwitcher({
   const isContactV1 = group === "contact" && activeVariantId === "contact-v1";
   const isTextIconsV3 = group === "content" && activeVariantId === "text-icons-v3";
   const isTextImageV1 = group === "content" && activeVariantId === "text-image-v1";
+  const isTextImagesV1 = group === "content" && activeVariantId === "text-images-v1";
   const isServicesIconsV2 = group === "services" && activeVariantId === "servicesIcons-v2";
 
   const switcher = (
@@ -163,7 +168,7 @@ export function SectionSwitcher({
         {isNavBar && (
           <>
             <NavBarPreviewControls />
-            <NavBarLinkOrderControls />
+            <NavBarLinksControls />
           </>
         )}
         {isHeaderWithPreview && <HeaderV3PreviewControls variantId={activeVariantId} />}
@@ -182,6 +187,7 @@ export function SectionSwitcher({
         {isContactV1 && <ContactV1PreviewControls />}
         {isTextIconsV3 && <TextIconsV3BackgroundControls />}
         {isTextImageV1 && <TextImagePreviewControls />}
+        {isTextImagesV1 && <TextImagesPreviewControls />}
         {extraControls?.(activeVariantId)}
       </div>
       {activeVariant.render()}
@@ -217,7 +223,11 @@ export function SectionSwitcher({
   }
 
   if (isHeaderWithPreview) {
-    return <HeaderV3PreviewProvider instanceId={sectionId}>{switcher}</HeaderV3PreviewProvider>;
+    return (
+      <HeaderV3PreviewProvider instanceId={sectionId} enableContentEditing>
+        {switcher}
+      </HeaderV3PreviewProvider>
+    );
   }
 
   if (isHeroV1) {
@@ -254,7 +264,9 @@ export function SectionSwitcher({
 
   if (isTextIconsV3) {
     return (
-      <TextIconsV3PreviewProvider instanceId={sectionId}>{switcher}</TextIconsV3PreviewProvider>
+      <TextIconsV3PreviewProvider instanceId={sectionId} enableContentEditing>
+        {switcher}
+      </TextIconsV3PreviewProvider>
     );
   }
 
@@ -263,6 +275,14 @@ export function SectionSwitcher({
       <TextImagePreviewProvider instanceId={sectionId} enableContentEditing>
         {switcher}
       </TextImagePreviewProvider>
+    );
+  }
+
+  if (isTextImagesV1) {
+    return (
+      <TextImagesPreviewProvider instanceId={sectionId} enableContentEditing>
+        {switcher}
+      </TextImagesPreviewProvider>
     );
   }
 

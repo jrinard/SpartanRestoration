@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useNavBarPreview } from "@/components/dev/NavBarPreviewContext";
-import { siteConfig } from "@/config/site";
 import type { NavBarLink } from "@/lib/nav-bar-preview";
+import { defaultNavBarLinks } from "@/lib/nav-bar-preview";
 import { playgroundNavSyncEvent } from "@/lib/playground-nav-sync";
 import { loadNavBarPreviewSettings } from "@/lib/nav-bar-preview-storage";
 
@@ -11,12 +11,11 @@ function readNavLinksFromStorage(): NavBarLink[] {
   try {
     return loadNavBarPreviewSettings().items;
   } catch {
-    return siteConfig.footerNav.map((item) => ({ ...item }));
+    return defaultNavBarLinks.map((link) => ({ ...link }));
   }
 }
 
-const defaultNavLinks = (): NavBarLink[] =>
-  siteConfig.footerNav.map((item) => ({ ...item }));
+const defaultNavLinks = (): NavBarLink[] => defaultNavBarLinks.map((link) => ({ ...link }));
 
 /** Nav links synced from playground pages (nav bar preview storage). */
 export function usePlaygroundNavLinks(): NavBarLink[] {

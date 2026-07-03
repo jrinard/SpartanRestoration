@@ -4,6 +4,9 @@ import {
   normalizeButtonBorderRadiusPx,
   parseButtonBackgroundColor,
 } from "@/lib/button-preview";
+import { normalizeServiceIconsMap } from "@/lib/site-icons";
+import { normalizeHeaderV1NavLinks } from "@/lib/header-v1-nav";
+import { isIconFrameShape, isIconFrameSize } from "@/lib/icon-frame-preview";
 import {
   defaultHeaderV3PreviewSettings,
   headerHeightOptions,
@@ -54,6 +57,18 @@ function isHeaderV3LogoVerticalAlign(value: unknown): value is HeaderLogoVertica
   return value === "top" || value === "center" || value === "bottom";
 }
 
+function isHexColor(value: unknown): value is string {
+  return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
+}
+
+function isRgbaColor(value: unknown): value is string {
+  return typeof value === "string" && /^rgba?\(.+\)$/i.test(value);
+}
+
+function isColor(value: unknown): value is string {
+  return isHexColor(value) || isRgbaColor(value) || value === "transparent";
+}
+
 function normalizeHeaderV1NavTextSizeEm(
   value: Partial<HeaderV3PreviewSettings> & { headerV1NavTextSizePx?: number },
 ): number {
@@ -79,9 +94,14 @@ function normalizeHeaderV1NavTextSizeEm(
   return defaultHeaderV3PreviewSettings.headerV1NavTextSizeEm;
 }
 
+type HeaderV3PreviewSettingsInput = Partial<HeaderV3PreviewSettings> & {
+  headerV1NavLinkTargets?: unknown;
+};
+
 export function normalizeHeaderV3PreviewSettings(
-  value: Partial<HeaderV3PreviewSettings>,
+  value: HeaderV3PreviewSettingsInput,
 ): HeaderV3PreviewSettings {
+  const legacy = value as HeaderV3PreviewSettingsInput;
   return {
     ...defaultHeaderV3PreviewSettings,
     ...value,
@@ -133,6 +153,26 @@ export function normalizeHeaderV3PreviewSettings(
         ? normalizeButtonBorderRadiusPx(Math.round(value.navButtonRadiusPx))
         : defaultHeaderV3PreviewSettings.navButtonRadiusPx,
     headerV1NavTextSizeEm: normalizeHeaderV1NavTextSizeEm(value),
+    headerV1NavIcons: normalizeServiceIconsMap(value.headerV1NavIcons),
+    headerV1NavIconFrameShape: isIconFrameShape(value.headerV1NavIconFrameShape)
+      ? value.headerV1NavIconFrameShape
+      : defaultHeaderV3PreviewSettings.headerV1NavIconFrameShape,
+    headerV1NavIconFrameSize: isIconFrameSize(value.headerV1NavIconFrameSize)
+      ? value.headerV1NavIconFrameSize
+      : defaultHeaderV3PreviewSettings.headerV1NavIconFrameSize,
+    headerV1NavIconColor: isColor(value.headerV1NavIconColor)
+      ? value.headerV1NavIconColor
+      : defaultHeaderV3PreviewSettings.headerV1NavIconColor,
+    headerV1NavIconBorderColor: isColor(value.headerV1NavIconBorderColor)
+      ? value.headerV1NavIconBorderColor
+      : defaultHeaderV3PreviewSettings.headerV1NavIconBorderColor,
+    headerV1NavIconBackgroundColor: isColor(value.headerV1NavIconBackgroundColor)
+      ? value.headerV1NavIconBackgroundColor
+      : defaultHeaderV3PreviewSettings.headerV1NavIconBackgroundColor,
+    headerV1NavLinks: normalizeHeaderV1NavLinks(value.headerV1NavLinks, {
+      headerV1NavLinkTargets: legacy.headerV1NavLinkTargets,
+      headerV1NavIcons: normalizeServiceIconsMap(value.headerV1NavIcons),
+    }),
   };
 }
 
@@ -164,11 +204,13 @@ function mergeLegacySettings(value: { from: string; to: string }): HeaderV3Previ
   });
 }
 
-import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
+import { getCommittedHomepagePreviewSettings, shouldUsePlaygroundPreviewSettings } from "@/lib/homepage-settings";
 
 export function loadHeaderV3PreviewSettings(): HeaderV3PreviewSettings {
-  const committed = getCommittedHomepagePreviewSettings()?.headerV3;
-  if (committed) return committed;
+  if (!shouldUsePlaygroundPreviewSettings()) {
+    const committed = getCommittedHomepagePreviewSettings()?.headerV3;
+    if (committed) return normalizeHeaderV3PreviewSettings(committed);
+  }
 
   if (typeof window === "undefined") {
     return defaultHeaderV3PreviewSettings;

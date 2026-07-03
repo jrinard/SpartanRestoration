@@ -68,13 +68,13 @@ export function HeaderV1({ className }: HeaderV1Props) {
       <div
         className={cn(
           getHeaderLayoutWidthClassName(layoutWidth),
-          "relative z-10 flex items-center justify-between overflow-visible",
+          "relative z-10 flex items-center justify-center overflow-visible md:justify-between",
         )}
         style={getHeaderInnerHeightStyle(settings, "header-v1")}
       >
         <HeaderBrandLink
           className={cn(
-            "header-brand-link flex shrink-0 items-center",
+            "header-brand-link flex shrink-0 items-center max-md:mx-auto max-md:w-full max-md:justify-center max-md:px-4",
             logoOverflow && "header-brand-link--overflow",
             (settings.logoMarginTopPx > 0 ||
               settings.logoHeightPx > 0 ||
@@ -84,7 +84,7 @@ export function HeaderV1({ className }: HeaderV1Props) {
           )}
           style={isCustom ? getHeaderLogoLinkStyle(settings, "header-v1") : undefined}
         >
-          <HeaderBrand priority headerVariant="header-v1" />
+          <HeaderBrand priority headerVariant="header-v1" className="max-md:mx-auto max-md:object-center" />
         </HeaderBrandLink>
         <HeaderV1Nav
           ariaLabel="Service navigation"

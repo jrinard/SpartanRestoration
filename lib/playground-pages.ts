@@ -1,4 +1,5 @@
 import type { NavBarLink } from "@/lib/nav-bar-preview";
+import { createNavBarLinkId } from "@/lib/nav-bar-preview";
 import { createPlaygroundSectionId } from "@/lib/playground-section-id";
 import {
   defaultPlaygroundSections,
@@ -101,6 +102,7 @@ export function setActivePlaygroundPageInStorage(pageId: string): void {
 
 export function getNavLinksFromPlaygroundPages(pages: PlaygroundPage[]): NavBarLink[] {
   return pages.map((page) => ({
+    id: page.isHome ? "nav-home" : createNavBarLinkId(),
     label: page.name,
     href: getPlaygroundPageHref(page),
   }));

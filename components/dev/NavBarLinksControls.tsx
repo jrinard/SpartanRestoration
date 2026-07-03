@@ -1,10 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { NavBarLinkEditor } from "@/components/dev/NavBarLinkEditor";
 import { useNavBarPreview } from "@/components/dev/NavBarPreviewContext";
-import { useOptionalPlaygroundSections } from "@/components/dev/PlaygroundSectionsProvider";
-import { getNavLinksFromPlaygroundPages } from "@/lib/playground-pages";
-import type { NavBarLink } from "@/lib/nav-bar-preview";
+import {
+  addNavBarLink,
+  deleteNavBarLink,
+  getNavBarLinkPillLabel,
+  reorderNavBarLinks,
+  updateNavBarLink,
+} from "@/lib/nav-bar-preview";
 import { cn } from "@/lib/utils";
 
 function GripIcon() {
@@ -20,44 +25,33 @@ function GripIcon() {
   );
 }
 
-function reorderNavLinks(links: NavBarLink[], fromIndex: number, toIndex: number): NavBarLink[] {
-  if (fromIndex === toIndex) return links;
+const pillClassName =
+  "rounded-full border border-accent-purple/40 bg-background/90 px-3 py-1 font-mono text-xs text-accent-purple backdrop-blur-sm transition-colors hover:border-accent-purple hover:bg-accent-purple/10";
 
-  const next = [...links];
-  const [moved] = next.splice(fromIndex, 1);
-  next.splice(toIndex, 0, moved);
-  return next;
-}
+const addButtonClassName =
+  "rounded border border-dashed border-accent-purple/40 bg-background/90 px-3 py-1 font-mono text-xs text-accent-purple backdrop-blur-sm transition-colors hover:border-accent-purple hover:bg-accent-purple/10";
 
-export function NavBarLinkOrderControls() {
+/** Nav bar link list — reorder, add, edit, remove. */
+export function NavBarLinksControls() {
   const nav = useNavBarPreview();
-  const playground = useOptionalPlaygroundSections();
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [overIndex, setOverIndex] = useState<number | null>(null);
+  const [editingLinkId, setEditingLinkId] = useState<string | null>(null);
 
   if (!nav) return null;
 
-  const links = playground?.ready
-    ? getNavLinksFromPlaygroundPages(playground.pages)
-    : nav.settings.items;
+  const links = nav.settings.items;
+  const editingIndex = links.findIndex((link) => link.id === editingLinkId);
+  const editingLink = editingIndex >= 0 ? links[editingIndex] : null;
 
-  if (links.length === 0) return null;
-
-  const handleReorder = (fromIndex: number, toIndex: number) => {
-    if (playground?.ready) {
-      playground.reorderPages(fromIndex, toIndex);
-      return;
-    }
-
-    nav.setSettings({
-      ...nav.settings,
-      items: reorderNavLinks(nav.settings.items, fromIndex, toIndex),
-    });
+  const updateLinks = (items: typeof links) => {
+    nav.setSettings({ ...nav.settings, items });
   };
 
   return (
-    <div className="flex w-full basis-full flex-wrap items-center gap-2 border-t border-accent-purple/20 pt-2">
+    <div className="flex w-full basis-full flex-col gap-2 border-t border-accent-purple/20 pt-2">
       <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Link order</span>
+
       <ul className="flex flex-wrap items-center gap-1.5">
         {links.map((link, index) => {
           const isDragging = dragIndex === index;
@@ -65,7 +59,7 @@ export function NavBarLinkOrderControls() {
 
           return (
             <li
-              key={`${link.href}-${index}`}
+              key={link.id}
               className={cn(
                 "flex items-center gap-1 rounded border border-accent-purple/30 bg-background/90 px-1.5 py-1 transition-shadow",
                 isDragging && "opacity-50",
@@ -80,7 +74,7 @@ export function NavBarLinkOrderControls() {
                 event.preventDefault();
                 const fromIndex = Number(event.dataTransfer.getData("text/plain"));
                 if (Number.isNaN(fromIndex)) return;
-                handleReorder(fromIndex, index);
+                updateLinks(reorderNavBarLinks(links, fromIndex, index));
                 setDragIndex(null);
                 setOverIndex(null);
               }}
@@ -102,11 +96,46 @@ export function NavBarLinkOrderControls() {
               >
                 <GripIcon />
               </button>
-              <span className="font-mono text-xs text-accent-purple">{link.label}</span>
+              <button
+                type="button"
+                onClick={() => setEditingLinkId(link.id)}
+                className={pillClassName}
+                aria-expanded={editingLinkId === link.id}
+              >
+                {getNavBarLinkPillLabel(link, index)}
+              </button>
             </li>
           );
         })}
+        <li>
+          <button
+            type="button"
+            onClick={() => {
+              const nextLinks = addNavBarLink(links);
+              updateLinks(nextLinks);
+              setEditingLinkId(nextLinks[nextLinks.length - 1]?.id ?? null);
+            }}
+            className={addButtonClassName}
+          >
+            + Add link
+          </button>
+        </li>
       </ul>
+
+      {editingLink && editingIndex >= 0 && (
+        <NavBarLinkEditor
+          link={editingLink}
+          linkIndex={editingIndex}
+          onSave={(savedLink) => {
+            updateLinks(updateNavBarLink(links, savedLink.id, savedLink));
+          }}
+          onDelete={() => {
+            updateLinks(deleteNavBarLink(links, editingLink.id));
+            setEditingLinkId(null);
+          }}
+          onClose={() => setEditingLinkId(null)}
+        />
+      )}
     </div>
   );
 }

@@ -134,6 +134,17 @@ export function getTextImageColorsForTheme(theme: TextImageSectionTheme): TextIm
   return theme === "dark" ? textImageDarkTheme : textImageLightTheme;
 }
 
+export const defaultTextImageV1Theme: TextImageSectionTheme = "light";
+export const defaultTextImagesV1Theme: TextImageSectionTheme = "dark";
+
+/** When the active theme differs from the section default, sample images are CSS-inverted. */
+export function shouldInvertTextImageForTheme(
+  theme: TextImageSectionTheme,
+  defaultTheme: TextImageSectionTheme,
+): boolean {
+  return theme !== defaultTheme;
+}
+
 export const textImagePhoneButtonMarginOptions = [
   0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128,
 ] as const;

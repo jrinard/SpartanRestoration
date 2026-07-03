@@ -6,6 +6,7 @@ import { ContactModalProvider } from "@/components/contact/ContactModalContext";
 import { CommittedPreviewSettingsBridge } from "@/components/dev/CommittedPreviewSettingsBridge";
 import { CreativeProvider } from "@/components/dev/CreativeProvider";
 import { ContactV1PreviewProvider } from "@/components/dev/ContactV1PreviewContext";
+import { HashScrollOnNavigate } from "@/components/dev/HashScrollOnNavigate";
 import type { HomepageConfig } from "@/lib/homepage-config";
 
 type SiteShellProps = {
@@ -26,6 +27,7 @@ export function SiteShell({ children, config }: SiteShellProps) {
           <ContactModalProvider>
             {children}
             <ContactModal />
+            <HashScrollOnNavigate />
           </ContactModalProvider>
         </ContactV1PreviewProvider>
       </CreativeProvider>

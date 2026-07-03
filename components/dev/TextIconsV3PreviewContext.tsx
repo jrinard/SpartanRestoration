@@ -4,10 +4,9 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
-  useState,
   type ReactNode,
 } from "react";
+import { IconFramePreviewControls } from "@/components/dev/IconFramePreviewControls";
 import {
   defaultTextIconsV3PreviewSettings,
   textIconsV3GradientDirections,
@@ -16,6 +15,7 @@ import {
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
 import { siteLayoutWidthOptions } from "@/lib/site-layout";
 import type { SiteLayoutWidth } from "@/lib/site-layout";
+import type { SiteIconName } from "@/lib/site-icons";
 import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadTextIconsV3PreviewSettings,
@@ -26,6 +26,9 @@ import {
 type TextIconsV3PreviewContextValue = {
   settings: TextIconsV3PreviewSettings;
   setSettings: (settings: TextIconsV3PreviewSettings) => void;
+  contentEditingEnabled: boolean;
+  getItemIcon: (itemId: string, fallback: SiteIconName) => SiteIconName;
+  setItemIcon: (itemId: string, iconName: SiteIconName) => void;
 };
 
 const TextIconsV3PreviewContext = createContext<TextIconsV3PreviewContextValue | null>(null);
@@ -34,14 +37,16 @@ type TextIconsV3PreviewProviderProps = {
   children: ReactNode;
   instanceId?: string;
   initialSettings?: TextIconsV3PreviewSettings;
+  enableContentEditing?: boolean;
 };
 
 export function TextIconsV3PreviewProvider({
   children,
   instanceId,
   initialSettings,
+  enableContentEditing = false,
 }: TextIconsV3PreviewProviderProps) {
-  const { settings, setSettings } = useInstancePreviewSettings({
+  const { settings, setSettings: persistSettings } = useInstancePreviewSettings({
     instanceId,
     field: "textIconsV3",
     initialSettings,
@@ -51,8 +56,44 @@ export function TextIconsV3PreviewProvider({
     normalize: normalizeTextIconsV3PreviewSettings,
   });
 
+  const setSettings = useCallback(
+    (next: TextIconsV3PreviewSettings) => {
+      persistSettings(next);
+    },
+    [persistSettings],
+  );
+
+  const getItemIcon = useCallback(
+    (itemId: string, fallback: SiteIconName): SiteIconName => {
+      return settings.itemIcons[itemId] ?? fallback;
+    },
+    [settings.itemIcons],
+  );
+
+  const setItemIcon = useCallback(
+    (itemId: string, iconName: SiteIconName) => {
+      if (!enableContentEditing) return;
+      setSettings({
+        ...settings,
+        itemIcons: {
+          ...settings.itemIcons,
+          [itemId]: iconName,
+        },
+      });
+    },
+    [enableContentEditing, setSettings, settings],
+  );
+
   return (
-    <TextIconsV3PreviewContext.Provider value={{ settings, setSettings }}>
+    <TextIconsV3PreviewContext.Provider
+      value={{
+        settings,
+        setSettings,
+        contentEditingEnabled: enableContentEditing,
+        getItemIcon,
+        setItemIcon,
+      }}
+    >
       {children}
     </TextIconsV3PreviewContext.Provider>
   );
@@ -134,6 +175,11 @@ export function TextIconsV3BackgroundControls() {
           aria-label="Text-icons v3 subheading color"
         />
       </label>
+      <IconFramePreviewControls
+        settings={context.settings}
+        onChange={update}
+        ariaPrefix="Text-icons v3"
+      />
       <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">BG 1</span>
         <input

@@ -16,7 +16,7 @@ import {
   copyPlaygroundSectionInstanceSettingsByConfig,
   runPlaygroundPageInstanceRepairIfNeeded,
 } from "@/lib/playground-page-instance-clone";
-import { playgroundNavSyncEvent, syncPlaygroundNavFromPages } from "@/lib/playground-nav-sync";
+import { playgroundNavSyncEvent } from "@/lib/playground-nav-sync";
 import {
   clonePlaygroundPageSectionsFromHome,
   createDefaultPlaygroundPagesState,
@@ -43,6 +43,7 @@ import {
   getVisiblePlaygroundSections,
   type PlaygroundSectionConfig,
 } from "@/lib/playground-sections";
+import { HashScrollOnNavigate } from "@/components/dev/HashScrollOnNavigate";
 
 type PlaygroundSectionsContextValue = {
   pages: PlaygroundPage[];
@@ -86,11 +87,6 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
     if (!ready) return;
     savePlaygroundPagesState(pagesState);
   }, [pagesState, ready]);
-
-  useEffect(() => {
-    if (!ready) return;
-    syncPlaygroundNavFromPages(pagesState.pages);
-  }, [pagesState.pages, ready]);
 
   const activePage = getActivePlaygroundPage(pagesState);
   const sections = getPlaygroundPageSections(pagesState, pagesState.activePageId);
@@ -199,7 +195,10 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
   };
 
   return (
-    <PlaygroundSectionsContext.Provider value={value}>{children}</PlaygroundSectionsContext.Provider>
+    <PlaygroundSectionsContext.Provider value={value}>
+      {children}
+      <HashScrollOnNavigate />
+    </PlaygroundSectionsContext.Provider>
   );
 }
 

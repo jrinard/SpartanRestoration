@@ -12,6 +12,16 @@ import {
   type PreviewGradientMode,
 } from "@/lib/preview-gradient";
 import { getSiteContainedLayoutClassName } from "@/lib/site-layout";
+import type { HeaderV1NavLink } from "@/lib/header-v1-nav";
+import { defaultHeaderV1NavLinks } from "@/lib/header-v1-nav";
+import type { SiteIconName } from "@/lib/site-icons";
+import {
+  defaultIconFrameShape,
+  defaultIconFrameSize,
+  resolveIconFrameShape,
+  resolveIconFrameSize,
+  type IconFramePreviewSettings,
+} from "@/lib/icon-frame-preview";
 import type { CSSProperties } from "react";
 
 export type HeaderV3NavButtonSize = ButtonPreviewSize;
@@ -48,6 +58,15 @@ export type HeaderV3PreviewSettings = {
   logoVerticalAlign: HeaderLogoVerticalAlign;
   /** Header v1 service nav label font size (em). */
   headerV1NavTextSizeEm: number;
+  /** Header v1 service nav icon overrides keyed by nav item id. @deprecated Icons live on headerV1NavLinks. */
+  headerV1NavIcons: Partial<Record<string, SiteIconName>>;
+  headerV1NavIconFrameShape: IconFramePreviewSettings["iconFrameShape"];
+  headerV1NavIconFrameSize: IconFramePreviewSettings["iconFrameSize"];
+  headerV1NavIconColor: string;
+  headerV1NavIconBorderColor: string;
+  headerV1NavIconBackgroundColor: string;
+  /** Header v1 nav links — label, page, anchor, icon. */
+  headerV1NavLinks: HeaderV1NavLink[];
 };
 
 export type HeaderLogoVerticalAlign = "top" | "center" | "bottom";
@@ -81,6 +100,9 @@ export const headerLogoMarginTopOptions = [
 ] as const;
 
 export const defaultHeaderV1NavTextSizeEm = 1;
+
+export const defaultHeaderV1NavIconColor = "#000000";
+export const defaultHeaderV1NavIconBorderColor = "rgba(0, 0, 0, 0.35)";
 
 export const headerV1NavTextSizeOptions = [0.5, 0.65, 0.75, 0.85, 1, 1.2, 1.5, 1.75, 2] as const;
 
@@ -118,7 +140,27 @@ export const defaultHeaderV3PreviewSettings: HeaderV3PreviewSettings = {
   logoMarginTopPx: 0,
   logoVerticalAlign: "center",
   headerV1NavTextSizeEm: defaultHeaderV1NavTextSizeEm,
+  headerV1NavIcons: {},
+  headerV1NavIconFrameShape: defaultIconFrameShape,
+  headerV1NavIconFrameSize: defaultIconFrameSize,
+  headerV1NavIconColor: defaultHeaderV1NavIconColor,
+  headerV1NavIconBorderColor: defaultHeaderV1NavIconBorderColor,
+  headerV1NavIconBackgroundColor: "transparent",
+  headerV1NavLinks: defaultHeaderV1NavLinks.map((link) => ({ ...link })),
 };
+
+export function pickHeaderV1NavIconFrameSettings(
+  settings: HeaderV3PreviewSettings,
+): IconFramePreviewSettings {
+  const iconColor = settings.headerV1NavIconColor || defaultHeaderV1NavIconColor;
+  return {
+    iconFrameShape: resolveIconFrameShape(settings.headerV1NavIconFrameShape),
+    iconFrameSize: resolveIconFrameSize(settings.headerV1NavIconFrameSize),
+    iconColor,
+    iconBorderColor: settings.headerV1NavIconBorderColor || defaultHeaderV1NavIconBorderColor,
+    iconBackgroundColor: settings.headerV1NavIconBackgroundColor ?? "transparent",
+  };
+}
 
 export function getDefaultHeaderHeightPx(variantId: string | undefined): number {
   if (variantId === "header-v2") return defaultHeaderV2HeightPx;
@@ -263,9 +305,13 @@ export function getHeaderCustomStyleRecord(
 export function getHeaderBarButtonStyleRecord(
   settings: HeaderV3PreviewSettings,
 ): Record<string, string> {
+  const iconFrame = pickHeaderV1NavIconFrameSettings(settings);
   return {
     ...getButtonPreviewStyleRecord(pickButtonPreviewSettings(settings)),
     "--header-v1-nav-text-size": formatHeaderV1NavTextSizeEm(settings.headerV1NavTextSizeEm),
+    "--header-v1-nav-icon-color": iconFrame.iconColor,
+    "--header-v1-nav-icon-border-color": iconFrame.iconBorderColor,
+    "--header-v1-nav-icon-background-color": iconFrame.iconBackgroundColor,
   };
 }
 

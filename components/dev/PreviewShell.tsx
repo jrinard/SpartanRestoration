@@ -7,6 +7,7 @@ import { ContactModalProvider } from "@/components/contact/ContactModalContext";
 import { CreativeBar } from "@/components/dev/CreativeBar";
 import { CreativeProvider } from "@/components/dev/CreativeProvider";
 import { ContactV1PreviewProvider } from "@/components/dev/ContactV1PreviewContext";
+import { HashScrollOnNavigate } from "@/components/dev/HashScrollOnNavigate";
 import { PlaygroundSectionsProvider } from "@/components/dev/PlaygroundSectionsProvider";
 
 type PreviewShellProps = {
@@ -36,6 +37,7 @@ export function PreviewShell({ children, showControls = false }: PreviewShellPro
             children
           )}
           <ContactModal />
+          {!showControls && <HashScrollOnNavigate />}
         </ContactModalProvider>
       </ContactV1PreviewProvider>
     </CreativeProvider>

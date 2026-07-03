@@ -5,6 +5,8 @@ import {
 } from "@/lib/text-icons-v3-preview";
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
 import type { SiteLayoutWidth } from "@/lib/site-layout";
+import { normalizeServiceIconsMap } from "@/lib/site-icons";
+import { isIconFrameShape, isIconFrameSize } from "@/lib/icon-frame-preview";
 
 export const textIconsV3PreviewStorageKey = "lifespring-text-icons-v3-preview";
 
@@ -14,6 +16,14 @@ function isSiteLayoutWidth(value: unknown): value is SiteLayoutWidth {
 
 function isHexColor(value: unknown): value is string {
   return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
+}
+
+function isRgbaColor(value: unknown): value is string {
+  return typeof value === "string" && /^rgba?\(.+\)$/i.test(value);
+}
+
+function isColor(value: unknown): value is string {
+  return isHexColor(value) || isRgbaColor(value);
 }
 
 function isPreviewGradientDirection(value: unknown): value is PreviewGradientDirection {
@@ -48,9 +58,25 @@ export function normalizeTextIconsV3PreviewSettings(
     headingColor: isHexColor(value.headingColor)
       ? value.headingColor
       : defaultTextIconsV3PreviewSettings.headingColor,
-    subheadingColor: isHexColor(value.subheadingColor)
+    subheadingColor: isColor(value.subheadingColor)
       ? value.subheadingColor
       : defaultTextIconsV3PreviewSettings.subheadingColor,
+    iconColor: isColor(value.iconColor)
+      ? value.iconColor
+      : defaultTextIconsV3PreviewSettings.iconColor,
+    iconBorderColor: isColor(value.iconBorderColor)
+      ? value.iconBorderColor
+      : defaultTextIconsV3PreviewSettings.iconBorderColor,
+    iconBackgroundColor: isColor(value.iconBackgroundColor)
+      ? value.iconBackgroundColor
+      : defaultTextIconsV3PreviewSettings.iconBackgroundColor,
+    iconFrameShape: isIconFrameShape(value.iconFrameShape)
+      ? value.iconFrameShape
+      : defaultTextIconsV3PreviewSettings.iconFrameShape,
+    iconFrameSize: isIconFrameSize(value.iconFrameSize)
+      ? value.iconFrameSize
+      : defaultTextIconsV3PreviewSettings.iconFrameSize,
+    itemIcons: normalizeServiceIconsMap(value.itemIcons),
   };
 }
 

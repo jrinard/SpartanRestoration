@@ -24,6 +24,7 @@ import {
 import { copyEffectiveSpacerInstanceSettings } from "@/lib/spacer-preview-storage";
 import { loadTextIconsV3PreviewSettings } from "@/lib/text-icons-v3-preview-storage";
 import { loadTextImagePreviewSettings } from "@/lib/text-image-preview-storage";
+import { loadTextImagesPreviewSettings } from "@/lib/text-images-preview-storage";
 import { loadTopBarPreviewSettings } from "@/lib/top-bar-preview-storage";
 import type { PlaygroundSectionConfig } from "@/lib/playground-sections";
 import { getPlaygroundSectionVariant } from "@/lib/playground-sections";
@@ -51,6 +52,7 @@ function loadGlobalSettingsForGroup(
       return {
         textIconsV3: loadTextIconsV3PreviewSettings(),
         textImage: loadTextImagePreviewSettings(),
+        textImages: loadTextImagesPreviewSettings(),
       };
     case "services":
       return {
@@ -142,7 +144,7 @@ export function resolvePublishedSectionInstanceSettings(
   previewSettings?: {
     sections?: Record<string, SectionInstanceSettings>;
     spacers?: Record<string, SpacerInstanceSettings>;
-    contents?: Record<string, Pick<SectionInstanceSettings, "textIconsV3" | "textImage">>;
+    contents?: Record<string, Pick<SectionInstanceSettings, "textIconsV3" | "textImage" | "textImages">>;
   },
 ): SectionInstanceSettings | undefined {
   if (!sectionId || !previewSettings) return undefined;

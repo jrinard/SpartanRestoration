@@ -229,6 +229,79 @@ body {
   }
 }
 
+/* Playground — dark section control bars (matches CreativeBar; theme accent on black) */
+.playground-sections .section-switcher-controls {
+  background-color: #12121c;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.playground-sections .section-switcher-controls .section-switcher-label,
+.playground-sections .section-switcher-controls .section-label,
+.playground-sections .section-switcher-controls [class*="text-accent-purple"] {
+  color: var(--accent-purple);
+}
+
+.playground-sections .section-switcher-controls select,
+.playground-sections .section-switcher-controls .section-switcher-select,
+.playground-sections .section-switcher-controls input[type="text"],
+.playground-sections .section-switcher-controls input[type="number"],
+.playground-sections .section-switcher-controls button,
+.playground-sections .section-switcher-controls label:has(input),
+.playground-sections .section-switcher-controls label:has(select) {
+  background-color: #12121c !important;
+  border-color: color-mix(in srgb, var(--accent-purple) 40%, transparent) !important;
+  color: var(--accent-purple);
+}
+
+.playground-sections .section-switcher-controls select,
+.playground-sections .section-switcher-controls .section-switcher-select {
+  color: var(--accent-purple) !important;
+}
+
+.playground-sections .section-switcher-controls select:focus,
+.playground-sections .section-switcher-controls .section-switcher-select:focus,
+.playground-sections .section-switcher-controls input:focus,
+.playground-sections .section-switcher-controls button:focus-visible {
+  border-color: var(--accent-purple) !important;
+  outline: none;
+}
+
+.playground-sections .section-switcher-controls button:hover,
+.playground-sections .section-switcher-controls label:has(input):hover {
+  border-color: var(--accent-purple) !important;
+  background-color: color-mix(in srgb, var(--accent-purple) 10%, #12121c) !important;
+}
+
+.playground-sections .section-switcher-controls input[type="color"] {
+  background-color: transparent !important;
+}
+
+.playground-sections .section-switcher-controls .text-neutral-500,
+.playground-sections .section-switcher-controls label .text-neutral-500 {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Slot actions (Add / Preview / Hide / drag) — same dark chrome */
+.playground-section-slot > .absolute button,
+.playground-section-slot > .absolute label {
+  background-color: #12121c !important;
+  border-color: color-mix(in srgb, var(--accent-purple) 40%, transparent) !important;
+}
+
+.playground-section-slot > .absolute .text-accent-purple {
+  color: var(--accent-purple);
+}
+
+.playground-section-slot > .absolute .text-neutral-500 {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
+.playground-section-slot > .absolute button:hover,
+.playground-section-slot > .absolute label:hover {
+  border-color: var(--accent-purple) !important;
+  background-color: color-mix(in srgb, var(--accent-purple) 10%, #12121c) !important;
+}
+
 /* Playground — overlapping spacers must stack above adjacent section slots */
 .playground-sections .playground-section-slot--spacer:has(section.spacer-overlap) {
   position: relative;
@@ -766,7 +839,7 @@ body {
   --spartan-slate: #748b9f;
   --spartan-slate-mid: #5d7894;
   --spartan-slate-deep: #395575;
-  --spartan-navy: #243348;
+  --spartan-navy: #2e4359;
   --spartan-bronze: #b48130;
   --spartan-gold: #efc25b;
   --spartan-gold-light: #f3c35d;
@@ -782,10 +855,10 @@ body {
   --accent-blue-dark: var(--spartan-blue);
   --accent-green: var(--spartan-gold);
   --accent-green-light: var(--spartan-gold-light);
-  --accent-purple: var(--spartan-slate-deep);
-  --accent-purple-light: var(--spartan-slate-mid);
-  --accent-purple-deep: var(--spartan-navy);
-  --accent-purple-muted: var(--spartan-slate);
+  --accent-purple: var(--spartan-blue);
+  --accent-purple-light: var(--spartan-blue-light);
+  --accent-purple-deep: #1e5799;
+  --accent-purple-muted: color-mix(in srgb, var(--spartan-blue) 55%, var(--spartan-slate));
   --footer-surface: var(--spartan-navy);
   --panel-bg: var(--spartan-light);
   --panel-bar: color-mix(in srgb, var(--spartan-light) 88%, var(--spartan-tan));
@@ -889,19 +962,31 @@ body {
   background-color: color-mix(in srgb, var(--spartan-slate-mid) 14%, transparent);
 }
 
-/* Spartan section labels — helmet gold accent */
+/* Spartan section labels — spartan blue dev chrome */
 .creative-preview[data-color-theme="spartan"] .section-switcher-label,
 .creative-preview[data-color-theme="spartan"] .section-switcher-select,
 .creative-preview[data-color-theme="spartan"] .section-label {
-  color: var(--spartan-slate-deep);
+  color: var(--spartan-blue);
 }
 
 .creative-preview[data-color-theme="spartan"] .section-switcher-select {
-  border-color: color-mix(in srgb, var(--spartan-slate-deep) 45%, transparent);
+  border-color: color-mix(in srgb, var(--spartan-blue) 45%, transparent);
 }
 
 .creative-preview[data-color-theme="spartan"] .section-switcher-select:focus {
-  border-color: var(--spartan-slate-deep);
+  border-color: var(--spartan-blue);
+}
+
+/* Spartan — edit / library / icon pills on section content (not light bg-background) */
+.creative-preview[data-color-theme="spartan"] [class*="border-accent-purple"][class*="bg-background"] {
+  background-color: rgb(18 18 28 / 0.95) !important;
+  border-color: color-mix(in srgb, var(--spartan-blue) 50%, transparent) !important;
+  color: var(--spartan-blue) !important;
+}
+
+.creative-preview[data-color-theme="spartan"] [class*="border-accent-purple"][class*="bg-background"]:hover {
+  border-color: var(--spartan-blue) !important;
+  background-color: color-mix(in srgb, var(--spartan-blue) 12%, #12121c) !important;
 }
 
 /* Header theme wordmarks — LifeSpring keeps the logo */
@@ -1324,19 +1409,19 @@ body {
 
 /* Footer v1 — white main area + full-width credit bar */
 .footer-v1 {
-  --footer-v1-brand-name-color: var(--spartan-navy, #243348);
+  --footer-v1-brand-name-color: var(--spartan-navy, #2e4359);
   --footer-v1-tagline-color: var(--spartan-slate-mid, #5d7894);
-  --footer-v1-nav-color: var(--spartan-navy, #243348);
+  --footer-v1-nav-color: var(--spartan-navy, #2e4359);
   --footer-v1-nav-hover: var(--spartan-black, #000000);
-  --footer-v1-contact-heading-color: var(--spartan-navy, #243348);
+  --footer-v1-contact-heading-color: var(--spartan-navy, #2e4359);
   --footer-v1-contact-text-color: var(--spartan-slate-mid, #5d7894);
-  --footer-v1-contact-link-hover: var(--spartan-navy, #243348);
+  --footer-v1-contact-link-hover: var(--spartan-navy, #2e4359);
   --footer-v1-contact-btn-bg: var(--spartan-gold-light, #f3c35d);
   --footer-v1-contact-btn-hover-bg: var(--spartan-gold, #efc25b);
-  --footer-v1-contact-btn-color: var(--spartan-navy, #243348);
+  --footer-v1-contact-btn-color: var(--spartan-navy, #2e4359);
   --footer-v1-contact-text-size: 1.25em;
   --footer-v1-bottom-bg: var(--spartan-gold-light, #f3c35d);
-  --footer-v1-bottom-color: var(--spartan-navy, #243348);
+  --footer-v1-bottom-color: var(--spartan-navy, #2e4359);
 }
 
 .footer-v1-main {
@@ -1894,6 +1979,44 @@ body {
   text-decoration: underline;
 }
 
+@media (max-width: 767px) {
+  .top-bar-segment--left {
+    display: none;
+  }
+
+  .top-bar-segment--right {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .top-bar-text,
+  .top-bar-call {
+    font-size: calc(var(--top-bar-text-size, 18px) * 0.82);
+  }
+}
+
+@media (max-width: 767px) {
+  .header-v1 .header-brand-link--overflow,
+  .header-v1 .header-brand-link--offset {
+    padding-inline: 1rem;
+  }
+
+  .header-v1 .header-brand-logo {
+    object-position: center;
+    margin-inline: auto;
+  }
+
+  .creative-preview[data-color-theme="spartan"] .header-v1 .header-brand-logo--spartan:not(.header-brand-logo--custom-height) {
+    max-height: 5.25rem;
+    max-width: min(300px, 90vw);
+  }
+
+  .creative-preview[data-color-theme="spartan"] .header-v1 .header-brand-logo--spartan.header-brand-logo--custom-height,
+  .creative-preview[data-color-theme="spartan"] .header-v1.header-custom[data-logo-height] .header-brand-logo--spartan {
+    max-width: min(340px, 94vw);
+  }
+}
+
 .nav-bar-v1 {
   width: 100%;
   border-top: none;
@@ -1905,13 +2028,13 @@ body {
 }
 
 .nav-bar-v1-inner {
+  position: relative;
   width: 100%;
   height: var(--nav-bar-height, 70px);
   min-height: var(--nav-bar-height, 70px);
 }
 
 .nav-bar-v1-list {
-  display: flex;
   height: 100%;
   align-items: center;
   justify-content: space-evenly;
@@ -1919,6 +2042,108 @@ body {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.nav-bar-v1-list--desktop {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .nav-bar-v1-list--desktop {
+    display: flex;
+  }
+}
+
+.nav-bar-v1-mobile {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .nav-bar-v1-mobile {
+    display: none;
+  }
+}
+
+.nav-bar-v1-mobile-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.25rem, calc(var(--nav-bar-height, 70px) * 0.1), 0.75rem);
+  border: none;
+  background: transparent;
+  color: var(--nav-bar-link-color, #ffffff);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.nav-bar-v1-mobile-icon {
+  display: block;
+  width: clamp(1.75rem, calc(var(--nav-bar-height, 70px) * 0.48), 3rem);
+  height: clamp(1.75rem, calc(var(--nav-bar-height, 70px) * 0.48), 3rem);
+}
+
+.nav-bar-v1-mobile-toggle:hover {
+  color: var(--nav-bar-link-hover-color, #f3c35d);
+}
+
+.nav-bar-v1-mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  border-top: 1px solid color-mix(in srgb, var(--nav-bar-link-color, #ffffff) 18%, transparent);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+  animation: nav-bar-v1-mobile-menu-in 0.2s ease-out;
+}
+
+.nav-bar-v1-mobile-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0.625rem 0;
+  list-style: none;
+}
+
+.nav-bar-v1-mobile-list .nav-bar-v1-item {
+  flex: none;
+  text-align: left;
+}
+
+.nav-bar-v1-link--mobile {
+  justify-content: center;
+  width: 100%;
+  min-height: clamp(3.25rem, calc(var(--nav-bar-height, 70px) * 0.9), 4rem);
+  padding: 1rem 1.5rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.nav-bar-v1-link--mobile:hover,
+.nav-bar-v1-link--mobile:focus-visible {
+  background-color: color-mix(in srgb, var(--nav-bar-link-hover-color, #f3c35d) 10%, transparent);
+}
+
+@keyframes nav-bar-v1-mobile-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 768px) {
+  .nav-bar-v1-mobile-menu {
+    display: none !important;
+  }
 }
 
 .nav-bar-v1-item {
@@ -1980,7 +2205,11 @@ body {
 }
 
 .header-custom .header-custom-nav.header-v1-nav .header-v1-nav-icon {
-  color: var(--header-v3-nav-color);
+  color: var(--header-v1-nav-icon-color, var(--header-v3-nav-color));
+  border-color: var(
+    --header-v1-nav-icon-border-color,
+    color-mix(in srgb, var(--header-v3-nav-color) 35%, transparent)
+  );
 }
 
 .header-custom .header-custom-nav.header-v1-nav a.header-v1-nav-item:hover .header-v1-nav-link {
@@ -2152,6 +2381,67 @@ body {
   order: 1;
 }
 
+.text-image-v1-image--inverted,
+.text-images-v1-image--inverted {
+  filter: invert(1);
+}
+
+.text-images-v1-row--media-first .text-images-v1-copy {
+  order: 2;
+}
+
+.text-images-v1-row--media-first .text-images-v1-media {
+  order: 1;
+}
+
+.text-images-v1 {
+  overflow: visible;
+}
+
+.text-images-v1-row {
+  position: relative;
+}
+
+/* Playground — hash targets sit below sticky CreativeBar when header nav scrolls */
+.playground-sections .text-images-v1-row[id] {
+  scroll-margin-top: 11rem;
+}
+
+.text-images-v1-row--stack-1 {
+  z-index: 1;
+}
+
+.text-images-v1-row--stack-2 {
+  z-index: 2;
+}
+
+.text-images-v1-row--stack-3 {
+  z-index: 3;
+}
+
+.text-images-v1-image-wrap {
+  border-radius: 0.5rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+}
+
+@media (min-width: 1024px) {
+  .text-images-v1-row--stack-2 {
+    margin-top: -1.25rem;
+  }
+
+  .text-images-v1-row--stack-3 {
+    margin-top: -1.25rem;
+  }
+
+  .text-images-v1-media--overlap-1 {
+    margin-top: 0;
+  }
+
+  .text-images-v1-media--overlap-2 {
+    margin-top: -0.75rem;
+  }
+}
+
 .text-image-v1-phone-btn--custom {
   border-radius: var(--header-v3-nav-radius, 4px);
   color: var(--header-v3-nav-color);
@@ -2266,9 +2556,15 @@ body {
 }
 
 .text-icons-v3-icon {
-  color: var(--spartan-gold-light, #f3c35d);
-  border-color: color-mix(in srgb, var(--spartan-gold-light, #f3c35d) 55%, transparent);
-  background-color: color-mix(in srgb, var(--spartan-gold-light, #f3c35d) 12%, transparent);
+  color: var(--text-icons-v3-icon-color, var(--spartan-gold-light, #f3c35d));
+  border-color: var(
+    --text-icons-v3-icon-border-color,
+    color-mix(in srgb, var(--spartan-gold-light, #f3c35d) 55%, transparent)
+  );
+  background-color: var(
+    --text-icons-v3-icon-background-color,
+    color-mix(in srgb, var(--spartan-gold-light, #f3c35d) 12%, transparent)
+  );
 }
 
 .creative-preview[data-color-theme="spartan"] .text-icons-v3-icon {

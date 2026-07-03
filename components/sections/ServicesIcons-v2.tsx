@@ -18,6 +18,7 @@ import {
 } from "@/lib/services-icons-v2-preview";
 import { buildServicesIconsV2ItemListSchema } from "@/lib/seo-schema";
 import { defaultSiteIconName, resolveSiteIconName, type SiteIconName } from "@/lib/site-icons";
+import { devEditButtonClassName, devEditIconSize } from "@/lib/dev-overlay-controls";
 import { getSiteLayoutWidthClassName } from "@/lib/site-layout";
 import { cn } from "@/lib/utils";
 
@@ -126,11 +127,11 @@ function ServiceCard({
                 setLabelEditorOpen(false);
                 setIconPickerOpen((open) => !open);
               }}
-              className="absolute -top-1 -right-1 z-20 flex h-6 w-6 items-center justify-center rounded-full border border-accent-purple/50 bg-background/95 text-accent-purple shadow-sm transition-colors hover:border-accent-purple hover:bg-accent-purple/10"
+              className={devEditButtonClassName}
               aria-label={`Change icon for ${label}`}
               aria-expanded={iconPickerOpen}
             >
-              <Shuffle size={12} strokeWidth={2} />
+              <Shuffle size={devEditIconSize} strokeWidth={2} />
             </button>
             {iconPickerOpen && (
               <div className="absolute top-8 left-0 z-30">
@@ -159,11 +160,11 @@ function ServiceCard({
                 setIconPickerOpen(false);
                 setLabelEditorOpen((open) => !open);
               }}
-              className="absolute -top-1 -right-1 z-20 flex h-6 w-6 items-center justify-center rounded-full border border-accent-purple/50 bg-background/95 text-accent-purple shadow-sm transition-colors hover:border-accent-purple hover:bg-accent-purple/10"
+              className={devEditButtonClassName}
               aria-label={`Edit label for ${label}`}
               aria-expanded={labelEditorOpen}
             >
-              <Pencil size={12} strokeWidth={2} />
+              <Pencil size={devEditIconSize} strokeWidth={2} />
             </button>
             {labelEditorOpen && (
               <div className="absolute top-7 right-0 z-30">
@@ -226,11 +227,11 @@ function CtaCard({
           <button
             type="button"
             onClick={() => setEditorOpen((open) => !open)}
-            className="absolute top-2 right-2 z-20 flex h-6 w-6 items-center justify-center rounded-full border border-accent-purple/50 bg-background/95 text-accent-purple shadow-sm transition-colors hover:border-accent-purple hover:bg-accent-purple/10"
+            className={cn(devEditButtonClassName, "top-2 right-2")}
             aria-label="Edit call-to-action phone number"
             aria-expanded={editorOpen}
           >
-            <Pencil size={12} strokeWidth={2} />
+            <Pencil size={devEditIconSize} strokeWidth={2} />
           </button>
           {editorOpen && (
             <div className="absolute top-10 right-2 z-30">
@@ -274,11 +275,11 @@ function SectionHeading({
           <button
             type="button"
             onClick={() => setEditorOpen((open) => !open)}
-            className="absolute -top-1 -right-8 z-20 flex h-6 w-6 items-center justify-center rounded-full border border-accent-purple/50 bg-background/95 text-accent-purple shadow-sm transition-colors hover:border-accent-purple hover:bg-accent-purple/10"
+            className={cn(devEditButtonClassName, "-right-8")}
             aria-label="Edit section heading"
             aria-expanded={editorOpen}
           >
-            <Pencil size={12} strokeWidth={2} />
+            <Pencil size={devEditIconSize} strokeWidth={2} />
           </button>
           {editorOpen && (
             <div className="absolute top-full left-0 z-30 mt-2">

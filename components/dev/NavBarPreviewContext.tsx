@@ -4,8 +4,6 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
-  useState,
   type ReactNode,
 } from "react";
 import {
@@ -15,7 +13,6 @@ import {
   type NavBarLayoutWidth,
   type NavBarPreviewSettings,
 } from "@/lib/nav-bar-preview";
-import { playgroundNavSyncEvent } from "@/lib/playground-nav-sync";
 import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadNavBarPreviewSettings,
@@ -36,17 +33,12 @@ type NavBarPreviewProviderProps = {
   initialSettings?: NavBarPreviewSettings;
 };
 
-function mergeNavBarLinksFromGlobal(settings: NavBarPreviewSettings): NavBarPreviewSettings {
-  const global = loadNavBarPreviewSettings();
-  return normalizeNavBarPreviewSettings({ ...settings, items: global.items });
-}
-
 export function NavBarPreviewProvider({
   children,
   instanceId,
   initialSettings,
 }: NavBarPreviewProviderProps) {
-  const { settings, setSettings, lockedToPublished, reload } = useInstancePreviewSettings({
+  const { settings, setSettings: persistSettings, lockedToPublished } = useInstancePreviewSettings({
     instanceId,
     field: "navBar",
     initialSettings,
@@ -54,19 +46,17 @@ export function NavBarPreviewProvider({
     loadGlobal: loadNavBarPreviewSettings,
     saveGlobal: saveNavBarPreviewSettings,
     normalize: normalizeNavBarPreviewSettings,
-    afterLoad: mergeNavBarLinksFromGlobal,
   });
 
-  useEffect(() => {
-    if (lockedToPublished) return;
-
-    const handleNavSync = () => {
-      setSettings(reload());
-    };
-
-    window.addEventListener(playgroundNavSyncEvent, handleNavSync);
-    return () => window.removeEventListener(playgroundNavSyncEvent, handleNavSync);
-  }, [lockedToPublished, reload, setSettings]);
+  const setSettings = useCallback(
+    (next: NavBarPreviewSettings) => {
+      persistSettings(next);
+      if (!lockedToPublished) {
+        saveNavBarPreviewSettings(normalizeNavBarPreviewSettings(next));
+      }
+    },
+    [lockedToPublished, persistSettings],
+  );
 
   return (
     <NavBarPreviewContext.Provider value={{ settings, setSettings }}>

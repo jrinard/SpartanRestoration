@@ -27,6 +27,7 @@ import { portfolioPreviewStorageKey } from "@/lib/portfolio-preview-storage";
 import { reviewboxPreviewStorageKey } from "@/lib/reviewbox-preview-storage";
 import { textIconsV3PreviewStorageKey } from "@/lib/text-icons-v3-preview-storage";
 import { textImagePreviewStorageKey } from "@/lib/text-image-preview-storage";
+import { textImagesPreviewStorageKey } from "@/lib/text-images-preview-storage";
 import { navBarPreviewStorageKey } from "@/lib/nav-bar-preview-storage";
 import { topBarPreviewStorageKey } from "@/lib/top-bar-preview-storage";
 import { servicesV1PreviewStorageKey } from "@/lib/services-v1-preview-storage";
@@ -75,10 +76,11 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
       spacers[section.id] = settings.spacer;
     }
 
-    if (settings.textIconsV3 || settings.textImage) {
+    if (settings.textIconsV3 || settings.textImage || settings.textImages) {
       contents[section.id] = {
         textIconsV3: settings.textIconsV3,
         textImage: settings.textImage,
+        textImages: settings.textImages,
       };
     }
   }
@@ -109,6 +111,7 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
     contact: readJson(contactPreviewStorageKey),
     textIconsV3: readJson(textIconsV3PreviewStorageKey),
     textImage: readJson(textImagePreviewStorageKey),
+    textImages: readJson(textImagesPreviewStorageKey),
     servicesIconsV2: readJson(servicesIconsV2PreviewStorageKey),
   };
 

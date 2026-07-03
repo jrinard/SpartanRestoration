@@ -6,8 +6,13 @@ import {
   loadTextImagePreviewSettings,
   normalizeTextImagePreviewSettings,
 } from "@/lib/text-image-preview-storage";
+import {
+  loadTextImagesPreviewSettings,
+  normalizeTextImagesPreviewSettings,
+} from "@/lib/text-images-preview-storage";
 import type { TextIconsV3PreviewSettings } from "@/lib/text-icons-v3-preview";
 import type { TextImagePreviewSettings } from "@/lib/text-image-preview";
+import type { TextImagesPreviewSettings } from "@/lib/text-images-preview";
 import type { ColorThemeId } from "@/lib/color-themes";
 import { copyEffectiveSectionInstanceSettings } from "@/lib/section-instance-copy";
 import type { SectionGroupId } from "@/lib/section-registry";
@@ -20,7 +25,7 @@ import {
 
 export type ContentInstanceSettings = Pick<
   SectionInstanceSettings,
-  "textIconsV3" | "textImage"
+  "textIconsV3" | "textImage" | "textImages"
 >;
 
 /** @deprecated Use sectionInstancesStorageKey */
@@ -31,10 +36,11 @@ export function loadContentInstanceSettings(
 ): ContentInstanceSettings | undefined {
   const textIconsV3 = loadSectionInstanceField(instanceId, "textIconsV3");
   const textImage = loadSectionInstanceField(instanceId, "textImage");
+  const textImages = loadSectionInstanceField(instanceId, "textImages");
 
-  if (!textIconsV3 && !textImage) return undefined;
+  if (!textIconsV3 && !textImage && !textImages) return undefined;
 
-  return { textIconsV3, textImage };
+  return { textIconsV3, textImage, textImages };
 }
 
 export function saveContentInstanceSettings(
@@ -49,10 +55,11 @@ export function loadAllContentInstanceSettings(): Record<string, ContentInstance
   const contents: Record<string, ContentInstanceSettings> = {};
 
   for (const [id, settings] of Object.entries(all)) {
-    if (settings.textIconsV3 || settings.textImage) {
+    if (settings.textIconsV3 || settings.textImage || settings.textImages) {
       contents[id] = {
         textIconsV3: settings.textIconsV3,
         textImage: settings.textImage,
+        textImages: settings.textImages,
       };
     }
   }
@@ -108,6 +115,28 @@ export function loadEffectiveTextImageInstanceSettings(
   return loadTextImageInstanceSettings(instanceId) ?? loadTextImagePreviewSettings();
 }
 
+export function loadTextImagesInstanceSettings(
+  instanceId: string,
+): TextImagesPreviewSettings | undefined {
+  const stored = loadSectionInstanceField(instanceId, "textImages");
+  return stored ? normalizeTextImagesPreviewSettings(stored) : undefined;
+}
+
+export function saveTextImagesInstanceSettings(
+  instanceId: string,
+  settings: TextImagesPreviewSettings,
+): void {
+  patchSectionInstanceSettings(instanceId, {
+    textImages: normalizeTextImagesPreviewSettings(settings),
+  });
+}
+
+export function loadEffectiveTextImagesInstanceSettings(
+  instanceId: string,
+): TextImagesPreviewSettings {
+  return loadTextImagesInstanceSettings(instanceId) ?? loadTextImagesPreviewSettings();
+}
+
 export function copyEffectiveContentInstanceSettings(
   fromId: string,
   toId: string,
@@ -121,6 +150,14 @@ export function copyEffectiveContentInstanceSettings(
     patchSectionInstanceSettings(toId, {
       ...current,
       textImage: structuredClone(loadEffectiveTextImageInstanceSettings(fromId)),
+    });
+    return;
+  }
+
+  if (variant === "text-images-v1") {
+    patchSectionInstanceSettings(toId, {
+      ...current,
+      textImages: structuredClone(loadEffectiveTextImagesInstanceSettings(fromId)),
     });
     return;
   }

@@ -13,6 +13,7 @@ import type { PortfolioPreviewSettings } from "@/lib/portfolio-preview";
 import type { ReviewboxPreviewSettings } from "@/lib/reviewbox-preview";
 import type { TextIconsV3PreviewSettings } from "@/lib/text-icons-v3-preview";
 import type { TextImagePreviewSettings } from "@/lib/text-image-preview";
+import type { TextImagesPreviewSettings } from "@/lib/text-images-preview";
 import type { NavBarPreviewSettings } from "@/lib/nav-bar-preview";
 import type { TopBarPreviewSettings } from "@/lib/top-bar-preview";
 import type { ServicesIconsV2PreviewSettings } from "@/lib/services-icons-v2-preview";
@@ -43,6 +44,7 @@ export type HomepagePreviewSettings = {
   contact?: ContactPreviewSettings;
   textIconsV3?: TextIconsV3PreviewSettings;
   textImage?: TextImagePreviewSettings;
+  textImages?: TextImagesPreviewSettings;
   servicesIconsV2?: ServicesIconsV2PreviewSettings;
 };
 

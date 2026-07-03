@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
 import { Images, Pencil } from "lucide-react";
@@ -13,10 +13,20 @@ import { TextImageTextEditor } from "@/components/dev/TextImageTextEditor";
 import { Container } from "@/components/ui/Container";
 import {
   defaultTextImagePreviewSettings,
+  defaultTextImageV1Theme,
   pickTextImageButtonSettings,
+  shouldInvertTextImageForTheme,
   type TextImageContent,
 } from "@/lib/text-image-preview";
 import { getButtonPreviewStyleRecord } from "@/lib/button-preview";
+import {
+  devEditButtonClassName,
+  devEditIconSize,
+  devLibraryIconSize,
+  devLibraryLabelClassName,
+  devLibraryPillClassName,
+} from "@/lib/dev-overlay-controls";
+import { useEntranceFadeInView } from "@/lib/use-entrance-fade-in-view";
 import { cn } from "@/lib/utils";
 
 export type TextImageV1Props = {
@@ -30,9 +40,6 @@ export type TextImageV1Props = {
   sidebarText: string;
   className?: string;
 };
-
-const editButtonClassName =
-  "absolute -top-1 -right-1 z-20 flex h-6 w-6 items-center justify-center rounded-full border border-accent-purple/50 bg-background/95 text-accent-purple shadow-sm transition-colors hover:border-accent-purple hover:bg-accent-purple/10";
 
 function EditableTextBlock({
   editingEnabled,
@@ -67,11 +74,11 @@ function EditableTextBlock({
           <button
             type="button"
             onClick={() => setEditorOpen((open) => !open)}
-            className={editButtonClassName}
+            className={devEditButtonClassName}
             aria-label={ariaLabel}
             aria-expanded={editorOpen}
           >
-            <Pencil size={12} strokeWidth={2} />
+            <Pencil size={devEditIconSize} strokeWidth={2} />
           </button>
           {editorOpen && (
             <div className="absolute top-full right-0 z-30 mt-2">
@@ -110,9 +117,6 @@ export function TextImageV1({
   const editingEnabled = preview?.contentEditingEnabled ?? false;
   const isCustom = Boolean(preview);
   const buttonSettings = pickTextImageButtonSettings(settings);
-  const [imageVisible, setImageVisible] = useState(
-    () => !settings.entranceAnimationEnabled,
-  );
 
   const defaultContent = useMemo<TextImageContent>(
     () => ({
@@ -129,8 +133,14 @@ export function TextImageV1({
   );
 
   const content = preview?.getContent(defaultContent) ?? defaultContent;
+  const { ref: imageWrapRef, wrapStyle: imageWrapStyle } = useEntranceFadeInView({
+    enabled: settings.entranceAnimationEnabled,
+    speedMs: settings.entranceAnimationSpeedMs,
+    resetKey: content.imageSrc,
+  });
   const headlineDraft = content.headlineLines.join("\n");
   const [libraryOpen, setLibraryOpen] = useState(false);
+  const imageInverted = shouldInvertTextImageForTheme(settings.theme, defaultTextImageV1Theme);
 
   const sectionStyle: CSSProperties = {
     backgroundColor: settings.backgroundColor,
@@ -138,30 +148,6 @@ export function TextImageV1({
 
   const buttonStyle: CSSProperties | undefined = isCustom
     ? getButtonPreviewStyleRecord(buttonSettings)
-    : undefined;
-
-  useEffect(() => {
-    if (!settings.entranceAnimationEnabled) {
-      setImageVisible(true);
-      return;
-    }
-
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) {
-      setImageVisible(true);
-      return;
-    }
-
-    setImageVisible(false);
-    const timer = window.setTimeout(() => setImageVisible(true), 100);
-    return () => window.clearTimeout(timer);
-  }, [settings.entranceAnimationEnabled, settings.entranceAnimationSpeedMs]);
-
-  const imageWrapStyle: CSSProperties | undefined = settings.entranceAnimationEnabled
-    ? {
-        opacity: imageVisible ? 1 : 0,
-        transition: `opacity ${settings.entranceAnimationSpeedMs}ms ease-out`,
-      }
     : undefined;
 
   return (
@@ -274,6 +260,7 @@ export function TextImageV1({
           <div className="text-image-v1-media">
             <div className="relative">
               <div
+                ref={imageWrapRef}
                 className="text-image-v1-image-wrap overflow-hidden rounded-lg"
                 style={imageWrapStyle}
               >
@@ -282,7 +269,10 @@ export function TextImageV1({
                   alt={content.imageAlt}
                   width={960}
                   height={720}
-                  className="h-auto w-full object-cover"
+                  className={cn(
+                    "text-image-v1-image h-auto w-full object-cover",
+                    imageInverted && "text-image-v1-image--inverted",
+                  )}
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
@@ -291,12 +281,12 @@ export function TextImageV1({
                   <button
                     type="button"
                     onClick={() => setLibraryOpen((open) => !open)}
-                    className="absolute top-2 right-2 z-20 flex h-7 items-center gap-1.5 rounded-full border border-accent-purple/50 bg-background/95 px-2.5 text-accent-purple shadow-sm transition-colors hover:border-accent-purple hover:bg-accent-purple/10"
+                    className={devLibraryPillClassName}
                     aria-label="Choose image from library"
                     aria-expanded={libraryOpen}
                   >
-                    <Images size={14} strokeWidth={2} />
-                    <span className="font-mono text-[10px] tracking-wide uppercase">Library</span>
+                    <Images size={devLibraryIconSize} strokeWidth={2} />
+                    <span className={devLibraryLabelClassName}>Library</span>
                   </button>
                   {libraryOpen && (
                     <div className="absolute top-full right-0 z-40 mt-2">

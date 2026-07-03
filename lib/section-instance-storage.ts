@@ -16,6 +16,7 @@ import type { ServicesV1LayoutWidth } from "@/lib/services-v1-preview";
 import type { SpacerInstanceSettings } from "@/lib/spacer-instance-storage";
 import type { TextIconsV3PreviewSettings } from "@/lib/text-icons-v3-preview";
 import type { TextImagePreviewSettings } from "@/lib/text-image-preview";
+import type { TextImagesPreviewSettings } from "@/lib/text-images-preview";
 import type { TopBarPreviewSettings } from "@/lib/top-bar-preview";
 
 export type ServicesV1InstanceSettings = {
@@ -34,6 +35,7 @@ export type SectionInstanceSettings = {
   spacer?: SpacerInstanceSettings;
   textIconsV3?: TextIconsV3PreviewSettings;
   textImage?: TextImagePreviewSettings;
+  textImages?: TextImagesPreviewSettings;
   servicesV1?: ServicesV1InstanceSettings;
   servicesIconsV2?: ServicesIconsV2PreviewSettings;
   reviewbox?: ReviewboxPreviewSettings;

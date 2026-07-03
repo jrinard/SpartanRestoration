@@ -70,11 +70,7 @@ export const colorThemes: ColorTheme[] = [
     id: "spartan",
     label: "Spartan",
     colors: [
-      { label: "Light", hex: "#EDDED8" },
-      { label: "Tan", hex: "#CCA384" },
-      { label: "Slate", hex: "#748B9F" },
-      { label: "Slate mid", hex: "#5D7894" },
-      { label: "Navy", hex: "#243348" },
+      { label: "Navy", hex: "#2E4359" },
       { label: "Black", hex: "#000000" },
       { label: "Gold", hex: "#F3C35D" },
       { label: "Bronze", hex: "#B48130" },

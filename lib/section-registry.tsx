@@ -14,6 +14,7 @@ import { HeroVideoV1 } from "@/components/sections/HeroVideo-v1";
 import { FlipCards } from "@/components/sections/FlipCards";
 import { TextIconsV3 } from "@/components/sections/TextIcons-v3";
 import { TextImageV1 } from "@/components/sections/TextImage-v1";
+import { TextImagesV1 } from "@/components/sections/TextImages-v1";
 import { PortfolioV1 } from "@/components/sections/Portfolio-v1";
 import { FeatureTilesV1 } from "@/components/sections/FeatureTiles-v1";
 import { TestimonialsV1 } from "@/components/sections/Testimonials-v1";
@@ -73,6 +74,7 @@ import {
   washingFooter,
   spartanTextIconsContent,
   spartanTextImageContent,
+  spartanTextImagesContent,
 } from "@/lib/demo-content";
 
 export type SectionVariant = {
@@ -242,6 +244,16 @@ export const sectionGroups = {
             imageSrc={spartanTextImageContent.imageSrc}
             imageAlt={spartanTextImageContent.imageAlt}
             sidebarText={spartanTextImageContent.sidebarText}
+          />
+        ),
+      },
+      "text-images-v1": {
+        label: "Text and Images",
+        render: () => (
+          <TextImagesV1
+            row1={spartanTextImagesContent.row1}
+            row2={spartanTextImagesContent.row2}
+            row3={spartanTextImagesContent.row3}
           />
         ),
       },

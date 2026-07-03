@@ -1,5 +1,6 @@
 import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
 import {
+  createNavBarLinkId,
   defaultNavBarLinks,
   defaultNavBarPreviewSettings,
   navBarHeightOptions,
@@ -18,24 +19,33 @@ function isHexColor(value: unknown): value is string {
   return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
 }
 
-function normalizeNavBarLink(value: unknown, fallback: NavBarLink): NavBarLink {
+function normalizeNavBarLink(value: unknown, fallback: NavBarLink, index: number): NavBarLink {
   if (!value || typeof value !== "object") return fallback;
 
   const link = value as Partial<NavBarLink>;
-  return {
-    label:
-      typeof link.label === "string" && link.label.trim() ? link.label.trim() : fallback.label,
-    href: typeof link.href === "string" && link.href.trim() ? link.href.trim() : fallback.href,
-  };
+  const label =
+    typeof link.label === "string" && link.label.trim() ? link.label.trim() : fallback.label;
+  const href =
+    typeof link.href === "string" && link.href.trim() ? link.href.trim() : fallback.href;
+  const id =
+    typeof link.id === "string" && link.id.trim()
+      ? link.id.trim()
+      : fallback.id || createNavBarLinkId();
+
+  return { id, label, href };
 }
 
 function normalizeNavBarItems(value: unknown): NavBarLink[] {
   if (!Array.isArray(value) || value.length === 0) {
-    return defaultNavBarLinks;
+    return defaultNavBarLinks.map((link) => ({ ...link }));
   }
 
   return value.map((item, index) =>
-    normalizeNavBarLink(item, defaultNavBarLinks[index] ?? defaultNavBarLinks[0]),
+    normalizeNavBarLink(
+      item,
+      defaultNavBarLinks[index] ?? defaultNavBarLinks[defaultNavBarLinks.length - 1]!,
+      index,
+    ),
   );
 }
 

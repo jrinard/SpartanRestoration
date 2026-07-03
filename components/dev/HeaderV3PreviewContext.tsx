@@ -4,14 +4,12 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
-  useState,
   type ReactNode,
 } from "react";
+import { IconFramePreviewControls } from "@/components/dev/IconFramePreviewControls";
 import {
   defaultHeaderV3PreviewSettings,
   getDefaultHeaderV3PreviewSettingsForVariant,
-  getDefaultHeaderHeightPx,
   headerHeightOptions,
   headerLogoHeightOptions,
   headerLogoMarginTopOptions,
@@ -27,6 +25,9 @@ import {
   type HeaderLogoVerticalAlign,
   type HeaderV3PreviewSettings,
 } from "@/lib/header-v3-gradient";
+import { HeaderV1NavLinksControls } from "@/components/dev/HeaderV1NavLinksControls";
+import { resolveHeaderV1NavLinkIcon, updateHeaderV1NavLink } from "@/lib/header-v1-nav";
+import type { SiteIconName } from "@/lib/site-icons";
 import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadHeaderV3PreviewSettings,
@@ -46,6 +47,9 @@ import type { PreviewGradientDirection } from "@/lib/preview-gradient";
 type HeaderV3PreviewContextValue = {
   settings: HeaderV3PreviewSettings;
   setSettings: (settings: HeaderV3PreviewSettings) => void;
+  contentEditingEnabled: boolean;
+  getNavItemIcon: (itemId: string, fallback: SiteIconName) => SiteIconName;
+  setNavItemIcon: (itemId: string, iconName: SiteIconName) => void;
 };
 
 const HeaderV3PreviewContext = createContext<HeaderV3PreviewContextValue | null>(null);
@@ -54,14 +58,16 @@ type HeaderV3PreviewProviderProps = {
   children: ReactNode;
   instanceId?: string;
   initialSettings?: HeaderV3PreviewSettings;
+  enableContentEditing?: boolean;
 };
 
 export function HeaderV3PreviewProvider({
   children,
   instanceId,
   initialSettings,
+  enableContentEditing = false,
 }: HeaderV3PreviewProviderProps) {
-  const { settings, setSettings } = useInstancePreviewSettings({
+  const { settings, setSettings: persistSettings, lockedToPublished } = useInstancePreviewSettings({
     instanceId,
     field: "headerV3",
     initialSettings,
@@ -71,8 +77,48 @@ export function HeaderV3PreviewProvider({
     normalize: normalizeHeaderV3PreviewSettings,
   });
 
+  const setSettings = useCallback(
+    (next: HeaderV3PreviewSettings) => {
+      persistSettings(next);
+      if (!lockedToPublished) {
+        saveHeaderV3PreviewSettings(normalizeHeaderV3PreviewSettings(next));
+      }
+    },
+    [lockedToPublished, persistSettings],
+  );
+
+  const getNavItemIcon = useCallback(
+    (itemId: string, fallback: SiteIconName): SiteIconName => {
+      const link = settings.headerV1NavLinks.find((entry) => entry.id === itemId);
+      if (!link) return fallback;
+      return resolveHeaderV1NavLinkIcon(link, settings.headerV1NavIcons);
+    },
+    [settings.headerV1NavIcons, settings.headerV1NavLinks],
+  );
+
+  const setNavItemIcon = useCallback(
+    (itemId: string, iconName: SiteIconName) => {
+      if (!enableContentEditing) return;
+      setSettings({
+        ...settings,
+        headerV1NavLinks: updateHeaderV1NavLink(settings.headerV1NavLinks, itemId, {
+          icon: iconName,
+        }),
+      });
+    },
+    [enableContentEditing, setSettings, settings],
+  );
+
   return (
-    <HeaderV3PreviewContext.Provider value={{ settings, setSettings }}>
+    <HeaderV3PreviewContext.Provider
+      value={{
+        settings,
+        setSettings,
+        contentEditingEnabled: enableContentEditing,
+        getNavItemIcon,
+        setNavItemIcon,
+      }}
+    >
       {children}
     </HeaderV3PreviewContext.Provider>
   );
@@ -267,6 +313,39 @@ export function HeaderV3PreviewControls({ variantId }: { variantId?: string }) {
                   ))}
                 </select>
               </label>
+              <IconFramePreviewControls
+                settings={{
+                  iconFrameShape: context.settings.headerV1NavIconFrameShape,
+                  iconFrameSize: context.settings.headerV1NavIconFrameSize,
+                  iconColor: context.settings.headerV1NavIconColor,
+                  iconBorderColor: context.settings.headerV1NavIconBorderColor,
+                  iconBackgroundColor: context.settings.headerV1NavIconBackgroundColor,
+                }}
+                onChange={(patch) => {
+                  const mapped: Partial<HeaderV3PreviewSettings> = {};
+                  if (patch.iconFrameShape !== undefined) {
+                    mapped.headerV1NavIconFrameShape = patch.iconFrameShape;
+                  }
+                  if (patch.iconFrameSize !== undefined) {
+                    mapped.headerV1NavIconFrameSize = patch.iconFrameSize;
+                  }
+                  if (patch.iconColor !== undefined) {
+                    mapped.headerV1NavIconColor = patch.iconColor;
+                  }
+                  if (patch.iconBorderColor !== undefined) {
+                    mapped.headerV1NavIconBorderColor = patch.iconBorderColor;
+                  }
+                  if (patch.iconBackgroundColor !== undefined) {
+                    mapped.headerV1NavIconBackgroundColor = patch.iconBackgroundColor;
+                  }
+                  update(mapped);
+                }}
+                ariaPrefix="Header v1 nav"
+              />
+              <HeaderV1NavLinksControls
+                links={context.settings.headerV1NavLinks}
+                onChange={(headerV1NavLinks) => update({ headerV1NavLinks })}
+              />
             </>
           )}
           <label className="flex items-center gap-2">

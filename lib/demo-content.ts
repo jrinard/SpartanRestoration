@@ -773,26 +773,39 @@ export const spartanTextIconsContent = {
     "Water and mold damage move fast. Your restoration team should too. Spartan Restoration serves Vancouver and the Pacific Northwest with the urgency and care a damaged home deserves.",
   items: [
     {
+      id: "why-emergency-response",
+      icon: "phone",
       title: "24/7 Emergency Response",
       description:
         "A live person answers day or night. When you're facing damage, you get a real response, not a voicemail loop.",
     },
     {
+      id: "why-quality",
+      icon: "sparkles",
       title: "Quality You Can See",
       description:
         "We keep you informed from the first visit through completion, with work built to last, not just look good on day one.",
     },
     {
+      id: "why-estimates",
+      icon: "file-text",
       title: "Honest, Competitive Estimates",
       description:
         "Clear pricing up front, no surprises. Have a written quote from another licensed contractor? Talk to us. We'll work to earn your business.",
     },
     {
+      id: "why-licensed",
+      icon: "shield-check",
       title: "Licensed, Insured & Certified",
       description:
         "Fully insured crews trained to IICRC industry standards, so your property is in qualified hands from start to finish.",
     },
-  ],
+  ] as ReadonlyArray<{
+    id: string;
+    icon: SiteIconName;
+    title: string;
+    description: string;
+  }>,
 };
 
 function phoneTelHref(phone: string): string {
@@ -815,4 +828,33 @@ export const spartanTextImageContent = {
   imageAlt: "Spartan Restoration team responding to a property emergency",
   sidebarText:
     "We help navigate your insurance claim | Certified technicians |  Professional drying and remediation equipment.",
+};
+
+const spartanSampleContentImageWhite = "/spartan/library/sample-content-image-white.png";
+
+export const spartanTextImagesContent = {
+  row1: {
+    eyebrow: "Quick. Reliable. Professional.",
+    headlineLines: ["Water Damage Restoration"],
+    body:
+      "Water damage rarely comes with a warning. Spartan Restoration offers 24/7 response across Vancouver and the Pacific Northwest, with experienced crews ready to mobilize quickly. We work to stabilize your property, limit further loss, and guide you through cleanup with clear communication and as little disruption as possible.",
+    imageSrc: spartanSampleContentImageWhite,
+    imageAlt: "Spartan Restoration crew responding to water damage",
+  },
+  row2: {
+    title: "Mold Removal",
+    body:
+      "Mold can trigger allergies, respiratory issues, and lasting damage to building materials when it is left untreated. It spreads quickly—often after leaks, floods, or hidden moisture—and proper remediation requires containment and experienced handling to help prevent cross-contamination. Spartan Restoration's certified crews assess the full scope, remove affected materials safely, and work to restore healthy indoor air quality for your home or business.",
+    imageSrc: spartanSampleContentImageWhite,
+    imageAlt: "Professional mold remediation on a residential property",
+  },
+  row3: {
+    title: "Fire Damage Restoration",
+    body:
+      "A fire in your home or business is overwhelming. Beyond what burns, smoke, ash, and odor can keep causing harm until the structure is properly cleaned and restored. Spartan Restoration responds around the clock to secure the property, address smoke and soot damage, and bring your space back with care and minimal disruption.",
+    phoneLabel: siteConfig.phone,
+    phoneHref: phoneTelHref(siteConfig.phone),
+    imageSrc: spartanSampleContentImageWhite,
+    imageAlt: "Fire and smoke damage restoration work in progress",
+  },
 };

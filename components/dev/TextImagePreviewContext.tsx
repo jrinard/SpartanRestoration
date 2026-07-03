@@ -11,9 +11,11 @@ import {
 import { ButtonPreviewControls } from "@/components/dev/ButtonPreviewControls";
 import {
   defaultTextImagePreviewSettings,
+  defaultTextImageV1Theme,
   getTextImageColorsForTheme,
   parseTextImageHeadlineDraft,
   resolveTextImageContent,
+  shouldInvertTextImageForTheme,
   textImageEntranceSpeedOptions,
   textImagePhoneButtonMarginOptions,
   textImageSectionThemes,
@@ -185,6 +187,11 @@ export function TextImagePreviewControls() {
     context.setSettings({ ...context.settings, ...patch });
   };
 
+  const imageInverted = shouldInvertTextImageForTheme(
+    context.settings.theme,
+    defaultTextImageV1Theme,
+  );
+
   return (
     <div className="contents">
       <label className="flex items-center gap-2">
@@ -208,6 +215,12 @@ export function TextImagePreviewControls() {
           ))}
         </select>
       </label>
+      <span
+        className="font-mono text-[0.65rem] tracking-wide text-accent-purple/80 uppercase"
+        aria-live="polite"
+      >
+        Img {imageInverted ? "inv" : "std"}
+      </span>
       <label className="flex cursor-pointer items-center gap-1.5 rounded border border-accent-purple/40 bg-background/90 px-2 py-1.5 backdrop-blur-sm">
         <input
           type="checkbox"

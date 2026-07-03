@@ -1,37 +1,88 @@
 "use client";
 
+import { useState } from "react";
 import type { CSSProperties } from "react";
+import { Shuffle } from "lucide-react";
 import { useTextIconsV3Preview } from "@/components/dev/TextIconsV3PreviewContext";
+import { LucideIconPicker } from "@/components/dev/LucideIconPicker";
+import { IconFrame } from "@/components/icons/IconFrame";
 import { Container } from "@/components/ui/Container";
 import {
   defaultTextIconsV3PreviewSettings,
   getTextIconsV3BackgroundStyle,
   getTextIconsV3CssVariables,
 } from "@/lib/text-icons-v3-preview";
+import { defaultSiteIconName, resolveSiteIconName, type SiteIconName } from "@/lib/site-icons";
+import { devEditButtonClassName, devEditIconSize } from "@/lib/dev-overlay-controls";
 import { getSiteLayoutWidthClassName } from "@/lib/site-layout";
 import { cn } from "@/lib/utils";
 
 export type TextIconsV3Item = {
+  id: string;
   title: string;
   description: string;
+  icon?: SiteIconName;
 };
 
 type TextIconsV3Props = {
   heading: string;
   subheading: string;
-  items: TextIconsV3Item[];
+  items: readonly TextIconsV3Item[];
   className?: string;
 };
 
-function IconPlaceholder() {
+function TextIconsV3Icon({
+  itemId,
+  itemTitle,
+  fallbackIcon,
+  iconEditingEnabled,
+  onIconChange,
+}: {
+  itemId: string;
+  itemTitle: string;
+  fallbackIcon: SiteIconName;
+  iconEditingEnabled: boolean;
+  onIconChange?: (iconName: SiteIconName) => void;
+}) {
+  const preview = useTextIconsV3Preview();
+  const settings = preview?.settings ?? defaultTextIconsV3PreviewSettings;
+  const iconName = preview?.getItemIcon(itemId, fallbackIcon) ?? fallbackIcon;
+  const [iconPickerOpen, setIconPickerOpen] = useState(false);
+
   return (
-    <div
-      className="text-icons-v3-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border-2 border-dashed"
-      aria-hidden="true"
-    >
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
-        <path d="M12 2 4 7v10l8 5 8-5V7l-8-5zm0 2.18 6 3.75v7.14l-6 3.75-6-3.75V7.93l6-3.75z" />
-      </svg>
+    <div className="relative shrink-0">
+      <IconFrame
+        iconName={iconName}
+        shape={settings.iconFrameShape}
+        size={settings.iconFrameSize}
+        iconColor={settings.iconColor}
+        borderColor={settings.iconBorderColor}
+        backgroundColor={settings.iconBackgroundColor}
+        context="text-icons-v3"
+        className="text-icons-v3-icon"
+      />
+      {iconEditingEnabled && onIconChange && (
+        <>
+          <button
+            type="button"
+            onClick={() => setIconPickerOpen((open) => !open)}
+            className={devEditButtonClassName}
+            aria-label={`Change icon for ${itemTitle}`}
+            aria-expanded={iconPickerOpen}
+          >
+            <Shuffle size={devEditIconSize} strokeWidth={2} />
+          </button>
+          {iconPickerOpen && (
+            <div className="absolute top-8 left-1/2 z-30 -translate-x-1/2">
+              <LucideIconPicker
+                value={iconName}
+                onChange={onIconChange}
+                onClose={() => setIconPickerOpen(false)}
+              />
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
@@ -40,6 +91,7 @@ function IconPlaceholder() {
 export function TextIconsV3({ heading, subheading, items, className }: TextIconsV3Props) {
   const preview = useTextIconsV3Preview();
   const settings = preview?.settings ?? defaultTextIconsV3PreviewSettings;
+  const iconEditingEnabled = preview?.contentEditingEnabled ?? false;
   const isContained = settings.layoutWidth === "contained";
 
   const gradientBackground = getTextIconsV3BackgroundStyle(settings);
@@ -57,13 +109,28 @@ export function TextIconsV3({ heading, subheading, items, className }: TextIcons
       </div>
 
       <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-8">
-        {items.map((item) => (
-          <article key={item.title} className="text-icons-v3-item flex flex-col items-center text-center">
-            <IconPlaceholder />
-            <h3 className="mt-5 text-lg font-semibold leading-snug text-white">{item.title}</h3>
-            <p className="mt-3 text-sm leading-relaxed text-white/70">{item.description}</p>
-          </article>
-        ))}
+        {items.map((item) => {
+          const fallbackIcon = resolveSiteIconName(item.icon, defaultSiteIconName);
+
+          return (
+            <article
+              key={item.id}
+              className="text-icons-v3-item flex flex-col items-center text-center"
+            >
+              <TextIconsV3Icon
+                itemId={item.id}
+                itemTitle={item.title}
+                fallbackIcon={fallbackIcon}
+                iconEditingEnabled={iconEditingEnabled}
+                onIconChange={
+                  preview ? (nextIcon) => preview.setItemIcon(item.id, nextIcon) : undefined
+                }
+              />
+              <h3 className="mt-5 text-lg font-semibold leading-snug text-white">{item.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-white/70">{item.description}</p>
+            </article>
+          );
+        })}
       </div>
     </>
   );

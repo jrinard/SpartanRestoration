@@ -1,43 +1,116 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { Shuffle } from "lucide-react";
 import { useHeaderV3Preview } from "@/components/dev/HeaderV3PreviewContext";
-import { headerV1ServiceNav, type HeaderV1NavItem } from "@/lib/header-v1-nav";
-import { scrollToHashHref } from "@/lib/scroll-to-hash";
+import { LucideIconPicker } from "@/components/dev/LucideIconPicker";
+import { IconFrame } from "@/components/icons/IconFrame";
+import {
+  defaultHeaderV1NavLinks,
+  getHeaderV1NavLinkHref,
+  resolveHeaderV1NavLinkIcon,
+  type HeaderV1NavLink,
+} from "@/lib/header-v1-nav";
+import {
+  defaultHeaderV3PreviewSettings,
+  defaultHeaderV1NavIconColor,
+  pickHeaderV1NavIconFrameSettings,
+} from "@/lib/header-v3-gradient";
+import { defaultSiteIconName, type SiteIconName } from "@/lib/site-icons";
+import {
+  useHashNavigationClick,
+  useResolvePlaygroundHref,
+} from "@/components/dev/useHashNavigation";
+import {
+  devEditButtonClassName,
+  devEditIconSize,
+} from "@/lib/dev-overlay-controls";
 import { cn } from "@/lib/utils";
 
 type HeaderV1NavProps = {
-  items?: readonly HeaderV1NavItem[];
+  links?: readonly HeaderV1NavLink[];
   ariaLabel?: string;
   className?: string;
 };
 
-function NavIconPlaceholder({ className }: { className?: string }) {
+function HeaderV1NavIcon({
+  itemId,
+  itemLabel,
+  fallbackIcon,
+  iconEditingEnabled,
+  onIconChange,
+}: {
+  itemId: string;
+  itemLabel: string;
+  fallbackIcon: SiteIconName;
+  iconEditingEnabled: boolean;
+  onIconChange?: (iconName: SiteIconName) => void;
+}) {
+  const preview = useHeaderV3Preview();
+  const settings = preview?.settings ?? defaultHeaderV3PreviewSettings;
+  const iconName = preview?.getNavItemIcon(itemId, fallbackIcon) ?? fallbackIcon;
+  const iconFrame = pickHeaderV1NavIconFrameSettings(settings);
+  const iconColor = iconFrame.iconColor || defaultHeaderV1NavIconColor;
+  const iconBorderColor = iconFrame.iconBorderColor || iconColor;
+  const iconBackgroundColor = iconFrame.iconBackgroundColor || "transparent";
+  const [iconPickerOpen, setIconPickerOpen] = useState(false);
+
   return (
-    <span
-      className={cn(
-        "header-v1-nav-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-dashed border-current/35",
-        className,
+    <div className="relative shrink-0 justify-self-center">
+      <IconFrame
+        iconName={iconName}
+        shape={iconFrame.iconFrameShape}
+        size={iconFrame.iconFrameSize}
+        iconColor={iconColor}
+        borderColor={iconBorderColor}
+        backgroundColor={iconBackgroundColor}
+        context="header-v1"
+        className="header-v1-nav-icon"
+      />
+      {iconEditingEnabled && onIconChange && (
+        <>
+          <button
+            type="button"
+            onClick={() => setIconPickerOpen((open) => !open)}
+            className={devEditButtonClassName}
+            aria-label={`Change icon for ${itemLabel.replace("\n", " ")}`}
+            aria-expanded={iconPickerOpen}
+          >
+            <Shuffle size={devEditIconSize} strokeWidth={2} />
+          </button>
+          {iconPickerOpen && (
+            <div className="absolute top-8 left-1/2 z-30 -translate-x-1/2">
+              <LucideIconPicker
+                value={iconName}
+                onChange={onIconChange}
+                onClose={() => setIconPickerOpen(false)}
+              />
+            </div>
+          )}
+        </>
       )}
-      aria-hidden="true"
-    >
-      <svg viewBox="0 0 24 24" className="h-5 w-5 opacity-70" fill="currentColor">
-        <path d="M12 2 4 7v10l8 5 8-5V7l-8-5zm0 2.18 6 3.75v7.14l-6 3.75-6-3.75V7.93l6-3.75z" />
-      </svg>
-    </span>
+    </div>
   );
 }
 
-/** Header v1 service navigation — icon above label button. */
+/** Header v1 navigation — icon above label button. */
 export function HeaderV1Nav({
-  items = headerV1ServiceNav,
+  links,
   ariaLabel = "Service navigation",
   className,
 }: HeaderV1NavProps) {
   const preview = useHeaderV3Preview();
   const isCustom = Boolean(preview);
+  const iconEditingEnabled = preview?.contentEditingEnabled ?? false;
+  const resolveHref = useResolvePlaygroundHref();
+  const handleHashNavigation = useHashNavigationClick();
+  const settings = preview?.settings ?? defaultHeaderV3PreviewSettings;
+  const navLinks = preview
+    ? settings.headerV1NavLinks
+    : links ?? defaultHeaderV1NavLinks;
 
-  if (items.length === 0) return null;
+  if (navLinks.length === 0) return null;
 
   return (
     <nav
@@ -47,38 +120,48 @@ export function HeaderV1Nav({
       )}
       aria-label={ariaLabel}
     >
-      {items.map((item) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          onClick={(event) => {
-            if (scrollToHashHref(item.href)) {
-              event.preventDefault();
-            }
-          }}
-          className={cn(
-            "header-v1-nav-item group contents text-center no-underline",
-            !isCustom && "text-muted transition-colors hover:text-foreground",
-          )}
-        >
-          <NavIconPlaceholder className="justify-self-center" />
-          <span
+      {navLinks.map((link) => {
+        const fallbackIcon = resolveHeaderV1NavLinkIcon(link);
+        const itemHref = getHeaderV1NavLinkHref(link);
+        const resolvedHref = resolveHref(itemHref);
+
+        return (
+          <Link
+            key={link.id}
+            href={resolvedHref}
+            onClick={(event) => handleHashNavigation(itemHref, event)}
             className={cn(
-              "header-v1-nav-link inline-flex w-full items-start justify-center justify-self-stretch px-3 py-2 font-bold leading-tight tracking-wide",
-              isCustom ? "header-v3-nav-link radial-hover-shine" : "text-sm",
+              "header-v1-nav-item group contents text-center no-underline",
+              !isCustom && "text-muted transition-colors hover:text-foreground",
             )}
           >
+            <HeaderV1NavIcon
+              itemId={link.id}
+              itemLabel={link.label}
+              fallbackIcon={fallbackIcon}
+              iconEditingEnabled={iconEditingEnabled}
+              onIconChange={
+                preview ? (nextIcon) => preview.setNavItemIcon(link.id, nextIcon) : undefined
+              }
+            />
             <span
               className={cn(
-                "header-v1-nav-label whitespace-pre-line",
-                isCustom && "relative z-[1]",
+                "header-v1-nav-link inline-flex w-full items-start justify-center justify-self-stretch px-3 py-2 font-bold leading-tight tracking-wide",
+                isCustom ? "header-v3-nav-link radial-hover-shine" : "text-sm",
               )}
             >
-              {item.label}
+              <span
+                className={cn(
+                  "header-v1-nav-label whitespace-pre-line",
+                  isCustom && "relative z-[1]",
+                )}
+              >
+                {link.label}
+              </span>
             </span>
-          </span>
-        </Link>
-      ))}
+          </Link>
+        );
+      })}
     </nav>
   );
 }
