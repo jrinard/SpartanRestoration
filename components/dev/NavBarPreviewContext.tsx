@@ -15,6 +15,7 @@ import {
   type NavBarLayoutWidth,
   type NavBarPreviewSettings,
 } from "@/lib/nav-bar-preview";
+import { playgroundNavSyncEvent } from "@/lib/playground-nav-sync";
 import {
   loadNavBarPreviewSettings,
   normalizeNavBarPreviewSettings,
@@ -48,6 +49,17 @@ export function NavBarPreviewProvider({
   useEffect(() => {
     if (lockedToPublished) return;
     setSettingsState(loadNavBarPreviewSettings());
+  }, [lockedToPublished]);
+
+  useEffect(() => {
+    if (lockedToPublished) return;
+
+    const handleNavSync = () => {
+      setSettingsState(loadNavBarPreviewSettings());
+    };
+
+    window.addEventListener(playgroundNavSyncEvent, handleNavSync);
+    return () => window.removeEventListener(playgroundNavSyncEvent, handleNavSync);
   }, [lockedToPublished]);
 
   const setSettings = useCallback(

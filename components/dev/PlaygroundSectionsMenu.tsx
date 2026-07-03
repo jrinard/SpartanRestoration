@@ -9,7 +9,7 @@ const triggerClassName =
   "rounded border border-white/10 bg-[#12121c] px-3 py-2.5 font-mono text-sm text-white focus:border-accent-purple/50 focus:outline-none";
 
 export function PlaygroundSectionsMenu() {
-  const { sections, updateSection } = usePlaygroundSections();
+  const { sections, updateSection, activePage } = usePlaygroundSections();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const hiddenCount = sections.filter((section) => section.hidden).length;
@@ -44,13 +44,15 @@ export function PlaygroundSectionsMenu() {
         aria-haspopup="true"
         onClick={() => setOpen((current) => !current)}
       >
-        Sections{hiddenCount > 0 ? ` (${hiddenCount} hidden)` : ""}
+        Sections
+        {activePage ? ` · ${activePage.name}` : ""}
+        {hiddenCount > 0 ? ` (${hiddenCount} hidden)` : ""}
       </button>
 
       {open && (
         <div className="absolute top-[calc(100%+0.5rem)] left-0 z-[60] min-w-[14rem] rounded border border-white/10 bg-[#12121c] p-3 shadow-xl">
           <p className="mb-2 font-mono text-[0.65rem] tracking-wide text-white/40 uppercase">
-            Show in playground
+            Show in playground · {activePage?.name ?? "Page"}
           </p>
           <ul className="max-h-72 space-y-1 overflow-y-auto">
             {sections.map((section) => {

@@ -15,10 +15,13 @@ import { heroV1PreviewStorageKey } from "@/lib/hero-v1-preview-storage";
 import { heroV21PreviewStorageKey, heroButtonPreviewStorageKey } from "@/lib/hero-v21-preview-storage";
 import { copyContentInstanceSettings, loadAllContentInstanceSettings } from "@/lib/content-instance-storage";
 import {
+  getPlaygroundPageSections,
+  homePlaygroundPageId,
+  loadPlaygroundPagesState,
+} from "@/lib/playground-pages";
+import {
   getPlaygroundSectionVariant,
   getPreviewSections,
-  mergePlaygroundSectionOrder,
-  playgroundSectionOrderKey,
 } from "@/lib/playground-sections";
 import { portfolioPreviewStorageKey } from "@/lib/portfolio-preview-storage";
 import { reviewboxPreviewStorageKey } from "@/lib/reviewbox-preview-storage";
@@ -45,9 +48,8 @@ function readJson<T>(key: string): T | undefined {
 }
 
 export function collectHomepageConfigFromStorage(): HomepageConfig {
-  const playgroundSections = mergePlaygroundSectionOrder(
-    readJson<unknown>(playgroundSectionOrderKey) ?? [],
-  );
+  const pagesState = loadPlaygroundPagesState();
+  const playgroundSections = getPlaygroundPageSections(pagesState, homePlaygroundPageId);
 
   const sections: HomepageSectionEntry[] = getPreviewSections(playgroundSections).map(
     (section) => ({

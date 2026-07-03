@@ -99,6 +99,45 @@ export function saveTextImageInstanceSettings(
 }
 
 export function copyContentInstanceSettings(fromId: string, toId: string): void {
+  copyEffectiveContentInstanceSettings(fromId, toId);
+}
+
+export function loadEffectiveTextIconsV3InstanceSettings(
+  instanceId: string,
+): TextIconsV3PreviewSettings {
+  return loadTextIconsV3InstanceSettings(instanceId) ?? loadTextIconsV3PreviewSettings();
+}
+
+export function loadEffectiveTextImageInstanceSettings(
+  instanceId: string,
+): TextImagePreviewSettings {
+  return loadTextImageInstanceSettings(instanceId) ?? loadTextImagePreviewSettings();
+}
+
+export function copyEffectiveContentInstanceSettings(
+  fromId: string,
+  toId: string,
+  sourceVariant?: string,
+): void {
+  const current = loadContentInstanceSettings(toId) ?? {};
+  const variant = sourceVariant ?? "text-icons-v3";
+
+  if (variant === "text-image-v1") {
+    saveContentInstanceSettings(toId, {
+      ...current,
+      textImage: structuredClone(loadEffectiveTextImageInstanceSettings(fromId)),
+    });
+    return;
+  }
+
+  if (variant === "text-icons-v3") {
+    saveContentInstanceSettings(toId, {
+      ...current,
+      textIconsV3: structuredClone(loadEffectiveTextIconsV3InstanceSettings(fromId)),
+    });
+    return;
+  }
+
   const from = loadContentInstanceSettings(fromId);
   if (from) {
     saveContentInstanceSettings(toId, structuredClone(from));

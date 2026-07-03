@@ -135,8 +135,17 @@ function normalizeStoredSection(item: unknown): PlaygroundSectionConfig | null {
 }
 
 export function mergePlaygroundSectionOrder(stored: unknown): PlaygroundSectionConfig[] {
+  return parsePlaygroundSectionOrder(stored, { mergeMissingDefaults: true });
+}
+
+export function parsePlaygroundSectionOrder(
+  stored: unknown,
+  options?: { mergeMissingDefaults?: boolean },
+): PlaygroundSectionConfig[] {
+  const mergeMissingDefaults = options?.mergeMissingDefaults ?? true;
+
   if (!Array.isArray(stored) || stored.length === 0) {
-    return defaultPlaygroundSections;
+    return mergeMissingDefaults ? defaultPlaygroundSections : [];
   }
 
   const merged: PlaygroundSectionConfig[] = [];
@@ -152,6 +161,10 @@ export function mergePlaygroundSectionOrder(stored: unknown): PlaygroundSectionC
     }
 
     merged.push(section);
+  }
+
+  if (!mergeMissingDefaults) {
+    return merged;
   }
 
   for (const fallback of defaultPlaygroundSections) {

@@ -17,6 +17,11 @@ import {
   footerV1ServiceAreaId,
   getFooterV1TeamContacts,
 } from "@/lib/footer-v1-seo";
+import { usePlaygroundNavLinks } from "@/components/dev/usePlaygroundNavLinks";
+import {
+  usePlaygroundNavLinkHref,
+  usePlaygroundPageLink,
+} from "@/components/dev/usePlaygroundPageLink";
 import { scrollToHashHref } from "@/lib/scroll-to-hash";
 import { cn } from "@/lib/utils";
 
@@ -31,6 +36,9 @@ export function FooterV1({ description }: FooterV1Props) {
   const preview = useFooterV1Preview();
   const settings = preview?.settings ?? defaultFooterV1PreviewSettings;
   const teamContacts = getFooterV1TeamContacts();
+  const navLinks = usePlaygroundNavLinks();
+  const handlePageLink = usePlaygroundPageLink();
+  const resolveNavHref = usePlaygroundNavLinkHref();
   const isContained = settings.layoutWidth === "contained";
   const mainBackground = getFooterV1MainBackground(settings);
 
@@ -61,7 +69,8 @@ export function FooterV1({ description }: FooterV1Props) {
             <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1.35fr)_minmax(0,0.95fr)] lg:items-start lg:gap-12">
             <div className="footer-v1-brand">
               <Link
-                href="/"
+                href={resolveNavHref("/")}
+                onClick={(event) => handlePageLink("/", event)}
                 className="inline-flex flex-col items-start gap-3 no-underline"
                 aria-label={`${siteConfig.name} — Home`}
               >
@@ -88,14 +97,16 @@ export function FooterV1({ description }: FooterV1Props) {
               <nav className="footer-v1-nav w-full" aria-label="Footer navigation">
                 <h2 className="sr-only">Site navigation</h2>
                 <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
-                  {siteConfig.footerNav.map((item) => (
-                    <li key={item.href}>
+                  {navLinks.map((item, index) => (
+                    <li key={`${item.href}-${index}`}>
                       <Link
-                        href={item.href}
+                        href={resolveNavHref(item.href)}
                         onClick={(event) => {
                           if (scrollToHashHref(item.href)) {
                             event.preventDefault();
+                            return;
                           }
+                          handlePageLink(item.href, event);
                         }}
                         className="footer-v1-nav-link text-sm font-semibold tracking-wide uppercase transition-colors"
                       >

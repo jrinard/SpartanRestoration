@@ -280,4 +280,19 @@ export function saveSpacerGradientStyle(style: SpacerGradientStyle, instanceId?:
   localStorage.setItem(spacerGradientStorageKey, JSON.stringify(style));
 }
 
+/** Copy the spacer settings currently shown in the playground (instance + legacy fallbacks). */
+export function copyEffectiveSpacerInstanceSettings(
+  fromId: string,
+  toId: string,
+  colorThemeId: ColorThemeId,
+  variantId?: string,
+): void {
+  saveSpacerInstanceSettings(toId, {
+    stripe: loadSpacerStripeStyle(colorThemeId, fromId, variantId),
+    gradient: loadSpacerGradientStyle(fromId),
+    layoutWidth: loadSpacerLayoutWidth(fromId, variantId),
+    outerBackgroundColor: loadSpacerOuterBackgroundColor(fromId),
+  });
+}
+
 export { defaultSpacerGradientStyle };

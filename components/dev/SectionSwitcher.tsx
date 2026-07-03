@@ -5,6 +5,7 @@ import {
   NavBarPreviewProvider,
   NavBarPreviewControls,
 } from "@/components/dev/NavBarPreviewContext";
+import { NavBarLinkOrderControls } from "@/components/dev/NavBarLinkOrderControls";
 import {
   TopBarPreviewProvider,
   TopBarPreviewControls,
@@ -152,7 +153,12 @@ export function SectionSwitcher({
             <SpacerContainedLayoutControls />
           )}
         {isTopBar && <TopBarPreviewControls />}
-        {isNavBar && <NavBarPreviewControls />}
+        {isNavBar && (
+          <>
+            <NavBarPreviewControls />
+            <NavBarLinkOrderControls />
+          </>
+        )}
         {isHeaderWithPreview && <HeaderV3PreviewControls variantId={activeVariantId} />}
         {isHeroV1 && <HeroV1PreviewControls />}
         {isHeroBanner && <HeroBannerPreviewControls />}

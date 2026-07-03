@@ -12,10 +12,14 @@ import {
 } from "@/lib/playground-sections";
 
 export function HomePage() {
-  const { sections, setSections, updateSection, duplicateSection, visibleSections } =
+  const { sections, setSections, updateSection, duplicateSection, visibleSections, ready } =
     usePlaygroundSections();
   const [dragSectionId, setDragSectionId] = useState<string | null>(null);
   const [overSectionId, setOverSectionId] = useState<string | null>(null);
+
+  if (!ready) {
+    return <main id="main-content" className="playground-sections" />;
+  }
 
   return (
     <main id="main-content" className="playground-sections">

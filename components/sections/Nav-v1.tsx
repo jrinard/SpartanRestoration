@@ -4,6 +4,10 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { useNavBarPreview } from "@/components/dev/NavBarPreviewContext";
 import {
+  usePlaygroundNavLinkHref,
+  usePlaygroundPageLink,
+} from "@/components/dev/usePlaygroundPageLink";
+import {
   defaultNavBarPreviewSettings,
   getNavBarLayoutWidthClassName,
 } from "@/lib/nav-bar-preview";
@@ -13,6 +17,8 @@ import { cn } from "@/lib/utils";
 export function NavV1() {
   const preview = useNavBarPreview();
   const settings = preview?.settings ?? defaultNavBarPreviewSettings;
+  const handlePageLink = usePlaygroundPageLink();
+  const resolveNavHref = usePlaygroundNavLinkHref();
 
   const barStyle = {
     "--nav-bar-height": `${settings.heightPx}px`,
@@ -37,9 +43,13 @@ export function NavV1() {
           style={isContained ? { backgroundColor: settings.backgroundColor } : undefined}
         >
           <ul className="nav-bar-v1-list">
-            {settings.items.map((item) => (
-              <li key={`${item.label}-${item.href}`} className="nav-bar-v1-item">
-                <Link href={item.href} className="nav-bar-v1-link">
+            {settings.items.map((item, index) => (
+              <li key={`${item.label}-${item.href}-${index}`} className="nav-bar-v1-item">
+                <Link
+                  href={resolveNavHref(item.href)}
+                  onClick={(event) => handlePageLink(item.href, event)}
+                  className="nav-bar-v1-link"
+                >
                   {item.label}
                 </Link>
               </li>
