@@ -7,6 +7,7 @@ import { getColorTheme } from "@/lib/color-themes";
 import type { FontThemeId } from "@/lib/creative-themes";
 import { getFontTheme } from "@/lib/creative-themes";
 import { contactPreviewStorageKey } from "@/lib/contact-preview-storage";
+import { ctaV1PreviewStorageKey } from "@/lib/cta-v1-preview-storage";
 import { footerV3PreviewStorageKey } from "@/lib/footer-v3-preview-storage";
 import { footerV1PreviewStorageKey } from "@/lib/footer-v1-preview-storage";
 import { headerV3NavGradientStorageKey } from "@/lib/header-v3-storage";
@@ -109,6 +110,7 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
     contents: Object.keys(contents).length > 0 ? contents : undefined,
     sections: Object.keys(publishedSections).length > 0 ? publishedSections : undefined,
     contact: readJson(contactPreviewStorageKey),
+    ctaV1: readJson(ctaV1PreviewStorageKey),
     textIconsV3: readJson(textIconsV3PreviewStorageKey),
     textImage: readJson(textImagePreviewStorageKey),
     textImages: readJson(textImagesPreviewStorageKey),

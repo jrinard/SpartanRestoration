@@ -26,6 +26,8 @@ export type TextImagePreviewSettings = TextImageTextColors &
     layoutInverted: boolean;
     /** Space above the phone CTA on the text column. */
     phoneButtonMarginTopPx: number;
+    /** Show the phone call-to-action button. */
+    phoneButtonVisible: boolean;
     /** Playground copy overrides. */
     contentEyebrow?: string;
     contentHeadlineLines?: string[];
@@ -171,6 +173,7 @@ export const defaultTextImagePreviewSettings: TextImagePreviewSettings = {
   entranceAnimationSpeedMs: 800,
   layoutInverted: false,
   phoneButtonMarginTopPx: defaultTextImagePhoneButtonMarginTopPx,
+  phoneButtonVisible: true,
 };
 
 export function pickTextImageButtonSettings(

@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import { phoneTelHref } from "@/lib/phone";
 import type { SiteIconName } from "@/lib/site-icons";
 
 export const heroDemo = {
@@ -412,6 +413,17 @@ export const partnerLogos = [
 ];
 
 export const ctaContent = {
+  headlineLines: [
+    "With years of experience,",
+    "our leadership team is always ready",
+    "to solve your problem",
+  ],
+  phoneLabel: siteConfig.phone,
+  phoneHref: phoneTelHref(siteConfig.phone),
+};
+
+/** Legacy CTA-v2 copy — generic contact prompt. */
+export const ctaV2Content = {
   headline: "Ready to grow your business?",
   subtext: "Let us talk about what you are building and what comes next.",
   ctaLabel: "Contact Us",
@@ -807,11 +819,6 @@ export const spartanTextIconsContent = {
     description: string;
   }>,
 };
-
-function phoneTelHref(phone: string): string {
-  const digits = phone.replace(/\D/g, "");
-  return digits ? `tel:+${digits.length === 10 ? `1${digits}` : digits}` : "tel:";
-}
 
 export const spartanTextImageContent = {
   eyebrow: "Spartan Restoration.",

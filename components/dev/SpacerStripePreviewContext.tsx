@@ -14,6 +14,7 @@ import type { SiteLayoutWidth } from "@/lib/site-layout";
 import { getDefaultSpacerStripeStyleForVariant } from "@/lib/spacer-defaults";
 import type { SpacerInstanceSettings } from "@/lib/spacer-instance-storage";
 import {
+  ensureSpacerStripeInstance,
   loadSpacerGradientStyle,
   loadSpacerLayoutWidth,
   loadSpacerOuterBackgroundColor,
@@ -82,10 +83,17 @@ export function SpacerStripePreviewProvider({
       return;
     }
 
-    setStripeState(loadSpacerStripeStyle(colorThemeId, instanceId, variantId));
-    setGradientState(loadSpacerGradientStyle(instanceId));
-    setLayoutWidthState(loadSpacerLayoutWidth(instanceId, variantId));
-    setOuterBackgroundColorState(loadSpacerOuterBackgroundColor(instanceId));
+    const stripe = instanceId
+      ? ensureSpacerStripeInstance(instanceId, colorThemeId, variantId)
+      : loadSpacerStripeStyle(colorThemeId, instanceId, variantId);
+    const gradient = loadSpacerGradientStyle(instanceId);
+    const layoutWidth = loadSpacerLayoutWidth(instanceId, variantId);
+    const outerBackground = loadSpacerOuterBackgroundColor(instanceId);
+
+    setStripeState(stripe);
+    setGradientState(gradient);
+    setLayoutWidthState(layoutWidth);
+    setOuterBackgroundColorState(outerBackground);
     setReady(true);
   }, [colorThemeId, instanceId, lockedToPublished, variantId]);
 

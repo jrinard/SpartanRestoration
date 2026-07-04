@@ -342,7 +342,34 @@ export function TextImagesPreviewControls() {
           aria-label="Text and images body text color"
         />
       </label>
-      <ButtonPreviewControls target="textImages" />
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Button</span>
+        <input
+          type="checkbox"
+          checked={context.settings.phoneButtonVisible}
+          onChange={(event) => update({ phoneButtonVisible: event.target.checked })}
+          className="accent-accent-purple"
+          aria-label="Show text and images phone button"
+        />
+      </label>
+      {context.settings.phoneButtonVisible && <ButtonPreviewControls target="textImages" />}
+      {context.settings.phoneButtonVisible && (
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Btn Top</span>
+        <select
+          value={context.settings.phoneButtonMarginTopPx}
+          onChange={(event) => update({ phoneButtonMarginTopPx: Number(event.target.value) })}
+          className={selectClassName}
+          aria-label="Text and images phone button top margin"
+        >
+          {textImagePhoneButtonMarginOptions.map((margin) => (
+            <option key={margin} value={margin}>
+              {margin}px
+            </option>
+          ))}
+        </select>
+      </label>
+      )}
       <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Sec Top</span>
         <select
@@ -417,21 +444,6 @@ export function TextImagesPreviewControls() {
           </select>
         </label>,
       ])}
-      <label className="flex items-center gap-2">
-        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Btn Top</span>
-        <select
-          value={context.settings.phoneButtonMarginTopPx}
-          onChange={(event) => update({ phoneButtonMarginTopPx: Number(event.target.value) })}
-          className={selectClassName}
-          aria-label="Text and images phone button top margin"
-        >
-          {textImagePhoneButtonMarginOptions.map((margin) => (
-            <option key={margin} value={margin}>
-              {margin}px
-            </option>
-          ))}
-        </select>
-      </label>
       <label className="flex cursor-pointer items-center gap-1.5 rounded border border-accent-purple/40 bg-background/90 px-2 py-1.5 backdrop-blur-sm">
         <input
           type="checkbox"

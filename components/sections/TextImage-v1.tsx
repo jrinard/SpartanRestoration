@@ -230,7 +230,7 @@ export function TextImageV1({
               )}
             </EditableTextBlock>
 
-            {(content.phoneLabel || editingEnabled) && (
+            {settings.phoneButtonVisible && (content.phoneLabel || editingEnabled) && (
               <EditableTextBlock
                 editingEnabled={editingEnabled}
                 ariaLabel="Edit call button text"

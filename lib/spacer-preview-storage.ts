@@ -4,7 +4,7 @@ import {
   type SpacerStripeStyle,
 } from "@/components/sections/Spacer";
 import type { ColorThemeId } from "@/lib/color-themes";
-import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
+import { getCommittedHomepagePreviewSettings, shouldUsePlaygroundPreviewSettings } from "@/lib/homepage-settings";
 import { getDefaultSpacerStripeStyleForVariant } from "@/lib/spacer-defaults";
 import type { SiteLayoutWidth } from "@/lib/site-layout";
 import {
@@ -66,6 +66,12 @@ export function loadSpacerLayoutWidth(instanceId?: string, variantId?: string): 
     if (instance) {
       return normalizeSpacerLayoutWidth(instance);
     }
+
+    if (variantId === "spacer-v3") {
+      return "contained";
+    }
+
+    return defaultSpacerLayoutWidth;
   }
 
   if (typeof window === "undefined") {
@@ -191,6 +197,10 @@ function loadLegacyGradientFromStorage(): SpacerGradientStyle | undefined {
 }
 
 function getCommittedSpacerSettings(instanceId?: string): SpacerInstanceSettings | undefined {
+  if (shouldUsePlaygroundPreviewSettings()) {
+    return undefined;
+  }
+
   const committed = getCommittedHomepagePreviewSettings();
   if (!committed) return undefined;
 
@@ -223,6 +233,8 @@ export function loadSpacerStripeStyle(
     if (instance?.stripe) {
       return normalizeSpacerStripeStyle(instance.stripe, colorThemeId, variantId);
     }
+
+    return getDefaultSpacerStripeStyleForVariant(variantId, colorThemeId);
   }
 
   if (typeof window === "undefined") {
@@ -244,6 +256,8 @@ export function loadSpacerGradientStyle(instanceId?: string): SpacerGradientStyl
   if (instanceId) {
     const instance = loadSpacerInstanceSettings(instanceId);
     if (instance?.gradient) return instance.gradient;
+
+    return defaultSpacerGradientStyle;
   }
 
   if (typeof window === "undefined") {
@@ -266,6 +280,22 @@ export function saveSpacerStripeStyle(style: SpacerStripeStyle, instanceId?: str
   }
 
   localStorage.setItem(spacerStripeStorageKey, JSON.stringify(style));
+}
+
+/** Persist default stripe settings for a slot so it no longer shares legacy global storage. */
+export function ensureSpacerStripeInstance(
+  instanceId: string,
+  colorThemeId: ColorThemeId,
+  variantId?: string,
+): SpacerStripeStyle {
+  const instance = loadSpacerInstanceSettings(instanceId);
+  if (instance?.stripe) {
+    return normalizeSpacerStripeStyle(instance.stripe, colorThemeId, variantId);
+  }
+
+  const stripe = getDefaultSpacerStripeStyleForVariant(variantId, colorThemeId);
+  saveSpacerStripeStyle(stripe, instanceId);
+  return stripe;
 }
 
 export function saveSpacerGradientStyle(style: SpacerGradientStyle, instanceId?: string): void {

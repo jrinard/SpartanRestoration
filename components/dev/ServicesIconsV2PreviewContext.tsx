@@ -12,6 +12,8 @@ import {
   defaultServicesIconsV2PreviewSettings,
   servicesIconsV2BorderRadiusOptions,
   servicesIconsV2GradientDirections,
+  servicesIconsV2IconShapeOptions,
+  type ServicesIconsV2IconShape,
   type ServicesIconsV2PreviewSettings,
 } from "@/lib/services-icons-v2-preview";
 import type { SiteIconName } from "@/lib/site-icons";
@@ -298,8 +300,25 @@ export function ServicesIconsV2PreviewControls() {
           value={context.settings.circleColor}
           onChange={(event) => update({ circleColor: event.target.value })}
           className={colorInputClassName}
-          aria-label="Services icons v2 icon circle color"
+          aria-label="Services icons v2 icon background color"
         />
+      </label>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Shape</span>
+        <select
+          value={context.settings.iconShape}
+          onChange={(event) =>
+            update({ iconShape: event.target.value as ServicesIconsV2IconShape })
+          }
+          className={selectClassName}
+          aria-label="Services icons v2 icon frame shape"
+        >
+          {servicesIconsV2IconShapeOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       </label>
       <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Icon</span>

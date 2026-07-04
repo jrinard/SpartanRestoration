@@ -4,6 +4,7 @@ import {
   copyPlaygroundPageSectionInstances,
   copyPlaygroundSectionInstanceSettingsByConfig,
 } from "@/lib/section-instance-copy";
+import { stripNavBarFromAllSectionInstances } from "@/lib/section-instance-storage";
 import {
   getPlaygroundPageSections,
   homePlaygroundPageId,
@@ -13,7 +14,7 @@ import {
 import type { PlaygroundSectionConfig } from "@/lib/playground-sections";
 
 export const playgroundPageInstanceRepairKey = "lifespring-playground-spacer-repair";
-export const playgroundPageInstanceRepairVersion = "4";
+export const playgroundPageInstanceRepairVersion = "6";
 
 /** @deprecated Use playgroundPageInstanceRepairKey */
 export const playgroundSpacerRepairKey = playgroundPageInstanceRepairKey;
@@ -43,7 +44,9 @@ export function repairPlaygroundPageInstancesFromHome(
     const pageSections = state.sectionsByPageId[page.id];
     if (!pageSections?.length) continue;
 
-    copyPlaygroundPageSectionInstances(homeSections, pageSections, colorThemeId);
+    copyPlaygroundPageSectionInstances(homeSections, pageSections, colorThemeId, {
+      includeSpacers: false,
+    });
   }
 }
 
@@ -62,6 +65,7 @@ export function runPlaygroundPageInstanceRepairIfNeeded(colorThemeId: ColorTheme
   if (repairedVersion === playgroundPageInstanceRepairVersion) return;
 
   const state = loadPlaygroundPagesState();
+  stripNavBarFromAllSectionInstances();
   repairPlaygroundPageInstancesFromHome(state, colorThemeId);
   localStorage.setItem(playgroundPageInstanceRepairKey, playgroundPageInstanceRepairVersion);
 }

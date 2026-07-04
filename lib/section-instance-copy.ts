@@ -1,5 +1,6 @@
 import type { ColorThemeId } from "@/lib/color-themes";
 import { loadContactPreviewSettings } from "@/lib/contact-preview-storage";
+import { loadCtaV1PreviewSettings } from "@/lib/cta-v1-preview-storage";
 import { loadFooterV1PreviewSettings } from "@/lib/footer-v1-preview-storage";
 import { loadFooterV3PreviewSettings } from "@/lib/footer-v3-preview-storage";
 import { loadHeaderV3PreviewSettings } from "@/lib/header-v3-storage";
@@ -65,6 +66,8 @@ function loadGlobalSettingsForGroup(
       return { portfolio: loadPortfolioPreviewSettings() };
     case "contact":
       return { contact: loadContactPreviewSettings() };
+    case "cta":
+      return { ctaV1: loadCtaV1PreviewSettings() };
     case "footer":
       return {
         footerV3: loadFooterV3PreviewSettings(),
@@ -102,6 +105,7 @@ export function copyEffectiveSectionInstanceSettings(
   const effective = structuredClone(
     loadEffectiveSectionInstanceSettings(fromId, group, colorThemeId),
   );
+  delete effective.navBar;
 
   saveSectionInstanceSettings(toId, { ...current, ...effective });
 }
@@ -110,8 +114,10 @@ export function copyPlaygroundSectionInstanceSettingsByConfig(
   source: PlaygroundSectionConfig,
   target: PlaygroundSectionConfig,
   colorThemeId: ColorThemeId,
+  options?: { includeSpacers?: boolean },
 ): void {
   if (source.group !== target.group) return;
+  if (source.group === "spacer" && options?.includeSpacers === false) return;
 
   copyEffectiveSectionInstanceSettings(
     source.id,
@@ -126,6 +132,7 @@ export function copyPlaygroundPageSectionInstances(
   sourceSections: PlaygroundSectionConfig[],
   targetSections: PlaygroundSectionConfig[],
   colorThemeId: ColorThemeId,
+  options?: { includeSpacers?: boolean },
 ): void {
   const pairCount = Math.min(sourceSections.length, targetSections.length);
 
@@ -134,7 +141,7 @@ export function copyPlaygroundPageSectionInstances(
     const target = targetSections[index];
     if (!source || !target) continue;
 
-    copyPlaygroundSectionInstanceSettingsByConfig(source, target, colorThemeId);
+    copyPlaygroundSectionInstanceSettingsByConfig(source, target, colorThemeId, options);
   }
 }
 

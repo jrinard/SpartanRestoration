@@ -3,6 +3,7 @@ import type { ContentInstanceSettings } from "@/lib/content-instance-storage";
 import type { SpacerInstanceSettings } from "@/lib/spacer-instance-storage";
 import type { SectionInstanceSettings } from "@/lib/section-instance-storage";
 import type { ContactPreviewSettings } from "@/lib/contact-preview";
+import type { CtaV1PreviewSettings } from "@/lib/cta-v1-preview";
 import type { FooterV3PreviewSettings } from "@/lib/footer-v3-preview";
 import type { FooterV1PreviewSettings } from "@/lib/footer-v1-preview";
 import type { HeaderV3PreviewSettings } from "@/lib/header-v3-gradient";
@@ -42,6 +43,7 @@ export type HomepagePreviewSettings = {
   /** Per-section preview settings keyed by unique section slot id. */
   sections?: Record<string, SectionInstanceSettings>;
   contact?: ContactPreviewSettings;
+  ctaV1?: CtaV1PreviewSettings;
   textIconsV3?: TextIconsV3PreviewSettings;
   textImage?: TextImagePreviewSettings;
   textImages?: TextImagesPreviewSettings;

@@ -54,6 +54,7 @@ import {
   servicesV1Cta,
   testimonials,
   ctaContent,
+  ctaV2Content,
   contactContent,
   reviewboxContent,
   logoBarHeading,
@@ -122,7 +123,7 @@ export const sectionGroups = {
     defaultVariant: "nav-v1",
     variants: {
       "nav-v1": {
-        label: "Nav-v1",
+        label: "Nav-v1 (Global)",
         render: () => <NavV1 />,
       },
     },
@@ -426,10 +427,9 @@ export const sectionGroups = {
         label: "CTA-v1",
         render: () => (
           <CTAV1
-            headline={ctaContent.headline}
-            subtext={ctaContent.subtext}
-            ctaLabel={ctaContent.ctaLabel}
-            ctaHref={ctaContent.ctaHref}
+            headlineLines={ctaContent.headlineLines}
+            phoneLabel={ctaContent.phoneLabel}
+            phoneHref={ctaContent.phoneHref}
           />
         ),
       },
@@ -437,10 +437,10 @@ export const sectionGroups = {
         label: "CTA-v2",
         render: () => (
           <CTAV2
-            headline={ctaContent.headline}
-            subtext={ctaContent.subtext}
-            ctaLabel={ctaContent.ctaLabel}
-            ctaHref={ctaContent.ctaHref}
+            headline={ctaV2Content.headline}
+            subtext={ctaV2Content.subtext}
+            ctaLabel={ctaV2Content.ctaLabel}
+            ctaHref={ctaV2Content.ctaHref}
           />
         ),
       },

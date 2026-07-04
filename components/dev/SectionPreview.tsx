@@ -11,6 +11,7 @@ import { FooterV3PreviewProvider } from "@/components/dev/FooterV3PreviewContext
 import { FooterV1PreviewProvider } from "@/components/dev/FooterV1PreviewContext";
 import { ReviewboxPreviewProvider } from "@/components/dev/ReviewboxPreviewContext";
 import { ContactV1PreviewProvider } from "@/components/dev/ContactV1PreviewContext";
+import { CtaV1PreviewProvider } from "@/components/dev/CtaV1PreviewContext";
 import { ServicesV1LayoutProvider } from "@/components/dev/ServicesV1LayoutContext";
 import { ServicesIconsV2PreviewProvider } from "@/components/dev/ServicesIconsV2PreviewContext";
 import { SpacerStripePreviewProvider } from "@/components/dev/SpacerStripePreviewContext";
@@ -60,7 +61,7 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
     return (
       <NavBarPreviewProvider
         instanceId={sectionId}
-        initialSettings={published(slot?.navBar, previewSettings?.navBar)}
+        initialSettings={previewSettings?.navBar}
       >
         {content}
       </NavBarPreviewProvider>
@@ -210,6 +211,17 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
       >
         {content}
       </ContactV1PreviewProvider>
+    );
+  }
+
+  if (group === "cta" && variantId === "cta-v1") {
+    return (
+      <CtaV1PreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.ctaV1, previewSettings?.ctaV1)}
+      >
+        {content}
+      </CtaV1PreviewProvider>
     );
   }
 

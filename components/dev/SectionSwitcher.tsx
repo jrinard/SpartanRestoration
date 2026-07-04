@@ -48,6 +48,10 @@ import {
   ContactV1PreviewControls,
 } from "@/components/dev/ContactV1PreviewContext";
 import {
+  CtaV1PreviewProvider,
+  CtaV1PreviewControls,
+} from "@/components/dev/CtaV1PreviewContext";
+import {
   SpacerStripePreviewProvider,
   SpacerStripePreviewControls,
   SpacerContainedLayoutControls,
@@ -71,6 +75,7 @@ import {
   sectionGroups,
   type SectionGroupId,
 } from "@/lib/section-registry";
+import { useOptionalPlaygroundSections } from "@/components/dev/PlaygroundSectionsProvider";
 import { cn } from "@/lib/utils";
 
 type SectionSwitcherProps = {
@@ -114,22 +119,27 @@ export function SectionSwitcher({
   const isFooterV1 = group === "footer" && activeVariantId === "footer-v1";
   const isReviewboxV1 = group === "reviewbox" && activeVariantId === "reviewbox-v1";
   const isContactV1 = group === "contact" && activeVariantId === "contact-v1";
+  const isCtaV1 = group === "cta" && activeVariantId === "cta-v1";
   const isTextIconsV3 = group === "content" && activeVariantId === "text-icons-v3";
   const isTextImageV1 = group === "content" && activeVariantId === "text-image-v1";
   const isTextImagesV1 = group === "content" && activeVariantId === "text-images-v1";
   const isServicesIconsV2 = group === "services" && activeVariantId === "servicesIcons-v2";
+  const playground = useOptionalPlaygroundSections();
+  const navReadOnly = isNavBar && Boolean(playground?.activePage && !playground.activePage.isHome);
+  const switcherSectionLabel = isNavBar ? activeVariant.label : section.label;
 
   const switcher = (
     <div
       className={cn(
         "relative bg-transparent",
         isSpacer && "section-switcher-spacer",
+        navReadOnly && "section-switcher-nav-readonly",
         className,
       )}
     >
       <div className="section-switcher-controls relative z-20 flex w-full min-w-0 flex-wrap items-center gap-x-3.5 gap-y-2 px-6 py-1.5 lg:px-8">
         <span className="section-switcher-label shrink-0 font-mono text-sm tracking-widest text-accent-purple uppercase">
-          {section.label}
+          {switcherSectionLabel}
         </span>
         <select
           value={activeVariantId}
@@ -141,7 +151,11 @@ export function SectionSwitcher({
               setVariantId(nextVariant);
             }
           }}
-          className="section-switcher-select shrink-0 rounded border border-accent-purple/40 bg-background/90 px-2 py-1 font-mono text-sm text-accent-purple backdrop-blur-sm focus:border-accent-purple focus:outline-none"
+          disabled={navReadOnly}
+          className={cn(
+            "section-switcher-select shrink-0 rounded border border-accent-purple/40 bg-background/90 px-2 py-1 font-mono text-sm text-accent-purple backdrop-blur-sm focus:border-accent-purple focus:outline-none",
+            navReadOnly && "cursor-not-allowed opacity-50",
+          )}
         >
           {Object.entries(section.variants).map(([key, variant]) => (
             <option key={key} value={key}>
@@ -165,7 +179,12 @@ export function SectionSwitcher({
             <SpacerContainedLayoutControls />
           )}
         {isTopBar && <TopBarPreviewControls />}
-        {isNavBar && (
+        {isNavBar && navReadOnly && (
+          <span className="font-mono text-xs tracking-wide text-accent-purple/70 italic">
+            Preview only — edit nav on Home
+          </span>
+        )}
+        {isNavBar && !navReadOnly && (
           <>
             <NavBarPreviewControls />
             <NavBarLinksControls />
@@ -185,12 +204,27 @@ export function SectionSwitcher({
         {isFooterV1 && <FooterV1PreviewControls />}
         {isReviewboxV1 && <ReviewboxBackgroundControls />}
         {isContactV1 && <ContactV1PreviewControls />}
+        {isCtaV1 && <CtaV1PreviewControls />}
         {isTextIconsV3 && <TextIconsV3BackgroundControls />}
         {isTextImageV1 && <TextImagePreviewControls />}
         {isTextImagesV1 && <TextImagesPreviewControls />}
         {extraControls?.(activeVariantId)}
       </div>
-      {activeVariant.render()}
+      <div className="relative">
+        <div
+          className={cn(
+            navReadOnly && "pointer-events-none opacity-45 saturate-50",
+          )}
+          aria-hidden={navReadOnly || undefined}
+        >
+          {activeVariant.render()}
+        </div>
+        {navReadOnly && (
+          <p className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6 text-center font-mono text-xs tracking-wide text-accent-purple/80 uppercase lg:text-sm">
+            Global nav — edit on Home
+          </p>
+        )}
+      </div>
     </div>
   );
 
@@ -219,7 +253,11 @@ export function SectionSwitcher({
   }
 
   if (isNavBar) {
-    return <NavBarPreviewProvider instanceId={sectionId}>{switcher}</NavBarPreviewProvider>;
+    return (
+      <NavBarPreviewProvider instanceId={sectionId} editingEnabled={!navReadOnly}>
+        {switcher}
+      </NavBarPreviewProvider>
+    );
   }
 
   if (isHeaderWithPreview) {
@@ -260,6 +298,14 @@ export function SectionSwitcher({
 
   if (isContactV1) {
     return <ContactV1PreviewProvider instanceId={sectionId}>{switcher}</ContactV1PreviewProvider>;
+  }
+
+  if (isCtaV1) {
+    return (
+      <CtaV1PreviewProvider instanceId={sectionId} enableContentEditing>
+        {switcher}
+      </CtaV1PreviewProvider>
+    );
   }
 
   if (isTextIconsV3) {

@@ -2,6 +2,7 @@ import type {
   ServicesV1Background,
 } from "@/components/sections/Services-v1";
 import type { ContactPreviewSettings } from "@/lib/contact-preview";
+import type { CtaV1PreviewSettings } from "@/lib/cta-v1-preview";
 import type { FooterV1PreviewSettings } from "@/lib/footer-v1-preview";
 import type { FooterV3PreviewSettings } from "@/lib/footer-v3-preview";
 import type { HeaderV3PreviewSettings } from "@/lib/header-v3-gradient";
@@ -41,6 +42,7 @@ export type SectionInstanceSettings = {
   reviewbox?: ReviewboxPreviewSettings;
   portfolio?: PortfolioPreviewSettings;
   contact?: ContactPreviewSettings;
+  ctaV1?: CtaV1PreviewSettings;
   footerV3?: FooterV3PreviewSettings;
   footerV1?: FooterV1PreviewSettings;
 };
@@ -137,6 +139,25 @@ export function patchSectionInstanceSettings(
 
 export function loadAllSectionInstanceSettings(): Record<string, SectionInstanceSettings> {
   return readAllSectionInstancesRaw();
+}
+
+/** Nav bar is site-wide — remove stale per-slot overrides from instance storage. */
+export function stripNavBarFromAllSectionInstances(): boolean {
+  const instances = readAllSectionInstancesRaw();
+  let changed = false;
+
+  for (const [instanceId, settings] of Object.entries(instances)) {
+    if (!settings.navBar) continue;
+    const { navBar: _removed, ...rest } = settings;
+    instances[instanceId] = rest;
+    changed = true;
+  }
+
+  if (changed) {
+    writeAllSectionInstances(instances);
+  }
+
+  return changed;
 }
 
 export type SectionInstanceField = keyof SectionInstanceSettings;

@@ -17,6 +17,8 @@ type UseInstancePreviewSettingsOptions<T, K extends keyof SectionInstanceSetting
   normalize?: (settings: T) => T;
   /** Transform after load (e.g. merge global nav links into instance settings). */
   afterLoad?: (settings: T) => T;
+  /** When true, ignore per-slot instance storage — one shared setting everywhere (e.g. nav bar). */
+  globalOnly?: boolean;
 };
 
 function normalizeValue<T>(value: T, normalize?: (settings: T) => T): T {
@@ -33,17 +35,20 @@ export function useInstancePreviewSettings<T, K extends keyof SectionInstanceSet
   saveGlobal,
   normalize,
   afterLoad,
+  globalOnly = false,
 }: UseInstancePreviewSettingsOptions<T, K>) {
   const lockedToPublished = initialSettings !== undefined;
+  const useInstanceStorage = Boolean(instanceId) && !globalOnly;
 
   const loadFromInstance = useCallback(
     (id: string): T | undefined => {
+      if (globalOnly) return undefined;
       const stored = loadSectionInstanceField(id, field);
       if (!stored) return undefined;
       const normalized = normalizeValue(stored as T, normalize);
       return afterLoad ? afterLoad(normalized) : normalized;
     },
-    [afterLoad, field, normalize],
+    [afterLoad, field, globalOnly, normalize],
   );
 
   const reload = useCallback((): T => {
@@ -51,7 +56,7 @@ export function useInstancePreviewSettings<T, K extends keyof SectionInstanceSet
       const normalized = normalizeValue(initialSettings, normalize);
       return afterLoad ? afterLoad(normalized) : normalized;
     }
-    if (instanceId) {
+    if (useInstanceStorage && instanceId) {
       const fromInstance = loadFromInstance(instanceId);
       if (fromInstance) return fromInstance;
     }
@@ -65,12 +70,17 @@ export function useInstancePreviewSettings<T, K extends keyof SectionInstanceSet
     loadGlobal,
     lockedToPublished,
     normalize,
+    useInstanceStorage,
   ]);
 
   const [settings, setSettingsState] = useState<T>(() => {
     if (initialSettings !== undefined) {
       const normalized = normalizeValue(initialSettings, normalize);
       return afterLoad ? afterLoad(normalized) : normalized;
+    }
+    if (globalOnly) {
+      const global = normalizeValue(loadGlobal(), normalize);
+      return afterLoad ? afterLoad(global) : global;
     }
     if (instanceId) {
       const fromInstance = loadSectionInstanceField(instanceId, field);
@@ -91,7 +101,7 @@ export function useInstancePreviewSettings<T, K extends keyof SectionInstanceSet
       if (lockedToPublished) return;
       const normalized = normalizeValue(next, normalize);
       setSettingsState(normalized);
-      if (instanceId) {
+      if (useInstanceStorage && instanceId) {
         saveSectionInstanceField(
           instanceId,
           field,
@@ -101,8 +111,12 @@ export function useInstancePreviewSettings<T, K extends keyof SectionInstanceSet
       }
       saveGlobal(normalized);
     },
-    [field, instanceId, lockedToPublished, normalize, saveGlobal],
+    [field, instanceId, lockedToPublished, normalize, saveGlobal, useInstanceStorage],
   );
+
+  const refreshFromStorage = useCallback(() => {
+    setSettingsState(reload());
+  }, [reload]);
 
   return useMemo(
     () => ({
@@ -110,8 +124,9 @@ export function useInstancePreviewSettings<T, K extends keyof SectionInstanceSet
       setSettings,
       lockedToPublished,
       reload,
+      refreshFromStorage,
     }),
-    [lockedToPublished, reload, setSettings, settings],
+    [lockedToPublished, refreshFromStorage, reload, setSettings, settings],
   );
 }
 

@@ -445,7 +445,7 @@ function TextImagesRow3Block({
           )}
         </EditableTextBlock>
 
-        {(row.phoneLabel || editingEnabled) && (
+        {(settings.phoneButtonVisible && (row.phoneLabel || editingEnabled)) && (
           <EditableTextBlock
             editingEnabled={editingEnabled}
             ariaLabel="Edit row 3 call button text"

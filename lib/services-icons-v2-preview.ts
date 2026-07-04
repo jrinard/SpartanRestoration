@@ -10,6 +10,8 @@ import {
 import type { SiteLayoutWidth } from "@/lib/site-layout";
 import type { SiteIconName } from "@/lib/site-icons";
 
+export type ServicesIconsV2IconShape = "circle" | "card" | "sharp";
+
 export type ServicesIconsV2PreviewSettings = {
   backgroundFrom: string;
   backgroundTo: string;
@@ -17,7 +19,9 @@ export type ServicesIconsV2PreviewSettings = {
   layoutWidth: SiteLayoutWidth;
   outerBackgroundColor: string;
   cardBackgroundColor: string;
+  /** Icon frame fill — circle, rounded card, or sharp square. */
   circleColor: string;
+  iconShape: ServicesIconsV2IconShape;
   iconColor: string;
   cardTextColor: string;
   headingColor: string;
@@ -51,6 +55,7 @@ export const defaultServicesIconsV2PreviewSettings: ServicesIconsV2PreviewSettin
   outerBackgroundColor: defaultServicesIconsV2OuterBackgroundColor,
   cardBackgroundColor: "#000000",
   circleColor: "#748B9F",
+  iconShape: "circle",
   iconColor: "#ffffff",
   cardTextColor: "#ffffff",
   headingColor: "#000000",
@@ -68,6 +73,35 @@ export const defaultServicesIconsV2PreviewSettings: ServicesIconsV2PreviewSettin
 
 export { previewGradientDirections as servicesIconsV2GradientDirections };
 export { buttonBorderRadiusOptions as servicesIconsV2BorderRadiusOptions };
+
+export const servicesIconsV2IconShapeOptions: {
+  value: ServicesIconsV2IconShape;
+  label: string;
+}[] = [
+  { value: "circle", label: "Circle" },
+  { value: "card", label: "Card" },
+  { value: "sharp", label: "Sharp" },
+];
+
+export function isServicesIconsV2IconShape(value: unknown): value is ServicesIconsV2IconShape {
+  return value === "circle" || value === "card" || value === "sharp";
+}
+
+export function getServicesIconsV2IconFrameBorderRadius(
+  shape: ServicesIconsV2IconShape,
+  iconSizePx: number,
+  cardBorderRadiusPx: number,
+): string | number {
+  switch (shape) {
+    case "sharp":
+      return 0;
+    case "card":
+      return Math.min(cardBorderRadiusPx, Math.max(4, Math.round(iconSizePx * 0.2)));
+    case "circle":
+    default:
+      return "50%";
+  }
+}
 
 export function getServicesIconsV2BackgroundStyle(
   settings: ServicesIconsV2PreviewSettings,

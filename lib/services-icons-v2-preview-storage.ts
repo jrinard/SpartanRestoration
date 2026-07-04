@@ -5,6 +5,7 @@ import {
   clampServicesIconsV2FontSizePx,
   clampServicesIconsV2IconSizePx,
   defaultServicesIconsV2PreviewSettings,
+  isServicesIconsV2IconShape,
   normalizeServicesIconsV2BorderRadiusPx,
   type ServicesIconsV2PreviewSettings,
 } from "@/lib/services-icons-v2-preview";
@@ -77,6 +78,7 @@ export function normalizeServicesIconsV2PreviewSettings(
       ? value.cardBackgroundColor
       : defaults.cardBackgroundColor,
     circleColor: isHexColor(value.circleColor) ? value.circleColor : defaults.circleColor,
+    iconShape: isServicesIconsV2IconShape(value.iconShape) ? value.iconShape : defaults.iconShape,
     iconColor: isHexColor(value.iconColor) ? value.iconColor : defaults.iconColor,
     cardTextColor: isHexColor(value.cardTextColor) ? value.cardTextColor : defaults.cardTextColor,
     headingColor: isHexColor(value.headingColor) ? value.headingColor : defaults.headingColor,

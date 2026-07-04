@@ -2478,6 +2478,23 @@ body {
   line-height: 1.75rem;
 }
 
+.cta-v1-card,
+.cta-v1-inner-wrap {
+  width: 100%;
+  max-width: 1040px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: visible;
+}
+
+.cta-v1 {
+  overflow: visible;
+}
+
+.cta-v1-headline {
+  text-wrap: balance;
+}
+
 @media (min-width: 1024px) {
   .preview-button--custom[data-button-size="small"] {
     padding: 0.5rem 1rem;

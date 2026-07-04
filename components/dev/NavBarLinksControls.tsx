@@ -38,7 +38,7 @@ export function NavBarLinksControls() {
   const [overIndex, setOverIndex] = useState<number | null>(null);
   const [editingLinkId, setEditingLinkId] = useState<string | null>(null);
 
-  if (!nav) return null;
+  if (!nav?.editingEnabled) return null;
 
   const links = nav.settings.items;
   const editingIndex = links.findIndex((link) => link.id === editingLinkId);

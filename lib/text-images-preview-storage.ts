@@ -105,6 +105,10 @@ export function normalizeTextImagesPreviewSettings(
       )
         ? Math.round(value.phoneButtonMarginTopPx)
         : defaultTextImagesPreviewSettings.phoneButtonMarginTopPx,
+    phoneButtonVisible:
+      typeof value.phoneButtonVisible === "boolean"
+        ? value.phoneButtonVisible
+        : defaultTextImagesPreviewSettings.phoneButtonVisible,
     row1CopyPaddingTopPx:
       typeof value.row1CopyPaddingTopPx === "number"
         ? snapTextImagesCopyPaddingTopPx(Math.round(value.row1CopyPaddingTopPx))

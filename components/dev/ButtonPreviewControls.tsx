@@ -18,11 +18,16 @@ import { useHeaderV3Preview } from "@/components/dev/HeaderV3PreviewContext";
 import { useHeroV21Preview } from "@/components/dev/HeroV21PreviewContext";
 import { useTextImagePreview } from "@/components/dev/TextImagePreviewContext";
 import { useTextImagesPreview } from "@/components/dev/TextImagesPreviewContext";
+import { useCtaV1Preview } from "@/components/dev/CtaV1PreviewContext";
 import {
   defaultTextImageButtonSettings,
   pickTextImageButtonSettings,
 } from "@/lib/text-image-preview";
 import { pickTextImagesButtonSettings } from "@/lib/text-images-preview";
+import {
+  defaultCtaV1ButtonSettings,
+  pickCtaV1ButtonSettings,
+} from "@/lib/cta-v1-preview";
 
 const colorInputClassName =
   "h-8 w-8 cursor-pointer rounded border border-accent-purple/40 bg-background/90 p-0.5";
@@ -36,7 +41,7 @@ const buttonClassName =
 const alphaRangeClassName =
   "h-1.5 w-16 cursor-pointer accent-accent-purple";
 
-type ButtonPreviewTarget = "header" | "hero" | "textImage" | "textImages";
+type ButtonPreviewTarget = "header" | "hero" | "textImage" | "textImages" | "ctaV1";
 
 type ButtonPreviewControlsProps = {
   target: ButtonPreviewTarget;
@@ -96,6 +101,7 @@ export function ButtonPreviewControls({
   const heroPreview = useHeroV21Preview();
   const textImagePreview = useTextImagePreview();
   const textImagesPreview = useTextImagesPreview();
+  const ctaV1Preview = useCtaV1Preview();
 
   const settings: ButtonPreviewSettings | undefined =
     target === "header"
@@ -110,9 +116,13 @@ export function ButtonPreviewControls({
           ? textImagesPreview
             ? pickTextImagesButtonSettings(textImagesPreview.settings)
             : undefined
-          : heroPreview
-            ? heroPreview.settings.button
-            : undefined;
+          : target === "ctaV1"
+            ? ctaV1Preview
+              ? pickCtaV1ButtonSettings(ctaV1Preview.settings)
+              : undefined
+            : heroPreview
+              ? heroPreview.settings.button
+              : undefined;
 
   const updateSettings = (patch: Partial<ButtonPreviewSettings>) => {
     if (target === "header") {
@@ -133,6 +143,12 @@ export function ButtonPreviewControls({
       return;
     }
 
+    if (target === "ctaV1") {
+      if (!ctaV1Preview) return;
+      ctaV1Preview.setSettings(mergeButtonPreviewSettings(ctaV1Preview.settings, patch));
+      return;
+    }
+
     if (!heroPreview) return;
     heroPreview.setSettings({
       ...heroPreview.settings,
@@ -144,9 +160,11 @@ export function ButtonPreviewControls({
     const defaults =
       target === "header"
         ? defaultHeaderButtonPreviewSettings
-        : target === "textImage" || target === "textImages"
-          ? defaultTextImageButtonSettings
-          : defaultHeroButtonPreviewSettings;
+        : target === "ctaV1"
+          ? defaultCtaV1ButtonSettings
+          : target === "textImage" || target === "textImages"
+            ? defaultTextImageButtonSettings
+            : defaultHeroButtonPreviewSettings;
     updateSettings(defaults);
   };
 

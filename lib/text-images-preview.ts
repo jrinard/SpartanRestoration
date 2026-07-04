@@ -44,6 +44,7 @@ export type TextImagesPreviewSettings = TextImageTextColors &
     | "entranceAnimationEnabled"
     | "entranceAnimationSpeedMs"
     | "phoneButtonMarginTopPx"
+    | "phoneButtonVisible"
     | "navBackground"
     | "navTextColor"
     | "navTextHoverColor"
@@ -149,6 +150,7 @@ export const defaultTextImagesPreviewSettings: TextImagesPreviewSettings = {
   entranceAnimationEnabled: true,
   entranceAnimationSpeedMs: 800,
   phoneButtonMarginTopPx: 32,
+  phoneButtonVisible: true,
   row1CopyPaddingTopPx: 0,
   row2CopyPaddingTopPx: 0,
   row3CopyPaddingTopPx: 0,

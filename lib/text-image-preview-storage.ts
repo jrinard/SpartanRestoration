@@ -90,6 +90,10 @@ export function normalizeTextImagePreviewSettings(
       )
         ? Math.round(value.phoneButtonMarginTopPx)
         : defaultTextImagePreviewSettings.phoneButtonMarginTopPx,
+    phoneButtonVisible:
+      typeof value.phoneButtonVisible === "boolean"
+        ? value.phoneButtonVisible
+        : defaultTextImagePreviewSettings.phoneButtonVisible,
     contentEyebrow: normalizeContentOverrideString(value.contentEyebrow),
     contentHeadlineLines: normalizeTextImageHeadlineLines(value.contentHeadlineLines),
     contentBody: normalizeContentOverrideString(value.contentBody),

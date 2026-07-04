@@ -14,6 +14,7 @@ import { Container } from "@/components/ui/Container";
 import {
   defaultServicesIconsV2PreviewSettings,
   getServicesIconsV2BackgroundStyle,
+  getServicesIconsV2IconFrameBorderRadius,
   type ServicesIconsV2PreviewSettings,
 } from "@/lib/services-icons-v2-preview";
 import { buildServicesIconsV2ItemListSchema } from "@/lib/seo-schema";
@@ -46,26 +47,35 @@ type ServicesIconsV2Props = {
 
 const headingId = "services-icons-v2-heading";
 
-function ServiceIconCircle({
+function ServiceIconFrame({
   iconName,
   circleColor,
   iconColor,
   iconSizePx,
+  iconShape,
+  cardBorderRadiusPx,
 }: {
   iconName: SiteIconName;
   circleColor: string;
   iconColor: string;
   iconSizePx: number;
+  iconShape: ServicesIconsV2PreviewSettings["iconShape"];
+  cardBorderRadiusPx: number;
 }) {
   const iconInnerSize = Math.round(iconSizePx * 0.48);
 
   return (
     <div
-      className="services-icons-v2-icon-circle flex shrink-0 items-center justify-center rounded-full"
+      className="services-icons-v2-icon-frame flex shrink-0 items-center justify-center"
       style={{
         width: `${iconSizePx}px`,
         height: `${iconSizePx}px`,
         backgroundColor: circleColor,
+        borderRadius: getServicesIconsV2IconFrameBorderRadius(
+          iconShape,
+          iconSizePx,
+          cardBorderRadiusPx,
+        ),
       }}
       aria-hidden="true"
     >
@@ -113,11 +123,13 @@ function ServiceCard({
     >
       {description && <span className="sr-only">{description}</span>}
       <div className="relative shrink-0">
-        <ServiceIconCircle
+        <ServiceIconFrame
           iconName={iconName}
           circleColor={settings.circleColor}
           iconColor={settings.iconColor}
           iconSizePx={settings.iconSizePx}
+          iconShape={settings.iconShape}
+          cardBorderRadiusPx={settings.cardBorderRadiusPx}
         />
         {iconEditingEnabled && onIconChange && (
           <>

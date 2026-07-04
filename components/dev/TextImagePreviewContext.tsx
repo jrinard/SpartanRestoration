@@ -299,7 +299,18 @@ export function TextImagePreviewControls() {
           aria-label="Text and image sidebar text color"
         />
       </label>
-      <ButtonPreviewControls target="textImage" />
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Button</span>
+        <input
+          type="checkbox"
+          checked={context.settings.phoneButtonVisible}
+          onChange={(event) => update({ phoneButtonVisible: event.target.checked })}
+          className="accent-accent-purple"
+          aria-label="Show text and image phone button"
+        />
+      </label>
+      {context.settings.phoneButtonVisible && <ButtonPreviewControls target="textImage" />}
+      {context.settings.phoneButtonVisible && (
       <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Btn Top</span>
         <select
@@ -315,6 +326,7 @@ export function TextImagePreviewControls() {
           ))}
         </select>
       </label>
+      )}
       <label className="flex cursor-pointer items-center gap-1.5 rounded border border-accent-purple/40 bg-background/90 px-2 py-1.5 backdrop-blur-sm">
         <input
           type="checkbox"

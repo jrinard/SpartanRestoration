@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   type ReactNode,
 } from "react";
 import {
@@ -14,6 +15,7 @@ import {
   type NavBarPreviewSettings,
 } from "@/lib/nav-bar-preview";
 import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
+import { playgroundNavSyncEvent } from "@/lib/playground-nav-sync";
 import {
   loadNavBarPreviewSettings,
   normalizeNavBarPreviewSettings,
@@ -23,6 +25,7 @@ import {
 type NavBarPreviewContextValue = {
   settings: NavBarPreviewSettings;
   setSettings: (settings: NavBarPreviewSettings) => void;
+  editingEnabled: boolean;
 };
 
 const NavBarPreviewContext = createContext<NavBarPreviewContextValue | null>(null);
@@ -31,35 +34,54 @@ type NavBarPreviewProviderProps = {
   children: ReactNode;
   instanceId?: string;
   initialSettings?: NavBarPreviewSettings;
+  /** When false, nav is preview-only (e.g. on non-home playground pages). */
+  editingEnabled?: boolean;
 };
 
 export function NavBarPreviewProvider({
   children,
   instanceId,
   initialSettings,
+  editingEnabled = true,
 }: NavBarPreviewProviderProps) {
-  const { settings, setSettings: persistSettings, lockedToPublished } = useInstancePreviewSettings({
-    instanceId,
-    field: "navBar",
-    initialSettings,
-    defaultSettings: defaultNavBarPreviewSettings,
-    loadGlobal: loadNavBarPreviewSettings,
-    saveGlobal: saveNavBarPreviewSettings,
-    normalize: normalizeNavBarPreviewSettings,
-  });
+  const { settings, setSettings: persistSettings, lockedToPublished, refreshFromStorage } =
+    useInstancePreviewSettings({
+      instanceId,
+      field: "navBar",
+      initialSettings,
+      defaultSettings: defaultNavBarPreviewSettings,
+      loadGlobal: loadNavBarPreviewSettings,
+      saveGlobal: saveNavBarPreviewSettings,
+      normalize: normalizeNavBarPreviewSettings,
+      globalOnly: true,
+    });
+
+  useEffect(() => {
+    if (lockedToPublished) return;
+
+    const onSync = () => {
+      refreshFromStorage();
+    };
+
+    window.addEventListener(playgroundNavSyncEvent, onSync);
+    return () => window.removeEventListener(playgroundNavSyncEvent, onSync);
+  }, [lockedToPublished, refreshFromStorage]);
 
   const setSettings = useCallback(
     (next: NavBarPreviewSettings) => {
-      persistSettings(next);
-      if (!lockedToPublished) {
-        saveNavBarPreviewSettings(normalizeNavBarPreviewSettings(next));
-      }
+      if (!editingEnabled) return;
+      const normalized = normalizeNavBarPreviewSettings(next);
+      persistSettings(normalized);
+      if (lockedToPublished) return;
+
+      saveNavBarPreviewSettings(normalized);
+      window.dispatchEvent(new CustomEvent(playgroundNavSyncEvent));
     },
-    [lockedToPublished, persistSettings],
+    [editingEnabled, lockedToPublished, persistSettings],
   );
 
   return (
-    <NavBarPreviewContext.Provider value={{ settings, setSettings }}>
+    <NavBarPreviewContext.Provider value={{ settings, setSettings, editingEnabled }}>
       {children}
     </NavBarPreviewContext.Provider>
   );
@@ -80,7 +102,7 @@ const buttonClassName =
 
 export function NavBarPreviewControls() {
   const context = useNavBarPreview();
-  if (!context) return null;
+  if (!context?.editingEnabled) return null;
 
   const update = (patch: Partial<NavBarPreviewSettings>) => {
     context.setSettings({ ...context.settings, ...patch });
