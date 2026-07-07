@@ -1,6 +1,10 @@
 "use client";
 
-import type { HomepageConfig, HomepageSectionEntry } from "@/lib/homepage-config";
+import type {
+  HomepageConfig,
+  HomepagePageSnapshot,
+  HomepageSectionEntry,
+} from "@/lib/homepage-config";
 import { creativeStorageKeys } from "@/lib/creative-themes";
 import type { ColorThemeId } from "@/lib/color-themes";
 import { getColorTheme } from "@/lib/color-themes";
@@ -19,10 +23,12 @@ import {
   getPlaygroundPageSections,
   homePlaygroundPageId,
   loadPlaygroundPagesState,
+  type PlaygroundPagesState,
 } from "@/lib/playground-pages";
 import {
   getPlaygroundSectionVariant,
   getPreviewSections,
+  type PlaygroundSectionConfig,
 } from "@/lib/playground-sections";
 import { portfolioPreviewStorageKey } from "@/lib/portfolio-preview-storage";
 import { reviewboxPreviewStorageKey } from "@/lib/reviewbox-preview-storage";
@@ -49,45 +55,48 @@ function readJson<T>(key: string): T | undefined {
   }
 }
 
-export function collectHomepageConfigFromStorage(): HomepageConfig {
-  const pagesState = loadPlaygroundPagesState();
-  const playgroundSections = getPlaygroundPageSections(pagesState, homePlaygroundPageId);
+function mapPreviewSectionsToEntries(
+  sections: PlaygroundSectionConfig[],
+): HomepageSectionEntry[] {
+  return sections.map((section) => ({
+    group: section.group,
+    variant: getPlaygroundSectionVariant(section),
+    id: section.id,
+  }));
+}
 
-  const sections: HomepageSectionEntry[] = getPreviewSections(playgroundSections).map(
-    (section) => ({
-      group: section.group,
-      variant: getPlaygroundSectionVariant(section),
-      id: section.id,
-    }),
-  );
-
-  const previewSectionSlots = getPreviewSections(playgroundSections);
+function collectPreviewSettingsFromPages(
+  pagesState: PlaygroundPagesState,
+): HomepagePreviewSettings {
   const sectionInstances = loadAllSectionInstanceSettings();
   const publishedSections: HomepagePreviewSettings["sections"] = {};
   const spacers: HomepagePreviewSettings["spacers"] = {};
   const contents: HomepagePreviewSettings["contents"] = {};
 
-  for (const section of previewSectionSlots) {
-    const settings = sectionInstances[section.id];
-    if (!settings) continue;
+  for (const page of pagesState.pages) {
+    const previewSectionSlots = getPreviewSections(
+      getPlaygroundPageSections(pagesState, page.id),
+    );
 
-    publishedSections[section.id] = settings;
+    for (const section of previewSectionSlots) {
+      const settings = sectionInstances[section.id];
+      if (!settings) continue;
 
-    if (settings.spacer) {
-      spacers[section.id] = settings.spacer;
-    }
+      publishedSections[section.id] = settings;
 
-    if (settings.textIconsV3 || settings.textImage || settings.textImages) {
-      contents[section.id] = {
-        textIconsV3: settings.textIconsV3,
-        textImage: settings.textImage,
-        textImages: settings.textImages,
-      };
+      if (settings.spacer) {
+        spacers[section.id] = settings.spacer;
+      }
+
+      if (settings.textIconsV3 || settings.textImage || settings.textImages) {
+        contents[section.id] = {
+          textIconsV3: settings.textIconsV3,
+          textImage: settings.textImage,
+          textImages: settings.textImages,
+        };
+      }
     }
   }
-
-  const storedColor = localStorage.getItem(creativeStorageKeys.colorTheme);
-  const storedFont = localStorage.getItem(creativeStorageKeys.fontTheme);
 
   const previewSettings: HomepagePreviewSettings = {
     topBar: readJson(topBarPreviewStorageKey),
@@ -124,12 +133,74 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
     return value !== undefined && value !== null;
   });
 
+  return hasPreviewSettings ? previewSettings : {};
+}
+
+export function collectHomepageConfigFromStorage(): HomepageConfig {
+  const pagesState = loadPlaygroundPagesState();
+  const homeSections = mapPreviewSectionsToEntries(
+    getPreviewSections(getPlaygroundPageSections(pagesState, homePlaygroundPageId)),
+  );
+
+  const pages: HomepagePageSnapshot[] = pagesState.pages.flatMap((page) => {
+    if (page.isHome) return [];
+
+    const previewSections = getPreviewSections(
+      getPlaygroundPageSections(pagesState, page.id),
+    );
+    if (previewSections.length === 0) return [];
+
+    return [
+      {
+        slug: page.slug,
+        name: page.name,
+        sections: mapPreviewSectionsToEntries(previewSections),
+      },
+    ];
+  });
+
+  const previewSettings = collectPreviewSettingsFromPages(pagesState);
+  const storedColor = localStorage.getItem(creativeStorageKeys.colorTheme);
+  const storedFont = localStorage.getItem(creativeStorageKeys.fontTheme);
+
   return {
-    sections,
+    sections: homeSections,
+    pages: pages.length > 0 ? pages : undefined,
     colorThemeId: storedColor ? getColorTheme(storedColor).id : ("lifespring" as ColorThemeId),
     fontThemeId: storedFont ? getFontTheme(storedFont).id : ("editorial" as FontThemeId),
-    previewSettings: hasPreviewSettings ? previewSettings : undefined,
+    previewSettings:
+      Object.keys(previewSettings).length > 0
+        ? (previewSettings as HomepageConfig["previewSettings"])
+        : undefined,
   };
+}
+
+async function postHomepageConfigAction(
+  action: "publish" | "stage",
+  config: HomepageConfig,
+): Promise<void> {
+  const response = await fetch("/api/homepage-config", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action, config }),
+  });
+
+  if (!response.ok) {
+    const message = await response.text();
+    const fallback =
+      action === "stage" ? "Failed to save staging preview." : "Failed to publish homepage.";
+    throw new Error(message || fallback);
+  }
+}
+
+export async function stageHomepageConfigFromStorage(): Promise<void> {
+  const config = collectHomepageConfigFromStorage();
+
+  if (config.sections.length === 0) {
+    throw new Error("No sections are checked for Preview in the playground.");
+  }
+
+  await postHomepageConfigAction("stage", config);
 }
 
 export async function publishHomepageConfigFromStorage(): Promise<void> {
@@ -139,16 +210,7 @@ export async function publishHomepageConfigFromStorage(): Promise<void> {
     throw new Error("No sections are checked for Preview in the playground.");
   }
 
-  const response = await fetch("/api/homepage-config", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: "publish", config }),
-  });
-
-  if (!response.ok) {
-    const message = await response.text();
-    throw new Error(message || "Failed to publish homepage.");
-  }
+  await postHomepageConfigAction("publish", config);
 }
 
 export async function revertHomepageToConstruction(): Promise<void> {

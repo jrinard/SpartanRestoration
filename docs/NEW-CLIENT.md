@@ -218,17 +218,22 @@ Common trade/restoration stack:
 
 ### Phase 5 — Full site (publish homepage)
 
-**17. Publish from `/playground`**
+**17. Stage for client review, then publish**
 
-When layout is approved:
+When layout is ready to share:
 
-1. Check **Preview** on each section you want on the live homepage
-2. Click **Publish to /** in the playground Creative Bar (dev only — `npm run dev`)
-   - Saves section stack + theme settings to `lib/homepage-config.json`
-   - Sets `config/site.ts` → `launch.mode` to `"live"`
-3. **Commit and deploy** — publish writes local files; production needs a git push + Vercel redeploy (env vars included)
-4. Update `lib/seo-content.ts` → `pageSeo.home` (title, description, set `noIndex: false`)
-5. Verify `/` locally — real homepage with JSON-LD; `/preview` and `/playground` stay noIndex
+1. Check **Preview** on each section you want on the staged homepage
+2. Click **Save to /preview** in the playground Creative Bar (dev only — `npm run dev`)
+   - Writes section stack + theme settings to `lib/homepage-staging-config.json`
+   - Does **not** change `launch.mode` or the live homepage
+3. **Commit and deploy** — clients can open `/preview` (noIndex) to review the design
+4. When approved, click **Publish to /**
+   - Saves to `lib/homepage-config.json` and sets `config/site.ts` → `launch.mode` to `"live"`
+   - Both **Save to /preview** and **Publish to /** append a snapshot to `lib/homepage-config-history/`
+5. **Version history** (playground Creative Bar) — browse past saves, **Load** into playground, or delete with **X**
+6. **Commit and deploy** again — production `/` shows the live homepage
+7. Update `lib/seo-content.ts` → `pageSeo.home` (title, description, set `noIndex: false`)
+8. Verify `/` locally; `/preview` stays noIndex for ongoing staging
 
 **Revert:** **Back to construction** sets `launch.mode` back to `"under-construction"` (keeps saved config for re-publish). Commit + deploy again after revert.
 
@@ -270,7 +275,9 @@ Update copy and `createMetadata()` in each:
 ```
 .env.local.example → .env.local  ← Resend + reCAPTCHA (every clone — see Integrations)
 config/site.ts              ← business identity + launch.mode switch (under-construction | live)
-lib/homepage-config.json    ← published section stack (written by Publish to /)
+lib/homepage-config.json         ← live homepage (written by Publish to /)
+lib/homepage-staging-config.json ← client staging at /preview (written by Save to /preview)
+lib/homepage-config-history/     ← version snapshots + manifest.json (auto on save/publish)
 lib/seo-content.ts          ← pageSeo.home first, then other routes
 public/lsd/                 ← LifeSpring assets (logos, portfolio, section icons); trade demo stays in public/osp/
 app/page.tsx                ← reads launch.mode; do not edit manually for go-live

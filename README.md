@@ -7,7 +7,7 @@ A **Next.js website starter** built by [LifeSpring Design](https://lifespringdes
 ## What you get
 
 - **Modular sections** — headers, heroes, services, testimonials, contact, footers (`components/sections/`)
-- **Design workflow** — `/playground` to pick theme, font, and section variants; `/preview` for full-page preview
+- **Design workflow** — `/playground` to pick theme, font, and section variants; **Save to /preview** for client staging
 - **Publish to /** — saves the checked section stack to `lib/homepage-config.json` and flips `config/site.ts` → `launch.mode` to `"live"`
 - **Under construction** — default `/` shows a branded holding page until you publish
 - **Contact form** — modal on header/footer/hero CTAs → `POST /api/leads` → **Resend** email (+ optional **reCAPTCHA Enterprise**)
@@ -40,8 +40,8 @@ Open [http://localhost:3000](http://localhost:3000).
 | Route | Purpose |
 |-------|---------|
 | `/` | Live site — under construction until published |
-| `/playground` | Section builder + **Publish to /** |
-| `/preview` | Full-page preview of checked sections |
+| `/playground` | Section builder — **Save to /preview** and **Publish to /** |
+| `/preview` | Client staging (committed layout, noIndex) |
 
 ```bash
 npm run build   # Production build
@@ -78,7 +78,8 @@ Quick flow:
 2. **`.env.local`** — Resend + reCAPTCHA (usually same agency keys across clones)
 3. **`lib/demo-content.ts`** + **`public/`** — client copy and assets
 4. **`/playground`** — design; check **Preview** on sections you want live
-5. **Publish to /** — writes `lib/homepage-config.json`, sets `launch.mode` to `"live"` (dev only — then commit and deploy)
+5. **Save to /preview** — writes `lib/homepage-staging-config.json` for client review (commit + deploy)
+6. **Publish to /** — writes `lib/homepage-config.json`, sets `launch.mode` to `"live"` (dev only — then commit and deploy)
 6. **`docs/SEO.md`** — metadata and go-live SEO
 
 ---

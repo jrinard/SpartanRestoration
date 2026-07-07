@@ -65,7 +65,7 @@ export function getCommittedHomepagePreviewSettings(): HomepagePreviewSettings |
   return committedPreviewSettings;
 }
 
-/** Playground/preview routes should read localStorage, not published homepage settings. */
+/** Playground routes should read localStorage, not committed homepage settings. */
 export function setPreferPlaygroundPreviewSettings(prefer: boolean): void {
   preferPlaygroundPreviewSettings = prefer;
 }

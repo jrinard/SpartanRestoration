@@ -1,0 +1,28 @@
+{
+  "entries": [
+    {
+      "id": "1783385170361-staging",
+      "action": "staging",
+      "savedAt": "2026-07-07T00:46:10.361Z",
+      "sectionCount": 10,
+      "colorThemeId": "spartan",
+      "filename": "2026-07-07T00-46-10-361Z-staging.json"
+    },
+    {
+      "id": "1783384347091-live",
+      "action": "live",
+      "savedAt": "2026-07-07T00:32:27.091Z",
+      "sectionCount": 10,
+      "colorThemeId": "spartan",
+      "filename": "2026-07-07T00-32-27-091Z-live.json"
+    },
+    {
+      "id": "1783384304121-staging",
+      "action": "staging",
+      "savedAt": "2026-07-07T00:31:44.121Z",
+      "sectionCount": 10,
+      "colorThemeId": "spartan",
+      "filename": "2026-07-07T00-31-44-121Z-staging.json"
+    }
+  ]
+}

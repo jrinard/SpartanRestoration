@@ -50,6 +50,25 @@ export function useHashNavigationClick() {
       const isPlayground = pathname === "/playground";
       const isPreview = pathname === "/preview" || pathname.startsWith("/preview/");
 
+      if (isPreview) {
+        if (hash) {
+          event.preventDefault();
+          setPendingScrollHash(hash);
+          if (!navPathsMatch(targetPath, pathname)) {
+            router.push(`${targetPath}${hash}`);
+          } else {
+            requestScrollToHash(hash);
+          }
+          return;
+        }
+
+        if (targetPath && !navPathsMatch(targetPath, pathname)) {
+          event.preventDefault();
+          router.push(targetPath);
+          return;
+        }
+      }
+
       if ((isPlayground || isPreview) && hash) {
         const pages =
           playground?.ready && playground.pages.length > 0

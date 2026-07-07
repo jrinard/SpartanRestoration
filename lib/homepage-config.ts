@@ -12,9 +12,18 @@ export type HomepageSectionEntry = {
   id?: string;
 };
 
+export type HomepagePageSnapshot = {
+  slug: string;
+  name: string;
+  sections: HomepageSectionEntry[];
+};
+
 /** Published homepage layout + theme settings from the playground. */
 export type HomepageConfig = {
+  /** Home page section stack (backward compatible). */
   sections: HomepageSectionEntry[];
+  /** Additional playground pages included in staging/publish. */
+  pages?: HomepagePageSnapshot[];
   colorThemeId: ColorThemeId;
   fontThemeId: FontThemeId;
   previewSettings?: HomepagePreviewSettings;
@@ -33,6 +42,50 @@ export const defaultLiveHomepageSections: HomepageSectionEntry[] = [
 
 export function getHomepageSections(config: HomepageConfig): HomepageSectionEntry[] {
   return config.sections.length > 0 ? config.sections : defaultLiveHomepageSections;
+}
+
+export function getHomepagePageSnapshot(
+  config: HomepageConfig,
+  slug: string,
+): HomepagePageSnapshot | undefined {
+  return config.pages?.find((page) => page.slug === slug);
+}
+
+function isHomepagePageSnapshot(value: unknown): value is HomepagePageSnapshot {
+  if (!value || typeof value !== "object") return false;
+  const page = value as Partial<HomepagePageSnapshot>;
+  return (
+    typeof page.slug === "string" &&
+    typeof page.name === "string" &&
+    Array.isArray(page.sections)
+  );
+}
+
+function normalizeHomepagePageSnapshots(value: unknown): HomepagePageSnapshot[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+
+  const pages = value.flatMap((entry) => {
+    if (!isHomepagePageSnapshot(entry)) return [];
+
+    const sections = entry.sections.flatMap((section) => {
+      if (!section || typeof section !== "object" || !("group" in section)) return [];
+      const group = section.group;
+      if (!isSectionGroupId(group)) return [];
+      return [
+        {
+          group,
+          variant: "variant" in section && typeof section.variant === "string" ? section.variant : undefined,
+          id: "id" in section && typeof section.id === "string" ? section.id : undefined,
+        },
+      ];
+    });
+
+    if (sections.length === 0) return [];
+
+    return [{ slug: entry.slug, name: entry.name, sections }];
+  });
+
+  return pages.length > 0 ? pages : undefined;
 }
 
 function isSectionGroupId(value: unknown): value is SectionGroupId {
@@ -59,6 +112,7 @@ export function normalizeHomepageConfig(value: unknown): HomepageConfig {
 
   return {
     sections,
+    pages: normalizeHomepagePageSnapshots(config.pages),
     colorThemeId: (config.colorThemeId as ColorThemeId | undefined) ?? defaultColorThemeId,
     fontThemeId: (config.fontThemeId as FontThemeId | undefined) ?? defaultFontThemeId,
     previewSettings:

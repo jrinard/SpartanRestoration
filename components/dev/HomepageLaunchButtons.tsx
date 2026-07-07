@@ -5,10 +5,14 @@ import { useState } from "react";
 import {
   publishHomepageConfigFromStorage,
   revertHomepageToConstruction,
+  stageHomepageConfigFromStorage,
 } from "@/lib/homepage-export-client";
+import { HomepageVersionHistoryDialog } from "@/components/dev/HomepageVersionHistoryDialog";
 
 const buttonClassName =
   "rounded border px-3 py-2 font-mono text-xs tracking-wide uppercase transition-colors disabled:cursor-not-allowed disabled:opacity-50";
+
+const stageClassName = `${buttonClassName} border-amber-400/50 bg-amber-400/10 text-amber-200 hover:border-amber-300 hover:bg-amber-400/20 hover:text-amber-100`;
 
 const publishClassName = `${buttonClassName} border-accent-purple/60 bg-accent-purple/10 text-accent-purple hover:border-accent-purple hover:bg-accent-purple/20`;
 
@@ -19,14 +23,17 @@ export function HomepageLaunchButtons() {
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [message, setMessage] = useState<string | null>(null);
 
-  async function run(action: "publish" | "revert") {
+  async function run(action: "stage" | "publish" | "revert") {
     setStatus("loading");
     setMessage(null);
 
     try {
-      if (action === "publish") {
+      if (action === "stage") {
+        await stageHomepageConfigFromStorage();
+        setMessage("Saved to /preview. Commit and deploy for clients.");
+      } else if (action === "publish") {
         await publishHomepageConfigFromStorage();
-        setMessage("Published to /.");
+        setMessage("Published to /. Commit and deploy to go live.");
       } else {
         await revertHomepageToConstruction();
         setMessage("Back to under construction on /.");
@@ -42,6 +49,7 @@ export function HomepageLaunchButtons() {
 
   return (
     <div className="flex flex-wrap items-center gap-3">
+      <HomepageVersionHistoryDialog />
       <button
         type="button"
         onClick={() => run("revert")}
@@ -49,6 +57,14 @@ export function HomepageLaunchButtons() {
         className={revertClassName}
       >
         {status === "loading" ? "Saving…" : "Back to construction"}
+      </button>
+      <button
+        type="button"
+        onClick={() => run("stage")}
+        disabled={status === "loading"}
+        className={stageClassName}
+      >
+        {status === "loading" ? "Saving…" : "Save to /preview"}
       </button>
       <button
         type="button"

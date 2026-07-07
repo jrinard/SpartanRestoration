@@ -51,7 +51,7 @@ export const pageSeo = {
   },
   preview: {
     title: "Preview",
-    description: "Internal layout preview — not for public indexing.",
+    description: "Client staging preview — design review only, not indexed by search engines.",
     path: "/preview",
     noIndex: true,
   },

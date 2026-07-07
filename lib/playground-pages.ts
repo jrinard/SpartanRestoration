@@ -1,4 +1,5 @@
 import type { NavBarLink } from "@/lib/nav-bar-preview";
+import { isContactHref } from "@/lib/contact-modal";
 import { createNavBarLinkId } from "@/lib/nav-bar-preview";
 import { createPlaygroundSectionId } from "@/lib/playground-section-id";
 import {
@@ -52,6 +53,32 @@ export function getPlaygroundPageHref(page: PlaygroundPage): string {
 export function getPlaygroundPreviewPath(page: PlaygroundPage): string {
   if (page.isHome) return "/preview";
   return `/preview/${page.slug}`;
+}
+
+/** Map live page hrefs to /preview paths — safe for SSR (no localStorage). */
+export function resolvePreviewNavHref(href: string): string {
+  const hashIndex = href.indexOf("#");
+  const pathname = (hashIndex === -1 ? href : href.slice(0, hashIndex)).trim() || "/";
+  const hash = hashIndex === -1 ? "" : href.slice(hashIndex);
+
+  if (isContactHref(pathname)) {
+    return href;
+  }
+
+  if (pathname.startsWith("/preview")) {
+    return href;
+  }
+
+  if (pathname === "/" || pathname === "") {
+    return `/preview${hash}`;
+  }
+
+  const slug = pathname.replace(/^\//, "").split("/")[0];
+  if (!slug) {
+    return `/preview${hash}`;
+  }
+
+  return `/preview/${slug}${hash}`;
 }
 
 export function findPlaygroundPageByHref(

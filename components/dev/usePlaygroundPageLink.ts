@@ -7,6 +7,7 @@ import {
   findPlaygroundPageByHref,
   getPlaygroundPreviewPath,
   loadPlaygroundPagesState,
+  resolvePreviewNavHref,
   setActivePlaygroundPageInStorage,
 } from "@/lib/playground-pages";
 import { scrollToHashHref } from "@/lib/scroll-to-hash";
@@ -66,23 +67,14 @@ export function usePlaygroundPageLink() {
 
 export function usePlaygroundNavLinkHref() {
   const pathname = usePathname();
-  const playground = useOptionalPlaygroundSections();
 
   return useCallback(
     (href: string) => {
       const isPreview = pathname === "/preview" || pathname.startsWith("/preview/");
       if (!isPreview) return href;
 
-      const pages =
-        playground?.ready && playground.pages.length > 0
-          ? playground.pages
-          : typeof window !== "undefined"
-            ? loadPlaygroundPagesState().pages
-            : [];
-
-      const page = findPlaygroundPageByHref(pages, href);
-      return page ? getPlaygroundPreviewPath(page) : href;
+      return resolvePreviewNavHref(href);
     },
-    [pathname, playground?.ready, playground?.pages],
+    [pathname],
   );
 }

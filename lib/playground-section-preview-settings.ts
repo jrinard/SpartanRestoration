@@ -6,7 +6,7 @@ import {
 } from "@/lib/section-instance-storage";
 
 /**
- * Playground /preview routes have no published homepage snapshot — read the live
+ * Playground routes have no committed homepage snapshot — read the live
  * section slot from localStorage instead of falling back to component defaults.
  */
 export function loadPlaygroundSectionPreviewField<K extends SectionInstanceField>(
