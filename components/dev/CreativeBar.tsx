@@ -109,7 +109,12 @@ export function CreativeBar() {
             <Link href="/" className={cn(navLinkClassName, "text-white/70")}>
               Home
             </Link>
-            <Link href="/preview" className={cn(navLinkClassName, "text-white/70")}>
+            <Link
+              href="/preview"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(navLinkClassName, "text-white/70")}
+            >
               Preview
             </Link>
             <Link

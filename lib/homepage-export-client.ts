@@ -41,7 +41,9 @@ import { textIconsV3PreviewStorageKey } from "@/lib/text-icons-v3-preview-storag
 import { textImagePreviewStorageKey } from "@/lib/text-image-preview-storage";
 import { textImagesPreviewStorageKey } from "@/lib/text-images-preview-storage";
 import { navBarPreviewStorageKey } from "@/lib/nav-bar-preview-storage";
-import { topBarPreviewStorageKey } from "@/lib/top-bar-preview-storage";
+import {
+  collectTopBarPreviewSettingsForExport,
+} from "@/lib/top-bar-preview-storage";
 import { servicesV1PreviewStorageKey } from "@/lib/services-v1-preview-storage";
 import { servicesIconsV2PreviewStorageKey } from "@/lib/services-icons-v2-preview-storage";
 import {
@@ -58,6 +60,13 @@ function readJson<T>(key: string): T | undefined {
   } catch {
     return undefined;
   }
+}
+
+function resolveTopBarSettingsForExport(
+  pagesState: PlaygroundPagesState,
+  sectionInstances: ReturnType<typeof loadAllSectionInstanceSettings>,
+) {
+  return collectTopBarPreviewSettingsForExport(pagesState, sectionInstances);
 }
 
 function resolveContactSettingsForExport(
@@ -115,7 +124,10 @@ function collectPreviewSettingsFromPages(
       const settings = sectionInstances[section.id];
       if (!settings) continue;
 
-      publishedSections[section.id] = settings;
+      const { topBar: _topBar, ...sectionSettings } = settings;
+      if (Object.keys(sectionSettings).length === 0) continue;
+
+      publishedSections[section.id] = sectionSettings;
 
       if (settings.spacer) {
         spacers[section.id] = settings.spacer;
@@ -132,7 +144,7 @@ function collectPreviewSettingsFromPages(
   }
 
   const previewSettings: HomepagePreviewSettings = {
-    topBar: readJson(topBarPreviewStorageKey),
+    topBar: resolveTopBarSettingsForExport(pagesState, sectionInstances),
     navBar: readJson(navBarPreviewStorageKey),
     heroBanner: readJson(heroBannerPreviewStorageKey),
     heroV1: readJson(heroV1PreviewStorageKey),

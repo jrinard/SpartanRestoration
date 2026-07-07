@@ -1973,6 +1973,8 @@ body {
 
 .top-bar-accent {
   font-weight: 700;
+  font-style: italic;
+  color: var(--top-bar-accent-color, #243348);
 }
 
 .top-bar-call {

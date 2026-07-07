@@ -104,52 +104,6 @@
       ]
     },
     {
-      "slug": "gallery",
-      "name": "Gallery",
-      "sections": [
-        {
-          "group": "topBar",
-          "variant": "top-bar-v1",
-          "id": "topBar-61286811"
-        },
-        {
-          "group": "header",
-          "variant": "header-v1",
-          "id": "header-5068fcb4"
-        },
-        {
-          "group": "nav",
-          "variant": "nav-v1",
-          "id": "nav-4bc440a9"
-        },
-        {
-          "group": "spacer",
-          "variant": "spacer-v2",
-          "id": "spacer-ec838b38"
-        },
-        {
-          "group": "content",
-          "variant": "text-image-v1",
-          "id": "content-5cb29815"
-        },
-        {
-          "group": "spacer",
-          "variant": "spacer-v2",
-          "id": "spacer-2cad8b86"
-        },
-        {
-          "group": "content",
-          "variant": "text-icons-v3",
-          "id": "content-04aa3588"
-        },
-        {
-          "group": "footer",
-          "variant": "footer-v1",
-          "id": "footer-c12b044f"
-        }
-      ]
-    },
-    {
       "slug": "service-area",
       "name": "Service Area",
       "sections": [
@@ -207,7 +161,7 @@
       "rightBackgroundColor": "#2c73b5",
       "outerBackgroundColor": "#ffffff",
       "leftLabelColor": "#000000",
-      "leftAccentColor": "#243348",
+      "leftAccentColor": "#2c73b5",
       "rightTextColor": "#ffffff",
       "leftLabel": "Open Hours",
       "leftAccent": "24/7",
@@ -237,11 +191,6 @@
           "id": "nav-service-area",
           "label": "Service Area",
           "href": "/service-area"
-        },
-        {
-          "id": "nav-gallery",
-          "label": "Gallery",
-          "href": "/gallery"
         },
         {
           "id": "nav-link-d51ec8a5",
@@ -428,36 +377,6 @@
         "layoutWidth": "contained",
         "outerBackgroundColor": "#ffffff"
       },
-      "spacer-ec838b38": {
-        "stripe": {
-          "from": "#000000",
-          "to": "#2c73b5",
-          "direction": "to left",
-          "mode": "linear",
-          "heightPx": 16,
-          "overlap": false
-        },
-        "gradient": {
-          "heightPx": 40
-        },
-        "layoutWidth": "contained",
-        "outerBackgroundColor": "#ffffff"
-      },
-      "spacer-2cad8b86": {
-        "stripe": {
-          "from": "#000000",
-          "to": "#2c73b5",
-          "direction": "to right",
-          "mode": "linear",
-          "heightPx": 16,
-          "overlap": false
-        },
-        "gradient": {
-          "heightPx": 40
-        },
-        "layoutWidth": "contained",
-        "outerBackgroundColor": "#ffffff"
-      },
       "spacer-56a01881": {
         "stripe": {
           "from": "#000000",
@@ -509,7 +428,9 @@
           "layoutInverted": false,
           "phoneButtonMarginTopPx": 32,
           "phoneButtonVisible": true,
-          "contentEyebrow": "Spartan Restoration"
+          "contentEyebrow": "Spartan Restoration",
+          "contentImageSrc": "/spartan/library/Store.jpg",
+          "contentImageAlt": "Store"
         }
       },
       "content-de5e3eab": {
@@ -546,12 +467,21 @@
           "entranceAnimationEnabled": true,
           "entranceAnimationSpeedMs": 800,
           "phoneButtonMarginTopPx": 64,
+          "phoneButtonVisible": true,
           "row1CopyPaddingTopPx": 0,
           "row2CopyPaddingTopPx": 0,
           "row3CopyPaddingTopPx": 0,
+          "sectionPaddingTopPx": 80,
+          "sectionPaddingBottomPx": 65,
           "row1CopyVerticalAlign": "center",
           "row2CopyVerticalAlign": "center",
-          "row3CopyVerticalAlign": "center"
+          "row3CopyVerticalAlign": "center",
+          "contentRow1ImageSrc": "/spartan/library/tub3.png",
+          "contentRow1ImageAlt": "Tub3",
+          "contentRow2ImageSrc": "/spartan/library/tub4.jpg",
+          "contentRow2ImageAlt": "Tub4",
+          "contentRow3ImageSrc": "/spartan/library/Tub5.jpg",
+          "contentRow3ImageAlt": "Tub5"
         }
       },
       "content-f0f5b202": {
@@ -609,7 +539,9 @@
             "RESTORATION DONE RIGHT",
             "SOLUTIONS FOR EVERY STAGE OF RECOVERY"
           ],
-          "contentSidebarText": ""
+          "contentSidebarText": "",
+          "contentImageSrc": "/spartan/library/Curt2.jpg",
+          "contentImageAlt": "Curt2"
         }
       },
       "content-127f9a95": {
@@ -621,48 +553,6 @@
           "outerBackgroundColor": "#ffffff",
           "headingColor": "#ffffff",
           "subheadingColor": "#bfbfbf"
-        }
-      },
-      "content-5cb29815": {
-        "textImage": {
-          "theme": "light",
-          "backgroundColor": "#ffffff",
-          "eyebrowColor": "#56616A",
-          "headlineColor": "#000000",
-          "bodyColor": "#333333",
-          "sidebarTextColor": "#333333",
-          "navBackground": "#f3c35d",
-          "navTextColor": "#000000",
-          "navTextHoverColor": "#ffffff",
-          "navHoverBackground": "#2c73b5",
-          "navButtonSize": "xlarge",
-          "navButtonRadiusPx": 4,
-          "entranceAnimationEnabled": true,
-          "entranceAnimationSpeedMs": 800,
-          "layoutInverted": false
-        }
-      },
-      "content-04aa3588": {
-        "textIconsV3": {
-          "backgroundFrom": "#000000",
-          "backgroundTo": "#000000",
-          "backgroundDirection": "none",
-          "layoutWidth": "contained",
-          "outerBackgroundColor": "#ffffff"
-        },
-        "textImage": {
-          "theme": "light",
-          "backgroundColor": "#ffffff",
-          "eyebrowColor": "#56616A",
-          "headlineColor": "#000000",
-          "bodyColor": "#333333",
-          "sidebarTextColor": "#333333",
-          "navBackground": "#2C73B5",
-          "navTextColor": "#ffffff",
-          "navTextHoverColor": "#ffffff",
-          "navHoverBackground": "#243348",
-          "navButtonSize": "large",
-          "navButtonRadiusPx": 4
         }
       },
       "content-a8f5b164": {
@@ -688,7 +578,9 @@
             "WHEREVER YOU NEED US SERVING COMMUNITIES ACROSS THE REGION"
           ],
           "contentBody": "Whether you're in the heart of Vancouver or a surrounding community, our team is ready to respond. We proudly serve homeowners and businesses throughout Southwest Washington and the surrounding region with the same fast response, professional service, and attention to detail on every project.",
-          "contentSidebarText": ""
+          "contentSidebarText": "",
+          "contentImageSrc": "/spartan/library/shutterstock_261122720_purchased.jpg",
+          "contentImageAlt": "Shutterstock 261122720 purchased"
         }
       }
     },
@@ -780,7 +672,9 @@
           "layoutInverted": false,
           "phoneButtonMarginTopPx": 32,
           "phoneButtonVisible": true,
-          "contentEyebrow": "Spartan Restoration"
+          "contentEyebrow": "Spartan Restoration",
+          "contentImageSrc": "/spartan/library/Store.jpg",
+          "contentImageAlt": "Store"
         }
       },
       "content-de5e3eab": {
@@ -817,12 +711,21 @@
           "entranceAnimationEnabled": true,
           "entranceAnimationSpeedMs": 800,
           "phoneButtonMarginTopPx": 64,
+          "phoneButtonVisible": true,
           "row1CopyPaddingTopPx": 0,
           "row2CopyPaddingTopPx": 0,
           "row3CopyPaddingTopPx": 0,
+          "sectionPaddingTopPx": 80,
+          "sectionPaddingBottomPx": 65,
           "row1CopyVerticalAlign": "center",
           "row2CopyVerticalAlign": "center",
-          "row3CopyVerticalAlign": "center"
+          "row3CopyVerticalAlign": "center",
+          "contentRow1ImageSrc": "/spartan/library/tub3.png",
+          "contentRow1ImageAlt": "Tub3",
+          "contentRow2ImageSrc": "/spartan/library/tub4.jpg",
+          "contentRow2ImageAlt": "Tub4",
+          "contentRow3ImageSrc": "/spartan/library/Tub5.jpg",
+          "contentRow3ImageAlt": "Tub5"
         }
       },
       "spacer-6288a5c6": {
@@ -1009,7 +912,9 @@
             "RESTORATION DONE RIGHT",
             "SOLUTIONS FOR EVERY STAGE OF RECOVERY"
           ],
-          "contentSidebarText": ""
+          "contentSidebarText": "",
+          "contentImageSrc": "/spartan/library/Curt2.jpg",
+          "contentImageAlt": "Curt2"
         }
       },
       "spacer-6bfe6a85": {
@@ -1041,192 +946,6 @@
         }
       },
       "footer-4f9d9249": {
-        "footerV3": {
-          "subtextColor": "#4d82b8",
-          "extraTextColor": "#ffffff",
-          "linkColor": "#4d82b8",
-          "linkHoverColor": "#ffffff",
-          "accentColor": "#5696d7",
-          "copyrightColor": "#85a33f",
-          "domainColor": "#dedede",
-          "socialColor": "#ffffff",
-          "socialHoverColor": "#4d82b8",
-          "layoutWidth": "full",
-          "logoVariant": "color",
-          "theme": "dark"
-        },
-        "footerV1": {
-          "brandNameColor": "#36475e",
-          "taglineColor": "#2c73b5",
-          "navColor": "#243348",
-          "navHoverColor": "#f3c35d",
-          "contactHeadingColor": "#243348",
-          "contactTextColor": "#2c73b5",
-          "contactLinkHoverColor": "#243348",
-          "contactButtonBgColor": "#f3c35d",
-          "contactButtonHoverBgColor": "#bababa",
-          "contactButtonTextColor": "#243348",
-          "mainBackgroundFrom": "#ffffff",
-          "mainBackgroundTo": "#ffffff",
-          "mainBackgroundDirection": "none",
-          "bottomBarBackgroundColor": "#2c73b5",
-          "bottomBarTextColor": "#ffffff",
-          "contactTextSizeEm": 1.2,
-          "layoutWidth": "contained",
-          "contentInsetPx": 32,
-          "outerBackgroundColor": "#ffffff"
-        }
-      },
-      "topBar-61286811": {
-        "topBar": {
-          "layoutWidth": "contained",
-          "heightPx": 61,
-          "leftWidthPercent": 40,
-          "leftBackgroundColor": "#E2E6E7",
-          "rightBackgroundColor": "#2c73b5",
-          "outerBackgroundColor": "#ffffff",
-          "leftLabelColor": "#000000",
-          "leftAccentColor": "#243348",
-          "rightTextColor": "#ffffff",
-          "leftLabel": "Open Hours",
-          "leftAccent": "24/7",
-          "rightText": "Call now 503-975-9082",
-          "phoneHref": "tel:+15039759082",
-          "textSizePx": 18
-        }
-      },
-      "header-5068fcb4": {
-        "headerV3": {
-          "from": "#ffffff",
-          "to": "#ffffff",
-          "backgroundMode": "linear",
-          "backgroundDirection": "to right",
-          "navBackground": "#ffffff",
-          "navTextColor": "#000000",
-          "navTextHoverColor": "#d4981b",
-          "navHoverBackground": "#ffffff",
-          "navButtonSize": "medium",
-          "navButtonRadiusPx": 0,
-          "logoVariant": "color",
-          "layoutWidth": "contained",
-          "headerHeightPx": 160,
-          "logoSizePx": 0,
-          "logoHeightPx": 144,
-          "logoBackgroundColor": "transparent",
-          "logoMarginTopPx": 16,
-          "logoVerticalAlign": "center",
-          "headerV1NavTextSizeEm": 1,
-          "headerV1NavIcons": {
-            "water-damage-restoration": "home"
-          },
-          "headerV1NavIconFrameShape": "card",
-          "headerV1NavIconFrameSize": "medium",
-          "headerV1NavIconColor": "#000000",
-          "headerV1NavIconBorderColor": "#ffffff",
-          "headerV1NavIconBackgroundColor": "#f3c35d",
-          "headerV1NavLinks": [
-            {
-              "id": "water-damage-restoration",
-              "label": "Water Damage\nRestoration",
-              "pageHref": "/",
-              "anchorId": "water-damage-restoration",
-              "icon": "droplets"
-            },
-            {
-              "id": "mold-removal",
-              "label": "Mold Removal",
-              "pageHref": "/",
-              "anchorId": "mold-removal",
-              "icon": "biohazard"
-            },
-            {
-              "id": "fire-damage-restoration",
-              "label": "Fire Damage Restoration",
-              "pageHref": "/",
-              "anchorId": "fire-damage-restoration",
-              "icon": "flame"
-            }
-          ]
-        }
-      },
-      "nav-4bc440a9": {},
-      "spacer-ec838b38": {
-        "spacer": {
-          "stripe": {
-            "from": "#000000",
-            "to": "#2c73b5",
-            "direction": "to left",
-            "mode": "linear",
-            "heightPx": 16,
-            "overlap": false
-          },
-          "gradient": {
-            "heightPx": 40
-          },
-          "layoutWidth": "contained",
-          "outerBackgroundColor": "#ffffff"
-        }
-      },
-      "content-5cb29815": {
-        "textImage": {
-          "theme": "light",
-          "backgroundColor": "#ffffff",
-          "eyebrowColor": "#56616A",
-          "headlineColor": "#000000",
-          "bodyColor": "#333333",
-          "sidebarTextColor": "#333333",
-          "navBackground": "#f3c35d",
-          "navTextColor": "#000000",
-          "navTextHoverColor": "#ffffff",
-          "navHoverBackground": "#2c73b5",
-          "navButtonSize": "xlarge",
-          "navButtonRadiusPx": 4,
-          "entranceAnimationEnabled": true,
-          "entranceAnimationSpeedMs": 800,
-          "layoutInverted": false
-        }
-      },
-      "spacer-2cad8b86": {
-        "spacer": {
-          "stripe": {
-            "from": "#000000",
-            "to": "#2c73b5",
-            "direction": "to right",
-            "mode": "linear",
-            "heightPx": 16,
-            "overlap": false
-          },
-          "gradient": {
-            "heightPx": 40
-          },
-          "layoutWidth": "contained",
-          "outerBackgroundColor": "#ffffff"
-        }
-      },
-      "content-04aa3588": {
-        "textIconsV3": {
-          "backgroundFrom": "#000000",
-          "backgroundTo": "#000000",
-          "backgroundDirection": "none",
-          "layoutWidth": "contained",
-          "outerBackgroundColor": "#ffffff"
-        },
-        "textImage": {
-          "theme": "light",
-          "backgroundColor": "#ffffff",
-          "eyebrowColor": "#56616A",
-          "headlineColor": "#000000",
-          "bodyColor": "#333333",
-          "sidebarTextColor": "#333333",
-          "navBackground": "#2C73B5",
-          "navTextColor": "#ffffff",
-          "navTextHoverColor": "#ffffff",
-          "navHoverBackground": "#243348",
-          "navButtonSize": "large",
-          "navButtonRadiusPx": 4
-        }
-      },
-      "footer-c12b044f": {
         "footerV3": {
           "subtextColor": "#4d82b8",
           "extraTextColor": "#ffffff",
@@ -1376,7 +1095,9 @@
             "WHEREVER YOU NEED US SERVING COMMUNITIES ACROSS THE REGION"
           ],
           "contentBody": "Whether you're in the heart of Vancouver or a surrounding community, our team is ready to respond. We proudly serve homeowners and businesses throughout Southwest Washington and the surrounding region with the same fast response, professional service, and attention to detail on every project.",
-          "contentSidebarText": ""
+          "contentSidebarText": "",
+          "contentImageSrc": "/spartan/library/shutterstock_261122720_purchased.jpg",
+          "contentImageAlt": "Shutterstock 261122720 purchased"
         }
       },
       "spacer-fdf67e03": {

@@ -48,6 +48,7 @@ export function TopBarPreviewProvider({
     loadGlobal: loadTopBarPreviewSettings,
     saveGlobal: saveTopBarPreviewSettings,
     normalize: normalizeTopBarPreviewSettings,
+    globalOnly: true,
   });
 
   return (
@@ -128,7 +129,7 @@ export function TopBarPreviewControls() {
         />
       </label>
       <label className="flex items-center gap-2">
-        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Hours</span>
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Open Hours</span>
         <input
           type="color"
           value={context.settings.leftLabelColor}
@@ -144,7 +145,7 @@ export function TopBarPreviewControls() {
           value={context.settings.leftAccentColor}
           onChange={(event) => update({ leftAccentColor: event.target.value })}
           className={colorInputClassName}
-          aria-label="Top bar 24/7 text color"
+          aria-label="Top bar 24/7 accent text color"
         />
       </label>
       <label className="flex items-center gap-2">

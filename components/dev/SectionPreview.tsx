@@ -52,7 +52,7 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
     return (
       <TopBarPreviewProvider
         instanceId={sectionId}
-        initialSettings={published(slot?.topBar, previewSettings?.topBar)}
+        initialSettings={previewSettings?.topBar}
       >
         {content}
       </TopBarPreviewProvider>

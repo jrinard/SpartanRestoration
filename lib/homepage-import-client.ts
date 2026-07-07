@@ -54,7 +54,8 @@ function buildSectionInstances(previewSettings: HomepagePreviewSettings): Record
 
   if (previewSettings.sections) {
     for (const [id, settings] of Object.entries(previewSettings.sections)) {
-      instances[id] = { ...instances[id], ...settings };
+      const { topBar: _topBar, ...rest } = settings;
+      instances[id] = { ...instances[id], ...rest };
     }
   }
 
