@@ -42,6 +42,8 @@ type ContactV1PreviewProviderProps = {
   instanceId?: string;
   initialSettings?: ContactPreviewSettings;
   enableContentEditing?: boolean;
+  /** One shared contact popup site-wide (like nav). */
+  globalOnly?: boolean;
 };
 
 export function ContactV1PreviewProvider({
@@ -49,6 +51,7 @@ export function ContactV1PreviewProvider({
   instanceId,
   initialSettings,
   enableContentEditing = false,
+  globalOnly = false,
 }: ContactV1PreviewProviderProps) {
   const { settings, setSettings: persistSettings } = useInstancePreviewSettings({
     instanceId,
@@ -58,6 +61,7 @@ export function ContactV1PreviewProvider({
     loadGlobal: loadContactPreviewSettings,
     saveGlobal: saveContactPreviewSettings,
     normalize: normalizeContactPreviewSettings,
+    globalOnly,
   });
 
   const setSettings = useCallback(

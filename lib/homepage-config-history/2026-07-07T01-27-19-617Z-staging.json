@@ -1478,63 +1478,6 @@
         }
       }
     },
-    "contact": {
-      "backgroundMode": "solid",
-      "solidColor": "#000000",
-      "gradientFrom": "#0f0f12",
-      "gradientTo": "#4d82b8",
-      "gradientAngle": 135,
-      "borderRadius": 28,
-      "titleColor": "#ffffff",
-      "bodyColor": "#a8a8b8",
-      "formFields": [
-        {
-          "id": "legacy-name",
-          "name": "name",
-          "label": "Full Name",
-          "placeholder": "Your name",
-          "type": "text",
-          "required": true
-        },
-        {
-          "id": "legacy-businessName",
-          "name": "businessName",
-          "label": "Business Name",
-          "placeholder": "Your business name",
-          "type": "text",
-          "required": true
-        },
-        {
-          "id": "legacy-email",
-          "name": "email",
-          "label": "Email",
-          "placeholder": "you@example.com",
-          "type": "email",
-          "required": true
-        },
-        {
-          "id": "legacy-phone",
-          "name": "phone",
-          "label": "Phone",
-          "placeholder": "(optional)",
-          "type": "tel",
-          "required": false
-        },
-        {
-          "id": "legacy-message",
-          "name": "message",
-          "label": "How can we help?",
-          "placeholder": "",
-          "type": "textarea",
-          "required": true
-        }
-      ],
-      "contentTitle": "Let's Talk",
-      "contentSubtext": "Let's start the conversation with a Free Consultation",
-      "buttonBackground": "#f3c35d",
-      "buttonTextColor": "#000000",
-      "leadToEmail": "josh@lifespringdesign.com"
-    },
     "servicesIconsV2": {
       "backgroundFrom": "#ffffff",
       "backgroundTo": "#ffffff",
