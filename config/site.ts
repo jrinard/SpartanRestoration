@@ -76,7 +76,7 @@ export const siteConfig = {
     ogImage: "/spartan/SpartanLogo.png",
   },
   launch: {
-    mode: "live" as "under-construction" | "live",
+    mode: "under-construction" as "under-construction" | "live",
     previewPlaygroundPath: "/playground",
     previewPath: "/preview",
   },
