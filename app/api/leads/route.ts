@@ -15,6 +15,7 @@ import {
 
 type LeadRequestBody = (LeadPayload | { fields: LeadFieldSubmission[] }) & {
   recaptchaToken?: string;
+  leadToEmail?: string;
 };
 
 export async function POST(request: Request) {
@@ -36,7 +37,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const { recaptchaToken, ...leadFields } = body as LeadRequestBody;
+  const { recaptchaToken, leadToEmail, ...leadFields } = body as LeadRequestBody;
   const submission = normalizeLeadSubmission(leadFields);
 
   if (!submission) {
@@ -59,7 +60,9 @@ export async function POST(request: Request) {
     }
   }
 
-  const emailResult = await sendLeadEmail(submission);
+  const emailResult = await sendLeadEmail(submission, {
+    leadToEmail: typeof leadToEmail === "string" ? leadToEmail : undefined,
+  });
   if (!emailResult.ok) {
     return Response.json(
       { success: false, message: emailResult.message },

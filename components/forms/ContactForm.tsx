@@ -11,6 +11,7 @@ import {
 import {
   getContactSubmitButtonStyle,
   getEffectiveContactFormFields,
+  getEffectiveLeadToEmail,
   hasCustomContactSubmitButton,
   type ContactPreviewSettings,
 } from "@/lib/contact-preview";
@@ -118,7 +119,10 @@ export function ContactForm({ className, settings }: ContactFormProps) {
         ? buildLegacyPayload(data)
         : { fields: buildDynamicPayload(data, fields) };
 
-      const result = await submitLead(payload, { recaptchaToken });
+      const result = await submitLead(payload, {
+        recaptchaToken,
+        leadToEmail: getEffectiveLeadToEmail(settings),
+      });
 
       if (result.success) {
         setStatus("success");

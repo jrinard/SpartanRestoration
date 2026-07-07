@@ -25,6 +25,7 @@ export type LeadResult = {
 
 type SubmitLeadOptions = {
   recaptchaToken?: string | null;
+  leadToEmail?: string;
 };
 
 function isLeadPayload(value: unknown): value is LeadPayload {
@@ -112,6 +113,7 @@ export async function submitLead(
     body: JSON.stringify({
       ...payload,
       recaptchaToken: options.recaptchaToken ?? undefined,
+      leadToEmail: options.leadToEmail?.trim() || undefined,
     }),
   });
 

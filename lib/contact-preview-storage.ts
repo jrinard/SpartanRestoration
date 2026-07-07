@@ -86,6 +86,10 @@ export function normalizeContactPreviewSettings(
           ? value.buttonRadiusPx
           : normalizeButtonBorderRadiusPx(value.buttonRadiusPx)
         : undefined,
+    leadToEmail:
+      typeof value.leadToEmail === "string" && value.leadToEmail.trim()
+        ? value.leadToEmail.trim()
+        : undefined,
   };
 }
 

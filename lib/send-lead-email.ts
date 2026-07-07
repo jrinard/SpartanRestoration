@@ -7,7 +7,6 @@
 import { Resend } from "resend";
 import {
   getContactLeadFrom,
-  getContactLeadTo,
   isEmailConfigured,
 } from "@/lib/email-config";
 import {
@@ -17,6 +16,11 @@ import {
   type LeadPayload,
   type LeadSubmission,
 } from "@/lib/leads";
+import { resolveContactLeadTo } from "@/lib/resolve-contact-lead-to.server";
+
+type SendLeadEmailOptions = {
+  leadToEmail?: string;
+};
 
 function escapeHtml(value: string): string {
   return value
@@ -112,6 +116,7 @@ function getReplyToEmail(submission: LeadSubmission): string | undefined {
 
 export async function sendLeadEmail(
   submission: LeadSubmission,
+  options: SendLeadEmailOptions = {},
 ): Promise<{ ok: true } | { ok: false; message: string }> {
   if (!isEmailConfigured()) {
     if (process.env.NODE_ENV === "development") {
@@ -120,7 +125,7 @@ export async function sendLeadEmail(
     return { ok: true };
   }
 
-  const to = getContactLeadTo();
+  const to = await resolveContactLeadTo(options.leadToEmail);
   if (!to) {
     return {
       ok: false,
