@@ -1,4 +1,12 @@
-import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
+import { getCommittedHomepagePreviewSettings, shouldUsePlaygroundPreviewSettings } from "@/lib/homepage-settings";
+import {
+  getPlaygroundPageSections,
+  homePlaygroundPageId,
+  loadPlaygroundPagesState,
+} from "@/lib/playground-pages";
+import type { SectionInstanceSettings } from "@/lib/section-instance-storage";
+import { loadAllSectionInstanceSettings } from "@/lib/section-instance-storage";
+import type { PlaygroundPagesState } from "@/lib/playground-pages";
 import {
   defaultTopBarPreviewSettings,
   topBarTextSizeOptions,
@@ -90,18 +98,77 @@ function parseStoredTopBarPreview(raw: string): TopBarPreviewSettings | null {
   return null;
 }
 
+function loadTopBarFromSectionInstances(): TopBarPreviewSettings | undefined {
+  const sectionInstances = loadAllSectionInstanceSettings();
+  const pagesState = loadPlaygroundPagesState();
+
+  const homeSections = getPlaygroundPageSections(pagesState, homePlaygroundPageId);
+  const homeTopBarId = homeSections.find((section) => section.group === "topBar")?.id;
+  if (homeTopBarId) {
+    const fromHome = sectionInstances[homeTopBarId]?.topBar;
+    if (fromHome) return normalizeTopBarPreviewSettings(fromHome);
+  }
+
+  for (const page of pagesState.pages) {
+    const sections = getPlaygroundPageSections(pagesState, page.id);
+    const topBarId = sections.find((section) => section.group === "topBar")?.id;
+    if (!topBarId) continue;
+
+    const fromPage = sectionInstances[topBarId]?.topBar;
+    if (fromPage) return normalizeTopBarPreviewSettings(fromPage);
+  }
+
+  return undefined;
+}
+
+export function collectTopBarPreviewSettingsForExport(
+  pagesState: PlaygroundPagesState,
+  sectionInstances: Record<string, SectionInstanceSettings>,
+): TopBarPreviewSettings | undefined {
+  const fromGlobal = (() => {
+    if (typeof window === "undefined") return undefined;
+    const stored = localStorage.getItem(topBarPreviewStorageKey);
+    if (!stored) return undefined;
+    return parseStoredTopBarPreview(stored) ?? undefined;
+  })();
+
+  const homeSections = getPlaygroundPageSections(pagesState, homePlaygroundPageId);
+  const homeTopBarId = homeSections.find((section) => section.group === "topBar")?.id;
+  const fromHome = homeTopBarId ? sectionInstances[homeTopBarId]?.topBar : undefined;
+
+  if (fromGlobal || fromHome) {
+    return normalizeTopBarPreviewSettings({ ...fromHome, ...fromGlobal });
+  }
+
+  for (const page of pagesState.pages) {
+    const sections = getPlaygroundPageSections(pagesState, page.id);
+    const topBarId = sections.find((section) => section.group === "topBar")?.id;
+    if (!topBarId) continue;
+
+    const fromPage = sectionInstances[topBarId]?.topBar;
+    if (fromPage) return normalizeTopBarPreviewSettings(fromPage);
+  }
+
+  return undefined;
+}
+
 export function loadTopBarPreviewSettings(): TopBarPreviewSettings {
-  const committed = getCommittedHomepagePreviewSettings()?.topBar;
-  if (committed) return committed;
+  if (!shouldUsePlaygroundPreviewSettings()) {
+    const committed = getCommittedHomepagePreviewSettings()?.topBar;
+    if (committed) return normalizeTopBarPreviewSettings(committed);
+  }
 
   if (typeof window === "undefined") {
     return defaultTopBarPreviewSettings;
   }
 
   const stored = localStorage.getItem(topBarPreviewStorageKey);
-  if (!stored) return defaultTopBarPreviewSettings;
+  if (stored) {
+    const parsed = parseStoredTopBarPreview(stored);
+    if (parsed) return parsed;
+  }
 
-  return parseStoredTopBarPreview(stored) ?? defaultTopBarPreviewSettings;
+  return loadTopBarFromSectionInstances() ?? defaultTopBarPreviewSettings;
 }
 
 export function saveTopBarPreviewSettings(settings: TopBarPreviewSettings): void {

@@ -31,14 +31,20 @@ export function TopBarV1() {
         <div className="top-bar-split">
           <div
             className="top-bar-segment top-bar-segment--left"
-            style={{
-              backgroundColor: settings.leftBackgroundColor,
-              color: settings.leftLabelColor,
-            }}
+            style={
+              {
+                backgroundColor: settings.leftBackgroundColor,
+                color: settings.leftLabelColor,
+                "--top-bar-accent-color": settings.leftAccentColor,
+              } as CSSProperties
+            }
           >
             <p className="top-bar-text">
               {settings.leftLabel}{" "}
-              <span className="top-bar-accent" style={{ color: settings.leftAccentColor }}>
+              <span
+                className="top-bar-accent"
+                style={{ color: settings.leftAccentColor }}
+              >
                 {settings.leftAccent}
               </span>
             </p>
