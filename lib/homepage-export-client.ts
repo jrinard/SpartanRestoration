@@ -10,7 +10,12 @@ import type { ColorThemeId } from "@/lib/color-themes";
 import { getColorTheme } from "@/lib/color-themes";
 import type { FontThemeId } from "@/lib/creative-themes";
 import { getFontTheme } from "@/lib/creative-themes";
-import { contactPreviewStorageKey } from "@/lib/contact-preview-storage";
+import type { ContactPreviewSettings } from "@/lib/contact-preview";
+import {
+  contactPreviewStorageKey,
+  normalizeContactPreviewSettings,
+} from "@/lib/contact-preview-storage";
+import { findPlaygroundContactSectionId } from "@/lib/playground-contact-section";
 import { ctaV1PreviewStorageKey } from "@/lib/cta-v1-preview-storage";
 import { footerV3PreviewStorageKey } from "@/lib/footer-v3-preview-storage";
 import { footerV1PreviewStorageKey } from "@/lib/footer-v1-preview-storage";
@@ -53,6 +58,34 @@ function readJson<T>(key: string): T | undefined {
   } catch {
     return undefined;
   }
+}
+
+function resolveContactSettingsForExport(
+  pagesState: PlaygroundPagesState,
+  sectionInstances: ReturnType<typeof loadAllSectionInstanceSettings>,
+): ContactPreviewSettings | undefined {
+  const fromGlobal = readJson<ContactPreviewSettings>(contactPreviewStorageKey);
+  if (fromGlobal) {
+    return normalizeContactPreviewSettings(fromGlobal);
+  }
+
+  const homeSections = getPlaygroundPageSections(pagesState, homePlaygroundPageId);
+  const homeContactId = findPlaygroundContactSectionId(homeSections);
+  if (homeContactId) {
+    const fromHome = sectionInstances[homeContactId]?.contact;
+    if (fromHome) return normalizeContactPreviewSettings(fromHome);
+  }
+
+  for (const page of pagesState.pages) {
+    const sections = getPlaygroundPageSections(pagesState, page.id);
+    const contactId = findPlaygroundContactSectionId(sections);
+    if (!contactId) continue;
+
+    const fromPage = sectionInstances[contactId]?.contact;
+    if (fromPage) return normalizeContactPreviewSettings(fromPage);
+  }
+
+  return undefined;
 }
 
 function mapPreviewSectionsToEntries(
@@ -118,7 +151,7 @@ function collectPreviewSettingsFromPages(
     spacers: Object.keys(spacers).length > 0 ? spacers : undefined,
     contents: Object.keys(contents).length > 0 ? contents : undefined,
     sections: Object.keys(publishedSections).length > 0 ? publishedSections : undefined,
-    contact: readJson(contactPreviewStorageKey),
+    contact: resolveContactSettingsForExport(pagesState, sectionInstances),
     ctaV1: readJson(ctaV1PreviewStorageKey),
     textIconsV3: readJson(textIconsV3PreviewStorageKey),
     textImage: readJson(textImagePreviewStorageKey),

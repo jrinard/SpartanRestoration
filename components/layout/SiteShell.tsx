@@ -23,7 +23,7 @@ export function SiteShell({ children, config }: SiteShellProps) {
         initialFontThemeId={config.fontThemeId}
         persistTheme={false}
       >
-        <ContactV1PreviewProvider>
+        <ContactV1PreviewProvider initialSettings={config.previewSettings?.contact} globalOnly>
           <ContactModalProvider>
             {children}
             <ContactModal />

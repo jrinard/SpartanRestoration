@@ -115,6 +115,36 @@ function isContactPreviewSettings(value: unknown): value is Partial<ContactPrevi
 }
 
 import { getCommittedHomepagePreviewSettings, shouldUsePlaygroundPreviewSettings } from "@/lib/homepage-settings";
+import { findPlaygroundContactSectionId } from "@/lib/playground-contact-section";
+import {
+  getPlaygroundPageSections,
+  homePlaygroundPageId,
+  loadPlaygroundPagesState,
+} from "@/lib/playground-pages";
+import { loadAllSectionInstanceSettings } from "@/lib/section-instance-storage";
+
+function loadContactFromSectionInstances(): ContactPreviewSettings | undefined {
+  const sectionInstances = loadAllSectionInstanceSettings();
+  const pagesState = loadPlaygroundPagesState();
+
+  const homeSections = getPlaygroundPageSections(pagesState, homePlaygroundPageId);
+  const homeContactId = findPlaygroundContactSectionId(homeSections);
+  if (homeContactId) {
+    const fromHome = sectionInstances[homeContactId]?.contact;
+    if (fromHome) return normalizeContactPreviewSettings(fromHome);
+  }
+
+  for (const page of pagesState.pages) {
+    const sections = getPlaygroundPageSections(pagesState, page.id);
+    const contactId = findPlaygroundContactSectionId(sections);
+    if (!contactId) continue;
+
+    const fromPage = sectionInstances[contactId]?.contact;
+    if (fromPage) return normalizeContactPreviewSettings(fromPage);
+  }
+
+  return undefined;
+}
 
 export function loadContactPreviewSettings(): ContactPreviewSettings {
   if (!shouldUsePlaygroundPreviewSettings()) {
@@ -128,17 +158,17 @@ export function loadContactPreviewSettings(): ContactPreviewSettings {
 
   try {
     const stored = localStorage.getItem(contactPreviewStorageKey);
-    if (!stored) return defaultContactPreviewSettings;
-
-    const parsed: unknown = JSON.parse(stored);
-    if (isContactPreviewSettings(parsed)) {
-      return normalizeContactPreviewSettings(parsed);
+    if (stored) {
+      const parsed: unknown = JSON.parse(stored);
+      if (isContactPreviewSettings(parsed)) {
+        return normalizeContactPreviewSettings(parsed);
+      }
     }
   } catch {
     // ignore invalid storage
   }
 
-  return defaultContactPreviewSettings;
+  return loadContactFromSectionInstances() ?? defaultContactPreviewSettings;
 }
 
 export function saveContactPreviewSettings(settings: ContactPreviewSettings): void {
