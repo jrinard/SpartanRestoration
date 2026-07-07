@@ -3,7 +3,10 @@
 import { ContactCard } from "@/components/contact/ContactCard";
 import { useContactV1Preview } from "@/components/dev/ContactV1PreviewContext";
 import { Container } from "@/components/ui/Container";
-import { defaultContactPreviewSettings } from "@/lib/contact-preview";
+import {
+  defaultContactPreviewSettings,
+  getContactSectionStyle,
+} from "@/lib/contact-preview";
 import { cn } from "@/lib/utils";
 
 type ContactV1Props = {
@@ -36,6 +39,7 @@ export function ContactV1({
         "contact-v1 scroll-mt-24 py-[calc(5rem-15px)] lg:py-[calc(6rem-15px)]",
         preview && "contact-v1--preview",
       )}
+      style={getContactSectionStyle(settings)}
       aria-labelledby="contact-heading"
     >
       <Container className="max-w-xl">

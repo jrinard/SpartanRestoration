@@ -28,6 +28,10 @@ import {
   ServicesIconsV2PreviewControls,
 } from "@/components/dev/ServicesIconsV2PreviewContext";
 import {
+  ServiceAreaV1PreviewProvider,
+  ServiceAreaV1PreviewControls,
+} from "@/components/dev/ServiceAreaV1PreviewContext";
+import {
   PortfolioPreviewProvider,
   PortfolioPreviewControls,
 } from "@/components/dev/PortfolioPreviewContext";
@@ -43,10 +47,7 @@ import {
   ReviewboxPreviewProvider,
   ReviewboxBackgroundControls,
 } from "@/components/dev/ReviewboxPreviewContext";
-import {
-  ContactV1PreviewProvider,
-  ContactV1PreviewControls,
-} from "@/components/dev/ContactV1PreviewContext";
+import { ContactV1PreviewControls } from "@/components/dev/ContactV1PreviewContext";
 import {
   CtaV1PreviewProvider,
   CtaV1PreviewControls,
@@ -124,6 +125,7 @@ export function SectionSwitcher({
   const isTextImageV1 = group === "content" && activeVariantId === "text-image-v1";
   const isTextImagesV1 = group === "content" && activeVariantId === "text-images-v1";
   const isServicesIconsV2 = group === "services" && activeVariantId === "servicesIcons-v2";
+  const isServiceAreaV1 = group === "services" && activeVariantId === "service-area-v1";
   const playground = useOptionalPlaygroundSections();
   const navReadOnly = isNavBar && Boolean(playground?.activePage && !playground.activePage.isHome);
   const switcherSectionLabel = isNavBar ? activeVariant.label : section.label;
@@ -170,6 +172,7 @@ export function SectionSwitcher({
           </>
         )}
         {isServicesIconsV2 && <ServicesIconsV2PreviewControls />}
+        {isServiceAreaV1 && <ServiceAreaV1PreviewControls />}
         {group === "spacer" &&
           (activeVariantId === "spacer-v1" || activeVariantId === "spacer-v2") && (
             <SpacerStripePreviewControls variantId={activeVariantId} />
@@ -236,6 +239,14 @@ export function SectionSwitcher({
     );
   }
 
+  if (isServiceAreaV1) {
+    return (
+      <ServiceAreaV1PreviewProvider instanceId={sectionId} enableContentEditing>
+        {switcher}
+      </ServiceAreaV1PreviewProvider>
+    );
+  }
+
   if (group === "services") {
     return <ServicesV1LayoutProvider instanceId={sectionId}>{switcher}</ServicesV1LayoutProvider>;
   }
@@ -297,7 +308,7 @@ export function SectionSwitcher({
   }
 
   if (isContactV1) {
-    return <ContactV1PreviewProvider instanceId={sectionId}>{switcher}</ContactV1PreviewProvider>;
+    return switcher;
   }
 
   if (isCtaV1) {

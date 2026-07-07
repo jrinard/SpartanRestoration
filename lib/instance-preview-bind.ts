@@ -88,6 +88,7 @@ export function useInstancePreviewSettings<T, K extends keyof SectionInstanceSet
         const normalized = normalizeValue(fromInstance as T, normalize);
         return afterLoad ? afterLoad(normalized) : normalized;
       }
+      return normalizeValue(loadGlobal(), normalize);
     }
     return defaultSettings;
   });

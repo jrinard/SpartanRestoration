@@ -5,28 +5,17 @@ import {
 } from "@/lib/recaptcha-server";
 import { recaptchaAction } from "@/lib/recaptcha-config";
 import { sendLeadEmail } from "@/lib/send-lead-email";
-import type { LeadPayload } from "@/lib/leads";
+import {
+  isDynamicLeadSubmission,
+  leadPayloadFromFields,
+  normalizeLeadSubmission,
+  type LeadFieldSubmission,
+  type LeadPayload,
+} from "@/lib/leads";
 
-type LeadRequestBody = LeadPayload & {
+type LeadRequestBody = (LeadPayload | { fields: LeadFieldSubmission[] }) & {
   recaptchaToken?: string;
 };
-
-function isLeadPayload(value: unknown): value is LeadPayload {
-  if (!value || typeof value !== "object") return false;
-
-  const payload = value as Partial<LeadPayload>;
-  return (
-    typeof payload.name === "string" &&
-    payload.name.trim().length > 0 &&
-    typeof payload.businessName === "string" &&
-    payload.businessName.trim().length > 0 &&
-    typeof payload.email === "string" &&
-    payload.email.trim().length > 0 &&
-    typeof payload.message === "string" &&
-    payload.message.trim().length > 0 &&
-    (payload.phone === undefined || typeof payload.phone === "string")
-  );
-}
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -48,8 +37,9 @@ export async function POST(request: Request) {
   }
 
   const { recaptchaToken, ...leadFields } = body as LeadRequestBody;
+  const submission = normalizeLeadSubmission(leadFields);
 
-  if (!isLeadPayload(leadFields)) {
+  if (!submission) {
     return Response.json(
       { success: false, message: "Please fill in all required fields." },
       { status: 400 },
@@ -69,7 +59,7 @@ export async function POST(request: Request) {
     }
   }
 
-  const emailResult = await sendLeadEmail(leadFields);
+  const emailResult = await sendLeadEmail(submission);
   if (!emailResult.ok) {
     return Response.json(
       { success: false, message: emailResult.message },

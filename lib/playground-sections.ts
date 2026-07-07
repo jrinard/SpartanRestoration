@@ -1,6 +1,7 @@
 import type { SectionGroupId } from "@/lib/section-registry";
 import { sectionGroups } from "@/lib/section-registry";
 import { createPlaygroundSectionId } from "@/lib/playground-section-id";
+import { isPlaygroundModalOnlySection } from "@/lib/playground-modal-sections";
 
 export type PlaygroundSectionConfig = {
   /** Unique slot id — required for duplicate spacers in the layout. */
@@ -52,12 +53,49 @@ export const defaultPlaygroundSections: PlaygroundSectionConfig[] = defaultSecti
 
 const knownGroups = new Set(defaultSectionDefs.map((section) => section.group));
 
+export function canIncludePlaygroundSectionInPreview(group: SectionGroupId): boolean {
+  return !isPlaygroundModalOnlySection(group);
+}
+
 export function getPlaygroundSectionVariant(config: PlaygroundSectionConfig): string | undefined {
   return config.variant ?? config.defaultVariant;
 }
 
+/** Keep preview/hidden in sync — hiding a section removes it from /preview too. */
+export function applyPlaygroundSectionPatch(
+  section: PlaygroundSectionConfig,
+  patch: Partial<PlaygroundSectionConfig>,
+): PlaygroundSectionConfig {
+  const next: PlaygroundSectionConfig = { ...section, ...patch };
+
+  if (patch.hidden === true) {
+    next.preview = false;
+  }
+
+  if (patch.preview === true) {
+    next.hidden = false;
+  }
+
+  return next;
+}
+
+export function reconcilePlaygroundSectionFlags(
+  section: PlaygroundSectionConfig,
+): PlaygroundSectionConfig {
+  if (section.hidden === true && section.preview === true) {
+    return { ...section, preview: false };
+  }
+
+  return section;
+}
+
 export function getPreviewSections(sections: PlaygroundSectionConfig[]): PlaygroundSectionConfig[] {
-  return sections.filter((section) => section.preview === true);
+  return sections.filter(
+    (section) =>
+      section.preview === true &&
+      section.hidden !== true &&
+      canIncludePlaygroundSectionInPreview(section.group),
+  );
 }
 
 export function getVisiblePlaygroundSections(
@@ -120,7 +158,7 @@ function normalizeStoredSection(item: unknown): PlaygroundSectionConfig | null {
   const fallback = fallbackForGroup(group);
   const record = item as Partial<PlaygroundSectionConfig>;
 
-  return {
+  return reconcilePlaygroundSectionFlags({
     id: typeof record.id === "string" && record.id ? record.id : createPlaygroundSectionId(group),
     group,
     defaultVariant:
@@ -129,9 +167,13 @@ function normalizeStoredSection(item: unknown): PlaygroundSectionConfig | null {
         : fallback?.defaultVariant,
     variant: typeof record.variant === "string" ? record.variant : undefined,
     preview:
-      typeof record.preview === "boolean" ? record.preview : fallback?.preview ?? false,
+      isPlaygroundModalOnlySection(group)
+        ? false
+        : typeof record.preview === "boolean"
+          ? record.preview
+          : fallback?.preview ?? false,
     hidden: typeof record.hidden === "boolean" ? record.hidden : false,
-  };
+  });
 }
 
 export function mergePlaygroundSectionOrder(stored: unknown): PlaygroundSectionConfig[] {

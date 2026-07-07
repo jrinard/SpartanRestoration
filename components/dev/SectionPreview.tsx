@@ -14,12 +14,14 @@ import { ContactV1PreviewProvider } from "@/components/dev/ContactV1PreviewConte
 import { CtaV1PreviewProvider } from "@/components/dev/CtaV1PreviewContext";
 import { ServicesV1LayoutProvider } from "@/components/dev/ServicesV1LayoutContext";
 import { ServicesIconsV2PreviewProvider } from "@/components/dev/ServicesIconsV2PreviewContext";
+import { ServiceAreaV1PreviewProvider } from "@/components/dev/ServiceAreaV1PreviewContext";
 import { SpacerStripePreviewProvider } from "@/components/dev/SpacerStripePreviewContext";
 import { TextIconsV3PreviewProvider } from "@/components/dev/TextIconsV3PreviewContext";
 import { TextImagePreviewProvider } from "@/components/dev/TextImagePreviewContext";
 import { TextImagesPreviewProvider } from "@/components/dev/TextImagesPreviewContext";
 import { headerVariantUsesPreviewControls } from "@/lib/header-v3-gradient";
 import type { HomepagePreviewSettings } from "@/lib/homepage-settings";
+import { loadPlaygroundSectionPreviewField } from "@/lib/playground-section-preview-settings";
 import { resolvePublishedSectionInstanceSettings } from "@/lib/section-instance-copy";
 import {
   getSectionVariant,
@@ -76,6 +78,17 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
       >
         {content}
       </ServicesIconsV2PreviewProvider>
+    );
+  }
+
+  if (group === "services" && variantId === "service-area-v1") {
+    return (
+      <ServiceAreaV1PreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.serviceAreaV1, previewSettings?.serviceAreaV1)}
+      >
+        {content}
+      </ServiceAreaV1PreviewProvider>
     );
   }
 
@@ -207,7 +220,12 @@ export function SectionPreview({ group, variant, sectionId, previewSettings }: S
     return (
       <ContactV1PreviewProvider
         instanceId={sectionId}
-        initialSettings={published(slot?.contact, previewSettings?.contact)}
+        initialSettings={loadPlaygroundSectionPreviewField(
+          sectionId,
+          previewSettings,
+          "contact",
+          published(slot?.contact, previewSettings?.contact),
+        )}
       >
         {content}
       </ContactV1PreviewProvider>

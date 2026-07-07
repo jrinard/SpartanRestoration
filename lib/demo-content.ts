@@ -566,6 +566,17 @@ export const servicesIconsV2Cta = {
   href: `tel:${siteConfig.phone.replace(/\D/g, "")}`,
 };
 
+export const serviceAreaV1Heading = "Areas we service";
+
+export const serviceAreaV1Locations = [
+  { id: "vancouver", label: "Vancouver" },
+  { id: "camas", label: "Camas" },
+  { id: "washougal", label: "Washougal" },
+  { id: "woodland", label: "Woodland" },
+  { id: "la-center", label: "La Center" },
+  { id: "portland", label: "Portland" },
+] as const;
+
 /** OSP-style washing demo content — paraphrased placeholders for preview. */
 export const washingHero = {
   headline: "Professional Pressure & Soft Washing in Vancouver & Portland",

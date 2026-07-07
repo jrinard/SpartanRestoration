@@ -3,11 +3,22 @@ import {
   type ContactBackgroundMode,
   type ContactPreviewSettings,
 } from "@/lib/contact-preview";
+import { normalizeContactFormFields } from "@/lib/contact-form-fields";
+import {
+  buttonBorderRadiusOptions,
+  normalizeButtonBorderRadiusPx,
+} from "@/lib/button-preview";
 
 export const contactPreviewStorageKey = "lifespring-contact-preview-v1";
 
 function isHexColor(value: unknown): value is string {
   return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
+}
+
+function isColor(value: unknown): value is string {
+  if (typeof value !== "string") return false;
+  if (value === "transparent") return true;
+  return /^#[0-9a-fA-F]{6}$/.test(value) || /^rgba?\(/i.test(value);
 }
 
 function isBackgroundMode(value: unknown): value is ContactBackgroundMode {
@@ -19,9 +30,11 @@ function clampNumber(value: unknown, min: number, max: number, fallback: number)
   return Math.min(max, Math.max(min, value));
 }
 
-function normalizeContactPreviewSettings(
+export function normalizeContactPreviewSettings(
   value: Partial<ContactPreviewSettings>,
 ): ContactPreviewSettings {
+  const formFields = normalizeContactFormFields(value.formFields);
+
   return {
     backgroundMode: isBackgroundMode(value.backgroundMode)
       ? value.backgroundMode
@@ -41,18 +54,38 @@ function normalizeContactPreviewSettings(
       360,
       defaultContactPreviewSettings.gradientAngle,
     ),
-    borderRadius: clampNumber(
-      value.borderRadius,
-      8,
-      48,
-      defaultContactPreviewSettings.borderRadius,
-    ),
+    borderRadius: clampNumber(value.borderRadius, 8, 48, defaultContactPreviewSettings.borderRadius),
     titleColor: isHexColor(value.titleColor)
       ? value.titleColor
       : defaultContactPreviewSettings.titleColor,
     bodyColor: isHexColor(value.bodyColor)
       ? value.bodyColor
       : defaultContactPreviewSettings.bodyColor,
+    sectionBackgroundColor: isColor(value.sectionBackgroundColor)
+      ? value.sectionBackgroundColor
+      : undefined,
+    submitText:
+      typeof value.submitText === "string" && value.submitText.trim()
+        ? value.submitText
+        : undefined,
+    formFields,
+    contentTitle: typeof value.contentTitle === "string" ? value.contentTitle : undefined,
+    contentSubtext: typeof value.contentSubtext === "string" ? value.contentSubtext : undefined,
+    contentPhonePrefix:
+      typeof value.contentPhonePrefix === "string" ? value.contentPhonePrefix : undefined,
+    contentPhoneLabel:
+      typeof value.contentPhoneLabel === "string" ? value.contentPhoneLabel : undefined,
+    contentPhoneHref: typeof value.contentPhoneHref === "string" ? value.contentPhoneHref : undefined,
+    buttonBackground: isColor(value.buttonBackground) ? value.buttonBackground : undefined,
+    buttonTextColor: isHexColor(value.buttonTextColor) ? value.buttonTextColor : undefined,
+    buttonRadiusPx:
+      typeof value.buttonRadiusPx === "number"
+        ? buttonBorderRadiusOptions.includes(
+            value.buttonRadiusPx as (typeof buttonBorderRadiusOptions)[number],
+          )
+          ? value.buttonRadiusPx
+          : normalizeButtonBorderRadiusPx(value.buttonRadiusPx)
+        : undefined,
   };
 }
 
@@ -68,15 +101,22 @@ function isContactPreviewSettings(value: unknown): value is Partial<ContactPrevi
   if (settings.gradientTo !== undefined && !isHexColor(settings.gradientTo)) return false;
   if (settings.titleColor !== undefined && !isHexColor(settings.titleColor)) return false;
   if (settings.bodyColor !== undefined && !isHexColor(settings.bodyColor)) return false;
+  if (settings.sectionBackgroundColor !== undefined && !isColor(settings.sectionBackgroundColor)) {
+    return false;
+  }
+  if (settings.buttonBackground !== undefined && !isColor(settings.buttonBackground)) return false;
+  if (settings.buttonTextColor !== undefined && !isHexColor(settings.buttonTextColor)) return false;
 
   return true;
 }
 
-import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
+import { getCommittedHomepagePreviewSettings, shouldUsePlaygroundPreviewSettings } from "@/lib/homepage-settings";
 
 export function loadContactPreviewSettings(): ContactPreviewSettings {
-  const committed = getCommittedHomepagePreviewSettings()?.contact;
-  if (committed) return committed;
+  if (!shouldUsePlaygroundPreviewSettings()) {
+    const committed = getCommittedHomepagePreviewSettings()?.contact;
+    if (committed) return normalizeContactPreviewSettings(committed);
+  }
 
   if (typeof window === "undefined") {
     return defaultContactPreviewSettings;

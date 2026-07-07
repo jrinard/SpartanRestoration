@@ -6,7 +6,7 @@ import { ContactModal } from "@/components/contact/ContactModal";
 import { ContactModalProvider } from "@/components/contact/ContactModalContext";
 import { CreativeBar } from "@/components/dev/CreativeBar";
 import { CreativeProvider } from "@/components/dev/CreativeProvider";
-import { ContactV1PreviewProvider } from "@/components/dev/ContactV1PreviewContext";
+import { ContactModalPreviewProvider } from "@/components/dev/ContactModalPreviewProvider";
 import { HashScrollOnNavigate } from "@/components/dev/HashScrollOnNavigate";
 import { PlaygroundSectionsProvider } from "@/components/dev/PlaygroundSectionsProvider";
 
@@ -26,7 +26,7 @@ export function PreviewShell({ children, showControls = false }: PreviewShellPro
 
   return (
     <CreativeProvider>
-      <ContactV1PreviewProvider>
+      <ContactModalPreviewProvider enableContentEditing={showControls}>
         <ContactModalProvider>
           {showControls ? (
             <PlaygroundSectionsProvider>
@@ -39,7 +39,7 @@ export function PreviewShell({ children, showControls = false }: PreviewShellPro
           <ContactModal />
           {!showControls && <HashScrollOnNavigate />}
         </ContactModalProvider>
-      </ContactV1PreviewProvider>
+      </ContactModalPreviewProvider>
     </CreativeProvider>
   );
 }

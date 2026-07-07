@@ -117,8 +117,9 @@ export function clonePlaygroundPageSectionsFromHome(
     group: section.group,
     defaultVariant: section.defaultVariant,
     variant: section.variant,
-    preview: section.preview,
-    hidden: section.hidden,
+    /** Each page opts into preview independently — do not inherit home checkboxes. */
+    preview: false,
+    hidden: false,
     id: createPlaygroundSectionId(section.group),
   }));
 }

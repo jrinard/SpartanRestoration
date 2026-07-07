@@ -12,6 +12,7 @@ import type { HeroV21PreviewSettings } from "@/lib/hero-v21-preview";
 import type { NavBarPreviewSettings } from "@/lib/nav-bar-preview";
 import type { PortfolioPreviewSettings } from "@/lib/portfolio-preview";
 import type { ReviewboxPreviewSettings } from "@/lib/reviewbox-preview";
+import type { ServiceAreaV1PreviewSettings } from "@/lib/service-area-preview";
 import type { ServicesIconsV2PreviewSettings } from "@/lib/services-icons-v2-preview";
 import type { ServicesV1LayoutWidth } from "@/lib/services-v1-preview";
 import type { SpacerInstanceSettings } from "@/lib/spacer-instance-storage";
@@ -39,6 +40,7 @@ export type SectionInstanceSettings = {
   textImages?: TextImagesPreviewSettings;
   servicesV1?: ServicesV1InstanceSettings;
   servicesIconsV2?: ServicesIconsV2PreviewSettings;
+  serviceAreaV1?: ServiceAreaV1PreviewSettings;
   reviewbox?: ReviewboxPreviewSettings;
   portfolio?: PortfolioPreviewSettings;
   contact?: ContactPreviewSettings;

@@ -37,12 +37,14 @@ import {
   type PlaygroundPagesState,
 } from "@/lib/playground-pages";
 import {
+  applyPlaygroundSectionPatch,
   duplicatePlaygroundSection,
   getPlaygroundSectionVariant,
   getPreviewSections,
   getVisiblePlaygroundSections,
   type PlaygroundSectionConfig,
 } from "@/lib/playground-sections";
+import { getPlaygroundModalOnlySections } from "@/lib/playground-modal-sections";
 import { HashScrollOnNavigate } from "@/components/dev/HashScrollOnNavigate";
 
 type PlaygroundSectionsContextValue = {
@@ -61,6 +63,8 @@ type PlaygroundSectionsContextValue = {
   duplicateSection: (sourceId: string) => void;
   previewSections: PlaygroundSectionConfig[];
   visibleSections: PlaygroundSectionConfig[];
+  contactFormEditorOpen: boolean;
+  setContactFormEditorOpen: (open: boolean) => void;
   ready: boolean;
 };
 
@@ -71,6 +75,7 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
     createDefaultPlaygroundPagesState,
   );
   const [ready, setReady] = useState(false);
+  const [contactFormEditorOpen, setContactFormEditorOpen] = useState(false);
 
   useEffect(() => {
     const storedColor = localStorage.getItem(creativeStorageKeys.colorTheme);
@@ -86,6 +91,7 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
   useEffect(() => {
     if (!ready) return;
     savePlaygroundPagesState(pagesState);
+    window.dispatchEvent(new CustomEvent(playgroundNavSyncEvent));
   }, [pagesState, ready]);
 
   const activePage = getActivePlaygroundPage(pagesState);
@@ -143,7 +149,7 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
     setPagesState((current) => {
       const pageSections = getPlaygroundPageSections(current, current.activePageId);
       const nextSections = pageSections.map((section) =>
-        section.id === id ? { ...section, ...patch } : section,
+        section.id === id ? applyPlaygroundSectionPatch(section, patch) : section,
       );
 
       return updatePlaygroundPageSections(current, current.activePageId, nextSections);
@@ -191,6 +197,8 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
     duplicateSection,
     previewSections: getPreviewSections(sections),
     visibleSections: getVisiblePlaygroundSections(sections),
+    contactFormEditorOpen,
+    setContactFormEditorOpen,
     ready,
   };
 

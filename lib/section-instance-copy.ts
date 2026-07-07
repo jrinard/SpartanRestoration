@@ -11,6 +11,7 @@ import { loadNavBarPreviewSettings } from "@/lib/nav-bar-preview-storage";
 import { loadPortfolioPreviewSettings } from "@/lib/portfolio-preview-storage";
 import { loadReviewboxPreviewSettings } from "@/lib/reviewbox-preview-storage";
 import { loadServicesIconsV2PreviewSettings } from "@/lib/services-icons-v2-preview-storage";
+import { loadServiceAreaV1PreviewSettings } from "@/lib/service-area-preview-storage";
 import { loadServicesV1LayoutWidth } from "@/lib/services-v1-preview-storage";
 import type { SectionGroupId } from "@/lib/section-registry";
 import {
@@ -59,6 +60,7 @@ function loadGlobalSettingsForGroup(
       return {
         servicesV1: { layoutWidth: loadServicesV1LayoutWidth() },
         servicesIconsV2: loadServicesIconsV2PreviewSettings(),
+        serviceAreaV1: loadServiceAreaV1PreviewSettings(),
       };
     case "reviewbox":
       return { reviewbox: loadReviewboxPreviewSettings() };

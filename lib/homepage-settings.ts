@@ -18,6 +18,7 @@ import type { TextImagesPreviewSettings } from "@/lib/text-images-preview";
 import type { NavBarPreviewSettings } from "@/lib/nav-bar-preview";
 import type { TopBarPreviewSettings } from "@/lib/top-bar-preview";
 import type { ServicesIconsV2PreviewSettings } from "@/lib/services-icons-v2-preview";
+import type { ServiceAreaV1PreviewSettings } from "@/lib/service-area-preview";
 import type { ServicesV1LayoutWidth } from "@/lib/services-v1-preview";
 
 /** Section-specific preview settings baked into the live homepage. */
@@ -48,6 +49,7 @@ export type HomepagePreviewSettings = {
   textImage?: TextImagePreviewSettings;
   textImages?: TextImagesPreviewSettings;
   servicesIconsV2?: ServicesIconsV2PreviewSettings;
+  serviceAreaV1?: ServiceAreaV1PreviewSettings;
 };
 
 let committedPreviewSettings: HomepagePreviewSettings | null = null;

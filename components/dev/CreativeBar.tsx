@@ -2,12 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { colorThemes, getThemeColors } from "@/lib/color-themes";
 import { fontThemes } from "@/lib/creative-themes";
 import { useCreativeTheme } from "@/components/dev/CreativeProvider";
 import { HomepageLaunchButtons } from "@/components/dev/HomepageLaunchButtons";
 import { PlaygroundPageSelector } from "@/components/dev/PlaygroundPageSelector";
 import { PlaygroundSectionsMenu } from "@/components/dev/PlaygroundSectionsMenu";
+import { useOptionalPlaygroundSections } from "@/components/dev/PlaygroundSectionsProvider";
+import { getPlaygroundModalOnlySections } from "@/lib/playground-modal-sections";
 import type { ColorThemeId } from "@/lib/color-themes";
 import type { FontThemeId } from "@/lib/creative-themes";
 import { cn } from "@/lib/utils";
@@ -26,6 +29,11 @@ export function CreativeBar() {
   const { fontThemeId, setFontThemeId, colorThemeId, setColorThemeId } = useCreativeTheme();
   const swatches = getThemeColors(colorThemeId);
   const isPlayground = pathname === "/playground";
+  const playground = useOptionalPlaygroundSections();
+  const hasContactModalSection =
+    isPlayground &&
+    playground?.ready &&
+    getPlaygroundModalOnlySections(playground.sections).length > 0;
 
   return (
     <div className="sticky top-0 z-50 border-b-4 border-white/10 bg-black text-white">
@@ -69,6 +77,28 @@ export function CreativeBar() {
             <>
               <PlaygroundPageSelector />
               <PlaygroundSectionsMenu />
+              {hasContactModalSection && playground && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    playground.setContactFormEditorOpen(!playground.contactFormEditorOpen)
+                  }
+                  className={cn(
+                    selectClassName,
+                    "inline-flex cursor-pointer items-center gap-1.5 transition-colors",
+                    playground.contactFormEditorOpen &&
+                      "border-accent-purple/60 text-accent-purple",
+                  )}
+                  aria-pressed={playground.contactFormEditorOpen}
+                >
+                  {playground.contactFormEditorOpen ? (
+                    <ChevronDown className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  ) : (
+                    <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  )}
+                  Edit Contact Form
+                </button>
+              )}
             </>
           )}
         </div>

@@ -1,19 +1,32 @@
 "use client";
 
 import { useState } from "react";
+import { PlaygroundModalSectionEditor } from "@/components/dev/PlaygroundModalSectionEditor";
 import { PlaygroundSectionSlot } from "@/components/dev/PlaygroundSectionSlot";
 import { SectionSwitcher } from "@/components/dev/SectionSwitcher";
 import { usePlaygroundSections } from "@/components/dev/PlaygroundSectionsProvider";
 import {
   canDuplicatePlaygroundSection,
+  canIncludePlaygroundSectionInPreview,
   getPlaygroundSectionLabel,
   getPlaygroundSectionVariant,
   reorderVisiblePlaygroundSections,
 } from "@/lib/playground-sections";
+import {
+  getPlaygroundModalOnlySections,
+  getPlaygroundPageLayoutSections,
+} from "@/lib/playground-modal-sections";
 
 export function HomePage() {
-  const { sections, setSections, updateSection, duplicateSection, visibleSections, ready } =
-    usePlaygroundSections();
+  const {
+    sections,
+    setSections,
+    updateSection,
+    duplicateSection,
+    visibleSections,
+    contactFormEditorOpen,
+    ready,
+  } = usePlaygroundSections();
   const [dragSectionId, setDragSectionId] = useState<string | null>(null);
   const [overSectionId, setOverSectionId] = useState<string | null>(null);
 
@@ -21,14 +34,30 @@ export function HomePage() {
     return <main id="main-content" className="playground-sections" />;
   }
 
+  const modalSections = getPlaygroundModalOnlySections(sections);
+  const pageSections = getPlaygroundPageLayoutSections(visibleSections);
+
   return (
     <main id="main-content" className="playground-sections">
-      {visibleSections.map((config) => (
+      {contactFormEditorOpen && modalSections.length > 0 && (
+        <div className="playground-modal-sections">
+          {modalSections.map((config) => (
+            <PlaygroundModalSectionEditor
+              key={config.id}
+              config={config}
+              onVariantChange={(variantId) => updateSection(config.id, { variant: variantId })}
+            />
+          ))}
+        </div>
+      )}
+
+      {pageSections.map((config) => (
         <PlaygroundSectionSlot
           key={config.id}
           sectionId={config.id}
           label={getPlaygroundSectionLabel(sections, config)}
           compactControls={config.group === "spacer" || config.group === "content"}
+          showPreviewToggle={canIncludePlaygroundSectionInPreview(config.group)}
           previewChecked={config.preview === true}
           onPreviewChange={(checked) => updateSection(config.id, { preview: checked })}
           hiddenChecked={config.hidden === true}

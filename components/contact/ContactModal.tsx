@@ -6,6 +6,7 @@ import { useContactModal } from "@/components/contact/ContactModalContext";
 import { useContactV1Preview } from "@/components/dev/ContactV1PreviewContext";
 import { defaultContactPreviewSettings } from "@/lib/contact-preview";
 import { contactContent } from "@/lib/demo-content";
+import { phoneTelHref } from "@/lib/phone";
 import { siteConfig } from "@/config/site";
 
 export function ContactModal() {
@@ -13,6 +14,19 @@ export function ContactModal() {
   const preview = useContactV1Preview();
   const panelRef = useRef<HTMLDivElement>(null);
   const settings = preview?.settings ?? defaultContactPreviewSettings;
+  const content = preview?.getContent({
+    title: contactContent.title,
+    subtext: contactContent.subtext,
+    phonePrefix: contactContent.phonePrefix,
+    phoneLabel: siteConfig.phone,
+    phoneHref: siteConfig.phone ? phoneTelHref(siteConfig.phone) : "",
+  }) ?? {
+    title: contactContent.title,
+    subtext: contactContent.subtext,
+    phonePrefix: contactContent.phonePrefix,
+    phoneLabel: siteConfig.phone,
+    phoneHref: siteConfig.phone ? phoneTelHref(siteConfig.phone) : "",
+  };
 
   useEffect(() => {
     if (!modal?.isOpen) return;
@@ -55,10 +69,10 @@ export function ContactModal() {
         className="contact-modal-panel relative z-10 w-full max-w-lg outline-none"
       >
         <ContactCard
-          title={contactContent.title}
-          subtext={contactContent.subtext}
-          phonePrefix={contactContent.phonePrefix}
-          phone={siteConfig.phone}
+          title={content.title}
+          subtext={content.subtext}
+          phonePrefix={content.phonePrefix}
+          phone={content.phoneLabel}
           formDivider={contactContent.formDivider}
           formIntro={contactContent.formIntro}
           settings={settings}

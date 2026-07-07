@@ -31,6 +31,7 @@ import { ServicesV2 } from "@/components/sections/Services-v2";
 import { ServicesV3 } from "@/components/sections/Services-v3";
 import { ServicesIconsV1 } from "@/components/sections/ServicesIcons-v1";
 import { ServicesIconsV2WithPreview } from "@/components/dev/ServicesIconsV2WithPreview";
+import { ServiceAreaV1WithPreview } from "@/components/dev/ServiceAreaV1WithPreview";
 import { CTAV1 } from "@/components/sections/CTA-v1";
 import { CTAV2 } from "@/components/sections/CTA-v2";
 import { ContactV1 } from "@/components/sections/Contact-v1";
@@ -64,6 +65,8 @@ import {
   servicesIconsV2SeoDescription,
   servicesIconsV2Services,
   servicesIconsV2Cta,
+  serviceAreaV1Heading,
+  serviceAreaV1Locations,
   washingHero,
   washingFlipCards,
   fourFlipCards,
@@ -413,6 +416,15 @@ export const sectionGroups = {
           />
         ),
       },
+      "service-area-v1": {
+        label: "Service-Area",
+        render: () => (
+          <ServiceAreaV1WithPreview
+            heading={serviceAreaV1Heading}
+            locations={[...serviceAreaV1Locations]}
+          />
+        ),
+      },
       "services-v3": {
         label: "Services-v3",
         render: () => <ServicesV3 sections={washingServiceSections} />,
@@ -478,7 +490,7 @@ export const sectionGroups = {
     defaultVariant: "contact-v1",
     variants: {
       "contact-v1": {
-        label: "Contact-v1",
+        label: "Contact-v1 (Modal)",
         render: () => (
           <ContactV1
             title={contactContent.title}

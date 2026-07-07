@@ -212,6 +212,15 @@ body {
   isolation: isolate;
 }
 
+/* Playground — modal-only sections (contact popup, etc.) */
+.playground-modal-section-editor .section-switcher-controls {
+  padding-right: 1.5rem;
+}
+
+.playground-modal-section-editor-body .contact-v1 {
+  scroll-margin-top: 0;
+}
+
 /* Playground — section control bar wraps; reserve space for slot actions on the right */
 .playground-sections .section-switcher-controls {
   padding-right: 10rem;
@@ -2487,6 +2496,19 @@ body {
   overflow: visible;
 }
 
+.service-area-v1-card {
+  width: 100%;
+  max-width: 1040px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: visible;
+}
+
+.service-area-v1-inner-wrap {
+  width: 100%;
+  overflow: visible;
+}
+
 .cta-v1 {
   overflow: visible;
 }
@@ -4085,15 +4107,17 @@ body {
 }
 
 .contact-card-form input,
-.contact-card-form textarea {
-  border-color: color-mix(in srgb, var(--contact-title-color, #ffffff) 18%, transparent);
-  background-color: color-mix(in srgb, var(--contact-title-color, #ffffff) 6%, transparent);
-  color: var(--contact-title-color, #ffffff);
+.contact-card-form textarea,
+.contact-card-form input.contact-card-field,
+.contact-card-form textarea.contact-card-field {
+  border-color: color-mix(in srgb, var(--contact-field-border-color, #0f0f12) 18%, transparent);
+  background-color: var(--contact-field-bg-color, #ffffff);
+  color: var(--contact-field-text-color, #0f0f12);
 }
 
 .contact-card-form input::placeholder,
 .contact-card-form textarea::placeholder {
-  color: color-mix(in srgb, var(--contact-body-color, #a8a8b8) 85%, transparent);
+  color: color-mix(in srgb, var(--contact-field-placeholder-color, #6b7280) 85%, transparent);
 }
 
 .contact-card-form input:focus,

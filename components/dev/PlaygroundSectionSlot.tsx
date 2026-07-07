@@ -7,6 +7,8 @@ type PlaygroundSectionSlotProps = {
   sectionId: string;
   label: string;
   compactControls?: boolean;
+  showPreviewToggle?: boolean;
+  previewHint?: string;
   previewChecked: boolean;
   onPreviewChange: (checked: boolean) => void;
   hiddenChecked: boolean;
@@ -36,6 +38,8 @@ export function PlaygroundSectionSlot({
   sectionId,
   label,
   compactControls = false,
+  showPreviewToggle = true,
+  previewHint,
   previewChecked,
   onPreviewChange,
   hiddenChecked,
@@ -87,16 +91,24 @@ export function PlaygroundSectionSlot({
           </button>
         )}
         <label className="flex cursor-pointer items-center gap-1.5 rounded border border-accent-purple/40 bg-background/90 px-2 py-1.5 backdrop-blur-sm">
-          <input
-            type="checkbox"
-            checked={previewChecked}
-            onChange={(event) => onPreviewChange(event.target.checked)}
-            className="h-3.5 w-3.5 accent-accent-purple"
-            aria-label={`Include ${label} on preview page`}
-          />
-          <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
-            Preview
-          </span>
+          {showPreviewToggle ? (
+            <>
+              <input
+                type="checkbox"
+                checked={previewChecked}
+                onChange={(event) => onPreviewChange(event.target.checked)}
+                className="h-3.5 w-3.5 accent-accent-purple"
+                aria-label={`Include ${label} on preview page`}
+              />
+              <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+                Preview
+              </span>
+            </>
+          ) : (
+            <span className="font-mono text-xs tracking-wide text-accent-purple/80 uppercase">
+              {previewHint ?? "Modal only"}
+            </span>
+          )}
         </label>
         <label className="flex cursor-pointer items-center gap-1.5 rounded border border-neutral-400/50 bg-background/90 px-2 py-1.5 backdrop-blur-sm">
           <input
