@@ -639,7 +639,6 @@
           ]
         }
       },
-      "nav-5de3a6fd": {},
       "spacer-b49ee9b9": {
         "spacer": {
           "stripe": {
@@ -798,24 +797,6 @@
           "navButtonRadiusPx": 4
         }
       },
-      "topBar-869a4698": {
-        "topBar": {
-          "layoutWidth": "contained",
-          "heightPx": 61,
-          "leftWidthPercent": 40,
-          "leftBackgroundColor": "#E2E6E7",
-          "rightBackgroundColor": "#2c73b5",
-          "outerBackgroundColor": "#ffffff",
-          "leftLabelColor": "#000000",
-          "leftAccentColor": "#243348",
-          "rightTextColor": "#ffffff",
-          "leftLabel": "Open Hours",
-          "leftAccent": "24/7",
-          "rightText": "Call now 503-975-9082",
-          "phoneHref": "tel:+15039759082",
-          "textSizePx": 18
-        }
-      },
       "header-da254b86": {
         "headerV3": {
           "from": "#ffffff",
@@ -870,7 +851,6 @@
           ]
         }
       },
-      "nav-74ee4725": {},
       "spacer-d150b6ef": {
         "spacer": {
           "stripe": {
@@ -982,24 +962,6 @@
           "outerBackgroundColor": "#ffffff"
         }
       },
-      "topBar-0ec43a9b": {
-        "topBar": {
-          "layoutWidth": "contained",
-          "heightPx": 61,
-          "leftWidthPercent": 40,
-          "leftBackgroundColor": "#E2E6E7",
-          "rightBackgroundColor": "#2c73b5",
-          "outerBackgroundColor": "#ffffff",
-          "leftLabelColor": "#000000",
-          "leftAccentColor": "#243348",
-          "rightTextColor": "#ffffff",
-          "leftLabel": "Open Hours",
-          "leftAccent": "24/7",
-          "rightText": "Call now 503-975-9082",
-          "phoneHref": "tel:+15039759082",
-          "textSizePx": 18
-        }
-      },
       "header-cdff2dd0": {
         "headerV3": {
           "from": "#ffffff",
@@ -1054,7 +1016,6 @@
           ]
         }
       },
-      "nav-0f6914ad": {},
       "spacer-56a01881": {
         "spacer": {
           "stripe": {
