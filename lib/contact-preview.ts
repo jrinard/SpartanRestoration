@@ -9,6 +9,7 @@ import {
 } from "@/lib/contact-form-fields";
 import type { CSSProperties } from "react";
 import { phoneTelHref } from "@/lib/phone";
+import { siteConfig } from "@/config/site";
 
 export type ContactBackgroundMode = "solid" | "gradient";
 
@@ -45,6 +46,8 @@ export type ContactPreviewSettings = {
   buttonBackground?: string;
   buttonTextColor?: string;
   buttonRadiusPx?: number;
+  /** Inbox for contact form submissions — defaults to siteConfig.email. */
+  leadToEmail?: string;
 };
 
 export const defaultContactButtonSettings = {
@@ -74,6 +77,16 @@ export const contactButtonBorderRadiusOptions = [0, 4, 8, 10, 20, 28] as const;
 
 export function getEffectiveContactFormFields(settings: ContactPreviewSettings): ContactFormField[] {
   return settings.formFields ?? defaultContactFormFields;
+}
+
+export function isValidLeadToEmail(value: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+}
+
+export function getEffectiveLeadToEmail(settings?: ContactPreviewSettings): string {
+  const stored = settings?.leadToEmail?.trim();
+  if (stored && isValidLeadToEmail(stored)) return stored;
+  return siteConfig.email;
 }
 
 export function hasSavedContactFormFields(settings: ContactPreviewSettings): boolean {

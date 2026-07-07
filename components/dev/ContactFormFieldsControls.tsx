@@ -69,6 +69,12 @@ export function ContactFormFieldsControls() {
 
   return (
     <div className="flex w-full basis-full flex-col gap-2 border-t border-accent-purple/20 pt-2">
+      <p className="max-w-3xl font-mono text-[11px] leading-relaxed text-white/45">
+        Lead emails go to{" "}
+        <span className="text-white/60">CONTACT_LEAD_TO</span> (Vercel / .env.local), or{" "}
+        <span className="text-white/60">config/site.ts</span> → email if unset.
+      </p>
+
       <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Form fields</span>
 
       <ul className="flex flex-wrap items-center gap-1.5">
