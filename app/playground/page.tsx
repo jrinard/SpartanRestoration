@@ -15,7 +15,7 @@ export default function PlaygroundPage() {
   return (
     <>
       <TradeDemoJsonLd />
-      <PreviewShell>
+      <PreviewShell showControls>
         <HomePage />
       </PreviewShell>
     </>

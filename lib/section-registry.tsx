@@ -2,13 +2,19 @@ import type { ReactNode } from "react";
 import { HeaderV1 } from "@/components/layout/Header-v1";
 import { HeaderV2 } from "@/components/layout/Header-v2";
 import { HeaderV3 } from "@/components/layout/Header-v3";
+import { TopBarV1 } from "@/components/sections/TopBar-v1";
+import { NavV1 } from "@/components/sections/Nav-v1";
 import { HeroV1 } from "@/components/sections/Hero-v1";
 import { HeroV2 } from "@/components/sections/Hero-v2";
-import { HeroV3 } from "@/components/sections/Hero-v3";
+import { HeroV21 } from "@/components/sections/Hero-v2.1";
+import { HeroBanner } from "@/components/sections/Hero-banner";
 import { HeroWashingV1 } from "@/components/sections/HeroWashing-v1";
 import { HeroWashingV2 } from "@/components/sections/HeroWashing-v2";
 import { HeroVideoV1 } from "@/components/sections/HeroVideo-v1";
 import { FlipCards } from "@/components/sections/FlipCards";
+import { TextIconsV3 } from "@/components/sections/TextIcons-v3";
+import { TextImageV1 } from "@/components/sections/TextImage-v1";
+import { TextImagesV1 } from "@/components/sections/TextImages-v1";
 import { PortfolioV1 } from "@/components/sections/Portfolio-v1";
 import { FeatureTilesV1 } from "@/components/sections/FeatureTiles-v1";
 import { TestimonialsV1 } from "@/components/sections/Testimonials-v1";
@@ -17,12 +23,19 @@ import { NarrativeV1 } from "@/components/sections/Narrative-v1";
 import { TestimonialsV3 } from "@/components/sections/Testimonials-v3";
 import { LogoBarV1 } from "@/components/sections/LogoBar-v1";
 import { LogoBarV2 } from "@/components/sections/LogoBar-v2";
-import { ServicesV3 } from "@/components/sections/Services-v3";
-import { ServicesV1 } from "@/components/sections/Services-v1";
+import { SpacerStripeWithPreview } from "@/components/dev/SpacerStripeWithPreview";
+import { SpacerLineWithPreview } from "@/components/dev/SpacerLineWithPreview";
+import { SpacerFadeWithPreview } from "@/components/dev/SpacerFadeWithPreview";
+import { ServicesV1WithLayout } from "@/components/dev/ServicesV1WithLayout";
 import { ServicesV2 } from "@/components/sections/Services-v2";
+import { ServicesV3 } from "@/components/sections/Services-v3";
 import { ServicesIconsV1 } from "@/components/sections/ServicesIcons-v1";
+import { ServicesIconsV2WithPreview } from "@/components/dev/ServicesIconsV2WithPreview";
+import { ServiceAreaV1WithPreview } from "@/components/dev/ServiceAreaV1WithPreview";
 import { CTAV1 } from "@/components/sections/CTA-v1";
 import { CTAV2 } from "@/components/sections/CTA-v2";
+import { ContactV1 } from "@/components/sections/Contact-v1";
+import { ReviewboxV1 } from "@/components/sections/Reviewbox-v1";
 import { FooterV1 } from "@/components/sections/Footer-v1";
 import { FooterV2 } from "@/components/layout/Footer-v2";
 import { FooterV3 } from "@/components/layout/Footer-v3";
@@ -32,16 +45,28 @@ import {
   detailedServices,
   featureTiles,
   heroDemo,
+  heroV21Demo,
   iconServices,
   narrativeContent,
   partnerLogos,
   projects,
+  brandingProjects,
   simpleServices,
+  servicesV1Cta,
   testimonials,
   ctaContent,
+  ctaV2Content,
+  contactContent,
+  reviewboxContent,
   logoBarHeading,
   servicesIconsHeading,
   servicesIconsSubheading,
+  servicesIconsV2Heading,
+  servicesIconsV2SeoDescription,
+  servicesIconsV2Services,
+  servicesIconsV2Cta,
+  serviceAreaV1Heading,
+  serviceAreaV1Locations,
   washingHero,
   washingFlipCards,
   fourFlipCards,
@@ -51,6 +76,9 @@ import {
   associationHeading,
   associationNetwork,
   washingFooter,
+  spartanTextIconsContent,
+  spartanTextImageContent,
+  spartanTextImagesContent,
 } from "@/lib/demo-content";
 
 export type SectionVariant = {
@@ -65,6 +93,16 @@ export type SectionGroup = {
 };
 
 export const sectionGroups = {
+  topBar: {
+    label: "TopBar",
+    defaultVariant: "top-bar-v1",
+    variants: {
+      "top-bar-v1": {
+        label: "TopBar-v1",
+        render: () => <TopBarV1 />,
+      },
+    },
+  },
   header: {
     label: "Header",
     defaultVariant: "header-v1",
@@ -83,9 +121,19 @@ export const sectionGroups = {
       },
     },
   },
+  nav: {
+    label: "Nav",
+    defaultVariant: "nav-v1",
+    variants: {
+      "nav-v1": {
+        label: "Nav-v1 (Global)",
+        render: () => <NavV1 />,
+      },
+    },
+  },
   hero: {
     label: "Hero",
-    defaultVariant: "hero-v3",
+    defaultVariant: "hero-banner",
     variants: {
       "hero-v1": {
         label: "Hero-v1",
@@ -109,16 +157,21 @@ export const sectionGroups = {
           />
         ),
       },
-      "hero-v3": {
-        label: "Hero-v3",
+      "hero-v2.1": {
+        label: "Hero-v2.1",
         render: () => (
-          <HeroV3
-            lines={heroDemo.lines}
-            subtext={heroDemo.subtext}
-            ctaLabel={heroDemo.ctaLabel}
-            ctaHref={heroDemo.ctaHref}
+          <HeroV21
+            headlineLines={heroV21Demo.headlineLines}
+            subtextLines={heroV21Demo.subtextLines}
+            highlights={heroV21Demo.highlights}
+            ctaLabel={heroV21Demo.ctaLabel}
+            ctaHref={heroV21Demo.ctaHref}
           />
         ),
+      },
+      "hero-banner": {
+        label: "Hero-banner",
+        render: () => <HeroBanner />,
       },
       "heroVideo-v1": {
         label: "HeroVideo-v1",
@@ -161,17 +214,74 @@ export const sectionGroups = {
       },
     },
   },
-  flipCards: {
-    label: "Flip Cards",
-    defaultVariant: "flipCards-v1",
+  content: {
+    label: "Content",
+    defaultVariant: "text-icons-v3",
     variants: {
       "flipCards-v1": {
-        label: "FlipCards-v1 (3)",
+        label: "Flip Cards v1",
         render: () => <FlipCards cards={washingFlipCards} layout="three" />,
       },
       "flipCards-v2": {
-        label: "FlipCards-v2 (4)",
+        label: "Flip Cards v2",
         render: () => <FlipCards cards={fourFlipCards} layout="four" />,
+      },
+      "text-icons-v3": {
+        label: "Text-icons v3",
+        render: () => (
+          <TextIconsV3
+            heading={spartanTextIconsContent.heading}
+            subheading={spartanTextIconsContent.subheading}
+            items={spartanTextIconsContent.items}
+          />
+        ),
+      },
+      "text-image-v1": {
+        label: "Text and Image",
+        render: () => (
+          <TextImageV1
+            eyebrow={spartanTextImageContent.eyebrow}
+            headlineLines={spartanTextImageContent.headlineLines}
+            body={spartanTextImageContent.body}
+            phoneLabel={spartanTextImageContent.phoneLabel}
+            phoneHref={spartanTextImageContent.phoneHref}
+            imageSrc={spartanTextImageContent.imageSrc}
+            imageAlt={spartanTextImageContent.imageAlt}
+            sidebarText={spartanTextImageContent.sidebarText}
+          />
+        ),
+      },
+      "text-images-v1": {
+        label: "Text and Images",
+        render: () => (
+          <TextImagesV1
+            row1={spartanTextImagesContent.row1}
+            row2={spartanTextImagesContent.row2}
+            row3={spartanTextImagesContent.row3}
+          />
+        ),
+      },
+    },
+  },
+  spacer: {
+    label: "Spacer",
+    defaultVariant: "spacer-v1",
+    variants: {
+      "spacer-v1": {
+        label: "Spacer-v1 (Stripe)",
+        render: () => <SpacerStripeWithPreview />,
+      },
+      "spacer-v2": {
+        label: "Spacer-v2 (Gradient)",
+        render: () => <SpacerStripeWithPreview />,
+      },
+      "spacer-v3": {
+        label: "Spacer-v3 (Line)",
+        render: () => <SpacerLineWithPreview />,
+      },
+      "spacer-v4": {
+        label: "Spacer-v4 (Fade)",
+        render: () => <SpacerFadeWithPreview />,
       },
     },
   },
@@ -181,7 +291,9 @@ export const sectionGroups = {
     variants: {
       "portfolio-v1": {
         label: "Portfolio-v1",
-        render: () => <PortfolioV1 projects={projects} ctaHref="/projects" />,
+        render: () => (
+          <PortfolioV1 heading="Projects" projects={projects} brandingProjects={brandingProjects} />
+        ),
       },
     },
   },
@@ -261,16 +373,12 @@ export const sectionGroups = {
   },
   services: {
     label: "Services",
-    defaultVariant: "services-v2",
+    defaultVariant: "services-v1",
     variants: {
       "services-v1": {
         label: "Services-v1",
         render: () => (
-          <ServicesV1
-            heading="What We Do"
-            subheading="Placeholder content — customize per client."
-            services={simpleServices}
-          />
+          <ServicesV1WithLayout heading="Services" services={simpleServices} cta={servicesV1Cta} />
         ),
       },
       "services-v2": {
@@ -297,6 +405,26 @@ export const sectionGroups = {
           />
         ),
       },
+      "servicesIcons-v2": {
+        label: "ServicesIcons-v2",
+        render: () => (
+          <ServicesIconsV2WithPreview
+            heading={servicesIconsV2Heading}
+            seoDescription={servicesIconsV2SeoDescription}
+            services={[...servicesIconsV2Services]}
+            cta={servicesIconsV2Cta}
+          />
+        ),
+      },
+      "service-area-v1": {
+        label: "Service-Area",
+        render: () => (
+          <ServiceAreaV1WithPreview
+            heading={serviceAreaV1Heading}
+            locations={[...serviceAreaV1Locations]}
+          />
+        ),
+      },
       "services-v3": {
         label: "Services-v3",
         render: () => <ServicesV3 sections={washingServiceSections} />,
@@ -311,10 +439,9 @@ export const sectionGroups = {
         label: "CTA-v1",
         render: () => (
           <CTAV1
-            headline={ctaContent.headline}
-            subtext={ctaContent.subtext}
-            ctaLabel={ctaContent.ctaLabel}
-            ctaHref={ctaContent.ctaHref}
+            headlineLines={ctaContent.headlineLines}
+            phoneLabel={ctaContent.phoneLabel}
+            phoneHref={ctaContent.phoneHref}
           />
         ),
       },
@@ -322,10 +449,56 @@ export const sectionGroups = {
         label: "CTA-v2",
         render: () => (
           <CTAV2
-            headline={ctaContent.headline}
-            subtext={ctaContent.subtext}
-            ctaLabel={ctaContent.ctaLabel}
-            ctaHref={ctaContent.ctaHref}
+            headline={ctaV2Content.headline}
+            subtext={ctaV2Content.subtext}
+            ctaLabel={ctaV2Content.ctaLabel}
+            ctaHref={ctaV2Content.ctaHref}
+          />
+        ),
+      },
+    },
+  },
+  reviewbox: {
+    label: "Reviewbox",
+    defaultVariant: "reviewbox-v1",
+    variants: {
+      "reviewbox-v1": {
+        label: "Reviewbox-v1",
+        render: () => (
+          <ReviewboxV1
+            logoSrc={reviewboxContent.logoSrc}
+            logoAlt={reviewboxContent.logoAlt}
+            headlineLines={reviewboxContent.headlineLines}
+            subtext={reviewboxContent.subtext}
+            productLink={reviewboxContent.productLink}
+            bullets={reviewboxContent.bullets}
+            features={reviewboxContent.features}
+            featuresLabel={reviewboxContent.featuresLabel}
+            ctaLabel={reviewboxContent.ctaLabel}
+            ctaSubtext={reviewboxContent.ctaSubtext}
+            ctaHref={reviewboxContent.ctaHref}
+            desktop={reviewboxContent.desktop}
+            leftExample={reviewboxContent.leftExample}
+            rightMessage={reviewboxContent.rightMessage}
+          />
+        ),
+      },
+    },
+  },
+  contact: {
+    label: "Contact",
+    defaultVariant: "contact-v1",
+    variants: {
+      "contact-v1": {
+        label: "Contact-v1 (Modal)",
+        render: () => (
+          <ContactV1
+            title={contactContent.title}
+            subtext={contactContent.subtext}
+            phonePrefix={contactContent.phonePrefix}
+            phone={siteConfig.phone}
+            formDivider={contactContent.formDivider}
+            formIntro={contactContent.formIntro}
           />
         ),
       },
@@ -337,7 +510,7 @@ export const sectionGroups = {
     variants: {
       "footer-v1": {
         label: "Footer-v1",
-        render: () => <FooterV1 description={siteConfig.description} />,
+        render: () => <FooterV1 description={siteConfig.tagline} />,
       },
       "footer-v2": {
         label: "Footer-v2",
@@ -363,8 +536,20 @@ export const sectionGroups = {
 
 export type SectionGroupId = keyof typeof sectionGroups;
 
+const heroVariantAliases: Record<string, string> = {
+  "hero-v3": "hero-banner",
+};
+
+export function resolveSectionVariantId(group: SectionGroupId, variantId: string): string {
+  if (group === "hero") {
+    return heroVariantAliases[variantId] ?? variantId;
+  }
+  return variantId;
+}
+
 export function getSectionVariant(group: SectionGroupId, variantId: string): SectionVariant {
   const section = sectionGroups[group];
   const variants = section.variants as Record<string, SectionVariant>;
-  return variants[variantId] ?? variants[section.defaultVariant];
+  const resolvedId = resolveSectionVariantId(group, variantId);
+  return variants[resolvedId] ?? variants[section.defaultVariant];
 }

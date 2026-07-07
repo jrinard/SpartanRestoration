@@ -1,17 +1,8 @@
 import { statSync } from "fs";
 import path from "path";
 
-function getPublicAssetPath(assetPath: string): string {
+function getPublicFilePath(assetPath: string): string {
   return path.join(process.cwd(), "public", assetPath.replace(/^\//, ""));
-}
-
-export function assetExists(assetPath: string): boolean {
-  try {
-    statSync(getPublicAssetPath(assetPath));
-    return true;
-  } catch {
-    return false;
-  }
 }
 
 /**
@@ -20,9 +11,19 @@ export function assetExists(assetPath: string): boolean {
  */
 export function getAssetUrl(assetPath: string): string {
   try {
-    const { mtimeMs } = statSync(getPublicAssetPath(assetPath));
+    const { mtimeMs } = statSync(getPublicFilePath(assetPath));
     return `${assetPath}?v=${Math.floor(mtimeMs)}`;
   } catch {
     return assetPath;
+  }
+}
+
+/** True when the asset file exists under public/. */
+export function assetExists(assetPath: string): boolean {
+  try {
+    statSync(getPublicFilePath(assetPath));
+    return true;
+  } catch {
+    return false;
   }
 }

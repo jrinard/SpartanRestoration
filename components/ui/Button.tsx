@@ -8,7 +8,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variants = {
   primary:
-    "bg-accent-blue text-white hover:bg-accent-blue-dark shadow-lg shadow-accent-blue/20",
+    "radial-hover-shine bg-accent-blue text-white shadow-lg shadow-accent-blue/20",
   secondary:
     "border border-border bg-surface text-foreground hover:border-accent-blue/40 hover:bg-hover-overlay",
   ghost: "text-muted hover:text-foreground hover:bg-hover-overlay",
@@ -37,7 +37,11 @@ export function Button({
       )}
       {...props}
     >
-      {children}
+      {variant === "primary" ? (
+        <span className="relative z-[1]">{children}</span>
+      ) : (
+        children
+      )}
     </button>
   );
 }

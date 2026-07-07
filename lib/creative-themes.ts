@@ -1,4 +1,4 @@
-export type FontThemeId = "open-sans" | "editorial" | "solid" | "impact";
+export type FontThemeId = "open-sans" | "editorial" | "solid" | "impact" | "poppins";
 
 export type FontTheme = {
   id: FontThemeId;
@@ -32,6 +32,12 @@ export const fontThemes: FontTheme[] = [
     label: "Impact",
     sans: "Arial, Helvetica, system-ui, sans-serif",
     serif: 'Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif',
+  },
+  {
+    id: "poppins",
+    label: "Poppins",
+    sans: "var(--font-poppins)",
+    serif: "var(--font-poppins)",
   },
 ];
 

@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { useContactNavigation } from "@/lib/use-contact-navigation";
 
 type CTAV2Props = {
   headline: string;
@@ -21,6 +24,8 @@ export function CTAV2({
   ctaHref,
   eyebrow = "Next step",
 }: CTAV2Props) {
+  const navigateContact = useContactNavigation();
+
   return (
     <section className="relative overflow-hidden py-28 lg:py-36">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
@@ -50,7 +55,11 @@ export function CTAV2({
                 <p className="text-base leading-relaxed text-muted">{subtext}</p>
               )}
               <div className={subtext ? "mt-8" : ""}>
-                <a href={ctaHref} className="block">
+                <a
+                  href={ctaHref}
+                  className="block"
+                  onClick={(event) => navigateContact(ctaHref, event)}
+                >
                   <Button size="lg" className="w-full">
                     {ctaLabel}
                   </Button>

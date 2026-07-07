@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { getSiteContainedLayoutClassName } from "@/lib/site-layout";
 
 type ContainerProps = {
   children: React.ReactNode;
@@ -12,7 +13,7 @@ export function Container({
   as: Tag = "div",
 }: ContainerProps) {
   return (
-    <Tag className={cn("mx-auto w-full max-w-6xl px-6 lg:px-8", className)}>
+    <Tag className={cn(getSiteContainedLayoutClassName(), className)}>
       {children}
     </Tag>
   );

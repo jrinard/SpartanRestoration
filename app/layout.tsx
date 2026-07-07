@@ -7,8 +7,10 @@ import {
   Lora,
   Source_Sans_3,
   Source_Serif_4,
+  Poppins,
 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { RecaptchaProvider } from "@/components/forms/RecaptchaProvider";
 import { SiteJsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/config/site";
 import { createMetadata } from "@/lib/seo";
@@ -50,6 +52,12 @@ const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
 });
 
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = createMetadata({
   title: pageSeo.home.title,
   description: pageSeo.home.description,
@@ -66,14 +74,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${openSans.variable} ${playfair.variable} ${lora.variable} ${sourceSans.variable} ${sourceSerif.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${openSans.variable} ${playfair.variable} ${lora.variable} ${sourceSans.variable} ${sourceSerif.variable} ${poppins.variable} h-full antialiased`}
     >
       <body
         className="min-h-full bg-background text-foreground"
         suppressHydrationWarning
       >
         <SiteJsonLd />
-        {children}
+        <RecaptchaProvider>
+          {children}
+        </RecaptchaProvider>
         <Analytics />
       </body>
     </html>

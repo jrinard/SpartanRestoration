@@ -60,7 +60,7 @@ export function FooterV4({ hours, serviceLinks, licenses }: FooterV4Props) {
         <div className="footer-washing-grid">
           <div className="footer-washing-company">
             <BrandLogo className="footer-washing-logo" width={160} height={96} />
-            <h3>{siteConfig.name}</h3>
+            <h3 className="sr-only">{siteConfig.name}</h3>
             <address>
               {siteConfig.address || "Vancouver, WA"}
               <br />

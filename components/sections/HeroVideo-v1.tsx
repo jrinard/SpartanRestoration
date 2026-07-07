@@ -16,7 +16,7 @@ type HeroVideoV1Props = {
 export function HeroVideoV1({
   lines,
   subtext,
-  ctaLabel = "Start a Conversation",
+  ctaLabel = "Let's Talk",
   ctaHref = "/contact",
   videoSrc,
   videoPoster,

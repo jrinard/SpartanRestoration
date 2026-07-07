@@ -51,7 +51,7 @@ export const pageSeo = {
   },
   preview: {
     title: "Preview",
-    description: "Internal layout preview — not for public indexing.",
+    description: "Client staging preview — design review only, not indexed by search engines.",
     path: "/preview",
     noIndex: true,
   },
@@ -73,6 +73,19 @@ export const tradeDemoSeo = {
     "Commercial Exterior Cleaning",
     "Organic Growth Management",
     "Gutter Cleaning",
+  ],
+} as const;
+
+/** Spartan Restoration — matches footer v1 NAP, service area, and schema. */
+export const spartanRestorationSeo = {
+  areaServed: ["Vancouver, WA", "Portland, OR", "Pacific Northwest"],
+  serviceTypes: [
+    "Water Damage Restoration",
+    "Fire Damage Restoration",
+    "Mold Damage Remediation",
+    "Emergency Restoration",
+    "Insurance Claim Assistance",
+    "Structural Drying",
   ],
 } as const;
 
