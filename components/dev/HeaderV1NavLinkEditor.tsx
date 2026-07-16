@@ -7,6 +7,7 @@ import { getPlaygroundPageHref } from "@/lib/playground-pages";
 import { useOptionalPlaygroundSections } from "@/components/dev/PlaygroundSectionsProvider";
 import { defaultSiteIconName, resolveSiteIconName, type SiteIconName } from "@/lib/site-icons";
 import { cn } from "@/lib/utils";
+import { devPopoverZIndexClassName } from "@/lib/dev-overlay-controls";
 
 type HeaderV1NavLinkEditorProps = {
   link: HeaderV1NavLink;
@@ -178,7 +179,7 @@ export function HeaderV1NavLinkEditor({
             {iconName}
           </button>
           {iconPickerOpen && (
-            <div className="absolute top-full left-0 z-50 mt-2">
+            <div className={cn("absolute top-full left-0 mt-2", devPopoverZIndexClassName)}>
               <LucideIconPicker
                 value={iconName}
                 onChange={(nextIcon: SiteIconName) => {

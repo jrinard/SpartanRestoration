@@ -25,16 +25,16 @@ export const defaultHeaderV1NavLinks: ReadonlyArray<HeaderV1NavLink> = [
   {
     id: "mold-removal",
     icon: "biohazard",
-    label: "Mold Removal",
+    label: "Mold Remediation",
     pageHref: "/",
     anchorId: "mold-removal",
   },
   {
-    id: "fire-damage-restoration",
-    icon: "flame",
-    label: "Fire Damage Restoration",
+    id: "storm-sewage-cleanup",
+    icon: "cloud-rain",
+    label: "Storm &\nSewage",
     pageHref: "/",
-    anchorId: "fire-damage-restoration",
+    anchorId: "storm",
   },
 ];
 
@@ -45,7 +45,7 @@ export const headerV1ServiceNav: ReadonlyArray<HeaderV1NavItem> = defaultHeaderV
 export const headerV1TextImagesRowAnchorIds = [
   "water-damage-restoration",
   "mold-removal",
-  "fire-damage-restoration",
+  "storm",
 ] as const;
 
 export function createHeaderV1NavLinkId(): string {
@@ -107,6 +107,10 @@ function normalizeHeaderV1NavLink(value: unknown, index: number): HeaderV1NavLin
     anchorId = normalizeHeaderV1AnchorId(record.anchorId);
   } else if (typeof record.href === "string") {
     anchorId = normalizeHeaderV1AnchorId(record.href);
+  }
+
+  if (anchorId === "fire-damage-restoration") {
+    anchorId = headerV1TextImagesRowAnchorIds[2];
   }
 
   const icon =

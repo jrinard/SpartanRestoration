@@ -87,7 +87,7 @@ function TextIconsV3Icon({
   );
 }
 
-/** Four-column icon + text grid — Spartan "Why Choose Us" content block. */
+/** Three-column icon + text grid — Spartan "Why Choose Us" content block. */
 export function TextIconsV3({ heading, subheading, items, className }: TextIconsV3Props) {
   const preview = useTextIconsV3Preview();
   const settings = preview?.settings ?? defaultTextIconsV3PreviewSettings;
@@ -108,7 +108,7 @@ export function TextIconsV3({ heading, subheading, items, className }: TextIcons
         </p>
       </div>
 
-      <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-8">
+      <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-8">
         {items.map((item) => {
           const fallbackIcon = resolveSiteIconName(item.icon, defaultSiteIconName);
 

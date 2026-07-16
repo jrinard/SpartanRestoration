@@ -9,6 +9,7 @@ import {
   type TextImageTextColors,
 } from "@/lib/text-image-preview";
 import type { ButtonPreviewSettings } from "@/lib/button-preview";
+import { headerV1TextImagesRowAnchorIds } from "@/lib/header-v1-nav";
 import { phoneTelHref } from "@/lib/phone";
 
 export type TextImagesRow1Content = {
@@ -81,6 +82,10 @@ export type TextImagesPreviewSettings = TextImageTextColors &
     contentRow3PhoneHref?: string;
     contentRow3ImageSrc?: string;
     contentRow3ImageAlt?: string;
+    /** Scroll anchor id for row 1 (header v1 nav target). */
+    row1AnchorId?: string;
+    row2AnchorId?: string;
+    row3AnchorId?: string;
     /** @deprecated Use contentRow3PhoneLabel */
     contentRow1PhoneLabel?: string;
     /** @deprecated Use contentRow3PhoneHref */
@@ -159,7 +164,46 @@ export const defaultTextImagesPreviewSettings: TextImagesPreviewSettings = {
   row1CopyVerticalAlign: "top",
   row2CopyVerticalAlign: "center",
   row3CopyVerticalAlign: "top",
+  row1AnchorId: headerV1TextImagesRowAnchorIds[0],
+  row2AnchorId: headerV1TextImagesRowAnchorIds[1],
+  row3AnchorId: headerV1TextImagesRowAnchorIds[2],
 };
+
+export function normalizeTextImagesAnchorId(value: unknown, fallback: string): string {
+  if (typeof value !== "string") return fallback;
+
+  const trimmed = value.trim().replace(/^#/, "");
+  if (!trimmed) return fallback;
+
+  if (trimmed === "fire-damage-restoration") {
+    return headerV1TextImagesRowAnchorIds[2];
+  }
+
+  return trimmed;
+}
+
+export function getTextImagesRowAnchorId(
+  settings: TextImagesPreviewSettings,
+  row: 1 | 2 | 3,
+): string {
+  switch (row) {
+    case 1:
+      return normalizeTextImagesAnchorId(
+        settings.row1AnchorId,
+        headerV1TextImagesRowAnchorIds[0],
+      );
+    case 2:
+      return normalizeTextImagesAnchorId(
+        settings.row2AnchorId,
+        headerV1TextImagesRowAnchorIds[1],
+      );
+    case 3:
+      return normalizeTextImagesAnchorId(
+        settings.row3AnchorId,
+        headerV1TextImagesRowAnchorIds[2],
+      );
+  }
+}
 
 export function getDefaultTextImagesColorsForTheme(
   theme: TextImageSectionTheme,

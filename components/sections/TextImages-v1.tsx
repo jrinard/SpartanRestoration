@@ -6,6 +6,7 @@ import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
 import { Images, Pencil } from "lucide-react";
 import { ImageLibraryPicker } from "@/components/dev/ImageLibraryPicker";
+import { TextImagesRowAnchorEditor } from "@/components/dev/TextImagesRowAnchorEditor";
 import {
   parseTextImagesHeadlineDraft,
   useTextImagesPreview,
@@ -16,6 +17,7 @@ import {
   defaultTextImagesPreviewSettings,
   defaultTextImagesV1Theme,
   getTextImagesRowAlignClassName,
+  getTextImagesRowAnchorId,
   pickTextImagesButtonSettings,
   type TextImagesContent,
   type TextImagesRow1Content,
@@ -23,7 +25,6 @@ import {
   type TextImagesStandardRowContent,
 } from "@/lib/text-images-preview";
 import { shouldInvertTextImageForTheme } from "@/lib/text-image-preview";
-import { headerV1TextImagesRowAnchorIds } from "@/lib/header-v1-nav";
 import { getButtonPreviewStyleRecord } from "@/lib/button-preview";
 import {
   devEditButtonClassName,
@@ -179,12 +180,14 @@ function TextImagesMediaBlock({
 
 function TextImagesRow1Block({
   row,
+  rowAnchorId,
   editingEnabled,
   preview,
   settings,
   imageInverted,
 }: {
   row: TextImagesRow1Content;
+  rowAnchorId: string;
   editingEnabled: boolean;
   preview: ReturnType<typeof useTextImagesPreview>;
   settings: typeof defaultTextImagesPreviewSettings;
@@ -194,12 +197,19 @@ function TextImagesRow1Block({
 
   return (
     <div
-      id={headerV1TextImagesRowAnchorIds[0]}
+      id={rowAnchorId}
       className={cn(
-        "text-images-v1-row text-images-v1-row--stack-1 scroll-mt-24 grid gap-10 lg:grid-cols-2 lg:gap-14",
+        "text-images-v1-row text-images-v1-row--stack-1 relative scroll-mt-24 grid gap-10 lg:grid-cols-2 lg:gap-14",
         getTextImagesRowAlignClassName(settings.row1CopyVerticalAlign),
       )}
     >
+      {editingEnabled && preview && (
+        <TextImagesRowAnchorEditor
+          rowNumber={1}
+          anchorId={rowAnchorId}
+          onSave={(anchorId) => preview.setRowAnchorId(1, anchorId)}
+        />
+      )}
       <div className="text-images-v1-copy" style={{ paddingTop: settings.row1CopyPaddingTopPx }}>
         <EditableTextBlock
           editingEnabled={editingEnabled}
@@ -296,11 +306,12 @@ function TextImagesStandardRowBlock({
   onTitleSave,
   onBodySave,
   onImageSelect,
+  onAnchorSave,
   overlapIndex,
 }: {
   row: TextImagesStandardRowContent;
   rowNumber: 2 | 3;
-  rowAnchorId?: string;
+  rowAnchorId: string;
   mediaFirst: boolean;
   editingEnabled: boolean;
   settings: typeof defaultTextImagesPreviewSettings;
@@ -308,13 +319,14 @@ function TextImagesStandardRowBlock({
   onTitleSave?: (value: string) => void;
   onBodySave?: (value: string) => void;
   onImageSelect?: (src: string, alt: string) => void;
+  onAnchorSave?: (anchorId: string) => void;
   overlapIndex?: 1 | 2;
 }) {
   return (
     <div
       id={rowAnchorId}
       className={cn(
-        "text-images-v1-row scroll-mt-24 grid gap-10 lg:grid-cols-2 lg:gap-14",
+        "text-images-v1-row relative scroll-mt-24 grid gap-10 lg:grid-cols-2 lg:gap-14",
         rowNumber === 2 && "text-images-v1-row--stack-2",
         rowNumber === 3 && "text-images-v1-row--stack-3",
         mediaFirst && "text-images-v1-row--media-first",
@@ -323,6 +335,13 @@ function TextImagesStandardRowBlock({
         ),
       )}
     >
+      {editingEnabled && onAnchorSave && (
+        <TextImagesRowAnchorEditor
+          rowNumber={rowNumber}
+          anchorId={rowAnchorId}
+          onSave={onAnchorSave}
+        />
+      )}
       <div
         className="text-images-v1-copy"
         style={{
@@ -384,6 +403,7 @@ function TextImagesStandardRowBlock({
 
 function TextImagesRow3Block({
   row,
+  rowAnchorId,
   editingEnabled,
   preview,
   settings,
@@ -392,6 +412,7 @@ function TextImagesRow3Block({
   imageInverted,
 }: {
   row: TextImagesRow3Content;
+  rowAnchorId: string;
   editingEnabled: boolean;
   preview: ReturnType<typeof useTextImagesPreview>;
   settings: typeof defaultTextImagesPreviewSettings;
@@ -401,12 +422,19 @@ function TextImagesRow3Block({
 }) {
   return (
     <div
-      id={headerV1TextImagesRowAnchorIds[2]}
+      id={rowAnchorId}
       className={cn(
-        "text-images-v1-row text-images-v1-row--stack-3 scroll-mt-24 grid gap-10 lg:grid-cols-2 lg:gap-14",
+        "text-images-v1-row text-images-v1-row--stack-3 relative scroll-mt-24 grid gap-10 lg:grid-cols-2 lg:gap-14",
         getTextImagesRowAlignClassName(settings.row3CopyVerticalAlign),
       )}
     >
+      {editingEnabled && preview && (
+        <TextImagesRowAnchorEditor
+          rowNumber={3}
+          anchorId={rowAnchorId}
+          onSave={(anchorId) => preview.setRowAnchorId(3, anchorId)}
+        />
+      )}
       <div className="text-images-v1-copy" style={{ paddingTop: settings.row3CopyPaddingTopPx }}>
         <EditableTextBlock
           editingEnabled={editingEnabled}
@@ -518,6 +546,7 @@ export function TextImagesV1({ row1, row2, row3, className }: TextImagesV1Props)
         <div className="text-images-v1-rows flex flex-col gap-10 lg:gap-0">
           <TextImagesRow1Block
             row={content.row1}
+            rowAnchorId={getTextImagesRowAnchorId(settings, 1)}
             editingEnabled={editingEnabled}
             preview={preview}
             settings={settings}
@@ -526,7 +555,7 @@ export function TextImagesV1({ row1, row2, row3, className }: TextImagesV1Props)
           <TextImagesStandardRowBlock
             row={content.row2}
             rowNumber={2}
-            rowAnchorId={headerV1TextImagesRowAnchorIds[1]}
+            rowAnchorId={getTextImagesRowAnchorId(settings, 2)}
             mediaFirst
             editingEnabled={editingEnabled}
             settings={settings}
@@ -534,10 +563,12 @@ export function TextImagesV1({ row1, row2, row3, className }: TextImagesV1Props)
             onTitleSave={preview ? (value) => preview.setRow2Title(value) : undefined}
             onBodySave={preview ? (value) => preview.setRow2Body(value) : undefined}
             onImageSelect={preview ? (src, alt) => preview.setRow2Image(src, alt) : undefined}
+            onAnchorSave={preview ? (anchorId) => preview.setRowAnchorId(2, anchorId) : undefined}
             overlapIndex={1}
           />
           <TextImagesRow3Block
             row={content.row3}
+            rowAnchorId={getTextImagesRowAnchorId(settings, 3)}
             editingEnabled={editingEnabled}
             preview={preview}
             settings={settings}

@@ -255,13 +255,6 @@
           "pageHref": "/",
           "anchorId": "mold-removal",
           "icon": "biohazard"
-        },
-        {
-          "id": "nav-link-ab4ebe3b",
-          "label": "Storm & Sewage",
-          "pageHref": "/",
-          "anchorId": "storm",
-          "icon": "droplets"
         }
       ]
     },
@@ -430,13 +423,7 @@
           "phoneButtonVisible": true,
           "contentEyebrow": "Spartan Restoration",
           "contentImageSrc": "/spartan/library/Store.jpg",
-          "contentImageAlt": "Store",
-          "contentHeadlineLines": [
-            "24/7 Emergency Restoration",
-            "You Can Count On Water,",
-            "Storm, Mold & Sewage Damage"
-          ],
-          "contentBody": "Disasters don't wait for business hours and neither do we. Spartan Restoration is a locally trusted emergency restoration company serving Vancouver and the Pacific Northwest. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough."
+          "contentImageAlt": "Store"
         }
       },
       "content-de5e3eab": {
@@ -482,17 +469,12 @@
           "row1CopyVerticalAlign": "center",
           "row2CopyVerticalAlign": "center",
           "row3CopyVerticalAlign": "center",
-          "row1AnchorId": "water-damage-restoration",
-          "row2AnchorId": "mold-removal",
-          "row3AnchorId": "storm",
           "contentRow1ImageSrc": "/spartan/library/tub3.png",
           "contentRow1ImageAlt": "Tub3",
           "contentRow2ImageSrc": "/spartan/library/tub4.jpg",
           "contentRow2ImageAlt": "Tub4",
           "contentRow3ImageSrc": "/spartan/library/Tub5.jpg",
-          "contentRow3ImageAlt": "Tub5",
-          "contentRow2Body": "Mold can trigger allergies, respiratory issues, and lasting damage to building materials when it is left untreated. It spreads quickly often after leaks, floods, or hidden moisture and proper remediation requires containment and experienced handling to help prevent cross-contamination. Spartan Restoration's certified crews assess the full scope, remove affected materials safely, and work to restore healthy indoor air quality for your home or business.",
-          "contentRow3Body": "Pacific Northwest storms can overwhelm roofs, windows, and drainage systems fast and sewage backups create serious health risks that need immediate attention. Spartan Restoration responds around the clock to extract water, dry affected areas, sanitize contaminated spaces, and help protect your property from further damage with clear communication every step of the way."
+          "contentRow3ImageAlt": "Tub5"
         }
       },
       "content-f0f5b202": {
@@ -635,17 +617,17 @@
             },
             {
               "id": "mold-removal",
-              "label": "Mold Remediation",
+              "label": "Mold Removal",
               "pageHref": "/",
               "anchorId": "mold-removal",
               "icon": "biohazard"
             },
             {
-              "id": "nav-link-eec6e33e",
-              "label": "Storm & Sewage",
+              "id": "fire-damage-restoration",
+              "label": "Fire Damage Restoration",
               "pageHref": "/",
-              "anchorId": "storm",
-              "icon": "droplets"
+              "anchorId": "fire-damage-restoration",
+              "icon": "flame"
             }
           ]
         }
@@ -684,13 +666,7 @@
           "phoneButtonVisible": true,
           "contentEyebrow": "Spartan Restoration",
           "contentImageSrc": "/spartan/library/Store.jpg",
-          "contentImageAlt": "Store",
-          "contentHeadlineLines": [
-            "24/7 Emergency Restoration",
-            "You Can Count On Water,",
-            "Storm, Mold & Sewage Damage"
-          ],
-          "contentBody": "Disasters don't wait for business hours and neither do we. Spartan Restoration is a locally trusted emergency restoration company serving Vancouver and the Pacific Northwest. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough."
+          "contentImageAlt": "Store"
         }
       },
       "content-de5e3eab": {
@@ -736,17 +712,12 @@
           "row1CopyVerticalAlign": "center",
           "row2CopyVerticalAlign": "center",
           "row3CopyVerticalAlign": "center",
-          "row1AnchorId": "water-damage-restoration",
-          "row2AnchorId": "mold-removal",
-          "row3AnchorId": "storm",
           "contentRow1ImageSrc": "/spartan/library/tub3.png",
           "contentRow1ImageAlt": "Tub3",
           "contentRow2ImageSrc": "/spartan/library/tub4.jpg",
           "contentRow2ImageAlt": "Tub4",
           "contentRow3ImageSrc": "/spartan/library/Tub5.jpg",
-          "contentRow3ImageAlt": "Tub5",
-          "contentRow2Body": "Mold can trigger allergies, respiratory issues, and lasting damage to building materials when it is left untreated. It spreads quickly often after leaks, floods, or hidden moisture and proper remediation requires containment and experienced handling to help prevent cross-contamination. Spartan Restoration's certified crews assess the full scope, remove affected materials safely, and work to restore healthy indoor air quality for your home or business.",
-          "contentRow3Body": "Pacific Northwest storms can overwhelm roofs, windows, and drainage systems fast and sewage backups create serious health risks that need immediate attention. Spartan Restoration responds around the clock to extract water, dry affected areas, sanitize contaminated spaces, and help protect your property from further damage with clear communication every step of the way."
+          "contentRow3ImageAlt": "Tub5"
         }
       },
       "spacer-6288a5c6": {
@@ -865,9 +836,9 @@
             },
             {
               "id": "fire-damage-restoration",
-              "label": "Storm & Sewage",
+              "label": "Fire Damage Restoration",
               "pageHref": "/",
-              "anchorId": "storm",
+              "anchorId": "fire-damage-restoration",
               "icon": "flame"
             }
           ]
@@ -1027,13 +998,6 @@
               "pageHref": "/",
               "anchorId": "mold-removal",
               "icon": "biohazard"
-            },
-            {
-              "id": "nav-link-ab4ebe3b",
-              "label": "Storm & Sewage",
-              "pageHref": "/",
-              "anchorId": "storm",
-              "icon": "droplets"
             }
           ]
         }

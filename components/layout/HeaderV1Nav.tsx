@@ -25,6 +25,7 @@ import {
 import {
   devEditButtonClassName,
   devEditIconSize,
+  devPopoverZIndexClassName,
 } from "@/lib/dev-overlay-controls";
 import { cn } from "@/lib/utils";
 
@@ -40,12 +41,16 @@ function HeaderV1NavIcon({
   fallbackIcon,
   iconEditingEnabled,
   onIconChange,
+  isPickerOpen,
+  onPickerOpenChange,
 }: {
   itemId: string;
   itemLabel: string;
   fallbackIcon: SiteIconName;
   iconEditingEnabled: boolean;
   onIconChange?: (iconName: SiteIconName) => void;
+  isPickerOpen: boolean;
+  onPickerOpenChange: (open: boolean) => void;
 }) {
   const preview = useHeaderV3Preview();
   const settings = preview?.settings ?? defaultHeaderV3PreviewSettings;
@@ -54,10 +59,14 @@ function HeaderV1NavIcon({
   const iconColor = iconFrame.iconColor || defaultHeaderV1NavIconColor;
   const iconBorderColor = iconFrame.iconBorderColor || iconColor;
   const iconBackgroundColor = iconFrame.iconBackgroundColor || "transparent";
-  const [iconPickerOpen, setIconPickerOpen] = useState(false);
 
   return (
-    <div className="relative shrink-0 justify-self-center">
+    <div
+      className={cn(
+        "relative shrink-0 justify-self-center",
+        isPickerOpen && devPopoverZIndexClassName,
+      )}
+    >
       <IconFrame
         iconName={iconName}
         shape={iconFrame.iconFrameShape}
@@ -72,19 +81,29 @@ function HeaderV1NavIcon({
         <>
           <button
             type="button"
-            onClick={() => setIconPickerOpen((open) => !open)}
-            className={devEditButtonClassName}
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onPickerOpenChange(!isPickerOpen);
+            }}
+            className={cn(devEditButtonClassName, isPickerOpen && devPopoverZIndexClassName)}
             aria-label={`Change icon for ${itemLabel.replace("\n", " ")}`}
-            aria-expanded={iconPickerOpen}
+            aria-expanded={isPickerOpen}
           >
             <Shuffle size={devEditIconSize} strokeWidth={2} />
           </button>
-          {iconPickerOpen && (
-            <div className="absolute top-8 left-1/2 z-30 -translate-x-1/2">
+          {isPickerOpen && (
+            <div
+              className={cn(
+                "absolute top-8 left-1/2 -translate-x-1/2",
+                devPopoverZIndexClassName,
+              )}
+              onClick={(event) => event.stopPropagation()}
+            >
               <LucideIconPicker
                 value={iconName}
                 onChange={onIconChange}
-                onClose={() => setIconPickerOpen(false)}
+                onClose={() => onPickerOpenChange(false)}
               />
             </div>
           )}
@@ -109,13 +128,15 @@ export function HeaderV1Nav({
   const navLinks = preview
     ? settings.headerV1NavLinks
     : links ?? defaultHeaderV1NavLinks;
+  const [openPickerId, setOpenPickerId] = useState<string | null>(null);
 
   if (navLinks.length === 0) return null;
 
   return (
     <nav
       className={cn(
-        "header-v1-nav header-v3-nav grid grid-flow-col auto-cols-[10rem] grid-rows-[auto_auto] justify-end gap-x-2 gap-y-1.5 sm:auto-cols-[11rem] lg:gap-3",
+        "header-v1-nav header-v3-nav relative grid grid-flow-col auto-cols-[10rem] grid-rows-[auto_auto] justify-end gap-x-2 gap-y-1.5 overflow-visible sm:auto-cols-[11rem] lg:gap-3",
+        openPickerId && devPopoverZIndexClassName,
         className,
       )}
       aria-label={ariaLabel}
@@ -143,6 +164,8 @@ export function HeaderV1Nav({
               onIconChange={
                 preview ? (nextIcon) => preview.setNavItemIcon(link.id, nextIcon) : undefined
               }
+              isPickerOpen={openPickerId === link.id}
+              onPickerOpenChange={(open) => setOpenPickerId(open ? link.id : null)}
             />
             <span
               className={cn(
