@@ -251,13 +251,13 @@
         },
         {
           "id": "mold-removal",
-          "label": "Mold Removal",
+          "label": "Mold Remediation",
           "pageHref": "/",
           "anchorId": "mold-removal",
           "icon": "biohazard"
         },
         {
-          "id": "nav-link-ab4ebe3b",
+          "id": "nav-link-eec6e33e",
           "label": "Storm & Sewage",
           "pageHref": "/",
           "anchorId": "storm",
@@ -435,8 +435,7 @@
             "24/7 Emergency Restoration",
             "You Can Count On Water,",
             "Storm, Mold & Sewage Damage"
-          ],
-          "contentBody": "Disasters don't wait for business hours and neither do we. Spartan Restoration is a locally trusted emergency restoration company serving Vancouver and the Pacific Northwest. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough."
+          ]
         }
       },
       "content-de5e3eab": {
@@ -689,8 +688,7 @@
             "24/7 Emergency Restoration",
             "You Can Count On Water,",
             "Storm, Mold & Sewage Damage"
-          ],
-          "contentBody": "Disasters don't wait for business hours and neither do we. Spartan Restoration is a locally trusted emergency restoration company serving Vancouver and the Pacific Northwest. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough."
+          ]
         }
       },
       "content-de5e3eab": {
@@ -865,9 +863,9 @@
             },
             {
               "id": "fire-damage-restoration",
-              "label": "Storm & Sewage",
+              "label": "Fire Damage Restoration",
               "pageHref": "/",
-              "anchorId": "storm",
+              "anchorId": "fire-damage-restoration",
               "icon": "flame"
             }
           ]
@@ -1027,13 +1025,6 @@
               "pageHref": "/",
               "anchorId": "mold-removal",
               "icon": "biohazard"
-            },
-            {
-              "id": "nav-link-ab4ebe3b",
-              "label": "Storm & Sewage",
-              "pageHref": "/",
-              "anchorId": "storm",
-              "icon": "droplets"
             }
           ]
         }

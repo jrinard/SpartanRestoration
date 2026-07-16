@@ -810,13 +810,6 @@ export const spartanTextIconsContent = {
         "We keep you informed from the first visit through completion, with work built to last, not just look good on day one.",
     },
     {
-      id: "why-estimates",
-      icon: "file-text",
-      title: "Honest, Competitive Estimates",
-      description:
-        "Clear pricing up front, no surprises. Have a written quote from another licensed contractor? Talk to us. We'll work to earn your business.",
-    },
-    {
       id: "why-licensed",
       icon: "shield-check",
       title: "Licensed, Insured & Certified",
@@ -860,19 +853,19 @@ export const spartanTextImagesContent = {
     imageAlt: "Spartan Restoration crew responding to water damage",
   },
   row2: {
-    title: "Mold Removal",
+    title: "Mold Remediation",
     body:
       "Mold can trigger allergies, respiratory issues, and lasting damage to building materials when it is left untreated. It spreads quickly—often after leaks, floods, or hidden moisture—and proper remediation requires containment and experienced handling to help prevent cross-contamination. Spartan Restoration's certified crews assess the full scope, remove affected materials safely, and work to restore healthy indoor air quality for your home or business.",
     imageSrc: spartanSampleContentImageWhite,
     imageAlt: "Professional mold remediation on a residential property",
   },
   row3: {
-    title: "Fire Damage Restoration",
+    title: "Storm & Sewage Cleanup",
     body:
-      "A fire in your home or business is overwhelming. Beyond what burns, smoke, ash, and odor can keep causing harm until the structure is properly cleaned and restored. Spartan Restoration responds around the clock to secure the property, address smoke and soot damage, and bring your space back with care and minimal disruption.",
+      "Pacific Northwest storms can overwhelm roofs, windows, and drainage systems fast—and sewage backups create serious health risks that need immediate attention. Spartan Restoration responds around the clock to extract water, dry affected areas, sanitize contaminated spaces, and help protect your property from further damage with clear communication every step of the way.",
     phoneLabel: siteConfig.phone,
     phoneHref: phoneTelHref(siteConfig.phone),
     imageSrc: spartanSampleContentImageWhite,
-    imageAlt: "Fire and smoke damage restoration work in progress",
+    imageAlt: "Storm and sewage damage cleanup in progress",
   },
 };

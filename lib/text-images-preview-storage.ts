@@ -15,9 +15,11 @@ import {
 import {
   defaultTextImagesPreviewSettings,
   isTextImagesCopyVerticalAlign,
+  normalizeTextImagesAnchorId,
   snapTextImagesCopyPaddingTopPx,
   type TextImagesPreviewSettings,
 } from "@/lib/text-images-preview";
+import { headerV1TextImagesRowAnchorIds } from "@/lib/header-v1-nav";
 
 export const textImagesPreviewStorageKey = "lifespring-text-images-preview";
 
@@ -155,6 +157,18 @@ export function normalizeTextImagesPreviewSettings(
     contentRow3PhoneHref: normalizePhoneHref(value.contentRow3PhoneHref ?? value.contentRow1PhoneHref),
     contentRow3ImageSrc: normalizeImageLibrarySrc(value.contentRow3ImageSrc),
     contentRow3ImageAlt: normalizeContentOverrideString(value.contentRow3ImageAlt),
+    row1AnchorId: normalizeTextImagesAnchorId(
+      value.row1AnchorId,
+      headerV1TextImagesRowAnchorIds[0],
+    ),
+    row2AnchorId: normalizeTextImagesAnchorId(
+      value.row2AnchorId,
+      headerV1TextImagesRowAnchorIds[1],
+    ),
+    row3AnchorId: normalizeTextImagesAnchorId(
+      value.row3AnchorId,
+      headerV1TextImagesRowAnchorIds[2],
+    ),
   };
 }
 

@@ -2036,6 +2036,11 @@ body {
 
 .header-v1 {
   border-bottom: none;
+  overflow: visible;
+}
+
+.header-v1-nav {
+  overflow: visible;
 }
 
 .nav-bar-v1-inner {

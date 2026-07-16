@@ -50,6 +50,7 @@ type TextImagesPreviewContextValue = {
   setRow3Body: (value: string) => void;
   setRow3Phone: (label: string, href?: string) => void;
   setRow3Image: (src: string, alt: string) => void;
+  setRowAnchorId: (row: 1 | 2 | 3, anchorId: string) => void;
 };
 
 const TextImagesPreviewContext = createContext<TextImagesPreviewContextValue | null>(null);
@@ -206,6 +207,21 @@ export function TextImagesPreviewProvider({
     [enableContentEditing, settings, setSettings],
   );
 
+  const setRowAnchorId = useCallback(
+    (row: 1 | 2 | 3, anchorId: string) => {
+      if (!enableContentEditing) return;
+      const normalized = anchorId.trim().replace(/^#/, "");
+      const patch =
+        row === 1
+          ? { row1AnchorId: normalized }
+          : row === 2
+            ? { row2AnchorId: normalized }
+            : { row3AnchorId: normalized };
+      setSettings({ ...settings, ...patch });
+    },
+    [enableContentEditing, settings, setSettings],
+  );
+
   return (
     <TextImagesPreviewContext.Provider
       value={{
@@ -224,6 +240,7 @@ export function TextImagesPreviewProvider({
         setRow3Body,
         setRow3Phone,
         setRow3Image,
+        setRowAnchorId,
       }}
     >
       {children}

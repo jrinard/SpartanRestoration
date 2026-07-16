@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { SiteIcon } from "@/components/icons/SiteIcon";
 import { siteIconCatalog, siteIconNames, type SiteIconName } from "@/lib/site-icons";
 import { cn } from "@/lib/utils";
+import { devPopoverZIndexClassName } from "@/lib/dev-overlay-controls";
 
 type LucideIconPickerProps = {
   value: SiteIconName;
@@ -39,7 +40,8 @@ export function LucideIconPicker({ value, onChange, onClose, className }: Lucide
     <div
       ref={panelRef}
       className={cn(
-        "z-30 w-56 rounded-md border border-accent-purple/50 bg-background/95 p-2 shadow-lg backdrop-blur-sm",
+        devPopoverZIndexClassName,
+        "w-56 rounded-md border border-accent-purple/50 bg-background/95 p-2 shadow-lg backdrop-blur-sm",
         className,
       )}
       role="dialog"

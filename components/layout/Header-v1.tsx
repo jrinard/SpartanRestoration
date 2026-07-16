@@ -45,7 +45,7 @@ export function HeaderV1({ className }: HeaderV1Props) {
   return (
     <header
       className={cn(
-        "header-v1 relative",
+        "header-v1 relative overflow-visible",
         !isCustom && "bg-background/80 backdrop-blur-sm",
         isCustom && "header-custom",
         logoOverflow && "header-logo-overflow",

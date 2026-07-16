@@ -6,8 +6,11 @@ const devOverlayControlBaseClassName =
 /** Circular edit / shuffle buttons on section content in the playground. */
 export const devEditButtonClassName = cn(
   devOverlayControlBaseClassName,
-  "absolute -top-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full",
+  "absolute -top-1 -right-1 z-20 flex h-7 w-7 items-center justify-center rounded-full",
 );
+
+/** Popovers (icon pickers, anchor editors) that must sit above section chrome. */
+export const devPopoverZIndexClassName = "z-[200]";
 
 /** Image library pill on section media blocks. */
 export const devLibraryPillClassName = cn(
