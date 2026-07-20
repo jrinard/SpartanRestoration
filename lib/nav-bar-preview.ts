@@ -3,10 +3,13 @@ import { parseNavHref } from "@/lib/scroll-to-hash";
 
 export type NavBarLayoutWidth = "contained" | "full";
 
+export type NavBarLinkTarget = "_self" | "_blank";
+
 export type NavBarLink = {
   id: string;
   label: string;
   href: string;
+  target?: NavBarLinkTarget;
 };
 
 export type NavBarPreviewSettings = {
@@ -44,7 +47,26 @@ export function createNavBarLinkId(): string {
   return `nav-link-${Date.now().toString(36)}`;
 }
 
+export function isExternalNavHref(href: string): boolean {
+  const trimmed = href.trim();
+  return /^https?:\/\//i.test(trimmed) || trimmed.startsWith("//");
+}
+
+/** Sentinel value for the nav link editor Page dropdown. */
+export const navBarExternalPageValue = "__external__";
+
+export function resolveNavBarLinkTarget(link: NavBarLink): NavBarLinkTarget | undefined {
+  if (link.target === "_blank" || link.target === "_self") {
+    return link.target;
+  }
+  return undefined;
+}
+
 export function parseNavBarLinkHref(href: string): { pageHref: string; anchorId: string } {
+  if (isExternalNavHref(href)) {
+    return { pageHref: href.trim(), anchorId: "" };
+  }
+
   const { pathname, hash } = parseNavHref(href);
   return {
     pageHref: pathname || "/",
@@ -54,6 +76,9 @@ export function parseNavBarLinkHref(href: string): { pageHref: string; anchorId:
 
 export function buildNavBarLinkHref(pageHref: string, anchorId: string): string {
   const page = pageHref.trim() || "/";
+  if (isExternalNavHref(page)) {
+    return page;
+  }
   const anchor = anchorId.trim().replace(/^#/, "");
   if (!anchor) return page;
   if (page === "/") return `#${anchor}`;
@@ -68,6 +93,7 @@ export function createNavBarLink(partial: Partial<NavBarLink> = {}, index = 0): 
     id: partial.id ?? createNavBarLinkId(),
     label: partial.label?.trim() || `Link ${index + 1}`,
     href: partial.href?.trim() || buildNavBarLinkHref(pageHref, anchorId),
+    target: partial.target,
   };
 }
 

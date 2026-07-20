@@ -34,7 +34,7 @@ export const siteConfig = {
     brandTitleLines: ["Spartan", "Restoration"],
   },
   social: {
-    facebook: "#",
+    facebook: "https://www.facebook.com/profile.php?id=61575772472164",
     instagram: "#",
     linkedin: "#",
     twitter: "#",

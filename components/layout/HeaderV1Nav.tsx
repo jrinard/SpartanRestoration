@@ -9,7 +9,9 @@ import { IconFrame } from "@/components/icons/IconFrame";
 import {
   defaultHeaderV1NavLinks,
   getHeaderV1NavLinkHref,
+  isExternalNavHref,
   resolveHeaderV1NavLinkIcon,
+  resolveHeaderV1NavLinkTarget,
   type HeaderV1NavLink,
 } from "@/lib/header-v1-nav";
 import {
@@ -144,18 +146,16 @@ export function HeaderV1Nav({
       {navLinks.map((link) => {
         const fallbackIcon = resolveHeaderV1NavLinkIcon(link);
         const itemHref = getHeaderV1NavLinkHref(link);
-        const resolvedHref = resolveHref(itemHref);
-
-        return (
-          <Link
-            key={link.id}
-            href={resolvedHref}
-            onClick={(event) => handleHashNavigation(itemHref, event)}
-            className={cn(
-              "header-v1-nav-item group contents text-center no-underline",
-              !isCustom && "text-muted transition-colors hover:text-foreground",
-            )}
-          >
+        const isExternal = isExternalNavHref(link.pageHref);
+        const resolvedHref = isExternal ? itemHref : resolveHref(itemHref);
+        const target = resolveHeaderV1NavLinkTarget(link);
+        const opensNewTab = target === "_blank";
+        const linkClassName = cn(
+          "header-v1-nav-item group contents text-center no-underline",
+          !isCustom && "text-muted transition-colors hover:text-foreground",
+        );
+        const linkChildren = (
+          <>
             <HeaderV1NavIcon
               itemId={link.id}
               itemLabel={link.label}
@@ -182,6 +182,33 @@ export function HeaderV1Nav({
                 {link.label}
               </span>
             </span>
+          </>
+        );
+
+        if (isExternal) {
+          return (
+            <a
+              key={link.id}
+              href={resolvedHref}
+              target={opensNewTab ? "_blank" : undefined}
+              rel={opensNewTab ? "noopener noreferrer" : undefined}
+              className={linkClassName}
+            >
+              {linkChildren}
+            </a>
+          );
+        }
+
+        return (
+          <Link
+            key={link.id}
+            href={resolvedHref}
+            target={opensNewTab ? "_blank" : undefined}
+            rel={opensNewTab ? "noopener noreferrer" : undefined}
+            onClick={(event) => handleHashNavigation(itemHref, event)}
+            className={linkClassName}
+          >
+            {linkChildren}
           </Link>
         );
       })}

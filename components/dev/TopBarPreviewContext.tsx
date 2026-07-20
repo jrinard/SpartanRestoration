@@ -16,6 +16,7 @@ import {
   type TopBarPreviewSettings,
 } from "@/lib/top-bar-preview";
 import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
+import { TopBarSocialLinksControls } from "@/components/dev/TopBarSocialLinksControls";
 import {
   loadTopBarPreviewSettings,
   normalizeTopBarPreviewSettings,
@@ -80,6 +81,7 @@ export function TopBarPreviewControls() {
   };
 
   return (
+    <>
     <div className="contents">
       <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Width</span>
@@ -159,6 +161,16 @@ export function TopBarPreviewControls() {
         />
       </label>
       <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Social</span>
+        <input
+          type="color"
+          value={context.settings.socialIconColor}
+          onChange={(event) => update({ socialIconColor: event.target.value })}
+          className={colorInputClassName}
+          aria-label="Top bar social icon color"
+        />
+      </label>
+      <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Text</span>
         <select
           value={context.settings.textSizePx}
@@ -182,5 +194,10 @@ export function TopBarPreviewControls() {
         Reset
       </button>
     </div>
+    <TopBarSocialLinksControls
+      links={context.settings.socialLinks}
+      onChange={(socialLinks) => update({ socialLinks })}
+    />
+    </>
   );
 }

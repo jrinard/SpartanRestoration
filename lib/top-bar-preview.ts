@@ -1,5 +1,9 @@
 import { siteConfig } from "@/config/site";
 import { getSiteLayoutWidthClassName } from "@/lib/site-layout";
+import {
+  defaultTopBarSocialLinks,
+  type TopBarSocialLink,
+} from "@/lib/top-bar-social";
 
 export type TopBarLayoutWidth = "contained" | "full";
 
@@ -21,11 +25,17 @@ export type TopBarPreviewSettings = {
   phoneHref: string;
   /** Shared font size for left and right top bar text (px). */
   textSizePx: number;
+  /** Brand social icons pinned to the right edge of the bar. */
+  socialLinks: TopBarSocialLink[];
+  socialIconColor: string;
+  /** Distance from the right viewport edge (px). */
+  socialLinksInsetPx: number;
 };
 
 export const defaultTopBarHeightPx = 61;
 export const defaultTopBarLeftWidthPercent = 40;
 export const defaultTopBarTextSizePx = 18;
+export const defaultTopBarSocialLinksInsetPx = 20;
 
 export const topBarTextSizeOptions = [14, 16, 18, 20, 22, 24] as const;
 
@@ -54,6 +64,9 @@ export const defaultTopBarPreviewSettings: TopBarPreviewSettings = {
   rightText: `Call now ${siteConfig.phone}`,
   phoneHref: phoneTelHref(siteConfig.phone),
   textSizePx: defaultTopBarTextSizePx,
+  socialLinks: [...defaultTopBarSocialLinks],
+  socialIconColor: "#ffffff",
+  socialLinksInsetPx: defaultTopBarSocialLinksInsetPx,
 };
 
 export function getTopBarLayoutWidthClassName(layoutWidth: TopBarLayoutWidth): string {

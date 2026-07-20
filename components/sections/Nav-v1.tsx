@@ -12,6 +12,8 @@ import { isContactHref } from "@/lib/contact-modal";
 import {
   defaultNavBarPreviewSettings,
   getNavBarLayoutWidthClassName,
+  isExternalNavHref,
+  resolveNavBarLinkTarget,
   type NavBarLink,
 } from "@/lib/nav-bar-preview";
 import { cn } from "@/lib/utils";
@@ -56,26 +58,50 @@ function NavBarV1Links({
 }: NavBarV1LinksProps) {
   return (
     <ul className={className}>
-      {items.map((item) => (
-        <li key={item.id} className="nav-bar-v1-item">
-          <Link
-            href={resolveHref(item.href)}
-            onClick={(event) => {
-              if (contactModal && isContactHref(item.href)) {
-                event.preventDefault();
-                contactModal.openContact();
+      {items.map((item) => {
+        const isExternal = isExternalNavHref(item.href);
+        const opensNewTab = resolveNavBarLinkTarget(item) === "_blank";
+        const linkClassNameValue = cn("nav-bar-v1-link", linkClassName);
+
+        if (isExternal) {
+          return (
+            <li key={item.id} className="nav-bar-v1-item">
+              <a
+                href={item.href}
+                target={opensNewTab ? "_blank" : undefined}
+                rel={opensNewTab ? "noopener noreferrer" : undefined}
+                onClick={() => onNavigate?.()}
+                className={linkClassNameValue}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        }
+
+        return (
+          <li key={item.id} className="nav-bar-v1-item">
+            <Link
+              href={resolveHref(item.href)}
+              target={opensNewTab ? "_blank" : undefined}
+              rel={opensNewTab ? "noopener noreferrer" : undefined}
+              onClick={(event) => {
+                if (contactModal && isContactHref(item.href)) {
+                  event.preventDefault();
+                  contactModal.openContact();
+                  onNavigate?.();
+                  return;
+                }
+                handleHashNavigation(item.href, event);
                 onNavigate?.();
-                return;
-              }
-              handleHashNavigation(item.href, event);
-              onNavigate?.();
-            }}
-            className={cn("nav-bar-v1-link", linkClassName)}
-          >
-            {item.label}
-          </Link>
-        </li>
-      ))}
+              }}
+              className={linkClassNameValue}
+            >
+              {item.label}
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   );
 }

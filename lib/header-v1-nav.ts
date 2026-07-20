@@ -1,11 +1,15 @@
 import { defaultSiteIconName, resolveSiteIconName, type SiteIconName } from "@/lib/site-icons";
 
+export type HeaderV1NavLinkTarget = "_self" | "_blank";
+
 export type HeaderV1NavLink = {
   id: string;
   label: string;
   pageHref: string;
   anchorId: string;
   icon?: SiteIconName;
+  /** Where to open the link — use `_blank` for external sites. */
+  target?: HeaderV1NavLinkTarget;
 };
 
 /** @deprecated Use HeaderV1NavLink */
@@ -55,6 +59,23 @@ export function createHeaderV1NavLinkId(): string {
   return `nav-link-${Date.now().toString(36)}`;
 }
 
+export function isExternalNavHref(href: string): boolean {
+  const trimmed = href.trim();
+  return /^https?:\/\//i.test(trimmed) || trimmed.startsWith("//");
+}
+
+/** Sentinel value for the nav link editor Page dropdown. */
+export const headerV1NavExternalPageValue = "__external__";
+
+export function resolveHeaderV1NavLinkTarget(
+  link: HeaderV1NavLink,
+): HeaderV1NavLinkTarget | undefined {
+  if (link.target === "_blank" || link.target === "_self") {
+    return link.target;
+  }
+  return undefined;
+}
+
 export function createHeaderV1NavLink(
   partial: Partial<HeaderV1NavLink> = {},
   index = 0,
@@ -65,6 +86,7 @@ export function createHeaderV1NavLink(
     pageHref: partial.pageHref?.trim() || "/",
     anchorId: partial.anchorId?.trim().replace(/^#/, "") ?? "",
     icon: partial.icon,
+    target: partial.target,
   };
 }
 
@@ -74,6 +96,9 @@ export function normalizeHeaderV1AnchorId(value: string): string {
 
 export function getHeaderV1NavLinkHref(link: HeaderV1NavLink): string {
   const page = link.pageHref.trim() || "/";
+  if (isExternalNavHref(page)) {
+    return page;
+  }
   const anchor = normalizeHeaderV1AnchorId(link.anchorId);
   return anchor ? `${page}#${anchor}` : page;
 }
@@ -118,7 +143,18 @@ function normalizeHeaderV1NavLink(value: unknown, index: number): HeaderV1NavLin
       ? resolveSiteIconName(record.icon, defaultSiteIconName)
       : undefined;
 
-  return { id, label, pageHref, anchorId, icon };
+  const isExternal = isExternalNavHref(pageHref);
+  const target =
+    record.target === "_blank" || record.target === "_self" ? record.target : undefined;
+
+  return {
+    id,
+    label,
+    pageHref,
+    anchorId: isExternal ? "" : anchorId,
+    icon,
+    target,
+  };
 }
 
 type LegacyHeaderV1NavSettings = {

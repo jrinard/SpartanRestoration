@@ -1961,6 +1961,15 @@ body {
 
 .top-bar-segment--right {
   flex: 0 0 var(--top-bar-right-width, 60%);
+  padding-right: var(--top-bar-social-inset, 20px);
+}
+
+.top-bar-right-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
 }
 
 .top-bar-text {
@@ -1978,6 +1987,10 @@ body {
 }
 
 .top-bar-call {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  justify-self: center;
+  text-align: center;
   font-size: var(--top-bar-text-size, 18px);
   font-weight: 600;
   line-height: 1.25;
@@ -1988,6 +2001,36 @@ body {
 
 .top-bar-call:hover {
   text-decoration: underline;
+}
+
+.top-bar-social {
+  display: flex;
+  flex-shrink: 0;
+  grid-column: 2;
+  grid-row: 1;
+  align-items: center;
+  gap: 0.5rem;
+  justify-self: end;
+  color: var(--top-bar-social-color, #ffffff);
+}
+
+.top-bar-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  opacity: 0.92;
+  transition: opacity 150ms ease;
+}
+
+.top-bar-social-link:hover {
+  opacity: 1;
+}
+
+.top-bar-social-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  fill: currentColor;
 }
 
 @media (max-width: 767px) {
