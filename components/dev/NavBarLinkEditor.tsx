@@ -6,8 +6,11 @@ import { useOptionalPlaygroundSections } from "@/components/dev/PlaygroundSectio
 import { CONTACT_PAGE_HREF } from "@/lib/contact-modal";
 import {
   buildNavBarLinkHref,
+  isExternalNavHref,
+  navBarExternalPageValue,
   parseNavBarLinkHref,
   type NavBarLink,
+  type NavBarLinkTarget,
 } from "@/lib/nav-bar-preview";
 import {
   getPlaygroundNavPageOptions,
@@ -59,7 +62,14 @@ export function NavBarLinkEditor({
     [playground?.ready, playground?.pages],
   );
 
+  const isExternalLink = isExternalNavHref(draft.pageHref);
   const isContactTarget = isContactPopupPageHref(draft.pageHref);
+  const pageSelectValue = isExternalLink
+    ? navBarExternalPageValue
+    : pageOptions.some((option) => option.href === draft.pageHref)
+      ? draft.pageHref
+      : draft.pageHref || "/";
+  const linkTarget = draft.target ?? "_self";
 
   useEffect(() => {
     setDraft(toDraft(link));
@@ -85,12 +95,16 @@ export function NavBarLinkEditor({
   }, [onClose]);
 
   function save() {
+    const pageHref = draft.pageHref.trim() || "/";
+    const external = isExternalNavHref(pageHref);
+
     onSave({
       ...draft,
       label: draft.label.trim() || `Link ${linkIndex + 1}`,
-      href: isContactPopupPageHref(draft.pageHref)
+      href: isContactPopupPageHref(pageHref)
         ? CONTACT_PAGE_HREF
-        : buildNavBarLinkHref(draft.pageHref, draft.anchorId),
+        : buildNavBarLinkHref(pageHref, external ? "" : draft.anchorId),
+      target: draft.target,
     });
     onClose();
   }
@@ -129,13 +143,23 @@ export function NavBarLinkEditor({
               Page
             </span>
             <select
-              value={draft.pageHref}
+              value={pageSelectValue}
               onChange={(event) => {
-                const pageHref = event.target.value;
+                const nextValue = event.target.value;
+                if (nextValue === navBarExternalPageValue) {
+                  setDraft((current) => ({
+                    ...current,
+                    pageHref: isExternalNavHref(current.pageHref) ? current.pageHref : "https://",
+                    anchorId: "",
+                    target: current.target ?? "_blank",
+                  }));
+                  return;
+                }
+
                 setDraft((current) => ({
                   ...current,
-                  pageHref,
-                  anchorId: isContactPopupPageHref(pageHref) ? "" : current.anchorId,
+                  pageHref: nextValue,
+                  anchorId: isContactPopupPageHref(nextValue) ? "" : current.anchorId,
                 }));
               }}
               className={selectClassName}
@@ -146,20 +170,60 @@ export function NavBarLinkEditor({
                   {option.label} ({option.href})
                 </option>
               ))}
+              <option value={navBarExternalPageValue}>External</option>
             </select>
-            <input
-              type="text"
-              value={draft.pageHref}
-              onChange={(event) =>
-                setDraft((current) => ({ ...current, pageHref: event.target.value }))
-              }
-              className={fieldClassName}
-              aria-label="Nav link custom page path"
-              placeholder="/"
-            />
+
+            {isExternalLink ? (
+              <input
+                type="url"
+                value={draft.pageHref}
+                onChange={(event) =>
+                  setDraft((current) => ({
+                    ...current,
+                    pageHref: event.target.value,
+                  }))
+                }
+                className={fieldClassName}
+                aria-label="External site URL"
+                placeholder="https://www.stonepillarcontractors.com/"
+              />
+            ) : (
+              <input
+                type="text"
+                value={draft.pageHref}
+                onChange={(event) =>
+                  setDraft((current) => ({ ...current, pageHref: event.target.value }))
+                }
+                className={fieldClassName}
+                aria-label="Nav link custom page path"
+                placeholder="/"
+              />
+            )}
           </label>
 
           {!isContactTarget && (
+            <label className="flex flex-col gap-1">
+              <span className="font-mono text-[10px] tracking-wide text-accent-purple/80 uppercase">
+                Target
+              </span>
+              <select
+                value={linkTarget}
+                onChange={(event) =>
+                  setDraft((current) => ({
+                    ...current,
+                    target: event.target.value as NavBarLinkTarget,
+                  }))
+                }
+                className={selectClassName}
+                aria-label="Nav link target window"
+              >
+                <option value="_self">Same tab</option>
+                <option value="_blank">New tab</option>
+              </select>
+            </label>
+          )}
+
+          {!isExternalLink && !isContactTarget && (
             <label className="flex flex-col gap-1">
               <span className="font-mono text-[10px] tracking-wide text-accent-purple/80 uppercase">
                 Anchor

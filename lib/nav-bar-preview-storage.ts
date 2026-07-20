@@ -31,8 +31,10 @@ function normalizeNavBarLink(value: unknown, fallback: NavBarLink, index: number
     typeof link.id === "string" && link.id.trim()
       ? link.id.trim()
       : fallback.id || createNavBarLinkId();
+  const target =
+    link.target === "_blank" || link.target === "_self" ? link.target : undefined;
 
-  return { id, label, href };
+  return { id, label, href, target };
 }
 
 function normalizeNavBarItems(value: unknown): NavBarLink[] {

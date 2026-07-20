@@ -13,6 +13,7 @@ import {
   type TopBarLayoutWidth,
   type TopBarPreviewSettings,
 } from "@/lib/top-bar-preview";
+import { normalizeTopBarSocialLinks } from "@/lib/top-bar-social";
 
 export const topBarPreviewStorageKey = "lifespring-top-bar-preview";
 
@@ -82,6 +83,14 @@ export function normalizeTopBarPreviewSettings(
       )
         ? Math.round(value.textSizePx)
         : defaultTopBarPreviewSettings.textSizePx,
+    socialLinks: normalizeTopBarSocialLinks(value.socialLinks),
+    socialIconColor: isHexColor(value.socialIconColor)
+      ? value.socialIconColor
+      : defaultTopBarPreviewSettings.socialIconColor,
+    socialLinksInsetPx:
+      typeof value.socialLinksInsetPx === "number"
+        ? Math.min(80, Math.max(0, Math.round(value.socialLinksInsetPx)))
+        : defaultTopBarPreviewSettings.socialLinksInsetPx,
   };
 }
 

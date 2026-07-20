@@ -2,7 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { LucideIconPicker } from "@/components/dev/LucideIconPicker";
-import type { HeaderV1NavLink } from "@/lib/header-v1-nav";
+import {
+  headerV1NavExternalPageValue,
+  isExternalNavHref,
+  type HeaderV1NavLink,
+  type HeaderV1NavLinkTarget,
+} from "@/lib/header-v1-nav";
 import { getPlaygroundPageHref } from "@/lib/playground-pages";
 import { useOptionalPlaygroundSections } from "@/components/dev/PlaygroundSectionsProvider";
 import { defaultSiteIconName, resolveSiteIconName, type SiteIconName } from "@/lib/site-icons";
@@ -79,16 +84,27 @@ export function HeaderV1NavLinkEditor({
   }, [onClose]);
 
   function save() {
+    const pageHref = draft.pageHref.trim() || "/";
+    const isExternal = isExternalNavHref(pageHref);
+
     onSave({
       ...draft,
       label: draft.label,
-      pageHref: draft.pageHref.trim() || "/",
-      anchorId: draft.anchorId.trim().replace(/^#/, ""),
+      pageHref,
+      anchorId: isExternal ? "" : draft.anchorId.trim().replace(/^#/, ""),
+      target: draft.target,
     });
     onClose();
   }
 
   const iconName = resolveSiteIconName(draft.icon, defaultSiteIconName);
+  const isExternalLink = isExternalNavHref(draft.pageHref);
+  const pageSelectValue = isExternalLink
+    ? headerV1NavExternalPageValue
+    : pageOptions.some((option) => option.href === draft.pageHref)
+      ? draft.pageHref
+      : draft.pageHref || "/";
+  const linkTarget = draft.target ?? "_self";
 
   return (
     <div
@@ -125,10 +141,24 @@ export function HeaderV1NavLinkEditor({
             Page
           </span>
           <select
-            value={draft.pageHref}
-            onChange={(event) =>
-              setDraft((current) => ({ ...current, pageHref: event.target.value }))
-            }
+            value={pageSelectValue}
+            onChange={(event) => {
+              const nextValue = event.target.value;
+              if (nextValue === headerV1NavExternalPageValue) {
+                setDraft((current) => ({
+                  ...current,
+                  pageHref: isExternalNavHref(current.pageHref) ? current.pageHref : "https://",
+                  anchorId: "",
+                  target: current.target ?? "_blank",
+                }));
+                return;
+              }
+
+              setDraft((current) => ({
+                ...current,
+                pageHref: nextValue,
+              }));
+            }}
             className={selectClassName}
             aria-label="Nav link target page"
           >
@@ -137,34 +167,74 @@ export function HeaderV1NavLinkEditor({
                 {option.label} ({option.href})
               </option>
             ))}
+            <option value={headerV1NavExternalPageValue}>External</option>
           </select>
-          <input
-            type="text"
-            value={draft.pageHref}
-            onChange={(event) =>
-              setDraft((current) => ({ ...current, pageHref: event.target.value }))
-            }
-            className={fieldClassName}
-            aria-label="Nav link custom page path"
-            placeholder="/"
-          />
+
+          {isExternalLink ? (
+            <input
+              type="url"
+              value={draft.pageHref}
+              onChange={(event) =>
+                setDraft((current) => ({
+                  ...current,
+                  pageHref: event.target.value,
+                }))
+              }
+              className={fieldClassName}
+              aria-label="External site URL"
+              placeholder="https://www.stonepillarcontractors.com/"
+            />
+          ) : (
+            <input
+              type="text"
+              value={draft.pageHref}
+              onChange={(event) =>
+                setDraft((current) => ({ ...current, pageHref: event.target.value }))
+              }
+              className={fieldClassName}
+              aria-label="Nav link custom page path"
+              placeholder="/"
+            />
+          )}
         </label>
 
         <label className="flex flex-col gap-1">
           <span className="font-mono text-[10px] tracking-wide text-accent-purple/80 uppercase">
-            Anchor
+            Target
           </span>
-          <input
-            type="text"
-            value={draft.anchorId}
+          <select
+            value={linkTarget}
             onChange={(event) =>
-              setDraft((current) => ({ ...current, anchorId: event.target.value }))
+              setDraft((current) => ({
+                ...current,
+                target: event.target.value as HeaderV1NavLinkTarget,
+              }))
             }
-            className={fieldClassName}
-            aria-label="Nav link anchor id"
-            placeholder="water-damage-restoration"
-          />
+            className={selectClassName}
+            aria-label="Nav link target window"
+          >
+            <option value="_self">Same tab</option>
+            <option value="_blank">New tab</option>
+          </select>
         </label>
+
+        {!isExternalLink && (
+          <label className="flex flex-col gap-1">
+            <span className="font-mono text-[10px] tracking-wide text-accent-purple/80 uppercase">
+              Anchor
+            </span>
+            <input
+              type="text"
+              value={draft.anchorId}
+              onChange={(event) =>
+                setDraft((current) => ({ ...current, anchorId: event.target.value }))
+              }
+              className={fieldClassName}
+              aria-label="Nav link anchor id"
+              placeholder="water-damage-restoration"
+            />
+          </label>
+        )}
 
         <div className="relative flex flex-col gap-1">
           <span className="font-mono text-[10px] tracking-wide text-accent-purple/80 uppercase">
