@@ -23,15 +23,15 @@ async function readStagingLeadToEmail(): Promise<string | undefined> {
   }
 }
 
-/** Resolve lead inbox — staging config, published config, dev client override, then env/site. */
+/** Resolve lead inbox — published config, env/site, then staging (dev only). */
 export async function resolveContactLeadTo(clientOverride?: string): Promise<string> {
-  const fromStaging = await readStagingLeadToEmail();
-  if (fromStaging) return fromStaging;
-
   const fromPublished = leadToFromConfig(await readHomepageConfig());
   if (fromPublished) return fromPublished;
 
   if (process.env.NODE_ENV === "development") {
+    const fromStaging = await readStagingLeadToEmail();
+    if (fromStaging) return fromStaging;
+
     const client = clientOverride?.trim();
     if (client && isValidLeadToEmail(client)) return client;
   }
