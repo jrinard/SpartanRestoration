@@ -1,6 +1,14 @@
 {
   "entries": [
     {
+      "id": "1784751053025-live",
+      "action": "live",
+      "savedAt": "2026-07-22T20:10:53.025Z",
+      "sectionCount": 10,
+      "colorThemeId": "spartan",
+      "filename": "2026-07-22T20-10-53-025Z-live.json"
+    },
+    {
       "id": "1784590792347-staging",
       "action": "staging",
       "savedAt": "2026-07-20T23:39:52.347Z",
