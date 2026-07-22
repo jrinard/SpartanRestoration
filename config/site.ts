@@ -13,7 +13,7 @@ export const siteConfig = {
     "24/7 emergency water, mold, storm, and sewage restoration in Vancouver, WA, Portland, OR, and the Pacific Northwest. Licensed, insured, IICRC-certified crews.",
   phone: "503-975-9082",
   serviceArea: "Serving Vancouver, WA and Portland, OR and the Pacific Northwest",
-  email: "josh@lifespringdesign.com",
+  email: "spartanspc2026@gmail.com",
   address: "Vancouver, WA",
   /** Optional contacts shown on the under construction page. Falls back to site phone/email when empty. */
   teamContacts: [
