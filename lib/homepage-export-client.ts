@@ -51,6 +51,8 @@ import {
   spacerStripeStorageKey,
 } from "@/lib/spacer-preview-storage";
 import type { HomepagePreviewSettings } from "@/lib/homepage-settings";
+import { analyticsPreviewStorageKey } from "@/lib/analytics-preview-storage";
+import { normalizeAnalyticsPreviewSettings } from "@/lib/analytics-preview";
 
 function readJson<T>(key: string): T | undefined {
   try {
@@ -169,6 +171,10 @@ function collectPreviewSettingsFromPages(
     textImage: readJson(textImagePreviewStorageKey),
     textImages: readJson(textImagesPreviewStorageKey),
     servicesIconsV2: readJson(servicesIconsV2PreviewStorageKey),
+    analytics: (() => {
+      const stored = readJson<HomepagePreviewSettings["analytics"]>(analyticsPreviewStorageKey);
+      return stored ? normalizeAnalyticsPreviewSettings(stored) : undefined;
+    })(),
   };
 
   const hasPreviewSettings = Object.entries(previewSettings).some(([key, value]) => {

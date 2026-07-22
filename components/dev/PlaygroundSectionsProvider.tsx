@@ -65,6 +65,8 @@ type PlaygroundSectionsContextValue = {
   visibleSections: PlaygroundSectionConfig[];
   contactFormEditorOpen: boolean;
   setContactFormEditorOpen: (open: boolean) => void;
+  analyticsEditorOpen: boolean;
+  setAnalyticsEditorOpen: (open: boolean) => void;
   ready: boolean;
 };
 
@@ -76,6 +78,7 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
   );
   const [ready, setReady] = useState(false);
   const [contactFormEditorOpen, setContactFormEditorOpen] = useState(false);
+  const [analyticsEditorOpen, setAnalyticsEditorOpen] = useState(false);
 
   useEffect(() => {
     const storedColor = localStorage.getItem(creativeStorageKeys.colorTheme);
@@ -199,6 +202,8 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
     visibleSections: getVisiblePlaygroundSections(sections),
     contactFormEditorOpen,
     setContactFormEditorOpen,
+    analyticsEditorOpen,
+    setAnalyticsEditorOpen,
     ready,
   };
 

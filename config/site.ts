@@ -13,7 +13,7 @@ export const siteConfig = {
     "The best defense in water damage. Our new site is on the way.",
   phone: "503-975-9082",
   serviceArea: "Serving Vancouver, WA and Portland, OR and the Pacific Northwest",
-  email: "Stonepillarcontractors@gmail.com",
+  email: "spartanspc2026@gmail.com",
   address: "Vancouver, WA",
   /** Optional contacts shown on the under construction page. Falls back to site phone/email when empty. */
   teamContacts: [

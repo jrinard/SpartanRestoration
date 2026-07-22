@@ -1,6 +1,7 @@
 "use client";
 
 import { useLayoutEffect, type ReactNode } from "react";
+import { notifyAnalyticsPreviewUpdated } from "@/lib/analytics-preview";
 import {
   setCommittedHomepagePreviewSettings,
   type HomepagePreviewSettings,
@@ -16,7 +17,11 @@ export function CommittedPreviewSettingsBridge({
 }) {
   useLayoutEffect(() => {
     setCommittedHomepagePreviewSettings(settings);
-    return () => setCommittedHomepagePreviewSettings(null);
+    notifyAnalyticsPreviewUpdated();
+    return () => {
+      setCommittedHomepagePreviewSettings(null);
+      notifyAnalyticsPreviewUpdated();
+    };
   }, [settings]);
 
   return children;
