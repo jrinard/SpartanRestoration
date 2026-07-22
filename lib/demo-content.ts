@@ -829,7 +829,7 @@ export const spartanTextImageContent = {
   headlineLines: [
     "24/7 Emergency Restoration",
     "You Can Count On Water,",
-    "Fire & Mold Damage",
+    "Storm, Mold & Sewage Damage",
   ],
   body:
     "Disasters don't wait for business hours — and neither do we. Spartan Restoration is a locally trusted emergency restoration company serving Vancouver and the Pacific Northwest. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough.",
