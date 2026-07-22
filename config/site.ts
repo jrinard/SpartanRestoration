@@ -10,7 +10,7 @@ export const siteConfig = {
   url: "https://spartanrestorationnw.com",
   tagline: "The best defense in water damage.",
   description:
-    "The best defense in water damage. Our new site is on the way.",
+    "24/7 emergency water, mold, storm, and sewage restoration in Vancouver, WA, Portland, OR, and the Pacific Northwest. Licensed, insured, IICRC-certified crews.",
   phone: "503-975-9082",
   serviceArea: "Serving Vancouver, WA and Portland, OR and the Pacific Northwest",
   email: "spartanspc2026@gmail.com",

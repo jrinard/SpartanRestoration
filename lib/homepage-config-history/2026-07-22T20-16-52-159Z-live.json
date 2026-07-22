@@ -428,7 +428,6 @@
       "content-451c0bf5": {
         "textImage": {
           "theme": "light",
-          "headlineLevel": "h1",
           "backgroundColor": "#ffffff",
           "eyebrowColor": "#56616A",
           "headlineColor": "#000000",
@@ -447,7 +446,7 @@
           "phoneButtonVisible": true,
           "contentEyebrow": "Spartan Restoration",
           "contentImageSrc": "/spartan/library/Store.jpg",
-          "contentImageAlt": "Spartan Restoration emergency response vehicle and equipment at a property",
+          "contentImageAlt": "Store",
           "contentHeadlineLines": [
             "24/7 Emergency Restoration",
             "You Can Count On Water,",
@@ -503,11 +502,11 @@
           "row2AnchorId": "mold-removal",
           "row3AnchorId": "storm",
           "contentRow1ImageSrc": "/spartan/library/tub3.png",
-          "contentRow1ImageAlt": "Water damage restoration crew extracting water from a flooded bathroom",
+          "contentRow1ImageAlt": "Tub3",
           "contentRow2ImageSrc": "/spartan/library/tub4.jpg",
-          "contentRow2ImageAlt": "Mold remediation specialist treating affected wall and bathroom surfaces",
+          "contentRow2ImageAlt": "Tub4",
           "contentRow3ImageSrc": "/spartan/library/Tub5.jpg",
-          "contentRow3ImageAlt": "Storm and sewage cleanup crew working in a damaged residential space",
+          "contentRow3ImageAlt": "Tub5",
           "contentRow2Body": "Mold can trigger allergies, respiratory issues, and lasting damage to building materials when it is left untreated. It spreads quickly often after leaks, floods, or hidden moisture and proper remediation requires containment and experienced handling to help prevent cross-contamination. Spartan Restoration's certified crews assess the full scope, remove affected materials safely, and work to restore healthy indoor air quality for your home or business.",
           "contentRow3Body": "Pacific Northwest storms can overwhelm roofs, windows, and drainage systems fast and sewage backups create serious health risks that need immediate attention. Spartan Restoration responds around the clock to extract water, dry affected areas, sanitize contaminated spaces, and help protect your property from further damage with clear communication every step of the way."
         }
@@ -569,7 +568,7 @@
           ],
           "contentSidebarText": "",
           "contentImageSrc": "/spartan/library/Curt2.jpg",
-          "contentImageAlt": "Spartan Restoration team member on a restoration job site"
+          "contentImageAlt": "Curt2"
         }
       },
       "content-127f9a95": {
@@ -608,7 +607,7 @@
           "contentBody": "Whether you're in the heart of Vancouver or a surrounding community, our team is ready to respond. We proudly serve homeowners and businesses throughout Southwest Washington and the surrounding region with the same fast response, professional service, and attention to detail on every project.",
           "contentSidebarText": "",
           "contentImageSrc": "/spartan/library/shutterstock_261122720_purchased.jpg",
-          "contentImageAlt": "Aerial view of Vancouver Washington and the Pacific Northwest service region"
+          "contentImageAlt": "Shutterstock 261122720 purchased"
         }
       }
     },
@@ -683,7 +682,6 @@
       "content-451c0bf5": {
         "textImage": {
           "theme": "light",
-          "headlineLevel": "h1",
           "backgroundColor": "#ffffff",
           "eyebrowColor": "#56616A",
           "headlineColor": "#000000",
@@ -702,7 +700,7 @@
           "phoneButtonVisible": true,
           "contentEyebrow": "Spartan Restoration",
           "contentImageSrc": "/spartan/library/Store.jpg",
-          "contentImageAlt": "Spartan Restoration emergency response vehicle and equipment at a property",
+          "contentImageAlt": "Store",
           "contentHeadlineLines": [
             "24/7 Emergency Restoration",
             "You Can Count On Water,",
@@ -758,11 +756,11 @@
           "row2AnchorId": "mold-removal",
           "row3AnchorId": "storm",
           "contentRow1ImageSrc": "/spartan/library/tub3.png",
-          "contentRow1ImageAlt": "Water damage restoration crew extracting water from a flooded bathroom",
+          "contentRow1ImageAlt": "Tub3",
           "contentRow2ImageSrc": "/spartan/library/tub4.jpg",
-          "contentRow2ImageAlt": "Mold remediation specialist treating affected wall and bathroom surfaces",
+          "contentRow2ImageAlt": "Tub4",
           "contentRow3ImageSrc": "/spartan/library/Tub5.jpg",
-          "contentRow3ImageAlt": "Storm and sewage cleanup crew working in a damaged residential space",
+          "contentRow3ImageAlt": "Tub5",
           "contentRow2Body": "Mold can trigger allergies, respiratory issues, and lasting damage to building materials when it is left untreated. It spreads quickly often after leaks, floods, or hidden moisture and proper remediation requires containment and experienced handling to help prevent cross-contamination. Spartan Restoration's certified crews assess the full scope, remove affected materials safely, and work to restore healthy indoor air quality for your home or business.",
           "contentRow3Body": "Pacific Northwest storms can overwhelm roofs, windows, and drainage systems fast and sewage backups create serious health risks that need immediate attention. Spartan Restoration responds around the clock to extract water, dry affected areas, sanitize contaminated spaces, and help protect your property from further damage with clear communication every step of the way."
         }
@@ -934,7 +932,7 @@
           ],
           "contentSidebarText": "",
           "contentImageSrc": "/spartan/library/Curt2.jpg",
-          "contentImageAlt": "Spartan Restoration team member on a restoration job site"
+          "contentImageAlt": "Curt2"
         }
       },
       "spacer-6bfe6a85": {
@@ -1098,7 +1096,7 @@
           "contentBody": "Whether you're in the heart of Vancouver or a surrounding community, our team is ready to respond. We proudly serve homeowners and businesses throughout Southwest Washington and the surrounding region with the same fast response, professional service, and attention to detail on every project.",
           "contentSidebarText": "",
           "contentImageSrc": "/spartan/library/shutterstock_261122720_purchased.jpg",
-          "contentImageAlt": "Aerial view of Vancouver Washington and the Pacific Northwest service region"
+          "contentImageAlt": "Shutterstock 261122720 purchased"
         }
       },
       "spacer-fdf67e03": {
@@ -1255,7 +1253,7 @@
       "contentSubtext": "Let's start the conversation with a Free Consultation",
       "buttonBackground": "#f3c35d",
       "buttonTextColor": "#000000",
-      "leadToEmail": "spartanspc2026@gmail.com"
+      "leadToEmail": "josh@lifespringdesign.com"
     },
     "servicesIconsV2": {
       "backgroundFrom": "#ffffff",

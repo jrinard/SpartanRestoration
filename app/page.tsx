@@ -3,14 +3,13 @@ import { UnderConstruction } from "@/components/under-construction/UnderConstruc
 import { LiveHomePage } from "@/components/pages/LiveHomePage";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { projects, simpleServices } from "@/lib/demo-content";
 import { readHomepageConfig } from "@/lib/homepage-config.server";
 import { isUnderConstruction, readLaunchMode } from "@/lib/launch-mode.server";
 import { siteConfig } from "@/config/site";
 import { createMetadata } from "@/lib/seo";
-import { pageSeo } from "@/lib/seo-content";
+import { pageSeo, spartanRestorationServices } from "@/lib/seo-content";
 import {
-  buildPortfolioItemListSchema,
+  buildLocalBusinessSchema,
   buildServicesItemListSchema,
 } from "@/lib/seo-schema";
 
@@ -47,8 +46,8 @@ export default async function Home() {
     <SiteShell config={config}>
       <JsonLd
         data={[
-          buildPortfolioItemListSchema(projects, `${siteConfig.name} Projects`),
-          buildServicesItemListSchema(simpleServices),
+          buildLocalBusinessSchema(),
+          buildServicesItemListSchema([...spartanRestorationServices]),
         ]}
       />
       <LiveHomePage config={config} />

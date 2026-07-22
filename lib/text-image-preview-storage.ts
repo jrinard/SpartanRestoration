@@ -94,6 +94,10 @@ export function normalizeTextImagePreviewSettings(
       typeof value.phoneButtonVisible === "boolean"
         ? value.phoneButtonVisible
         : defaultTextImagePreviewSettings.phoneButtonVisible,
+    headlineLevel:
+      value.headlineLevel === "h1" || value.headlineLevel === "h2"
+        ? value.headlineLevel
+        : defaultTextImagePreviewSettings.headlineLevel,
     contentEyebrow: normalizeContentOverrideString(value.contentEyebrow),
     contentHeadlineLines: normalizeTextImageHeadlineLines(value.contentHeadlineLines),
     contentBody: normalizeContentOverrideString(value.contentBody),

@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import { spartanTextImagesContent } from "@/lib/demo-content";
 
 /** Homepage metadata — matches the under-construction page at `/`. */
 export const underConstructionSeo = {
@@ -81,13 +82,40 @@ export const spartanRestorationSeo = {
   areaServed: ["Vancouver, WA", "Portland, OR", "Pacific Northwest"],
   serviceTypes: [
     "Water Damage Restoration",
-    "Fire Damage Restoration",
-    "Mold Damage Remediation",
+    "Mold Remediation",
+    "Storm Damage Restoration",
+    "Sewage Cleanup",
     "Emergency Restoration",
     "Insurance Claim Assistance",
     "Structural Drying",
   ],
 } as const;
+
+/** Homepage JSON-LD service list — aligned with published text-images content. */
+export const spartanRestorationServices = [
+  {
+    title: spartanTextImagesContent.row1.headlineLines[0] ?? "Water Damage Restoration",
+    description: spartanTextImagesContent.row1.body,
+  },
+  {
+    title: spartanTextImagesContent.row2.title,
+    description: spartanTextImagesContent.row2.body,
+  },
+  {
+    title: spartanTextImagesContent.row3.title,
+    description: spartanTextImagesContent.row3.body,
+  },
+  {
+    title: "Emergency Restoration",
+    description:
+      "24/7 emergency response across Vancouver, Portland, and the Pacific Northwest — from the first call through final walkthrough.",
+  },
+  {
+    title: "Insurance Claim Assistance",
+    description:
+      "We help document damage, coordinate with adjusters, and guide you through the insurance claim process with clear communication.",
+  },
+] as const;
 
 export function getSocialProfileUrls(): string[] {
   return Object.values(siteConfig.social).filter(

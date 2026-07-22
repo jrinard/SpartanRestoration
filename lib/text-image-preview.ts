@@ -15,9 +15,13 @@ export type TextImageTextColors = {
   sidebarTextColor: string;
 };
 
+export type TextImageHeadlineLevel = "h1" | "h2";
+
 export type TextImagePreviewSettings = TextImageTextColors &
   ButtonPreviewSettings & {
     theme: TextImageSectionTheme;
+    /** When `"h1"`, only the first headline line renders as the page H1; later lines stay H2. */
+    headlineLevel?: TextImageHeadlineLevel;
     /** Fade-in animation for the image. */
     entranceAnimationEnabled: boolean;
     /** Entrance animation duration (ms). */
@@ -167,6 +171,7 @@ export const defaultTextImageButtonSettings: ButtonPreviewSettings = {
 
 export const defaultTextImagePreviewSettings: TextImagePreviewSettings = {
   theme: "light",
+  headlineLevel: "h2",
   ...textImageLightTheme,
   ...defaultTextImageButtonSettings,
   entranceAnimationEnabled: true,
