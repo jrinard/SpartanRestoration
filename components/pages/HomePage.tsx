@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { PlaygroundModalSectionEditor } from "@/components/dev/PlaygroundModalSectionEditor";
+import { AnalyticsEditorPanel } from "@/components/dev/AnalyticsEditorPanel";
 import { PlaygroundSectionSlot } from "@/components/dev/PlaygroundSectionSlot";
 import { SectionSwitcher } from "@/components/dev/SectionSwitcher";
 import { usePlaygroundSections } from "@/components/dev/PlaygroundSectionsProvider";
@@ -25,6 +26,7 @@ export function HomePage() {
     duplicateSection,
     visibleSections,
     contactFormEditorOpen,
+    analyticsEditorOpen,
     ready,
   } = usePlaygroundSections();
   const [dragSectionId, setDragSectionId] = useState<string | null>(null);
@@ -39,6 +41,8 @@ export function HomePage() {
 
   return (
     <main id="main-content" className="playground-sections">
+      {analyticsEditorOpen && <AnalyticsEditorPanel />}
+
       {contactFormEditorOpen && modalSections.length > 0 && (
         <div className="playground-modal-sections">
           {modalSections.map((config) => (

@@ -10,6 +10,8 @@ import {
   Poppins,
 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalyticsRuntime } from "@/components/analytics/GoogleAnalyticsRuntime";
+import { readPublishedAnalyticsSettings } from "@/lib/resolve-analytics.server";
 import { RecaptchaProvider } from "@/components/forms/RecaptchaProvider";
 import { SiteJsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/config/site";
@@ -66,11 +68,13 @@ export const metadata: Metadata = createMetadata({
   ogImageAlt: pageSeo.home.ogImageAlt,
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const publishedAnalytics = await readPublishedAnalyticsSettings();
+
   return (
     <html
       lang="en"
@@ -84,6 +88,7 @@ export default function RootLayout({
         <RecaptchaProvider>
           {children}
         </RecaptchaProvider>
+        <GoogleAnalyticsRuntime initialSettings={publishedAnalytics} />
         <Analytics />
       </body>
     </html>

@@ -99,6 +99,25 @@ export function CreativeBar() {
                   Edit Contact Form
                 </button>
               )}
+              <button
+                type="button"
+                onClick={() =>
+                  playground?.setAnalyticsEditorOpen(!playground.analyticsEditorOpen)
+                }
+                className={cn(
+                  selectClassName,
+                  "inline-flex cursor-pointer items-center gap-1.5 transition-colors",
+                  playground?.analyticsEditorOpen && "border-accent-purple/60 text-accent-purple",
+                )}
+                aria-pressed={playground?.analyticsEditorOpen ?? false}
+              >
+                {playground?.analyticsEditorOpen ? (
+                  <ChevronDown className="h-4 w-4 shrink-0" aria-hidden="true" />
+                ) : (
+                  <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                )}
+                Edit Analytics
+              </button>
             </>
           )}
         </div>

@@ -2,6 +2,7 @@
 
 import type { HomepageConfig, HomepageSectionEntry } from "@/lib/homepage-config";
 import { creativeStorageKeys } from "@/lib/creative-themes";
+import { analyticsPreviewStorageKey } from "@/lib/analytics-preview-storage";
 import { contactPreviewStorageKey } from "@/lib/contact-preview-storage";
 import { ctaV1PreviewStorageKey } from "@/lib/cta-v1-preview-storage";
 import { footerV3PreviewStorageKey } from "@/lib/footer-v3-preview-storage";
@@ -149,6 +150,7 @@ export function applyHomepageConfigToStorage(config: HomepageConfig): void {
   writeOptionalJson(textImagePreviewStorageKey, previewSettings.textImage);
   writeOptionalJson(textImagesPreviewStorageKey, previewSettings.textImages);
   writeOptionalJson(servicesIconsV2PreviewStorageKey, previewSettings.servicesIconsV2);
+  writeOptionalJson(analyticsPreviewStorageKey, previewSettings.analytics);
 
   if (previewSettings.servicesV1LayoutWidth) {
     writeJson(servicesV1PreviewStorageKey, {
