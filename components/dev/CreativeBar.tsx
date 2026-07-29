@@ -118,6 +118,25 @@ export function CreativeBar() {
                 )}
                 Edit Analytics
               </button>
+              <button
+                type="button"
+                onClick={() =>
+                  playground?.setFaviconEditorOpen(!playground.faviconEditorOpen)
+                }
+                className={cn(
+                  selectClassName,
+                  "inline-flex cursor-pointer items-center gap-1.5 transition-colors",
+                  playground?.faviconEditorOpen && "border-accent-purple/60 text-accent-purple",
+                )}
+                aria-pressed={playground?.faviconEditorOpen ?? false}
+              >
+                {playground?.faviconEditorOpen ? (
+                  <ChevronDown className="h-4 w-4 shrink-0" aria-hidden="true" />
+                ) : (
+                  <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                )}
+                Edit Favicon
+              </button>
             </>
           )}
         </div>

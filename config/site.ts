@@ -74,6 +74,10 @@ export const siteConfig = {
     logoBlack: "/spartan/SpartanLogo2.png",
     logoColor: "/spartan/SpartanLogo2.png",
     ogImage: "/spartan/SpartanLogo.png",
+    favicon: "/spartan/pin.png",
+    appleTouchIcon: "/spartan/pin.png",
+    /** Public asset folder for this client — image library + favicon picker. */
+    themeFolder: "spartan",
   },
   launch: {
     mode: "live" as "under-construction" | "live",

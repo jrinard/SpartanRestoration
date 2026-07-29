@@ -1,8 +1,12 @@
 import path from "path";
+import { siteConfig } from "@/config/site";
 
-/** Theme-scoped folder under public/ — e.g. public/spartan/library */
-export const imageLibraryThemeSegment = "spartan";
-export const imageLibraryPublicPrefix = `/${imageLibraryThemeSegment}/library`;
+/** Theme-scoped folder under public/ — set via siteConfig.assets.themeFolder per client. */
+export const imageLibraryThemeSegment = siteConfig.assets.themeFolder;
+export const imageLibraryPublicPrefix = `/${imageLibraryThemeSegment}`;
+export const imageLibraryFolderPublicPrefix = `${imageLibraryPublicPrefix}/library`;
+
+export type ImageLibraryScope = "library" | "theme";
 
 export type ImageLibraryEntry = {
   src: string;
@@ -26,7 +30,11 @@ export function imageAltFromSrc(src: string): string {
 }
 
 export function isImageLibraryPath(value: string): boolean {
-  return value.startsWith(`${imageLibraryPublicPrefix}/`) && !value.includes("..");
+  return (
+    (value.startsWith(`${imageLibraryFolderPublicPrefix}/`) ||
+      value.startsWith(`${imageLibraryPublicPrefix}/`)) &&
+    !value.includes("..")
+  );
 }
 
 export function normalizePublicImageSrc(value: unknown): string | undefined {
@@ -54,6 +62,7 @@ export function toImageLibraryEntry(src: string): ImageLibraryEntry {
 
 /** Fallback when the library API is unavailable. */
 export const defaultImageLibraryEntries: ImageLibraryEntry[] = [
-  toImageLibraryEntry(`${imageLibraryPublicPrefix}/sample-content-image.png`),
-  toImageLibraryEntry("/spartan/Sample-Content-Image.png"),
+  toImageLibraryEntry(`${imageLibraryPublicPrefix}/pin.png`),
+  toImageLibraryEntry(`${imageLibraryPublicPrefix}/SpartanLogo2.png`),
+  toImageLibraryEntry(`${imageLibraryFolderPublicPrefix}/sample-content-image.png`),
 ];

@@ -2,7 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { defaultImageLibraryEntries, imageLibraryPublicPrefix, type ImageLibraryEntry } from "@/lib/image-library";
+import {
+  defaultImageLibraryEntries,
+  imageLibraryFolderPublicPrefix,
+  imageLibraryPublicPrefix,
+  type ImageLibraryEntry,
+  type ImageLibraryScope,
+} from "@/lib/image-library";
 import { cn } from "@/lib/utils";
 
 type ImageLibraryPickerProps = {
@@ -10,14 +16,25 @@ type ImageLibraryPickerProps = {
   onSelect: (entry: ImageLibraryEntry) => void;
   onClose: () => void;
   className?: string;
+  /** Scan public/{themeFolder}/library (default) or the whole theme folder. */
+  scope?: ImageLibraryScope;
+  thumbnailSize?: "default" | "large";
 };
 
-/** Playground-only grid for choosing an image from public/spartan/library. */
-export function ImageLibraryPicker({ value, onSelect, onClose, className }: ImageLibraryPickerProps) {
+/** Playground-only grid for choosing an image from the project asset library. */
+export function ImageLibraryPicker({
+  value,
+  onSelect,
+  onClose,
+  className,
+  scope = "library",
+  thumbnailSize = "default",
+}: ImageLibraryPickerProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const [images, setImages] = useState<ImageLibraryEntry[]>(defaultImageLibraryEntries);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const isLarge = thumbnailSize === "large";
 
   useEffect(() => {
     let cancelled = false;
@@ -27,7 +44,7 @@ export function ImageLibraryPicker({ value, onSelect, onClose, className }: Imag
       setError(null);
 
       try {
-        const response = await fetch("/api/image-library");
+        const response = await fetch(`/api/image-library?scope=${scope}`);
         if (!response.ok) throw new Error("Could not load image library");
 
         const data = (await response.json()) as { images?: ImageLibraryEntry[] };
@@ -48,7 +65,7 @@ export function ImageLibraryPicker({ value, onSelect, onClose, className }: Imag
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [scope]);
 
   useEffect(() => {
     function handlePointerDown(event: MouseEvent) {
@@ -73,7 +90,8 @@ export function ImageLibraryPicker({ value, onSelect, onClose, className }: Imag
     <div
       ref={panelRef}
       className={cn(
-        "z-40 w-[min(92vw,42rem)] rounded-md border border-accent-purple/50 bg-background/95 p-3 shadow-xl backdrop-blur-sm",
+        "z-40 rounded-md border border-accent-purple/50 bg-background/95 p-3 shadow-xl backdrop-blur-sm",
+        isLarge ? "w-[min(92vw,52rem)]" : "w-[min(92vw,42rem)]",
         className,
       )}
       role="dialog"
@@ -85,9 +103,10 @@ export function ImageLibraryPicker({ value, onSelect, onClose, className }: Imag
             Image library
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
-            Add files to{" "}
-            <code className="text-foreground">public{imageLibraryPublicPrefix}/</code> in the
-            project.
+            Choose from{" "}
+            <code className="text-foreground">
+              public{scope === "theme" ? imageLibraryPublicPrefix : imageLibraryFolderPublicPrefix}/
+            </code>
           </p>
         </div>
         <button
@@ -103,10 +122,18 @@ export function ImageLibraryPicker({ value, onSelect, onClose, className }: Imag
         <p className="px-1 py-8 text-center text-sm text-muted-foreground">Loading library…</p>
       ) : images.length === 0 ? (
         <p className="px-1 py-8 text-center text-sm text-muted-foreground">
-          No images found in public{imageLibraryPublicPrefix} yet.
+          No images found in public
+          {scope === "theme" ? imageLibraryPublicPrefix : imageLibraryFolderPublicPrefix} yet.
         </p>
       ) : (
-        <div className="grid max-h-[min(60vh,28rem)] grid-cols-2 gap-3 overflow-y-auto sm:grid-cols-3">
+        <div
+          className={cn(
+            "grid gap-3 overflow-y-auto",
+            isLarge
+              ? "max-h-[min(70vh,36rem)] grid-cols-2 sm:grid-cols-3"
+              : "max-h-[min(60vh,28rem)] grid-cols-2 sm:grid-cols-3",
+          )}
+        >
           {images.map((image) => {
             const isSelected = value === image.src;
 
@@ -126,13 +153,18 @@ export function ImageLibraryPicker({ value, onSelect, onClose, className }: Imag
                 )}
                 aria-pressed={isSelected}
               >
-                <div className="relative aspect-[4/3] bg-muted/20">
+                <div
+                  className={cn(
+                    "relative bg-muted/20",
+                    isLarge ? "aspect-square min-h-28" : "aspect-[4/3]",
+                  )}
+                >
                   <Image
                     src={image.src}
                     alt={image.alt}
                     fill
-                    className="object-cover"
-                    sizes="200px"
+                    className={cn(isLarge ? "object-contain p-2" : "object-cover")}
+                    sizes={isLarge ? "280px" : "200px"}
                   />
                 </div>
                 <span className="block truncate px-2 py-2 font-mono text-[10px] text-foreground/80">

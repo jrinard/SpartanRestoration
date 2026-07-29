@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+import { buildFaviconMetadataIcons, type FaviconPreviewSettings } from "@/lib/favicon-preview";
 
 type PageSEO = {
   title?: string;
@@ -9,6 +10,7 @@ type PageSEO = {
   ogImage?: string;
   ogImageAlt?: string;
   keywords?: string[];
+  favicon?: FaviconPreviewSettings | null;
 };
 
 const defaultOgImage = siteConfig.assets.ogImage;
@@ -35,6 +37,7 @@ export function createMetadata({
   ogImage = defaultOgImage,
   ogImageAlt,
   keywords,
+  favicon,
 }: PageSEO = {}): Metadata {
   const pageTitle = title ? `${title} | ${siteConfig.name}` : siteConfig.name;
   const pageDescription = description ?? siteConfig.description;
@@ -47,6 +50,7 @@ export function createMetadata({
     ...(keywords && keywords.length > 0 && { keywords }),
     metadataBase: new URL(siteConfig.url),
     alternates: { canonical: url },
+    icons: buildFaviconMetadataIcons(favicon ?? undefined),
     openGraph: {
       title: pageTitle,
       description: pageDescription,

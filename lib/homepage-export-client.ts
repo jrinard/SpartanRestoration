@@ -53,6 +53,8 @@ import {
 import type { HomepagePreviewSettings } from "@/lib/homepage-settings";
 import { analyticsPreviewStorageKey } from "@/lib/analytics-preview-storage";
 import { normalizeAnalyticsPreviewSettings } from "@/lib/analytics-preview";
+import { faviconPreviewStorageKey } from "@/lib/favicon-preview-storage";
+import { normalizeFaviconPreviewSettings } from "@/lib/favicon-preview";
 
 function readJson<T>(key: string): T | undefined {
   try {
@@ -174,6 +176,10 @@ function collectPreviewSettingsFromPages(
     analytics: (() => {
       const stored = readJson<HomepagePreviewSettings["analytics"]>(analyticsPreviewStorageKey);
       return stored ? normalizeAnalyticsPreviewSettings(stored) : undefined;
+    })(),
+    favicon: (() => {
+      const stored = readJson<HomepagePreviewSettings["favicon"]>(faviconPreviewStorageKey);
+      return stored ? normalizeFaviconPreviewSettings(stored) : undefined;
     })(),
   };
 

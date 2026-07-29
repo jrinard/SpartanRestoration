@@ -11,7 +11,9 @@ import {
 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalyticsRuntime } from "@/components/analytics/GoogleAnalyticsRuntime";
+import { FaviconRuntime } from "@/components/seo/FaviconRuntime";
 import { readPublishedAnalyticsSettings } from "@/lib/resolve-analytics.server";
+import { readPublishedFaviconSettings } from "@/lib/resolve-favicon.server";
 import { RecaptchaProvider } from "@/components/forms/RecaptchaProvider";
 import { SiteJsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/config/site";
@@ -60,13 +62,18 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
 });
 
-export const metadata: Metadata = createMetadata({
-  title: pageSeo.home.title,
-  description: pageSeo.home.description,
-  path: pageSeo.home.path,
-  ogImage: siteConfig.assets.logo,
-  ogImageAlt: pageSeo.home.ogImageAlt,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const favicon = await readPublishedFaviconSettings();
+
+  return createMetadata({
+    title: pageSeo.home.title,
+    description: pageSeo.home.description,
+    path: pageSeo.home.path,
+    ogImage: siteConfig.assets.logo,
+    ogImageAlt: pageSeo.home.ogImageAlt,
+    favicon,
+  });
+}
 
 export default async function RootLayout({
   children,
@@ -74,6 +81,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const publishedAnalytics = await readPublishedAnalyticsSettings();
+  const publishedFavicon = await readPublishedFaviconSettings();
 
   return (
     <html
@@ -89,6 +97,7 @@ export default async function RootLayout({
           {children}
         </RecaptchaProvider>
         <GoogleAnalyticsRuntime initialSettings={publishedAnalytics} />
+        <FaviconRuntime initialSettings={publishedFavicon} />
         <Analytics />
       </body>
     </html>

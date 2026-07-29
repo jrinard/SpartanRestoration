@@ -1,21 +1,38 @@
 import { readdir } from "fs/promises";
 import path from "path";
 import {
+  imageLibraryFolderPublicPrefix,
   imageLibraryPublicPrefix,
   imageLibraryThemeSegment,
   isImageFileName,
+  type ImageLibraryScope,
   toImageLibraryEntry,
   type ImageLibraryEntry,
 } from "@/lib/image-library";
 
-const LIBRARY_DIR = path.join(process.cwd(), "public", imageLibraryThemeSegment, "library");
+function resolveLibraryRoot(scope: ImageLibraryScope) {
+  const themeDir = path.join(process.cwd(), "public", imageLibraryThemeSegment);
 
-async function collectLibraryImages(relativeDir = ""): Promise<string[]> {
-  const absoluteDir = relativeDir ? path.join(LIBRARY_DIR, relativeDir) : LIBRARY_DIR;
+  if (scope === "theme") {
+    return { absoluteDir: themeDir, publicPrefix: imageLibraryPublicPrefix };
+  }
+
+  return {
+    absoluteDir: path.join(themeDir, "library"),
+    publicPrefix: imageLibraryFolderPublicPrefix,
+  };
+}
+
+async function collectLibraryImages(
+  absoluteDir: string,
+  publicPrefix: string,
+  relativeDir = "",
+): Promise<string[]> {
+  const scanDir = relativeDir ? path.join(absoluteDir, relativeDir) : absoluteDir;
   let entries;
 
   try {
-    entries = await readdir(absoluteDir, { withFileTypes: true });
+    entries = await readdir(scanDir, { withFileTypes: true });
   } catch {
     return [];
   }
@@ -28,23 +45,25 @@ async function collectLibraryImages(relativeDir = ""): Promise<string[]> {
     const entryRelative = relativeDir ? `${relativeDir}/${entry.name}` : entry.name;
 
     if (entry.isDirectory()) {
-      images.push(...(await collectLibraryImages(entryRelative)));
+      images.push(...(await collectLibraryImages(absoluteDir, publicPrefix, entryRelative)));
       continue;
     }
 
     if (entry.isFile() && isImageFileName(entry.name)) {
-      images.push(
-        `${imageLibraryPublicPrefix}/${entryRelative.split(path.sep).join("/")}`,
-      );
+      images.push(`${publicPrefix}/${entryRelative.split(path.sep).join("/")}`);
     }
   }
 
   return images;
 }
 
-export async function GET() {
-  const paths = await collectLibraryImages();
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const scope: ImageLibraryScope =
+    searchParams.get("scope") === "theme" ? "theme" : "library";
+  const { absoluteDir, publicPrefix } = resolveLibraryRoot(scope);
+  const paths = await collectLibraryImages(absoluteDir, publicPrefix);
   const images: ImageLibraryEntry[] = paths.sort().map(toImageLibraryEntry);
 
-  return Response.json({ images });
+  return Response.json({ images, scope, themeFolder: imageLibraryThemeSegment });
 }
