@@ -1445,6 +1445,15 @@ body {
   color: var(--footer-v1-tagline-color);
 }
 
+.footer-v1-tagline-link {
+  color: var(--footer-v1-nav-color);
+  text-decoration: none;
+}
+
+.footer-v1-tagline-link:hover {
+  color: var(--footer-v1-nav-hover);
+}
+
 .footer-v1-nav-link {
   color: var(--footer-v1-nav-color);
   text-decoration: none;

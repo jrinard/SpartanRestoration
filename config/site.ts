@@ -68,6 +68,11 @@ export const siteConfig = {
     label: "LifeSpring Design",
     href: "https://www.lifespringdesign.com/",
   },
+  /** Footer v1 — optional link below the tagline. Clear label or href to hide on other sites. */
+  footerTaglineLink: {
+    label: "Lead Scout",
+    href: "https://spartan-restoration-scout.bankroll117.chatgpt.site",
+  },
   assets: {
     logo: "/spartan/SpartanLogo2.png",
     logoWhite: "/spartan/SpartanLogo2.png",

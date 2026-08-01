@@ -88,6 +88,17 @@ export function FooterV1({ description }: FooterV1Props) {
               {blurb && (
                 <p className="footer-v1-tagline mt-4 max-w-sm text-sm leading-relaxed">{blurb}</p>
               )}
+              {siteConfig.footerTaglineLink.label.trim() &&
+                siteConfig.footerTaglineLink.href.trim() && (
+                  <a
+                    href={siteConfig.footerTaglineLink.href.trim()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-v1-tagline-link mt-3 inline-block text-sm font-semibold tracking-wide uppercase transition-colors"
+                  >
+                    {siteConfig.footerTaglineLink.label.trim()}
+                  </a>
+                )}
             </div>
 
             <div className="footer-v1-nav-column flex flex-col items-center justify-center gap-4 lg:px-4">
