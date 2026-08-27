@@ -4,7 +4,7 @@
   "number": 4,
   "name": "Spartan Restoration",
   "publish": {
-    "remoteUrl": "git@github.com:jrinard/SpartanRestoration.git",
+    "remoteUrl": "git@github.com:jrinard/spartan.git",
     "remoteName": "spartan",
     "branch": "main",
     "localPath": "/Users/joshuarinard/Desktop/StonePillar-Spartan/SpartanRestoration-Website"
