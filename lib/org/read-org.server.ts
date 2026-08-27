@@ -269,7 +269,7 @@ export async function readOrgSeo(orgId: string): Promise<OrgSeoFile> {
   const seo = stored ?? defaultSeo(site);
   const config = await readOrgHomepageConfig(orgId);
   const { seo: next, changed } = ensureSeoRoutesForPages(seo, config, site);
-  if (changed) {
+  if (changed && !isVisionRuntime()) {
     await writeOrgSeo(orgId, next);
   }
   return next;
@@ -295,7 +295,7 @@ export async function readOrgHomepageConfig(orgId: string): Promise<HomepageConf
   const config = reconcileHomePageGlobalPreviewSettings(augmented);
   const pathChanged = JSON.stringify(stored ?? null) !== JSON.stringify(rewritten ?? null);
   const reconciled = JSON.stringify(augmented) !== JSON.stringify(config);
-  if (changed || pathChanged || reconciled) {
+  if (!isVisionRuntime() && (changed || pathChanged || reconciled)) {
     await writeJsonFile(orgFile(orgId, "homepage-config.json"), config);
   }
   return config;
@@ -318,7 +318,7 @@ export async function readOrgStagingConfig(orgId: string): Promise<HomepageConfi
   const config = reconcileHomePageGlobalPreviewSettings(augmented);
   const pathChanged = JSON.stringify(stored) !== JSON.stringify(rewritten);
   const reconciled = JSON.stringify(augmented) !== JSON.stringify(config);
-  if (changed || pathChanged || reconciled) {
+  if (!isVisionRuntime() && (changed || pathChanged || reconciled)) {
     await writeJsonFile(orgFile(orgId, "staging.json"), config);
   }
   return config;

@@ -31,6 +31,10 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Vision deploys read org pillar from site/ at runtime — ensure it ships in server bundles.
+  outputFileTracingIncludes: {
+    "/*": ["./site/**/*"],
+  },
   async rewrites() {
     return {
       beforeFiles: [
