@@ -1,0 +1,9 @@
+# Vision deploy repo — synced on Pack / Send from lifespring-starter
+node_modules/
+.next/
+out/
+.env
+.env*.local
+.DS_Store
+.vercel
+*.log

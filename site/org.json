@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "spartan",
+  "number": 4,
+  "name": "Spartan Restoration",
+  "publish": {
+    "remoteUrl": "git@github.com:jrinard/SpartanRestoration.git",
+    "remoteName": "spartan",
+    "branch": "main",
+    "localPath": "/Users/joshuarinard/Desktop/StonePillar-Spartan/SpartanRestoration-Website"
+  }
+}

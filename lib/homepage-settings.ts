@@ -1,0 +1,91 @@
+import type { SpacerGradientStyle, SpacerStripeStyle } from "@/components/sections/Spacer";
+import type { ContentInstanceSettings } from "@/lib/content-instance-storage";
+import type { SpacerInstanceSettings } from "@/lib/spacer-instance-storage";
+import type { SectionInstanceSettings } from "@/lib/section-instance-storage";
+import type { ContactPreviewSettings } from "@/lib/contact-preview";
+import type { CtaV1PreviewSettings } from "@/lib/cta-v1-preview";
+import type { FooterV3PreviewSettings } from "@/lib/footer-v3-preview";
+import type { FooterV4PreviewSettings } from "@/lib/footer-v4-preview";
+import type { FooterV1PreviewSettings } from "@/lib/footer-v1-preview";
+import type { HeaderV3PreviewSettings } from "@/lib/header-v3-gradient";
+import type { HeroBannerPreviewSettings } from "@/lib/hero-banner-preview";
+import type { HeroV1PreviewSettings } from "@/lib/hero-v1-preview";
+import type { HeroV21PreviewSettings } from "@/lib/hero-v21-preview";
+import type { HeroV4PreviewSettings } from "@/lib/hero-v4-preview";
+import type { PortfolioPreviewSettings } from "@/lib/portfolio-preview";
+import type { PortfolioV2PreviewSettings } from "@/lib/portfolio-v2-preview";
+import type { ImagesV1PreviewSettings } from "@/lib/images-v1-preview";
+import type { ReviewboxPreviewSettings } from "@/lib/reviewbox-preview";
+import type { TextIconsV3PreviewSettings } from "@/lib/text-icons-v3-preview";
+import type { TextImagePreviewSettings } from "@/lib/text-image-preview";
+import type { TextImagesPreviewSettings } from "@/lib/text-images-preview";
+import type { NavBarPreviewSettings } from "@/lib/nav-bar-preview";
+import type { TopBarPreviewSettings } from "@/lib/top-bar-preview";
+import type { ServicesIconsV2PreviewSettings } from "@/lib/services-icons-v2-preview";
+import type { ServiceAreaV1PreviewSettings } from "@/lib/service-area-preview";
+import type { ServiceAreaV2PreviewSettings } from "@/lib/service-area-v2-preview";
+import type { ReviewsPreviewSettings } from "@/lib/reviews-preview";
+import type { ServicesV1LayoutWidth } from "@/lib/services-v1-preview";
+import type { AnalyticsPreviewSettings } from "@/lib/analytics-preview";
+import type { FaviconPreviewSettings } from "@/lib/favicon-preview";
+
+/** Section-specific preview settings baked into the live homepage. */
+export type HomepagePreviewSettings = {
+  topBar?: TopBarPreviewSettings;
+  navBar?: NavBarPreviewSettings;
+  heroBanner?: HeroBannerPreviewSettings;
+  heroV1?: HeroV1PreviewSettings;
+  heroV21?: HeroV21PreviewSettings;
+  heroV4?: HeroV4PreviewSettings;
+  headerV3?: HeaderV3PreviewSettings;
+  reviewbox?: ReviewboxPreviewSettings;
+  footerV3?: FooterV3PreviewSettings;
+  footerV1?: FooterV1PreviewSettings;
+  footerV4?: FooterV4PreviewSettings;
+  portfolio?: PortfolioPreviewSettings;
+  portfolioV2?: PortfolioV2PreviewSettings;
+  servicesV1LayoutWidth?: ServicesV1LayoutWidth;
+  /** @deprecated — first spacer without an id; use spacers instead. */
+  spacerStripe?: SpacerStripeStyle;
+  spacerGradient?: SpacerGradientStyle;
+  /** Per-spacer preview settings keyed by section id. */
+  spacers?: Record<string, SpacerInstanceSettings>;
+  /** Per-content preview settings keyed by section id. */
+  contents?: Record<string, ContentInstanceSettings>;
+  /** Per-section preview settings keyed by unique section slot id. */
+  sections?: Record<string, SectionInstanceSettings>;
+  contact?: ContactPreviewSettings;
+  ctaV1?: CtaV1PreviewSettings;
+  textIconsV3?: TextIconsV3PreviewSettings;
+  textImage?: TextImagePreviewSettings;
+  textImages?: TextImagesPreviewSettings;
+  imagesV1?: ImagesV1PreviewSettings;
+  servicesIconsV2?: ServicesIconsV2PreviewSettings;
+  serviceAreaV1?: ServiceAreaV1PreviewSettings;
+  serviceAreaV2?: ServiceAreaV2PreviewSettings;
+  reviews?: ReviewsPreviewSettings;
+  analytics?: AnalyticsPreviewSettings;
+  favicon?: FaviconPreviewSettings;
+};
+
+let committedPreviewSettings: HomepagePreviewSettings | null = null;
+let preferPlaygroundPreviewSettings = false;
+
+export function setCommittedHomepagePreviewSettings(
+  settings: HomepagePreviewSettings | null,
+): void {
+  committedPreviewSettings = settings;
+}
+
+export function getCommittedHomepagePreviewSettings(): HomepagePreviewSettings | null {
+  return committedPreviewSettings;
+}
+
+/** Playground routes should read localStorage, not committed homepage settings. */
+export function setPreferPlaygroundPreviewSettings(prefer: boolean): void {
+  preferPlaygroundPreviewSettings = prefer;
+}
+
+export function shouldUsePlaygroundPreviewSettings(): boolean {
+  return preferPlaygroundPreviewSettings;
+}

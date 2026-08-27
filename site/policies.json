@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "privacy": {
+    "enabled": false,
+    "title": "Privacy Policy",
+    "noIndex": true,
+    "body": ""
+  },
+  "terms": {
+    "enabled": false,
+    "title": "Terms & Conditions",
+    "noIndex": true,
+    "body": ""
+  }
+}

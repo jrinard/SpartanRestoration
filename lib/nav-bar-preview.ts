@@ -1,0 +1,199 @@
+import { getSiteLayoutWidthClassName } from "@/lib/site-layout";
+import { parseNavHref } from "@/lib/scroll-to-hash";
+
+export type NavBarLayoutWidth = "contained" | "full";
+
+export type NavBarMobileToggleAlign = "left" | "center" | "right";
+
+export type NavBarLinkTarget = "_self" | "_blank";
+
+export type NavBarLink = {
+  id: string;
+  label: string;
+  href: string;
+  target?: NavBarLinkTarget;
+  /** When false, link is hidden on desktop nav. Defaults to visible. */
+  visibleDesktop?: boolean;
+  /** When false, link is hidden on mobile nav. Defaults to visible. */
+  visibleMobile?: boolean;
+};
+
+export type NavBarPreviewSettings = {
+  layoutWidth: NavBarLayoutWidth;
+  heightPx: number;
+  backgroundColor: string;
+  /** Full-width background behind the bar (visible in contained mode). */
+  outerBackgroundColor: string;
+  linkColor: string;
+  linkHoverColor: string;
+  /** Mobile hamburger alignment within the nav bar. */
+  mobileToggleAlign: NavBarMobileToggleAlign;
+  items: NavBarLink[];
+};
+
+export const defaultNavBarHeightPx = 70;
+
+export const navBarHeightOptions = [56, 64, 70, 80, 88, 96] as const;
+
+export const navBarLayoutWidths: { value: NavBarLayoutWidth; label: string }[] = [
+  { value: "contained", label: "Contained" },
+  { value: "full", label: "Full width" },
+];
+
+export const navBarMobileToggleAlignOptions: {
+  value: NavBarMobileToggleAlign;
+  label: string;
+}[] = [
+  { value: "left", label: "Left" },
+  { value: "center", label: "Center" },
+  { value: "right", label: "Right" },
+];
+
+export const defaultNavBarLinks: NavBarLink[] = [
+  { id: "nav-home", label: "Home", href: "/" },
+  { id: "nav-services", label: "Our Services", href: "#services" },
+  { id: "nav-insurance", label: "Insurance", href: "#insurance" },
+  { id: "nav-gallery", label: "Gallery", href: "#gallery" },
+  { id: "nav-service-area", label: "Service Areas", href: "/service-areas" },
+];
+
+export function createNavBarLinkId(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return `nav-link-${crypto.randomUUID().slice(0, 8)}`;
+  }
+  return `nav-link-${Date.now().toString(36)}`;
+}
+
+export function isExternalNavHref(href: string): boolean {
+  const trimmed = href.trim();
+  return /^https?:\/\//i.test(trimmed) || trimmed.startsWith("//");
+}
+
+/** Sentinel value for the nav link editor Page dropdown. */
+export const navBarExternalPageValue = "__external__";
+
+export function isNavBarLinkVisible(
+  link: NavBarLink,
+  viewport: "desktop" | "mobile",
+): boolean {
+  if (viewport === "desktop") return link.visibleDesktop !== false;
+  return link.visibleMobile !== false;
+}
+
+export function filterNavBarLinksForViewport(
+  links: readonly NavBarLink[],
+  viewport: "desktop" | "mobile",
+): NavBarLink[] {
+  return links.filter((link) => isNavBarLinkVisible(link, viewport));
+}
+
+/** Tailwind classes for responsive link visibility (e.g. footer nav). */
+export function getNavBarLinkVisibilityClassName(link: NavBarLink): string {
+  const desktop = link.visibleDesktop !== false;
+  const mobile = link.visibleMobile !== false;
+  if (desktop && mobile) return "";
+  if (desktop && !mobile) return "hidden lg:block";
+  if (!desktop && mobile) return "lg:hidden";
+  return "hidden";
+}
+
+export function resolveNavBarLinkTarget(link: NavBarLink): NavBarLinkTarget | undefined {
+  if (link.target === "_blank" || link.target === "_self") {
+    return link.target;
+  }
+  return undefined;
+}
+
+export function parseNavBarLinkHref(href: string): { pageHref: string; anchorId: string } {
+  if (isExternalNavHref(href)) {
+    return { pageHref: href.trim(), anchorId: "" };
+  }
+
+  const { pathname, hash } = parseNavHref(href);
+  return {
+    pageHref: pathname || "/",
+    anchorId: hash.replace(/^#/, ""),
+  };
+}
+
+export function buildNavBarLinkHref(pageHref: string, anchorId: string): string {
+  const page = pageHref.trim() || "/";
+  if (isExternalNavHref(page)) {
+    return page;
+  }
+  const anchor = anchorId.trim().replace(/^#/, "");
+  if (!anchor) return page;
+  if (page === "/") return `#${anchor}`;
+  return `${page}#${anchor}`;
+}
+
+export function createNavBarLink(partial: Partial<NavBarLink> = {}, index = 0): NavBarLink {
+  const pageHref = partial.href ? parseNavBarLinkHref(partial.href).pageHref : "/";
+  const anchorId = partial.href ? parseNavBarLinkHref(partial.href).anchorId : "";
+
+  return {
+    id: partial.id ?? createNavBarLinkId(),
+    label: partial.label?.trim() || `Link ${index + 1}`,
+    href: partial.href?.trim() || buildNavBarLinkHref(pageHref, anchorId),
+    target: partial.target,
+    visibleDesktop: partial.visibleDesktop !== false,
+    visibleMobile: partial.visibleMobile !== false,
+  };
+}
+
+export function getNavBarLinkPillLabel(link: NavBarLink, index: number): string {
+  const label = link.label.trim();
+  return label || `Link ${index + 1}`;
+}
+
+export function addNavBarLink(links: readonly NavBarLink[]): NavBarLink[] {
+  return [...links, createNavBarLink({}, links.length)];
+}
+
+export function updateNavBarLink(
+  links: readonly NavBarLink[],
+  linkId: string,
+  patch: Partial<NavBarLink>,
+): NavBarLink[] {
+  return links.map((link) => (link.id === linkId ? { ...link, ...patch, id: link.id } : link));
+}
+
+export function deleteNavBarLink(links: readonly NavBarLink[], linkId: string): NavBarLink[] {
+  return links.filter((link) => link.id !== linkId);
+}
+
+export function reorderNavBarLinks(
+  links: readonly NavBarLink[],
+  fromIndex: number,
+  toIndex: number,
+): NavBarLink[] {
+  if (fromIndex === toIndex) return [...links];
+
+  const next = [...links];
+  const [moved] = next.splice(fromIndex, 1);
+  next.splice(toIndex, 0, moved);
+  return next;
+}
+
+export const defaultNavBarPreviewSettings: NavBarPreviewSettings = {
+  layoutWidth: "contained",
+  heightPx: defaultNavBarHeightPx,
+  backgroundColor: "#000000",
+  outerBackgroundColor: "#ffffff",
+  linkColor: "#ffffff",
+  linkHoverColor: "#F3C35D",
+  mobileToggleAlign: "center",
+  items: defaultNavBarLinks,
+};
+
+export function getNavBarLayoutWidthClassName(layoutWidth: NavBarLayoutWidth): string {
+  return getSiteLayoutWidthClassName(layoutWidth);
+}
+
+export function getNavBarMobileToggleAlignClassName(
+  align: NavBarMobileToggleAlign,
+): string {
+  if (align === "left") return "nav-bar-v1-mobile--left";
+  if (align === "right") return "nav-bar-v1-mobile--right";
+  return "nav-bar-v1-mobile--center";
+}

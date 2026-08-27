@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "routes": {
+    "home": {
+      "title": "Spartan Restoration | The best defense in water damage.",
+      "description": "24/7 emergency water, mold, storm, and sewage restoration in Vancouver, WA, Portland, OR, and the Pacific Northwest. Licensed, insured, IICRC-certified crews.",
+      "path": "/",
+      "ogImageAlt": "Spartan Restoration logo — The best defense in water damage.",
+      "keywords": [
+        "Spartan Restoration",
+        "water damage restoration Vancouver WA",
+        "water damage restoration Portland OR",
+        "emergency water damage restoration",
+        "mold remediation Vancouver WA",
+        "mold remediation Portland OR",
+        "storm damage restoration Pacific Northwest",
+        "sewage cleanup Vancouver WA",
+        "IICRC certified restoration company",
+        "24/7 emergency restoration Clark County"
+      ]
+    },
+    "our-services": {
+      "title": "Water & Mold Restoration Services | Spartan Restoration",
+      "description": "Water damage restoration, mold remediation, storm damage repair, sewage cleanup, and 24/7 emergency response in Vancouver, WA and Portland, OR. Licensed, insured, IICRC-certified technicians.",
+      "path": "/our-services",
+      "ogImageAlt": "Spartan Restoration — water, mold, storm, and sewage restoration services",
+      "keywords": [
+        "water damage restoration services",
+        "mold remediation Portland OR",
+        "mold removal Vancouver WA",
+        "storm damage repair Pacific Northwest",
+        "sewage cleanup contractor",
+        "emergency water extraction",
+        "structural drying services",
+        "insurance claim restoration help",
+        "IICRC mold remediation",
+        "flood damage restoration Vancouver WA"
+      ]
+    },
+    "service-area": {
+      "title": "Service Area | Spartan Restoration — Vancouver, Portland & PNW",
+      "description": "Spartan Restoration serves Vancouver, WA, Portland, OR, Clark County, and the Pacific Northwest with licensed, insured, 24/7 emergency restoration crews.",
+      "path": "/service-area",
+      "ogImageAlt": "Spartan Restoration service area — Vancouver, Portland, and the Pacific Northwest",
+      "keywords": [
+        "water damage restoration Vancouver WA",
+        "water damage restoration Portland OR",
+        "restoration company Clark County WA",
+        "mold remediation Southwest Washington",
+        "emergency restoration Pacific Northwest",
+        "restoration contractor Camas WA",
+        "restoration contractor Washougal WA",
+        "Portland metro water damage",
+        "Vancouver WA flood damage",
+        "PNW storm damage restoration"
+      ]
+    },
+    "preview": {
+      "title": "Preview",
+      "description": "Client staging preview — design review only, not indexed by search engines.",
+      "path": "/preview",
+      "noIndex": true
+    }
+  }
+}

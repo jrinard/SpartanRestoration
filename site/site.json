@@ -1,0 +1,126 @@
+{
+  "name": "Spartan Restoration",
+  "domain": "spartanrestorationnw.com",
+  "url": "https://spartanrestorationnw.com",
+  "tagline": "The best defense in water damage.",
+  "description": "24/7 emergency water, mold, storm, and sewage restoration in Vancouver, WA, Portland, OR, and the Pacific Northwest. Licensed, insured, IICRC-certified crews.",
+  "phone": "503-975-9082",
+  "serviceArea": "Serving Vancouver, WA and Portland, OR and the Pacific Northwest",
+  "email": "spartanspc2026@gmail.com",
+  "address": "Vancouver, WA",
+  "teamContacts": [
+    {
+      "name": "Justin Dauven",
+      "phone": "503-975-9082",
+      "email": "Stonepillarcontractors@gmail.com"
+    },
+    {
+      "name": "Curt Farber",
+      "phone": "360-608-6640",
+      "email": "charlesfarber7111@gmail.com"
+    }
+  ],
+  "underConstruction": {
+    "headline": "Under Construction",
+    "subheadline": "Our new site is on the way.",
+    "brandTitleLines": [
+      "Spartan",
+      "Restoration"
+    ]
+  },
+  "social": {
+    "facebook": "https://www.facebook.com/profile.php?id=61575772472164",
+    "instagram": "#",
+    "linkedin": "#",
+    "twitter": "#"
+  },
+  "nav": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "Forge",
+      "href": "/forge"
+    },
+    {
+      "label": "Preview",
+      "href": "/preview"
+    },
+    {
+      "label": "Our Services",
+      "href": "/our-services"
+    },
+    {
+      "label": "Service Area",
+      "href": "/service-area"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact"
+    }
+  ],
+  "primaryNav": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "Our Services",
+      "href": "/our-services"
+    },
+    {
+      "label": "Service Area",
+      "href": "/service-area"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact"
+    }
+  ],
+  "footerNav": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "Our Services",
+      "href": "/our-services"
+    },
+    {
+      "label": "Insurance",
+      "href": "#insurance"
+    },
+    {
+      "label": "Gallery",
+      "href": "#gallery"
+    },
+    {
+      "label": "Service Area",
+      "href": "/service-area"
+    }
+  ],
+  "designerCredit": {
+    "label": "LifeSpring Design",
+    "href": "https://www.lifespringdesign.com/"
+  },
+  "footerTaglineLink": {
+    "label": "Lead Scout",
+    "href": "https://spartan-restoration-scout.bankroll117.chatgpt.site"
+  },
+  "assets": {
+    "logo": "/org-assets/spartan/SpartanLogo2.png",
+    "logoWhite": "/org-assets/spartan/SpartanLogo2.png",
+    "logoBlack": "/org-assets/spartan/SpartanLogo2.png",
+    "logoColor": "/org-assets/spartan/SpartanLogo2.png",
+    "ogImage": "/org-assets/spartan/SpartanLogo.png",
+    "favicon": "/org-assets/spartan/spartan-favicon-32.png",
+    "appleTouchIcon": "/org-assets/spartan/spartan-favicon-180.png",
+    "themeFolder": "spartan"
+  },
+  "launch": {
+    "mode": "live",
+    "previewPlaygroundPath": "/forge",
+    "previewPath": "/preview"
+  }
+}
