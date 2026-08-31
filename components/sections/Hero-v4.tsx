@@ -44,6 +44,7 @@ import {
   resolveHeroV4FormLeadSource,
   resolveHeroV4ShowCta,
 } from "@/lib/hero-v4-preview";
+import type { NavBarLink } from "@/lib/nav-bar-preview";
 import { phoneTelHref } from "@/lib/phone";
 import { buildBreadcrumbListSchema, buildHeroV4ServicePillsSchema } from "@/lib/seo-schema";
 import { devEditButtonClassName, devEditIconSize } from "@/lib/dev-overlay-controls";
@@ -487,7 +488,7 @@ export function HeroV4({
                               href: primaryCtaHref,
                             }}
                             linkIndex={0}
-                            onSave={(link) => {
+                            onSave={(link: NavBarLink) => {
                               update({
                                 primaryCtaLabel: link.label,
                                 primaryCtaHref: link.href,
