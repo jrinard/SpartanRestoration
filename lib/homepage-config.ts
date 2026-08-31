@@ -1,5 +1,5 @@
 import type { ColorThemeId } from "@/lib/color-themes";
-import { defaultColorThemeId } from "@/lib/color-themes";
+import { defaultColorThemeId, normalizePageBackgroundColor } from "@/lib/color-themes";
 import type { FontThemeId } from "@/lib/creative-themes";
 import { defaultFontThemeId } from "@/lib/creative-themes";
 import type { HomepagePreviewSettings } from "@/lib/homepage-settings";
@@ -28,6 +28,8 @@ export type HomepageConfig = {
   pages?: HomepagePageSnapshot[];
   colorThemeId: ColorThemeId;
   fontThemeId: FontThemeId;
+  /** Solid canvas color behind sections. Omit to use the color theme default. */
+  pageBackgroundColor?: string;
   previewSettings?: HomepagePreviewSettings;
 };
 
@@ -133,11 +135,14 @@ export function normalizeHomepageConfig(value: unknown): HomepageConfig {
       })
     : [];
 
+  const pageBackgroundColor = normalizePageBackgroundColor(config.pageBackgroundColor);
+
   return {
     sections,
     pages: normalizeHomepagePageSnapshots(config.pages),
     colorThemeId: (config.colorThemeId as ColorThemeId | undefined) ?? defaultColorThemeId,
     fontThemeId: (config.fontThemeId as FontThemeId | undefined) ?? defaultFontThemeId,
+    ...(pageBackgroundColor ? { pageBackgroundColor } : {}),
     previewSettings:
       config.previewSettings && typeof config.previewSettings === "object"
         ? (config.previewSettings as HomepagePreviewSettings)

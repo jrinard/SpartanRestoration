@@ -11,6 +11,7 @@ import {
 import {
   defaultColorThemeId,
   getColorTheme,
+  normalizePageBackgroundColor,
   type ColorThemeId,
 } from "@/lib/color-themes";
 import {
@@ -19,13 +20,15 @@ import {
   getFontTheme,
   type FontThemeId,
 } from "@/lib/creative-themes";
-import { orgStorageGet, orgStorageSet } from "@/lib/org/browser-storage";
+import { orgStorageGet, orgStorageRemove, orgStorageSet } from "@/lib/org/browser-storage";
 
 type CreativeContextValue = {
   fontThemeId: FontThemeId;
   setFontThemeId: (id: FontThemeId) => void;
   colorThemeId: ColorThemeId;
   setColorThemeId: (id: ColorThemeId) => void;
+  pageBackgroundColor: string | undefined;
+  setPageBackgroundColor: (color: string | null) => void;
 };
 
 const CreativeContext = createContext<CreativeContextValue | null>(null);
@@ -46,6 +49,7 @@ type CreativeProviderProps = {
   children: ReactNode;
   initialColorThemeId?: ColorThemeId;
   initialFontThemeId?: FontThemeId;
+  initialPageBackgroundColor?: string;
   /** When false, theme is fixed (live homepage). Default true for playground. */
   persistTheme?: boolean;
 };
@@ -54,10 +58,14 @@ export function CreativeProvider({
   children,
   initialColorThemeId = defaultColorThemeId,
   initialFontThemeId = defaultFontThemeId,
+  initialPageBackgroundColor,
   persistTheme = true,
 }: CreativeProviderProps) {
   const [fontThemeId, setFontThemeIdState] = useState<FontThemeId>(initialFontThemeId);
   const [colorThemeId, setColorThemeIdState] = useState<ColorThemeId>(initialColorThemeId);
+  const [pageBackgroundColor, setPageBackgroundColorState] = useState<string | undefined>(
+    () => normalizePageBackgroundColor(initialPageBackgroundColor),
+  );
 
   useEffect(() => {
     if (!persistTheme) return;
@@ -75,7 +83,19 @@ export function CreativeProvider({
         orgStorageSet(creativeStorageKeys.colorTheme, theme.id);
       }
     }
+
+    const storedPageBackground = orgStorageGet(creativeStorageKeys.pageBackground);
+    setPageBackgroundColorState(normalizePageBackgroundColor(storedPageBackground ?? undefined));
   }, [persistTheme]);
+
+  useEffect(() => {
+    if (!pageBackgroundColor) return;
+    const previous = document.body.style.backgroundColor;
+    document.body.style.backgroundColor = pageBackgroundColor;
+    return () => {
+      document.body.style.backgroundColor = previous;
+    };
+  }, [pageBackgroundColor]);
 
   function setFontThemeId(id: FontThemeId) {
     setFontThemeIdState(id);
@@ -91,19 +111,39 @@ export function CreativeProvider({
     }
   }
 
+  function setPageBackgroundColor(color: string | null) {
+    const next = normalizePageBackgroundColor(color);
+    setPageBackgroundColorState(next);
+    if (!persistTheme) return;
+    if (next) {
+      orgStorageSet(creativeStorageKeys.pageBackground, next);
+    } else {
+      orgStorageRemove(creativeStorageKeys.pageBackground);
+    }
+  }
+
   const fontTheme = getFontTheme(fontThemeId);
   const style = {
     "--font-sans": fontTheme.sans,
     "--font-serif": fontTheme.serif,
+    ...(pageBackgroundColor ? { "--page-background": pageBackgroundColor } : {}),
   } as CSSProperties;
 
   return (
     <CreativeContext.Provider
-      value={{ fontThemeId, setFontThemeId, colorThemeId, setColorThemeId }}
+      value={{
+        fontThemeId,
+        setFontThemeId,
+        colorThemeId,
+        setColorThemeId,
+        pageBackgroundColor,
+        setPageBackgroundColor,
+      }}
     >
       <div
         className="creative-preview min-h-screen"
         data-color-theme={colorThemeId}
+        data-page-background={pageBackgroundColor}
         style={style}
       >
         {children}

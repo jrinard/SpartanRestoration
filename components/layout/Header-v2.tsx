@@ -104,7 +104,7 @@ export function HeaderV2({ className }: HeaderV2Props) {
             )}
             <HeaderBrandLink
               className={cn(
-                "header-brand-link header-v2-brand-link relative z-20 flex justify-center",
+                "header-brand-link header-v2-brand-link relative z-50 flex justify-center",
                 logoOverflow && "header-brand-link--overflow",
                 (settings.logoMarginTopPx !== 0 ||
                   settings.logoHeightPx > 0 ||

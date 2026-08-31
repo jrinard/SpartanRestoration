@@ -21,6 +21,7 @@ export function SiteShell({ children, config }: SiteShellProps) {
       <CreativeProvider
         initialColorThemeId={config.colorThemeId}
         initialFontThemeId={config.fontThemeId}
+        initialPageBackgroundColor={config.pageBackgroundColor}
         persistTheme={false}
       >
         <ContactV1PreviewProvider initialSettings={config.previewSettings?.contact} globalOnly>

@@ -26,6 +26,30 @@ export function getPortfolioV2TabPillLabel(tab: PortfolioV2Tab, index: number): 
   return `Tab ${index + 1}`;
 }
 
+export function dedupePortfolioV2TabIds(tabs: readonly PortfolioV2Tab[]): PortfolioV2Tab[] {
+  const seen = new Set<string>();
+  return tabs.map((tab) => {
+    if (!seen.has(tab.id)) {
+      seen.add(tab.id);
+      return tab;
+    }
+    return { ...tab, id: createPortfolioV2TabId() };
+  });
+}
+
+export function dedupePortfolioV2ModalImageIds(
+  images: readonly PortfolioV2ModalImage[],
+): PortfolioV2ModalImage[] {
+  const seen = new Set<string>();
+  return images.map((image) => {
+    if (!seen.has(image.id)) {
+      seen.add(image.id);
+      return image;
+    }
+    return { ...image, id: createPortfolioV2ModalImageId() };
+  });
+}
+
 export function addPortfolioV2Tab(tabs: readonly PortfolioV2Tab[]): PortfolioV2Tab[] {
   const index = tabs.length + 1;
   const label = `Category ${index}`;

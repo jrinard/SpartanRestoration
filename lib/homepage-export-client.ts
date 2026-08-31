@@ -227,12 +227,14 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
   const previewSettings = collectPreviewSettingsFromPages(pagesState);
   const storedColor = orgStorageGet(creativeStorageKeys.colorTheme);
   const storedFont = orgStorageGet(creativeStorageKeys.fontTheme);
+  const storedPageBackground = orgStorageGet(creativeStorageKeys.pageBackground);
 
   return normalizeHomepageConfigForSave({
     sections: homeSections,
     pages: pages.length > 0 ? pages : undefined,
     colorThemeId: storedColor ? getColorTheme(storedColor).id : ("lifespring" as ColorThemeId),
     fontThemeId: storedFont ? getFontTheme(storedFont).id : ("editorial" as FontThemeId),
+    pageBackgroundColor: storedPageBackground ?? undefined,
     previewSettings:
       Object.keys(previewSettings).length > 0
         ? (previewSettings as HomepageConfig["previewSettings"])

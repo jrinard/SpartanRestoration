@@ -58,4 +58,5 @@ export function getFontTheme(id: FontThemeId | string): FontTheme {
 export const creativeStorageKeys = {
   fontTheme: "lifespring-creative-font-theme",
   colorTheme: "lifespring-creative-color-theme",
+  pageBackground: "lifespring-creative-page-background",
 } as const;

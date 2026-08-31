@@ -189,7 +189,7 @@ export const sectionGroups = {
         ),
       },
       "hero-v4": {
-        label: "Hero-v4 (Service area)",
+        label: "Hero-v4",
         render: () => <HeroV4WithPreview />,
       },
       "hero-banner": {

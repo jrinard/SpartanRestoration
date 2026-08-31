@@ -42,7 +42,7 @@ import {
   type SectionInstanceSettings,
 } from "@/lib/section-instance-storage";
 import { faviconPreviewStorageKey } from "@/lib/favicon-preview-storage";
-import { getClientOrgId, orgStorageSet, clearCurrentOrgStorage, purgeLegacyGlobalPlaygroundKeys } from "@/lib/org/browser-storage";
+import { getClientOrgId, orgStorageSet, orgStorageRemove, clearCurrentOrgStorage, purgeLegacyGlobalPlaygroundKeys } from "@/lib/org/browser-storage";
 import { normalizeLsdServicesV1Instance } from "@/lib/services-v1-cta";
 import { reconcileHomePageGlobalPreviewSettings } from "@/lib/home-preview-sync";
 
@@ -94,6 +94,11 @@ export function applyHomepageConfigToStorage(config: HomepageConfig): void {
 
   orgStorageSet(creativeStorageKeys.colorTheme, config.colorThemeId);
   orgStorageSet(creativeStorageKeys.fontTheme, config.fontThemeId);
+  if (config.pageBackgroundColor) {
+    orgStorageSet(creativeStorageKeys.pageBackground, config.pageBackgroundColor);
+  } else {
+    orgStorageRemove(creativeStorageKeys.pageBackground);
+  }
 
   savePlaygroundPagesState(buildPlaygroundPagesStateFromHomepageConfig(config));
 

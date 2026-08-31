@@ -6,13 +6,12 @@ import {
   clampPortfolioV2HoverScale,
   defaultPortfolioV2PreviewSettings,
   defaultPortfolioV2Tabs,
-  defaultPortfolioV2TabCount,
   resolvePortfolioV2TabLabel,
   type PortfolioV2ModalImage,
   type PortfolioV2PreviewSettings,
   type PortfolioV2Tab,
 } from "@/lib/portfolio-v2-preview";
-import { createPortfolioV2TabId } from "@/lib/portfolio-v2-tabs";
+import { createPortfolioV2TabId, dedupePortfolioV2ModalImageIds, dedupePortfolioV2TabIds } from "@/lib/portfolio-v2-tabs";
 import type { SiteLayoutWidth } from "@/lib/site-layout";
 
 import { orgStorageGet, orgStorageSet } from "@/lib/org/browser-storage";
@@ -91,7 +90,7 @@ function normalizePortfolioV2Tab(value: unknown, fallback: PortfolioV2Tab): Port
         : fallback.backgroundOverlayOpacity,
     ),
     labelColor: isHexColor(tab.labelColor) ? tab.labelColor : fallback.labelColor,
-    modalImages: normalizePortfolioV2ModalImages(tab.modalImages),
+    modalImages: dedupePortfolioV2ModalImageIds(normalizePortfolioV2ModalImages(tab.modalImages)),
   };
 }
 
@@ -118,15 +117,7 @@ function normalizePortfolioV2Tabs(value: unknown): PortfolioV2Tab[] {
     ),
   );
 
-  while (normalized.length < defaultPortfolioV2TabCount) {
-    const index = normalized.length;
-    const fallback = defaultPortfolioV2Tabs[index];
-    if (fallback) {
-      normalized.push(clonePortfolioV2Tab(fallback));
-    }
-  }
-
-  return normalized;
+  return dedupePortfolioV2TabIds(normalized);
 }
 
 export function normalizePortfolioV2PreviewSettings(

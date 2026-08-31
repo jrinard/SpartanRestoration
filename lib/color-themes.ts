@@ -16,6 +16,8 @@ export type ColorTheme = {
   id: ColorThemeId;
   label: string;
   colors: ThemeColorSwatch[];
+  /** Canvas color behind sections when no page-background override is set. */
+  pageBackground: string;
   /** Optional override; defaults to theme label when not LifeSpring. */
   headerWordmark?: string;
   /** Fallback folder when an org has no themeFolder — e.g. stone → public/stone/images/ */
@@ -26,6 +28,7 @@ export const colorThemes: ColorTheme[] = [
   {
     id: "dark",
     label: "Dark-Space",
+    pageBackground: "#06060e",
     colors: [
       { label: "Background", hex: "#06060E" },
       { label: "Surface", hex: "#0F0F1A" },
@@ -40,6 +43,7 @@ export const colorThemes: ColorTheme[] = [
     id: "lifespring",
     label: "LifeSpring",
     assetFolder: "lsd",
+    pageBackground: "#030303",
     colors: [
       { label: "Base", hex: "#030303" },
       { label: "Surface", hex: "#1B1B1B" },
@@ -54,6 +58,7 @@ export const colorThemes: ColorTheme[] = [
   {
     id: "light",
     label: "Light",
+    pageBackground: "#f6f5fa",
     colors: [
       { label: "Background", hex: "#F6F5FA" },
       { label: "Surface", hex: "#FFFFFF" },
@@ -67,6 +72,7 @@ export const colorThemes: ColorTheme[] = [
   {
     id: "stone",
     label: "Stone",
+    pageBackground: "#faf0e0",
     colors: [
       { label: "Cream", hex: "#FAF0E0" },
       { label: "Sand", hex: "#FAD6AC" },
@@ -80,6 +86,7 @@ export const colorThemes: ColorTheme[] = [
   {
     id: "spartan",
     label: "Spartan",
+    pageBackground: "#edded8",
     colors: [
       { label: "Navy", hex: "#2E4359" },
       { label: "Black", hex: "#000000" },
@@ -91,6 +98,7 @@ export const colorThemes: ColorTheme[] = [
   {
     id: "ocean",
     label: "Ocean",
+    pageBackground: "#e2e6e7",
     colors: [
       { label: "Light grey", hex: "#E2E6E7" },
       { label: "Cyan", hex: "#78E7FD" },
@@ -104,6 +112,7 @@ export const colorThemes: ColorTheme[] = [
     id: "langham",
     label: "Langham",
     headerWordmark: "Langham Construction",
+    pageBackground: "#f8f8f6",
     colors: [
       { label: "Yellow", hex: "#F7AA0A" },
       { label: "Yellow light", hex: "#FFC233" },
@@ -124,6 +133,19 @@ export function getColorTheme(id: ColorThemeId | string): ColorTheme {
 
 export function getThemeColors(id: ColorThemeId | string): ThemeColorSwatch[] {
   return getColorTheme(id).colors;
+}
+
+export function getThemePageBackground(id: ColorThemeId | string): string {
+  return getColorTheme(id).pageBackground;
+}
+
+const pageBackgroundHex = /^#[0-9a-fA-F]{6}$/;
+
+/** `#rrggbb` page-canvas override, or undefined to use the theme default. */
+export function normalizePageBackgroundColor(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  return pageBackgroundHex.test(trimmed) ? trimmed.toLowerCase() : undefined;
 }
 
 /** Fallback folder when an org has no themeFolder — e.g. stone → public/stone/images/ */

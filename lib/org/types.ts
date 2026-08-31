@@ -32,6 +32,8 @@ export type OrgThemeFile = {
   schemaVersion: number;
   colorThemeId: ColorThemeId;
   fontThemeId: FontThemeId;
+  /** Solid canvas color behind sections. Omit to use the color theme default. */
+  pageBackgroundColor?: string;
 };
 
 export type OrgSeoRoute = {

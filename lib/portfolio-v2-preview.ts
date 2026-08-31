@@ -130,14 +130,12 @@ export const defaultPortfolioV2TabLabels = [
 
 export const defaultPortfolioV2TabCount = defaultPortfolioV2TabLabels.length;
 
-/** Horizontal list layout — tabs per left column before the second column starts. */
-export const portfolioV2ListFirstColumnTabCount = 4;
-
+/** Split horizontal list tabs into two balanced columns (e.g. 6 → 3+3, 7 → 4+3). */
 export function splitPortfolioV2TabsForListColumns(tabs: PortfolioV2Tab[]): {
   firstColumn: PortfolioV2Tab[];
   secondColumn: PortfolioV2Tab[];
 } {
-  const splitAt = portfolioV2ListFirstColumnTabCount;
+  const splitAt = Math.ceil(tabs.length / 2);
   return {
     firstColumn: tabs.slice(0, splitAt),
     secondColumn: tabs.slice(splitAt),

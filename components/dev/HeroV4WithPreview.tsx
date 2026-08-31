@@ -24,9 +24,17 @@ export function HeroV4WithPreview() {
       formTrustNotes={settings.formTrustNotes}
       formLeadSource={settings.formLeadSource}
       showForm={settings.showForm}
+      showCta={settings.showCta}
       showPhoneCta={settings.showPhoneCta}
       showServicePills={settings.showServicePills}
       servicePills={settings.servicePills}
+      showGallery={settings.showGallery}
+      gallerySlides={settings.gallerySlides}
+      galleryIntervalMs={settings.galleryIntervalMs}
+      galleryTransition={settings.galleryTransition}
+      galleryHeightPx={settings.galleryHeightPx}
+      galleryBackground={settings.galleryBackground}
+      galleryRadiusPx={settings.galleryRadiusPx}
     />
   );
 }

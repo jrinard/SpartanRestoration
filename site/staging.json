@@ -1315,8 +1315,8 @@
       }
     },
     "analytics": {
-      "enabled": false,
-      "measurementId": ""
+      "enabled": true,
+      "measurementId": "G-CB0501GNVZ"
     },
     "favicon": {
       "browserTitle": "Spartan Restoration",
