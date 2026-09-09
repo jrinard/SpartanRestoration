@@ -729,6 +729,7 @@
           "layoutInverted": false,
           "phoneButtonMarginTopPx": 32,
           "phoneButtonVisible": true,
+          "imageShadowIntensity": 0,
           "contentEyebrow": "Spartan Restoration · Vancouver, WA",
           "contentImageSrc": "/org-assets/spartan/library/Store.jpg",
           "contentImageAlt": "Spartan Restoration crew responding to water damage in Vancouver, WA",
@@ -736,7 +737,8 @@
             "Emergency Water & Mold",
             "Restoration You Can Count On"
           ],
-          "contentBody": "When water or mold threatens your property, you need a team that responds with urgency and care. Spartan Restoration is a locally trusted restoration company serving Vancouver, WA, Clark County, and the Portland metro. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough."
+          "contentBody": "When water or mold threatens your property, you need a team that responds with urgency and care. Spartan Restoration is a locally trusted restoration company serving Vancouver, WA, Clark County, and the Portland metro. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough.",
+          "headlineLevel": "h1"
         }
       },
       "content-de5e3eab": {
@@ -931,7 +933,8 @@
             "The best defense in water damage"
           ],
           "contentBody": "From emergency extraction to structural drying and mold remediation, Spartan Restoration helps Vancouver and Clark County property owners recover after water and mold damage. Our crews bring clear communication and hands-on experience from the first visit through final walkthrough.",
-          "contentSidebarText": "Spartan Restoration handles emergency mitigation and restoration, extraction, drying, mold, and claim documentation. Stone Pillar Contractors is our licensed general contracting partner for reconstruction, remodeling, and tenant improvements when you're ready to rebuild after mitigation."
+          "contentSidebarText": "Spartan Restoration handles emergency mitigation and restoration, extraction, drying, mold, and claim documentation. Stone Pillar Contractors is our licensed general contracting partner for reconstruction, remodeling, and tenant improvements when you're ready to rebuild after mitigation.",
+          "headlineLevel": "h1"
         }
       },
       "content-127f9a95": {
@@ -1114,6 +1117,7 @@
           "layoutInverted": false,
           "phoneButtonMarginTopPx": 32,
           "phoneButtonVisible": true,
+          "imageShadowIntensity": 0,
           "contentEyebrow": "Spartan Restoration · Vancouver, WA",
           "contentImageSrc": "/org-assets/spartan/library/Store.jpg",
           "contentImageAlt": "Spartan Restoration crew responding to water damage in Vancouver, WA",
@@ -1121,7 +1125,8 @@
             "Emergency Water & Mold",
             "Restoration You Can Count On"
           ],
-          "contentBody": "When water or mold threatens your property, you need a team that responds with urgency and care. Spartan Restoration is a locally trusted restoration company serving Vancouver, WA, Clark County, and the Portland metro. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough."
+          "contentBody": "When water or mold threatens your property, you need a team that responds with urgency and care. Spartan Restoration is a locally trusted restoration company serving Vancouver, WA, Clark County, and the Portland metro. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough.",
+          "headlineLevel": "h1"
         }
       },
       "content-de5e3eab": {
@@ -1856,7 +1861,8 @@
             "The best defense in water damage"
           ],
           "contentBody": "From emergency extraction to structural drying and mold remediation, Spartan Restoration helps Vancouver and Clark County property owners recover after water and mold damage. Our crews bring clear communication and hands-on experience from the first visit through final walkthrough.",
-          "contentSidebarText": "Spartan Restoration handles emergency mitigation and restoration, extraction, drying, mold, and claim documentation. Stone Pillar Contractors is our licensed general contracting partner for reconstruction, remodeling, and tenant improvements when you're ready to rebuild after mitigation."
+          "contentSidebarText": "Spartan Restoration handles emergency mitigation and restoration, extraction, drying, mold, and claim documentation. Stone Pillar Contractors is our licensed general contracting partner for reconstruction, remodeling, and tenant improvements when you're ready to rebuild after mitigation.",
+          "headlineLevel": "h1"
         }
       },
       "services-03be986f": {
@@ -2287,12 +2293,13 @@
               "slug": "clark-county-wa",
               "title": "Clark County, WA",
               "description": "Based in Vancouver, Spartan Restoration serves all of Clark County, including Vancouver, Camas, Washougal, Battle Ground, Ridgefield, and nearby neighborhoods. Water damage mitigation, mold remediation, and storm or sewage cleanup.",
-              "ctaLabel": "Clark County coverage"
+              "ctaLabel": "Clark County coverage",
+              "href": "/service-areas/clark-county-wa"
             },
             {
               "id": "portland-metro",
               "slug": "portland-metro-or",
-              "title": "Portland, OR",
+              "title": "Portland Metro",
               "description": "Properties on the Oregon side of the Columbia River, including Portland, Gresham, Troutdale, and surrounding communities, can call the same Vancouver team for emergency water extraction, structural drying, mold remediation, and storm cleanup.",
               "ctaLabel": "Portland help",
               "href": "/contact"
