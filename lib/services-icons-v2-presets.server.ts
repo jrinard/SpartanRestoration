@@ -6,10 +6,8 @@ import {
   normalizeServicesIconsV2PresetLibrary,
   type ServicesIconsV2PresetLibrary,
 } from "@/lib/services-icons-v2-presets";
-import {
-  normalizeServicesIconsV2PreviewSettings,
-  type ServicesIconsV2PreviewSettings,
-} from "@/lib/services-icons-v2-preview-storage";
+import type { ServicesIconsV2PreviewSettings } from "@/lib/services-icons-v2-preview";
+import { normalizeServicesIconsV2PreviewSettings } from "@/lib/services-icons-v2-preview-storage";
 
 const libraryPath = () => path.join(process.cwd(), "lib", "services-icons-v2-preset-library.json");
 

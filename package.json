@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "pack-vision": "node scripts/pack-vision.mjs"
+    "pack-vision": "node scripts/pack-vision.mjs",
+    "verify-vision": "node scripts/verify-vision-pack.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

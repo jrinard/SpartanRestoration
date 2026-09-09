@@ -11,6 +11,8 @@ export function ImageLibraryPicker(_props: {
   scope?: ImageLibraryScope;
   thumbnailSize?: "default" | "large";
   folder?: string;
+  promptAlt?: boolean;
+  defaultAlt?: string;
 }): null {
   return null;
 }

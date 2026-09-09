@@ -12,6 +12,12 @@ export function ServiceLabelEditor(_props: {
   multiline?: boolean;
   rows?: number;
   presentation?: "inline" | "modal";
+  allowEmpty?: boolean;
+  seoValue?: string;
+  onSeoChange?: (description: string) => void;
+  seoInputAriaLabel?: string;
+  seoRows?: number;
+  onSaveCombined?: (label: string, seoDescription: string) => void;
 }): null {
   return null;
 }

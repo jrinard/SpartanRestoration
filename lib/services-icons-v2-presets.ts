@@ -1,8 +1,6 @@
 import bundledServicesIconsV2PresetLibrary from "@/lib/services-icons-v2-preset-library.json";
-import {
-  normalizeServicesIconsV2PreviewSettings,
-  type ServicesIconsV2PreviewSettings,
-} from "@/lib/services-icons-v2-preview-storage";
+import type { ServicesIconsV2PreviewSettings } from "@/lib/services-icons-v2-preview";
+import { normalizeServicesIconsV2PreviewSettings } from "@/lib/services-icons-v2-preview-storage";
 
 export type ServicesIconsV2PresetId = string;
 
