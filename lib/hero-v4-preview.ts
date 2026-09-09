@@ -126,6 +126,8 @@ export type HeroV4PreviewSettings = {
   headlineFirstLineItalic?: boolean;
   /** ALL CAPS on headline lines — matches Text-image-v1. */
   headlineUppercase?: boolean;
+  /** Fixed H1 size in px — missing keeps responsive text-4xl / text-5xl / 3.25rem. */
+  headlineFontSizePx?: number;
   /**
    * Quote CTA colors. Missing keeps today’s accent-blue button.
    */
@@ -307,6 +309,16 @@ export const defaultHeroV4GalleryBorderWidthPx = 1;
 export const defaultHeroV4GalleryBorderColor = "";
 
 export const heroV4GalleryBorderWidthOptions = [0, 1, 2, 3, 4, 6, 8, 12] as const;
+
+export const heroV4HeadlineFontSizeOptions = [32, 36, 40, 44, 48, 52] as const;
+
+export function normalizeHeroV4HeadlineFontSizePx(value: unknown): number | undefined {
+  if (typeof value !== "number" || !Number.isFinite(value)) return undefined;
+  const rounded = Math.round(value);
+  return heroV4HeadlineFontSizeOptions.includes(rounded as (typeof heroV4HeadlineFontSizeOptions)[number])
+    ? rounded
+    : undefined;
+}
 
 export const heroV4GalleryRadiusOptions = [
   { value: 0, label: "0" },
@@ -498,6 +510,16 @@ export function normalizeHeroV4MultilineText(value: string): string {
 
 export function splitHeroV4HeadlineLines(headline: string): string[] {
   return normalizeHeroV4MultilineText(headline).split("\n");
+}
+
+/** Blank line (double newline) starts a new paragraph; single newline is a line break within one. */
+export function splitHeroV4BodyBlocks(body: string): string[] {
+  const normalized = normalizeHeroV4MultilineText(body).trim();
+  if (!normalized) return [];
+  return normalized
+    .split(/\n{2,}/)
+    .map((block) => block.trim())
+    .filter(Boolean);
 }
 
 export function parseHeroV4Bullets(value: string): string[] {
@@ -734,6 +756,7 @@ export function normalizeHeroV4PreviewSettings(
     headlineBold: value.headlineBold === true,
     headlineFirstLineItalic: value.headlineFirstLineItalic === true,
     headlineUppercase: value.headlineUppercase === true,
+    headlineFontSizePx: normalizeHeroV4HeadlineFontSizePx(value.headlineFontSizePx),
     button: normalizeHeroV4ButtonSettings(value.button),
     phoneButton: normalizeHeroV4ButtonSettings(value.phoneButton),
     buttonSize: isButtonPreviewSize(value.buttonSize) ? value.buttonSize : undefined,

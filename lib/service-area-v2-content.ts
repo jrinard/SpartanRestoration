@@ -122,3 +122,39 @@ export function getServiceAreaV2CardHref(card: ServiceAreaV2Card): string {
   if (custom) return custom.startsWith("/") ? custom : `/${custom}`;
   return getServiceAreaLocationPath(card.slug);
 }
+
+export function normalizeServiceAreaV2Card(
+  value: Partial<ServiceAreaV2Card> & Pick<ServiceAreaV2Card, "id" | "slug">,
+): ServiceAreaV2Card {
+  const title = typeof value.title === "string" ? value.title.trim() : "";
+  const description = typeof value.description === "string" ? value.description.trim() : "";
+  const ctaLabel = typeof value.ctaLabel === "string" ? value.ctaLabel.trim() : "";
+  const hrefRaw = typeof value.href === "string" ? value.href.trim() : "";
+  return {
+    id: value.id,
+    slug: value.slug,
+    title,
+    description,
+    ctaLabel,
+    ...(hrefRaw ? { href: hrefRaw.startsWith("/") ? hrefRaw : `/${hrefRaw}` } : {}),
+  };
+}
+
+/** Apply saved instance card copy onto org defaults (match by card id). */
+export function resolveServiceAreaV2Cards(
+  fallbackCards: ServiceAreaV2Card[],
+  storedCards?: ServiceAreaV2Card[],
+): ServiceAreaV2Card[] {
+  if (!storedCards?.length) return fallbackCards;
+  const byId = new Map(
+    storedCards
+      .filter((card) => typeof card.id === "string" && card.id.trim())
+      .map((card) => [card.id, card]),
+  );
+  if (byId.size === 0) return fallbackCards;
+  return fallbackCards.map((card) => {
+    const saved = byId.get(card.id);
+    if (!saved) return card;
+    return normalizeServiceAreaV2Card({ ...card, ...saved, id: card.id, slug: card.slug });
+  });
+}

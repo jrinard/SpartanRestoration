@@ -5,6 +5,7 @@ import { Pencil } from "lucide-react";
 import { PreviewAwareLink } from "@/components/site/PreviewAwareLink";
 import { Container } from "@/components/ui/Container";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ServiceAreaV2CardEditor } from "@/components/dev/ServiceAreaV2CardEditor";
 import { ServiceLabelEditor } from "@/components/dev/ServiceLabelEditor";
 import { useServiceAreaV2Preview } from "@/components/dev/ServiceAreaV2PreviewContext";
 import {
@@ -26,6 +27,7 @@ type ServiceAreaV2Props = {
   cards: ServiceAreaV2Card[];
   settings?: ServiceAreaV2PreviewSettings;
   className?: string;
+  onUpdateCard?: (cardId: string, card: ServiceAreaV2Card) => void;
 };
 
 const headingId = "service-area-v2-heading";
@@ -100,20 +102,44 @@ function getServiceAreaV2CardStyle(settings: ServiceAreaV2PreviewSettings): CSSP
 function LocationCard({
   card,
   settings,
+  editingEnabled,
+  onUpdateCard,
 }: {
   card: ServiceAreaV2Card;
   settings: ServiceAreaV2PreviewSettings;
+  editingEnabled: boolean;
+  onUpdateCard?: (cardId: string, card: ServiceAreaV2Card) => void;
 }) {
+  const [editorOpen, setEditorOpen] = useState(false);
+
   return (
     <article
-      className="service-area-v2-card group flex h-full flex-col p-6 sm:p-7"
+      className="service-area-v2-card group relative flex h-full flex-col p-6 sm:p-7"
       style={getServiceAreaV2CardStyle(settings)}
     >
+      {editingEnabled && onUpdateCard && (
+        <button
+          type="button"
+          onClick={() => setEditorOpen(true)}
+          className={cn(devEditButtonClassName, "top-3 right-3")}
+          aria-label={`Edit ${card.title} card`}
+          aria-expanded={editorOpen}
+        >
+          <Pencil size={devEditIconSize} strokeWidth={2} />
+        </button>
+      )}
+      {editorOpen && onUpdateCard ? (
+        <ServiceAreaV2CardEditor
+          card={card}
+          onSave={(nextCard) => onUpdateCard(card.id, nextCard)}
+          onClose={() => setEditorOpen(false)}
+        />
+      ) : null}
       <h3 className="service-area-v2-card-title text-lg font-semibold leading-snug sm:text-[1.125rem]">
         {card.title}
       </h3>
       <p
-        className="service-area-v2-card-description mt-3 flex-1 text-sm leading-relaxed sm:text-[0.9375rem]"
+        className="service-area-v2-card-description mt-3 flex-1 whitespace-pre-line text-sm leading-relaxed sm:text-[0.9375rem]"
         style={{ color: settings.cardMutedColor }}
       >
         {card.description}
@@ -126,7 +152,12 @@ function LocationCard({
   );
 }
 
-export function ServiceAreaV2({ cards, settings: settingsProp, className }: ServiceAreaV2Props) {
+export function ServiceAreaV2({
+  cards,
+  settings: settingsProp,
+  className,
+  onUpdateCard,
+}: ServiceAreaV2Props) {
   const preview = useServiceAreaV2Preview();
   const settings = settingsProp ?? preview?.settings ?? defaultServiceAreaV2PreviewSettings;
   const editingEnabled = Boolean(preview?.contentEditingEnabled);
@@ -202,7 +233,12 @@ export function ServiceAreaV2({ cards, settings: settingsProp, className }: Serv
         <ul className="service-area-v2-grid mt-10 grid list-none gap-5 lg:mt-12 lg:grid-cols-3">
           {cards.map((card) => (
             <li key={card.id}>
-              <LocationCard card={card} settings={settings} />
+              <LocationCard
+                card={card}
+                settings={settings}
+                editingEnabled={editingEnabled}
+                onUpdateCard={onUpdateCard}
+              />
             </li>
           ))}
         </ul>

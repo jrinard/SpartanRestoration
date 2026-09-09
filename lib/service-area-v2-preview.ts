@@ -1,6 +1,7 @@
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
 import { getPreviewGradientBackground } from "@/lib/preview-gradient";
 import { getSiteLayoutWidthClassName, type SiteLayoutWidth } from "@/lib/site-layout";
+import type { ServiceAreaV2Card } from "@/lib/service-area-v2-content";
 import type { CSSProperties } from "react";
 
 export type ServiceAreaV2SectionTheme = "light" | "dark";
@@ -30,6 +31,8 @@ export type ServiceAreaV2PreviewSettings = {
   cardMutedColor: string;
   linkColor: string;
   cardBorderRadiusPx: number;
+  /** Instance overrides for hub cards — falls back to org defaults when unset. */
+  cards?: ServiceAreaV2Card[];
 };
 
 export const defaultServiceAreaV2BackgroundSettings: ServiceAreaV2BackgroundSettings = {

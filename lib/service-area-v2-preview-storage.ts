@@ -1,4 +1,8 @@
 import {
+  normalizeServiceAreaV2Card,
+  type ServiceAreaV2Card,
+} from "@/lib/service-area-v2-content";
+import {
   defaultServiceAreaV2BackgroundSettings,
   defaultServiceAreaV2PreviewSettings,
   getServiceAreaV2ThemeDefaults,
@@ -38,6 +42,18 @@ function isGradientDirection(value: unknown): value is PreviewGradientDirection 
 function normalizeCardBorderRadiusPx(value: unknown, fallback: number): number {
   if (typeof value !== "number" || !Number.isFinite(value)) return fallback;
   return Math.min(48, Math.max(0, Math.round(value)));
+}
+
+function normalizeStoredServiceAreaV2Cards(value: unknown): ServiceAreaV2Card[] | undefined {
+  if (!Array.isArray(value) || value.length === 0) return undefined;
+  const cards = value.flatMap((item) => {
+    if (!item || typeof item !== "object") return [];
+    const record = item as Partial<ServiceAreaV2Card>;
+    if (typeof record.id !== "string" || !record.id.trim()) return [];
+    if (typeof record.slug !== "string" || !record.slug.trim()) return [];
+    return [normalizeServiceAreaV2Card(record as ServiceAreaV2Card)];
+  });
+  return cards.length > 0 ? cards : undefined;
 }
 
 export function normalizeServiceAreaV2PreviewSettings(
@@ -90,6 +106,7 @@ export function normalizeServiceAreaV2PreviewSettings(
       value.cardBorderRadiusPx,
       defaults.cardBorderRadiusPx,
     ),
+    cards: normalizeStoredServiceAreaV2Cards(value.cards),
   };
 }
 

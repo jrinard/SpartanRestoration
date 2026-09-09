@@ -200,10 +200,7 @@ export function TextImageV1({
                   {content.headlineLines.map((line, index) => (
                     <h2
                       key={`${line}-${index}`}
-                      className={cn(
-                        "text-image-v1-headline font-serif text-3xl font-semibold uppercase leading-tight sm:text-4xl lg:text-[2.5rem]",
-                        index === 0 && "italic",
-                      )}
+                      className="text-image-v1-headline font-serif text-3xl font-semibold uppercase italic leading-tight sm:text-4xl lg:text-[2.5rem]"
                       style={{ color: settings.headlineColor }}
                     >
                       {line}
@@ -228,7 +225,7 @@ export function TextImageV1({
                   className="text-image-v1-body max-w-xl text-base leading-relaxed sm:text-lg"
                   style={{ color: settings.bodyColor }}
                 >
-                  {content.body}
+                  <span className="whitespace-pre-line">{content.body}</span>
                 </p>
               )}
             </EditableTextBlock>

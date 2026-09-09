@@ -44,7 +44,9 @@ import {
   navLinksToHeroV4Breadcrumbs,
   navLinksToHeroV4Pills,
   normalizeHeroV4PreviewSettings,
+  normalizeHeroV4MultilineText,
   parseHeroV4Bullets,
+  splitHeroV4BodyBlocks,
   splitHeroV4HeadlineLines,
   resolveHeroV4FormLeadSource,
   resolveHeroV4ShowCta,
@@ -198,6 +200,7 @@ type HeroV4Props = {
   headlineBold?: boolean;
   headlineFirstLineItalic?: boolean;
   headlineUppercase?: boolean;
+  headlineFontSizePx?: number;
   button?: ButtonPreviewSettings;
   phoneButton?: ButtonPreviewSettings;
   buttonSize?: ButtonPreviewSettings["navButtonSize"];
@@ -247,6 +250,7 @@ export function HeroV4({
   headlineBold = false,
   headlineFirstLineItalic = false,
   headlineUppercase = false,
+  headlineFontSizePx,
   button,
   phoneButton,
   buttonSize,
@@ -281,6 +285,10 @@ export function HeroV4({
         : undefined,
     );
   }, [contactPreview?.settings, formLeadSource, preview?.settings]);
+  const bodyBlocks = useMemo(() => {
+    const blocks = splitHeroV4BodyBlocks(body);
+    return blocks.length > 0 ? blocks : [body];
+  }, [body]);
   const showPrimaryCta = resolveHeroV4ShowCta({ showForm, showCta });
   const showGalleryColumn =
     showGallery && (gallerySlides.length > 0 || editingEnabled);
@@ -485,19 +493,16 @@ export function HeroV4({
             >
               <h1
                 className={cn(
-                  "hero-v4-headline mt-4 font-serif text-4xl leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[3.25rem]",
+                  "hero-v4-headline mt-4 font-serif leading-[1.08] tracking-tight text-foreground",
+                  !headlineFontSizePx && "text-4xl sm:text-5xl lg:text-[3.25rem]",
                   headlineBold ? "font-semibold" : "font-light",
+                  headlineFirstLineItalic && labelFontStyle !== "slant" && "italic",
                   headlineUppercase && "uppercase",
                 )}
+                style={headlineFontSizePx ? { fontSize: `${headlineFontSizePx}px` } : undefined}
               >
                 {splitHeroV4HeadlineLines(headline).map((line, index) => (
-                  <span
-                    key={`headline-line-${index}`}
-                    className={cn(
-                      "hero-v4-headline-line block",
-                      headlineFirstLineItalic && index === 0 && "italic",
-                    )}
-                  >
+                  <span key={`headline-line-${index}`} className="hero-v4-headline-line block">
                     {line || "\u00A0"}
                   </span>
                 ))}
@@ -511,11 +516,20 @@ export function HeroV4({
               value={body}
               multiline
               rows={5}
-              onSave={(value) => update({ body: value })}
+              onSave={(value) => update({ body: normalizeHeroV4MultilineText(value).trim() })}
             >
-              <p className="hero-v4-body mt-5 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-                {body}
-              </p>
+              {bodyBlocks.map((block, index) => (
+                  <p
+                    key={`hero-body-${index}`}
+                    className={cn(
+                      "hero-v4-body max-w-2xl whitespace-pre-line text-base leading-relaxed text-muted sm:text-lg",
+                      index === 0 ? "mt-5" : "mt-4",
+                    )}
+                  >
+                    {block || "\u00A0"}
+                  </p>
+                ),
+              )}
             </EditableTextBlock>
 
             {bullets.length > 0 || (editingEnabled && preview?.settings.showBullets) ? (

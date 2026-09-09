@@ -214,7 +214,12 @@ export function ServiceAreaV2PreviewControls() {
               return;
             }
             setPresetId(nextId);
-            setSettings(applyServiceAreaV2Preset(nextId, library));
+            setSettings(
+              normalizeServiceAreaV2PreviewSettings({
+                ...applyServiceAreaV2Preset(nextId, library),
+                cards: settings.cards,
+              }),
+            );
           }}
           className={buttonClassName}
           aria-label="Apply service area section preset"

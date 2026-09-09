@@ -11,6 +11,7 @@ export function TextImageTextEditor(_props: {
   multiline?: boolean;
   rows?: number;
   className?: string;
+  presentation?: "inline" | "modal" | "auto";
 }): null {
   return null;
 }

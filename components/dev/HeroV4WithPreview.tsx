@@ -41,6 +41,7 @@ export function HeroV4WithPreview() {
       headlineBold={settings.headlineBold}
       headlineFirstLineItalic={settings.headlineFirstLineItalic}
       headlineUppercase={settings.headlineUppercase}
+      headlineFontSizePx={settings.headlineFontSizePx}
       button={settings.button}
       phoneButton={settings.phoneButton}
       buttonSize={settings.buttonSize}

@@ -28,6 +28,7 @@ import {
   heroV4GalleryRadiusOptions,
   heroV4BackgroundColorPickerFallback,
   heroV4GalleryTransitions,
+  heroV4HeadlineFontSizeOptions,
   heroV4LabelFontStyleOptions,
   isHeroV4LabelFontStyle,
   normalizeHeroV4PreviewSettings,
@@ -453,6 +454,27 @@ export function HeroV4PreviewControls() {
         </select>
       </label>
       <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">H1 size</span>
+        <select
+          value={settings.headlineFontSizePx ?? ""}
+          onChange={(event) => {
+            const raw = event.target.value;
+            update({
+              headlineFontSizePx: raw ? Number(raw) : undefined,
+            });
+          }}
+          className={selectClassName}
+          aria-label="Hero headline font size"
+        >
+          <option value="">Responsive</option>
+          {heroV4HeadlineFontSizeOptions.map((size) => (
+            <option key={size} value={size}>
+              {size}px
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">H1 bold</span>
         <input
           type="checkbox"
@@ -469,7 +491,7 @@ export function HeroV4PreviewControls() {
           checked={settings.headlineFirstLineItalic === true}
           onChange={(event) => update({ headlineFirstLineItalic: event.target.checked })}
           className={checkboxClassName}
-          aria-label="Italic first headline line"
+          aria-label="Italic hero headline"
         />
       </label>
       <label className="flex items-center gap-2">
