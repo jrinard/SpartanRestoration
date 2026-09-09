@@ -3,6 +3,7 @@ import {
   defaultButtonPreviewSettings,
   type ButtonPreviewSettings,
 } from "@/lib/button-preview";
+import { normalizeHeadlineLevel, type HeadlineLevel } from "@/lib/headline-level";
 import { phoneTelHref } from "@/lib/phone";
 
 export type TextImageSectionTheme = "light" | "dark";
@@ -30,6 +31,8 @@ export type TextImagePreviewSettings = TextImageTextColors &
     phoneButtonVisible: boolean;
     /** Image drop shadow intensity (0 = none, 100 = strongest). */
     imageShadowIntensity: number;
+    /** Semantic heading level — missing keeps h2 (Text-image default). */
+    headlineLevel?: HeadlineLevel;
     /** Playground copy overrides. */
     contentEyebrow?: string;
     contentHeadlineLines?: string[];

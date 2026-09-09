@@ -201,6 +201,7 @@ type HeroV4Props = {
   headlineFirstLineItalic?: boolean;
   headlineUppercase?: boolean;
   headlineFontSizePx?: number;
+  headlineLevel?: "h1" | "h2";
   button?: ButtonPreviewSettings;
   phoneButton?: ButtonPreviewSettings;
   buttonSize?: ButtonPreviewSettings["navButtonSize"];
@@ -251,6 +252,7 @@ export function HeroV4({
   headlineFirstLineItalic = false,
   headlineUppercase = false,
   headlineFontSizePx,
+  headlineLevel = "h1",
   button,
   phoneButton,
   buttonSize,
@@ -491,22 +493,27 @@ export function HeroV4({
               rows={3}
               onSave={(value) => update({ headline: value })}
             >
-              <h1
-                className={cn(
-                  "hero-v4-headline mt-4 font-serif leading-[1.08] tracking-tight text-foreground",
-                  !headlineFontSizePx && "text-4xl sm:text-5xl lg:text-[3.25rem]",
-                  headlineBold ? "font-semibold" : "font-light",
-                  headlineFirstLineItalic && labelFontStyle !== "slant" && "italic",
-                  headlineUppercase && "uppercase",
-                )}
-                style={headlineFontSizePx ? { fontSize: `${headlineFontSizePx}px` } : undefined}
-              >
-                {splitHeroV4HeadlineLines(headline).map((line, index) => (
-                  <span key={`headline-line-${index}`} className="hero-v4-headline-line block">
-                    {line || "\u00A0"}
-                  </span>
-                ))}
-              </h1>
+              {(() => {
+                const HeadlineTag = headlineLevel === "h2" ? "h2" : "h1";
+                return (
+                  <HeadlineTag
+                    className={cn(
+                      "hero-v4-headline mt-4 font-serif leading-[1.08] tracking-tight text-foreground",
+                      !headlineFontSizePx && "text-4xl sm:text-5xl lg:text-[3.25rem]",
+                      headlineBold ? "font-semibold" : "font-light",
+                      headlineFirstLineItalic && labelFontStyle !== "slant" && "italic",
+                      headlineUppercase && "uppercase",
+                    )}
+                    style={headlineFontSizePx ? { fontSize: `${headlineFontSizePx}px` } : undefined}
+                  >
+                    {splitHeroV4HeadlineLines(headline).map((line, index) => (
+                      <span key={`headline-line-${index}`} className="hero-v4-headline-line block">
+                        {line || "\u00A0"}
+                      </span>
+                    ))}
+                  </HeadlineTag>
+                );
+              })()}
             </EditableTextBlock>
 
             <EditableTextBlock

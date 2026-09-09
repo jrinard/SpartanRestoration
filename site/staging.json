@@ -373,11 +373,12 @@
       "leftLabelColor": "#000000",
       "leftAccentColor": "#2c73b5",
       "rightTextColor": "#ffffff",
-      "leftLabel": "Open Hours",
-      "leftAccent": "Mon–Fri 8–5",
+      "leftLabel": "Best Defense in",
+      "leftAccent": "Water Damage",
       "rightText": "Call now 503-975-9082",
       "phoneHref": "tel:+15039759082",
       "textSizePx": 18,
+      "inverted": false,
       "socialLinks": [
         {
           "id": "top-bar-social-facebook",
@@ -998,7 +999,35 @@
       }
     },
     "sections": {
-      "topBar-1563bb89": {},
+      "topBar-1563bb89": {
+        "topBar": {
+          "layoutWidth": "contained",
+          "heightPx": 61,
+          "leftWidthPercent": 40,
+          "leftBackgroundColor": "#E2E6E7",
+          "rightBackgroundColor": "#2c73b5",
+          "outerBackgroundColor": "#ffffff",
+          "leftLabelColor": "#000000",
+          "leftAccentColor": "#2c73b5",
+          "rightTextColor": "#ffffff",
+          "leftLabel": "Best Defense in",
+          "leftAccent": "Water Damage",
+          "rightText": "Call now 503-975-9082",
+          "phoneHref": "tel:+15039759082",
+          "textSizePx": 18,
+          "inverted": false,
+          "socialLinks": [
+            {
+              "id": "top-bar-social-facebook",
+              "icon": "facebook",
+              "href": "https://www.facebook.com/profile.php?id=61575772472164",
+              "label": "Facebook"
+            }
+          ],
+          "socialIconColor": "#ffffff",
+          "socialLinksInsetPx": 20
+        }
+      },
       "header-65d014ce": {
         "headerV3": {
           "from": "#ffffff",

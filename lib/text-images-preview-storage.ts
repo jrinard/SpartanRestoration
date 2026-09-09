@@ -4,6 +4,7 @@ import {
   normalizeButtonBorderRadiusPx,
   type ButtonPreviewSize,
 } from "@/lib/button-preview";
+import { normalizeHeadlineLevel } from "@/lib/headline-level";
 import { normalizeImageLibrarySrc } from "@/lib/image-library";
 import {
   getTextImageColorsForTheme,
@@ -113,6 +114,7 @@ export function normalizeTextImagesPreviewSettings(
       typeof value.phoneButtonVisible === "boolean"
         ? value.phoneButtonVisible
         : defaultTextImagesPreviewSettings.phoneButtonVisible,
+    headlineLevel: normalizeHeadlineLevel(value.headlineLevel, "h2"),
     row1CopyPaddingTopPx:
       typeof value.row1CopyPaddingTopPx === "number"
         ? snapTextImagesCopyPaddingTopPx(Math.round(value.row1CopyPaddingTopPx))

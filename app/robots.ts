@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/config/site";
+import { readCurrentOrgId, readOrgSite } from "@/lib/org/read-org.server";
+import { setRuntimeSite } from "@/lib/org/runtime-site";
 
 const devDisallow = [
   "/forge",
@@ -10,7 +11,13 @@ const devDisallow = [
   "/preview/",
 ];
 
-export default function robots(): MetadataRoute.Robots {
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const orgId = await readCurrentOrgId();
+  const site = await readOrgSite(orgId);
+  setRuntimeSite(site);
+
+  const baseUrl = site.url.replace(/\/$/, "");
+
   return {
     rules: [
       {
@@ -24,6 +31,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: devDisallow,
       },
     ],
-    sitemap: `${siteConfig.url}/sitemap.xml`,
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

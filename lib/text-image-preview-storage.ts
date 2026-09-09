@@ -14,6 +14,7 @@ import {
   type TextImagePreviewSettings,
   type TextImageSectionTheme,
 } from "@/lib/text-image-preview";
+import { normalizeHeadlineLevel } from "@/lib/headline-level";
 import { normalizeImageLibrarySrc } from "@/lib/image-library";
 
 import { orgStorageGet, orgStorageSet } from "@/lib/org/browser-storage";
@@ -101,6 +102,7 @@ export function normalizeTextImagePreviewSettings(
       typeof value.imageShadowIntensity === "number"
         ? Math.min(textImageImageShadowMax, Math.max(0, Math.round(value.imageShadowIntensity)))
         : defaultTextImagePreviewSettings.imageShadowIntensity,
+    headlineLevel: normalizeHeadlineLevel(value.headlineLevel, "h2"),
     contentEyebrow: normalizeContentOverrideString(value.contentEyebrow),
     contentHeadlineLines: normalizeTextImageHeadlineLines(value.contentHeadlineLines),
     contentBody: normalizeContentOverrideString(value.contentBody),

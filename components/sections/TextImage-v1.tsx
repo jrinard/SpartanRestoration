@@ -197,15 +197,28 @@ export function TextImageV1({
             >
               {(content.headlineLines.length > 0 || editingEnabled) && (
                 <div className="space-y-2">
-                  {content.headlineLines.map((line, index) => (
-                    <h2
-                      key={`${line}-${index}`}
+                  {settings.headlineLevel === "h1" ? (
+                    <h1
                       className="text-image-v1-headline font-serif text-3xl font-semibold uppercase italic leading-tight sm:text-4xl lg:text-[2.5rem]"
                       style={{ color: settings.headlineColor }}
                     >
-                      {line}
-                    </h2>
-                  ))}
+                      {content.headlineLines.map((line, index) => (
+                        <span key={`${line}-${index}`} className="block">
+                          {line}
+                        </span>
+                      ))}
+                    </h1>
+                  ) : (
+                    content.headlineLines.map((line, index) => (
+                      <h2
+                        key={`${line}-${index}`}
+                        className="text-image-v1-headline font-serif text-3xl font-semibold uppercase italic leading-tight sm:text-4xl lg:text-[2.5rem]"
+                        style={{ color: settings.headlineColor }}
+                      >
+                        {line}
+                      </h2>
+                    ))
+                  )}
                 </div>
               )}
             </EditableTextBlock>

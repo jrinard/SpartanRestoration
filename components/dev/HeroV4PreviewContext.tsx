@@ -475,6 +475,20 @@ export function HeroV4PreviewControls() {
         </select>
       </label>
       <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Heading</span>
+        <select
+          value={settings.headlineLevel ?? "h1"}
+          onChange={(event) =>
+            update({ headlineLevel: event.target.value === "h2" ? "h2" : "h1" })
+          }
+          className={selectClassName}
+          aria-label="Hero headline semantic level"
+        >
+          <option value="h1">Page H1</option>
+          <option value="h2">H2 (same size)</option>
+        </select>
+      </label>
+      <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">H1 bold</span>
         <input
           type="checkbox"

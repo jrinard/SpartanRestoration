@@ -52,6 +52,7 @@ export type TextImagesPreviewSettings = TextImageTextColors &
     | "navHoverBackground"
     | "navButtonSize"
     | "navButtonRadiusPx"
+    | "headlineLevel"
   > & {
     /** Top padding on row 1 text column (px). */
     row1CopyPaddingTopPx: number;

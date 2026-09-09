@@ -367,6 +367,20 @@ export function TextImagesPreviewControls() {
         />
       </label>
       <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Heading</span>
+        <select
+          value={context.settings.headlineLevel ?? "h2"}
+          onChange={(event) =>
+            update({ headlineLevel: event.target.value === "h1" ? "h1" : "h2" })
+          }
+          className={selectClassName}
+          aria-label="Text and images row 1 headline semantic level"
+        >
+          <option value="h2">H2 (default)</option>
+          <option value="h1">Page H1 (same size)</option>
+        </select>
+      </label>
+      <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Body</span>
         <input
           type="color"

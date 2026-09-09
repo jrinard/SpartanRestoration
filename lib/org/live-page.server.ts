@@ -81,7 +81,7 @@ export async function liveOrgPageMetadata(slug?: string): Promise<Metadata> {
     const home = seo.routes.home;
     return createMetadata({
       title: home?.title ?? pageSeo.home.title,
-      browserTitle: favicon.browserTitle || site.name,
+      browserTitle: home?.title?.trim() || favicon.browserTitle || site.name,
       description: home?.description ?? pageSeo.home.description,
       path: home?.path ?? pageSeo.home.path,
       noIndex: isUnderConstruction(launchMode) ? true : home?.noIndex,

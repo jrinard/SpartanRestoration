@@ -268,18 +268,31 @@ function TextImagesRow1Block({
         >
           {(row.headlineLines.length > 0 || editingEnabled) && (
             <div className="space-y-2">
-              {row.headlineLines.map((line, index) => (
-                <h2
-                  key={`${line}-${index}`}
-                  className={cn(
-                    "text-images-v1-headline font-serif text-3xl font-semibold uppercase leading-tight sm:text-4xl lg:text-[2.5rem]",
-                    index === 0 && "italic",
-                  )}
+              {settings.headlineLevel === "h1" ? (
+                <h1
+                  className="text-images-v1-headline font-serif text-3xl font-semibold uppercase italic leading-tight sm:text-4xl lg:text-[2.5rem]"
                   style={{ color: settings.headlineColor }}
                 >
-                  {line}
-                </h2>
-              ))}
+                  {row.headlineLines.map((line, index) => (
+                    <span key={`${line}-${index}`} className="block">
+                      {line}
+                    </span>
+                  ))}
+                </h1>
+              ) : (
+                row.headlineLines.map((line, index) => (
+                  <h2
+                    key={`${line}-${index}`}
+                    className={cn(
+                      "text-images-v1-headline font-serif text-3xl font-semibold uppercase leading-tight sm:text-4xl lg:text-[2.5rem]",
+                      index === 0 && "italic",
+                    )}
+                    style={{ color: settings.headlineColor }}
+                  >
+                    {line}
+                  </h2>
+                ))
+              )}
             </div>
           )}
         </EditableTextBlock>

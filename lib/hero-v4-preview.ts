@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { siteConfig } from "@/config/site";
+import { normalizeHeadlineLevel, type HeadlineLevel } from "@/lib/headline-level";
 import { SERVICE_AREAS_PATH } from "@/lib/service-area-pages";
 import { phoneTelHref } from "@/lib/phone";
 import type { NavBarLink } from "@/lib/nav-bar-preview";
@@ -128,6 +129,8 @@ export type HeroV4PreviewSettings = {
   headlineUppercase?: boolean;
   /** Fixed H1 size in px — missing keeps responsive text-4xl / text-5xl / 3.25rem. */
   headlineFontSizePx?: number;
+  /** Semantic heading level — missing keeps h1 (Hero-v4 default). */
+  headlineLevel?: HeadlineLevel;
   /**
    * Quote CTA colors. Missing keeps today’s accent-blue button.
    */
@@ -757,6 +760,7 @@ export function normalizeHeroV4PreviewSettings(
     headlineFirstLineItalic: value.headlineFirstLineItalic === true,
     headlineUppercase: value.headlineUppercase === true,
     headlineFontSizePx: normalizeHeroV4HeadlineFontSizePx(value.headlineFontSizePx),
+    headlineLevel: normalizeHeadlineLevel(value.headlineLevel, "h1"),
     button: normalizeHeroV4ButtonSettings(value.button),
     phoneButton: normalizeHeroV4ButtonSettings(value.phoneButton),
     buttonSize: isButtonPreviewSize(value.buttonSize) ? value.buttonSize : undefined,
