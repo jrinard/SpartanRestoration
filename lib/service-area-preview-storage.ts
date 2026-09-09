@@ -1,11 +1,15 @@
 import { getCommittedHomepagePreviewSettings, shouldUsePlaygroundPreviewSettings } from "@/lib/homepage-settings";
 import {
+  createServiceAreaV1Location,
   defaultServiceAreaV1PreviewSettings,
   isServiceAreaV1BackgroundMode,
   isServiceAreaV1Size,
   normalizeServiceAreaV1CardBorderRadiusPx,
+  type ServiceAreaV1Location,
   type ServiceAreaV1PreviewSettings,
 } from "@/lib/service-area-preview";
+
+export type { ServiceAreaV1PreviewSettings };
 import { normalizePublicImageSrc } from "@/lib/image-library";
 import type { SiteLayoutWidth } from "@/lib/site-layout";
 
@@ -25,6 +29,27 @@ function normalizeOptionalString(value: unknown): string | undefined {
   if (typeof value !== "string") return undefined;
   const trimmed = value.trim();
   return trimmed || undefined;
+}
+
+function normalizeServiceAreaV1Locations(value: unknown): ServiceAreaV1Location[] | undefined {
+  if (value === undefined) return undefined;
+  if (!Array.isArray(value)) return undefined;
+  return value
+    .map((entry, index) => {
+      if (!entry || typeof entry !== "object") return null;
+      const record = entry as Partial<ServiceAreaV1Location>;
+      const label = typeof record.label === "string" ? record.label : "";
+      const href = typeof record.href === "string" ? record.href : "";
+      return createServiceAreaV1Location(
+        {
+          id: typeof record.id === "string" ? record.id : undefined,
+          label,
+          href,
+        },
+        index,
+      );
+    })
+    .filter((entry): entry is ServiceAreaV1Location => entry !== null);
 }
 
 function normalizeLocationLabels(
@@ -95,6 +120,7 @@ export function normalizeServiceAreaV1PreviewSettings(
     sectionHeading: normalizeOptionalString(value.sectionHeading),
     graphImageSrc: normalizeGraphImageSrc(value.graphImageSrc),
     locationLabels: normalizeLocationLabels(value.locationLabels),
+    locations: normalizeServiceAreaV1Locations(value.locations),
   };
 }
 

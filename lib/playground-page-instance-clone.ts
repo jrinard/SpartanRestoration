@@ -1,6 +1,7 @@
 import type { ColorThemeId } from "@/lib/color-themes";
 import {
   copyEffectiveSectionInstanceSettings,
+  copyPlaygroundChromeSectionInstances,
   copyPlaygroundPageSectionInstances,
   copyPlaygroundSectionInstanceSettingsByConfig,
 } from "@/lib/section-instance-copy";
@@ -9,14 +10,16 @@ import {
   getPlaygroundPageSections,
   homePlaygroundPageId,
   loadPlaygroundPagesState,
+  savePlaygroundPagesState,
   type PlaygroundPagesState,
 } from "@/lib/playground-pages";
+import { bindPlaygroundChromeSectionIds } from "@/lib/playground-section-scope";
 import type { PlaygroundSectionConfig } from "@/lib/playground-sections";
 
 import { orgStorageGet, orgStorageSet } from "@/lib/org/browser-storage";
 
 export const playgroundPageInstanceRepairKey = "lifespring-playground-spacer-repair";
-export const playgroundPageInstanceRepairVersion = "6";
+export const playgroundPageInstanceRepairVersion = "7";
 
 /** @deprecated Use playgroundPageInstanceRepairKey */
 export const playgroundSpacerRepairKey = playgroundPageInstanceRepairKey;
@@ -39,16 +42,25 @@ export function repairPlaygroundPageInstancesFromHome(
   if (typeof window === "undefined") return;
 
   const homeSections = getPlaygroundPageSections(state, homePlaygroundPageId);
+  let sectionsByPageId = state.sectionsByPageId;
+  let changed = false;
 
   for (const page of state.pages) {
     if (page.isHome) continue;
 
-    const pageSections = state.sectionsByPageId[page.id];
+    const pageSections = sectionsByPageId[page.id];
     if (!pageSections?.length) continue;
 
-    copyPlaygroundPageSectionInstances(homeSections, pageSections, colorThemeId, {
-      includeSpacers: false,
-    });
+    const bound = bindPlaygroundChromeSectionIds(homeSections, pageSections);
+    if (bound !== pageSections && JSON.stringify(bound) !== JSON.stringify(pageSections)) {
+      sectionsByPageId = { ...sectionsByPageId, [page.id]: bound };
+      changed = true;
+    }
+    copyPlaygroundChromeSectionInstances(homeSections, bound, colorThemeId);
+  }
+
+  if (changed) {
+    savePlaygroundPagesState({ ...state, sectionsByPageId });
   }
 }
 

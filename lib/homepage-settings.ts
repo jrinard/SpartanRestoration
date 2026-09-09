@@ -15,12 +15,14 @@ import type { HeroV4PreviewSettings } from "@/lib/hero-v4-preview";
 import type { PortfolioPreviewSettings } from "@/lib/portfolio-preview";
 import type { PortfolioV2PreviewSettings } from "@/lib/portfolio-v2-preview";
 import type { ImagesV1PreviewSettings } from "@/lib/images-v1-preview";
+import type { CardsV1PreviewSettings } from "@/lib/cards-v1-preview";
 import type { ReviewboxPreviewSettings } from "@/lib/reviewbox-preview";
 import type { TextIconsV3PreviewSettings } from "@/lib/text-icons-v3-preview";
 import type { TextImagePreviewSettings } from "@/lib/text-image-preview";
 import type { TextImagesPreviewSettings } from "@/lib/text-images-preview";
 import type { NavBarPreviewSettings } from "@/lib/nav-bar-preview";
 import type { TopBarPreviewSettings } from "@/lib/top-bar-preview";
+import type { TopBarV2PreviewSettings } from "@/lib/top-bar-v2-preview";
 import type { ServicesIconsV2PreviewSettings } from "@/lib/services-icons-v2-preview";
 import type { ServiceAreaV1PreviewSettings } from "@/lib/service-area-preview";
 import type { ServiceAreaV2PreviewSettings } from "@/lib/service-area-v2-preview";
@@ -32,6 +34,7 @@ import type { FaviconPreviewSettings } from "@/lib/favicon-preview";
 /** Section-specific preview settings baked into the live homepage. */
 export type HomepagePreviewSettings = {
   topBar?: TopBarPreviewSettings;
+  topBarV2?: TopBarV2PreviewSettings;
   navBar?: NavBarPreviewSettings;
   heroBanner?: HeroBannerPreviewSettings;
   heroV1?: HeroV1PreviewSettings;
@@ -60,6 +63,7 @@ export type HomepagePreviewSettings = {
   textImage?: TextImagePreviewSettings;
   textImages?: TextImagesPreviewSettings;
   imagesV1?: ImagesV1PreviewSettings;
+  cardsV1?: CardsV1PreviewSettings;
   servicesIconsV2?: ServicesIconsV2PreviewSettings;
   serviceAreaV1?: ServiceAreaV1PreviewSettings;
   serviceAreaV2?: ServiceAreaV2PreviewSettings;

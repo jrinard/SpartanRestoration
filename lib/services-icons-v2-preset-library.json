@@ -1,0 +1,306 @@
+{
+  "entries": [
+    {
+      "id": "stone-pillar",
+      "label": "Stone Pillar",
+      "settings": {
+        "backgroundFrom": "#ffffff",
+        "backgroundTo": "#ffffff",
+        "backgroundDirection": "none",
+        "layoutWidth": "contained",
+        "outerBackgroundColor": "#ffffff",
+        "cardBackgroundColor": "#000000",
+        "circleColor": "#e88e3b",
+        "iconShape": "circle",
+        "iconColor": "#ffffff",
+        "cardTextColor": "#ffffff",
+        "headingColor": "#000000",
+        "ctaBackgroundColor": "#f3c35d",
+        "ctaTextColor": "#000000",
+        "cardFontSizePx": 24,
+        "headingFontSizePx": 48,
+        "cardBorderRadiusPx": 20,
+        "cardPaddingPx": 30,
+        "cardMinHeightPx": 140,
+        "iconSizePx": 75,
+        "serviceIcons": {
+          "cabinetry": "layout-grid",
+          "carpentry": "hammer",
+          "concrete-projects": "brick-wall",
+          "demolition": "axe",
+          "doors-hardware": "door-open",
+          "drywall": "layers",
+          "fencing": "fence",
+          "gutters": "cloud-rain",
+          "interior-painting": "brush",
+          "junk-removal": "trash-2",
+          "patio-enclosures": "home",
+          "power-washing": "spray-can",
+          "snow-removal": "snowflake",
+          "windows": "panel-top"
+        },
+        "serviceLabels": {
+          "cabinetry": "Cabinetry",
+          "carpentry": "Carpentry",
+          "concrete-projects": "Concrete Projects",
+          "demolition": "Demolition",
+          "doors-hardware": "Doors / Door hardware",
+          "drywall": "Drywall",
+          "fencing": "Fencing",
+          "gutters": "Gutters",
+          "interior-painting": "Interior Painting",
+          "junk-removal": "Junk Removal",
+          "patio-enclosures": "Patio Enclosures",
+          "power-washing": "Power washing",
+          "snow-removal": "Snow Removal",
+          "windows": "Windows"
+        },
+        "ctaLabel": "503-975-9082",
+        "ctaHref": "tel:+15039759082",
+        "sectionHeading": "Our Services",
+        "seoDescription": "Stone Pillar Contractors offers cabinetry, carpentry, concrete, demolition, doors, drywall, fencing, gutters, painting, junk removal, patio enclosures, power washing, snow removal, and window services.",
+        "services": [
+          {
+            "id": "cabinetry",
+            "title": "Cabinetry",
+            "icon": "layout-grid",
+            "description": "Custom cabinet design, installation, and refinishing."
+          },
+          {
+            "id": "carpentry",
+            "title": "Carpentry",
+            "icon": "hammer",
+            "description": "Framing, trim work, and finish carpentry for your project."
+          },
+          {
+            "id": "concrete-projects",
+            "title": "Concrete Projects",
+            "icon": "brick-wall",
+            "description": "Concrete pads, walkways, repairs, and flatwork."
+          },
+          {
+            "id": "demolition",
+            "title": "Demolition",
+            "icon": "axe",
+            "description": "Selective demolition and safe tear-out for remodels."
+          },
+          {
+            "id": "doors-hardware",
+            "title": "Doors / Door hardware",
+            "icon": "door-open",
+            "description": "Door installation, adjustment, and hardware upgrades."
+          },
+          {
+            "id": "drywall",
+            "title": "Drywall",
+            "icon": "layers",
+            "description": "Drywall hang, finish, texture, and patch repair."
+          },
+          {
+            "id": "fencing",
+            "title": "Fencing",
+            "icon": "fence",
+            "description": "Fence installation, repair, and gate work."
+          },
+          {
+            "id": "gutters",
+            "title": "Gutters",
+            "icon": "cloud-rain",
+            "description": "Gutter installation, cleaning, and downspout repair."
+          },
+          {
+            "id": "interior-painting",
+            "title": "Interior Painting",
+            "icon": "brush",
+            "description": "Interior painting, prep, and clean professional finishes."
+          },
+          {
+            "id": "junk-removal",
+            "title": "Junk Removal",
+            "icon": "trash-2",
+            "description": "Fast junk removal and haul-away for homes and job sites."
+          },
+          {
+            "id": "patio-enclosures",
+            "title": "Patio Enclosures",
+            "icon": "home",
+            "description": "Patio enclosures and covered outdoor living spaces."
+          },
+          {
+            "id": "power-washing",
+            "title": "Power washing",
+            "icon": "spray-can",
+            "description": "Power washing for siding, decks, driveways, and more."
+          },
+          {
+            "id": "snow-removal",
+            "title": "Snow Removal",
+            "icon": "snowflake",
+            "description": "Seasonal snow removal and ice management."
+          },
+          {
+            "id": "windows",
+            "title": "Windows",
+            "icon": "panel-top",
+            "description": "Window replacement, repair, and weather sealing."
+          }
+        ]
+      }
+    },
+    {
+      "id": "spartan",
+      "label": "Spartan",
+      "settings": {
+        "backgroundFrom": "#ffffff",
+        "backgroundTo": "#ffffff",
+        "backgroundDirection": "none",
+        "layoutWidth": "contained",
+        "outerBackgroundColor": "#ffffff",
+        "cardBackgroundColor": "#000000",
+        "circleColor": "#2c73b5",
+        "iconShape": "circle",
+        "iconColor": "#ffffff",
+        "cardTextColor": "#ffffff",
+        "headingColor": "#000000",
+        "ctaBackgroundColor": "#f3c35d",
+        "ctaTextColor": "#000000",
+        "cardFontSizePx": 24,
+        "headingFontSizePx": 48,
+        "cardBorderRadiusPx": 20,
+        "cardPaddingPx": 30,
+        "cardMinHeightPx": 140,
+        "iconSizePx": 75,
+        "serviceIcons": {
+          "water-mitigation": "droplets",
+          "emergency-extraction": "waves",
+          "structural-drying": "fan",
+          "mold-remediation": "biohazard",
+          "hepa-vacuuming": "brush",
+          "air-scrubbing": "air-vent",
+          "structural-cleaning": "sparkles",
+          "flood-cleanup": "waves",
+          "moisture-mapping": "scan-search",
+          "odor-removal": "wind",
+          "insurance-claims": "file-text",
+          "demolition": "axe",
+          "contents-protection": "package",
+          "jobsite-containment": "shield-check",
+          "storm-sewage": "cloud-rain"
+        },
+        "serviceLabels": {
+          "water-mitigation": "Water Damage Mitigation",
+          "emergency-extraction": "Emergency Water Extraction",
+          "structural-drying": "Structural Drying & Dehumidification",
+          "mold-remediation": "Mold Remediation & Microbial Treatment",
+          "hepa-vacuuming": "HEPA Vacuuming",
+          "air-scrubbing": "Air Scrubbing",
+          "structural-cleaning": "Structural Cleaning & Sanitization",
+          "flood-cleanup": "Flood Damage Cleanup",
+          "moisture-mapping": "Moisture Mapping & Inspections",
+          "odor-removal": "Odor Removal",
+          "insurance-claims": "Insurance Documentation & Claim Support",
+          "demolition": "Demolition of Water-Damaged Materials",
+          "contents-protection": "Contents Protection",
+          "jobsite-containment": "Jobsite Containment",
+          "storm-sewage": "Storm & Sewage Cleanup"
+        },
+        "ctaLabel": "(503) 975-9082",
+        "ctaHref": "tel:+15039759082",
+        "sectionHeading": "Our Services",
+        "seoDescription": "Spartan Restoration provides water damage mitigation, emergency extraction, structural drying, mold remediation, HEPA vacuuming, air scrubbing, flood cleanup, storm and sewage cleanup, moisture mapping, odor removal, insurance documentation, demolition, contents protection, and jobsite containment for Vancouver, WA, Clark County, and the Portland metro.",
+        "services": [
+          {
+            "id": "water-mitigation",
+            "title": "Water Damage Mitigation",
+            "icon": "droplets",
+            "description": "A burst pipe, appliance leak, or roof intrusion can soak walls and floors faster than you expect. Spartan crews extract standing water, set drying equipment, and stabilize the structure so damage does not spread to unaffected rooms. We serve homes and businesses in Vancouver, WA, Clark County, and the Portland metro with clear updates from the first visit through dry-out."
+          },
+          {
+            "id": "emergency-extraction",
+            "title": "Emergency Water Extraction",
+            "icon": "waves",
+            "description": "Standing water in a crawl space, basement, or main floor needs to come out fast before it wicks into structure and finishes. We use professional extractors and pumps to remove water quickly, then assess what must dry next. For Vancouver, Clark County, and Portland-metro properties when you call during business hours."
+          },
+          {
+            "id": "structural-drying",
+            "title": "Structural Drying & Dehumidification",
+            "icon": "fan",
+            "description": "Hidden moisture in framing, subfloors, and wall cavities can cause warping, mold, and long-term damage if drying stops too soon. We monitor humidity, place commercial dehumidifiers and air movers, and track progress until readings show the structure is stable. Serving Vancouver, WA and surrounding Clark County and Portland-metro communities."
+          },
+          {
+            "id": "mold-remediation",
+            "title": "Mold Remediation & Microbial Treatment",
+            "icon": "biohazard",
+            "description": "Musty odors, discoloration, or mold after a leak or flood need more than surface cleaning. We isolate affected areas, remove contaminated materials, and run HEPA filtration so spores do not spread through your property. Work follows IICRC-informed practices with documentation you can share with your adjuster—serving Vancouver, Clark County, and the Portland metro."
+          },
+          {
+            "id": "hepa-vacuuming",
+            "title": "HEPA Vacuuming",
+            "icon": "brush",
+            "description": "Water, mold, and demolition work can release fine dust and spores that settle on surfaces and in crevices. HEPA vacuuming captures those particulates during cleanup so they are not spread room to room. Used throughout mitigation and remediation jobs across Vancouver, WA, Clark County, and the Portland metro."
+          },
+          {
+            "id": "air-scrubbing",
+            "title": "Air Scrubbing",
+            "icon": "air-vent",
+            "description": "Active restoration can stir up airborne particulates while crews work inside your home or business. Air scrubbers filter the work zone to improve indoor air quality for occupants and workers during the project. Standard practice on Spartan jobs in Vancouver, Clark County, and the Portland metro."
+          },
+          {
+            "id": "structural-cleaning",
+            "title": "Structural Cleaning & Sanitization",
+            "icon": "sparkles",
+            "description": "After water or contamination, affected studs, floors, and surfaces often need cleaning beyond what a general wipe-down can do. We sanitize structural materials and prepare them for drying or rebuild so the space is safe to re-enter. For residential and commercial properties in Vancouver, WA, Clark County, and the Portland metro."
+          },
+          {
+            "id": "flood-cleanup",
+            "title": "Flood Damage Cleanup",
+            "icon": "waves",
+            "description": "Creek overflow, heavy rain, or groundwater intrusion can leave mud, debris, and saturated materials throughout a property. We extract water, remove unsalvageable materials as needed, and stabilize the building for dry-out—not a quick surface fix. Serving flood-affected homes and businesses in Vancouver, Clark County, and the Portland metro."
+          },
+          {
+            "id": "storm-sewage",
+            "title": "Storm & Sewage Cleanup",
+            "description": "Pacific Northwest storms and sewage backups can contaminate floors, walls, and belongings with Category 2 or 3 water. We extract, sanitize affected areas, and stabilize the property so further damage and cross-contamination are limited. For storm and backup events in Vancouver, WA, Clark County, and the Portland metro—call during business hours for a fast response.",
+            "icon": "cloud-rain"
+          },
+          {
+            "id": "moisture-mapping",
+            "title": "Moisture Mapping & Inspections",
+            "icon": "scan-search",
+            "description": "Water can hide inside walls, under flooring, and in insulation long after surfaces look dry. Moisture meters and mapping help us locate trapped water, set drying goals, and confirm when the structure is ready for the next step. Used on inspections and active jobs throughout Vancouver, Clark County, and the Portland metro."
+          },
+          {
+            "id": "odor-removal",
+            "title": "Odor Removal",
+            "icon": "wind",
+            "description": "Persistent odors after water, mold, or sewage events often mean moisture or contamination was not fully addressed. We treat odors as part of a complete cleanup—not masking alone—so the source is handled and the space is safer to occupy. Serving Vancouver, WA, Clark County, and Portland-metro properties."
+          },
+          {
+            "id": "insurance-claims",
+            "title": "Insurance Documentation & Claim Support",
+            "icon": "file-text",
+            "description": "Insurance claims go smoother when photos, moisture readings, and scope notes are organized from day one. We help document the loss and communicate progress with clear records for your adjuster—we do not promise coverage or act as your insurer. For Vancouver, Clark County, and Portland-metro restoration projects."
+          },
+          {
+            "id": "demolition",
+            "title": "Demolition of Water-Damaged Materials",
+            "icon": "axe",
+            "description": "Some water-damaged drywall, flooring, and cabinetry cannot dry in place and must come out to reach wet structure behind it. Selective demolition opens affected cavities for drying and lets rebuild start on a sound base. Performed carefully on Spartan jobs in Vancouver, Clark County, and the Portland metro."
+          },
+          {
+            "id": "contents-protection",
+            "title": "Contents Protection",
+            "icon": "package",
+            "description": "Furniture, electronics, and personal items still in the work zone can be damaged by dust, moisture, or foot traffic during mitigation. We block, cover, and relocate contents where possible so salvageable belongings stay protected. Standard on residential and commercial jobs across Vancouver, WA and the Portland metro."
+          },
+          {
+            "id": "jobsite-containment",
+            "title": "Jobsite Containment",
+            "icon": "shield-check",
+            "description": "Mold, sewage, and demolition create particulates that must stay inside the work area—not the rest of your home or office. Plastic barriers, negative air, and controlled access keep unaffected rooms clean while crews work. Used on every contained remediation job in Vancouver, Clark County, and the Portland metro."
+          }
+        ]
+      }
+    }
+  ]
+}

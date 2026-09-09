@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type MouseEvent, type ReactNode } from "react";
+import { useMemo, useState, type CSSProperties, type MouseEvent, type ReactNode } from "react";
 import { Pencil } from "lucide-react";
 import { PreviewAwareLink } from "@/components/site/PreviewAwareLink";
 import { usePathname } from "next/navigation";
@@ -15,6 +15,7 @@ import {
   getHeroV4FormSettings,
 } from "@/lib/contact-preview";
 import { scrollToHashHref } from "@/lib/scroll-to-hash";
+import { HeroV4ContactInfo } from "@/components/sections/Hero-v4-contact-info";
 import { HeroV4Form } from "@/components/sections/Hero-v4-form";
 import { HeroV4Gallery } from "@/components/sections/Hero-v4-gallery";
 import { TextImageTextEditor } from "@/components/dev/TextImageTextEditor";
@@ -22,15 +23,18 @@ import { NavBarLinkEditor } from "@/components/dev/NavBarLinkEditor";
 import { HeroV4LinksControls } from "@/components/dev/HeroV4LinksControls";
 import { useHeroV4Preview } from "@/components/dev/HeroV4PreviewContext";
 import { siteConfig } from "@/config/site";
+import { getButtonPreviewStyleRecord, type ButtonPreviewSettings } from "@/lib/button-preview";
 import type { HeroBannerSlide } from "@/lib/hero-banner-preview";
 import type {
   HeroV4Breadcrumb,
   HeroV4FormLeadSourceId,
+  HeroV4LabelFontStyle,
   HeroV4PreviewSettings,
   HeroV4ServicePill,
 } from "@/lib/hero-v4-preview";
 import {
   defaultHeroV4Breadcrumbs,
+  defaultHeroV4ContactInfoItems,
   defaultHeroV4FormLeadSourceId,
   defaultHeroV4PreviewSettings,
   defaultHeroV4ServicePills,
@@ -41,6 +45,7 @@ import {
   navLinksToHeroV4Pills,
   normalizeHeroV4PreviewSettings,
   parseHeroV4Bullets,
+  splitHeroV4HeadlineLines,
   resolveHeroV4FormLeadSource,
   resolveHeroV4ShowCta,
 } from "@/lib/hero-v4-preview";
@@ -187,6 +192,22 @@ type HeroV4Props = {
   galleryHeightPx?: number;
   galleryBackground?: string;
   galleryRadiusPx?: number;
+  galleryBorderWidthPx?: number;
+  galleryBorderColor?: string;
+  labelFontStyle?: HeroV4LabelFontStyle;
+  headlineBold?: boolean;
+  headlineFirstLineItalic?: boolean;
+  headlineUppercase?: boolean;
+  button?: ButtonPreviewSettings;
+  phoneButton?: ButtonPreviewSettings;
+  buttonSize?: ButtonPreviewSettings["navButtonSize"];
+  buttonRadiusPx?: number;
+  backgroundColor?: string;
+  showContactInfo?: boolean;
+  contactInfoItems?: HeroV4PreviewSettings["contactInfoItems"];
+  contactInfoIconColor?: string;
+  contactInfoIconBackground?: string;
+  contactInfoIconRadiusPx?: number;
   className?: string;
 };
 
@@ -220,6 +241,22 @@ export function HeroV4({
   galleryHeightPx = defaultHeroV4PreviewSettings.galleryHeightPx,
   galleryBackground = defaultHeroV4PreviewSettings.galleryBackground,
   galleryRadiusPx = defaultHeroV4PreviewSettings.galleryRadiusPx,
+  galleryBorderWidthPx = defaultHeroV4PreviewSettings.galleryBorderWidthPx,
+  galleryBorderColor = defaultHeroV4PreviewSettings.galleryBorderColor,
+  labelFontStyle = defaultHeroV4PreviewSettings.labelFontStyle,
+  headlineBold = false,
+  headlineFirstLineItalic = false,
+  headlineUppercase = false,
+  button,
+  phoneButton,
+  buttonSize,
+  buttonRadiusPx,
+  backgroundColor,
+  showContactInfo = false,
+  contactInfoItems = defaultHeroV4ContactInfoItems,
+  contactInfoIconColor,
+  contactInfoIconBackground,
+  contactInfoIconRadiusPx,
   className,
 }: HeroV4Props) {
   const pathname = usePathname();
@@ -228,14 +265,22 @@ export function HeroV4({
   const preview = useHeroV4Preview();
   const editingEnabled = preview?.contentEditingEnabled ?? false;
   const [ctaEditorOpen, setCtaEditorOpen] = useState(false);
-  const formSettings = useMemo(
-    () =>
-      getHeroV4FormSettings(
-        contactPreview?.settings ?? defaultContactPreviewSettings,
-        resolveHeroV4FormLeadSource(formLeadSource),
-      ),
-    [contactPreview?.settings, formLeadSource],
-  );
+  const formSettings = useMemo(() => {
+    const heroForm = preview?.settings;
+    return getHeroV4FormSettings(
+      contactPreview?.settings ?? defaultContactPreviewSettings,
+      resolveHeroV4FormLeadSource(formLeadSource),
+      heroForm
+        ? {
+            formSubmitText: heroForm.formSubmitText,
+            formButtonBackground: heroForm.formButtonBackground,
+            formButtonTextColor: heroForm.formButtonTextColor,
+            formButtonRadiusPx: heroForm.formButtonRadiusPx,
+            formFields: heroForm.formFields,
+          }
+        : undefined,
+    );
+  }, [contactPreview?.settings, formLeadSource, preview?.settings]);
   const showPrimaryCta = resolveHeroV4ShowCta({ showForm, showCta });
   const showGalleryColumn =
     showGallery && (gallerySlides.length > 0 || editingEnabled);
@@ -247,6 +292,43 @@ export function HeroV4({
     breadcrumbs.length > 0 || (editingEnabled && Boolean(preview?.settings.showBreadcrumbs));
   const showPillsRow = visibleServicePills.length > 0 || (editingEnabled && showServicePills);
   const showActions = showPrimaryCta || showPhone || showPillsRow;
+  const sectionBackgroundColor = backgroundColor ?? preview?.settings.backgroundColor;
+  const resolvedShowContactInfo = preview?.settings.showContactInfo ?? showContactInfo;
+  const resolvedContactInfoItems =
+    preview?.settings.contactInfoItems && preview.settings.contactInfoItems.length > 0
+      ? preview.settings.contactInfoItems
+      : contactInfoItems;
+  const ctaButtonSettings = button ?? preview?.settings.button;
+  const phoneButtonSettings = phoneButton ?? preview?.settings.phoneButton;
+  const sharedButtonSize =
+    buttonSize ?? preview?.settings.buttonSize ?? ctaButtonSettings?.navButtonSize;
+  const sharedButtonRadiusPx =
+    buttonRadiusPx ?? preview?.settings.buttonRadiusPx ?? ctaButtonSettings?.navButtonRadiusPx;
+  const sharedShapeStyle =
+    typeof sharedButtonRadiusPx === "number"
+      ? ({
+          borderRadius: `${sharedButtonRadiusPx}px`,
+          "--header-v3-nav-radius": `${sharedButtonRadiusPx}px`,
+        } as CSSProperties)
+      : undefined;
+  const ctaButtonStyle =
+    ctaButtonSettings || sharedShapeStyle
+      ? ({
+          ...(ctaButtonSettings
+            ? (getButtonPreviewStyleRecord(ctaButtonSettings) as CSSProperties)
+            : {}),
+          ...sharedShapeStyle,
+        } as CSSProperties)
+      : undefined;
+  const phoneButtonStyle =
+    phoneButtonSettings || sharedShapeStyle
+      ? ({
+          ...(phoneButtonSettings
+            ? (getButtonPreviewStyleRecord(phoneButtonSettings) as CSSProperties)
+            : {}),
+          ...sharedShapeStyle,
+        } as CSSProperties)
+      : undefined;
 
   const pageJsonLd = useMemo(() => {
     const blocks: Record<string, unknown>[] = [];
@@ -293,9 +375,18 @@ export function HeroV4({
       {phoneLabel ? (
         <a
           href={phoneHref}
-          className="hero-v4-phone inline-flex items-center rounded-lg px-6 py-3 text-base font-bold transition-colors"
+          className={cn(
+            "hero-v4-phone inline-flex items-center rounded-lg px-6 py-3 text-base font-medium transition-colors",
+            phoneButtonSettings && "hero-v4-phone--custom",
+          )}
+          style={phoneButtonStyle}
+          data-button-size={sharedButtonSize}
         >
-          {phoneLabel}
+          {labelFontStyle === "slant" ? (
+            <span className="hero-v4-phone-label">{phoneLabel}</span>
+          ) : (
+            phoneLabel
+          )}
         </a>
       ) : (
         <p className="text-sm text-muted/70">Add phone</p>
@@ -304,9 +395,23 @@ export function HeroV4({
   ) : null;
 
   return (
-    <section className={cn("hero-v4 hero-v3 relative overflow-hidden py-11 lg:py-[3.75rem]", className)}>
+    <section
+      className={cn(
+        "hero-v4 hero-v3 relative overflow-hidden py-11 lg:py-[3.75rem]",
+        labelFontStyle === "italic" && "hero-v4--style-italic",
+        labelFontStyle === "slant" && "hero-v4--style-slant",
+        className,
+      )}
+    >
       {pageJsonLd.length > 0 ? <JsonLd data={pageJsonLd} /> : null}
-      <div className="hero-v3-bg pointer-events-none absolute inset-0" aria-hidden="true" />
+      <div
+        className={cn(
+          "hero-v3-bg pointer-events-none absolute inset-0",
+          sectionBackgroundColor && "hero-v3-bg--solid",
+        )}
+        style={sectionBackgroundColor ? { background: sectionBackgroundColor } : undefined}
+        aria-hidden="true"
+      />
 
       <Container className="relative">
         <div
@@ -374,10 +479,28 @@ export function HeroV4({
               ariaLabel="Edit hero headline"
               editorTitle="Hero headline"
               value={headline}
+              multiline
+              rows={3}
               onSave={(value) => update({ headline: value })}
             >
-              <h1 className="hero-v4-headline mt-4 font-serif text-4xl font-light leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[3.25rem]">
-                {headline}
+              <h1
+                className={cn(
+                  "hero-v4-headline mt-4 font-serif text-4xl leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[3.25rem]",
+                  headlineBold ? "font-semibold" : "font-light",
+                  headlineUppercase && "uppercase",
+                )}
+              >
+                {splitHeroV4HeadlineLines(headline).map((line, index) => (
+                  <span
+                    key={`headline-line-${index}`}
+                    className={cn(
+                      "hero-v4-headline-line block",
+                      headlineFirstLineItalic && index === 0 && "italic",
+                    )}
+                  >
+                    {line || "\u00A0"}
+                  </span>
+                ))}
               </h1>
             </EditableTextBlock>
 
@@ -469,7 +592,17 @@ export function HeroV4({
                           aria-label={`${primaryCtaLabel} — contact ${siteConfig.name}`}
                           onClick={handlePrimaryCtaClick}
                         >
-                          <Button size="lg">{primaryCtaLabel}</Button>
+                          <Button
+                            size="lg"
+                            className={cn(
+                              "hero-v4-cta-btn",
+                              ctaButtonSettings && "preview-button--custom",
+                            )}
+                            style={ctaButtonStyle}
+                            data-button-size={sharedButtonSize}
+                          >
+                            {primaryCtaLabel}
+                          </Button>
                         </a>
                         <button
                           type="button"
@@ -506,7 +639,17 @@ export function HeroV4({
                         aria-label={`${primaryCtaLabel} — contact ${siteConfig.name}`}
                         onClick={handlePrimaryCtaClick}
                       >
-                        <Button size="lg">{primaryCtaLabel}</Button>
+                        <Button
+                          size="lg"
+                          className={cn(
+                            "hero-v4-cta-btn",
+                            ctaButtonSettings && "preview-button--custom",
+                          )}
+                          style={ctaButtonStyle}
+                          data-button-size={sharedButtonSize}
+                        >
+                          {primaryCtaLabel}
+                        </Button>
                       </a>
                     )}
                     {phoneLink}
@@ -515,6 +658,16 @@ export function HeroV4({
                   phoneLink
                 )}
               </div>
+            ) : null}
+
+            {resolvedShowContactInfo ? (
+              <HeroV4ContactInfo
+                items={resolvedContactInfoItems}
+                iconColor={contactInfoIconColor}
+                iconBackground={contactInfoIconBackground}
+                iconRadiusPx={contactInfoIconRadiusPx}
+                className="mt-8"
+              />
             ) : null}
           </div>
 
@@ -526,6 +679,8 @@ export function HeroV4({
               heightPx={galleryHeightPx}
               background={galleryBackground}
               radiusPx={galleryRadiusPx}
+              borderWidthPx={galleryBorderWidthPx}
+              borderColor={galleryBorderColor}
               className="hero-v4-gallery-slot"
             />
           ) : null}

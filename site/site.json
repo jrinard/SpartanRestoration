@@ -3,11 +3,47 @@
   "domain": "spartanrestorationnw.com",
   "url": "https://spartanrestorationnw.com",
   "tagline": "The best defense in water damage.",
-  "description": "24/7 emergency water, mold, storm, and sewage restoration in Vancouver, WA, Portland, OR, and the Pacific Northwest. Licensed, insured, IICRC-certified crews.",
+  "description": "Emergency water, mold, and environmental restoration in Vancouver, WA, Clark County, and the Portland metro. Licensed, insured, IICRC-certified crews.",
   "phone": "503-975-9082",
-  "serviceArea": "Serving Vancouver, WA and Portland, OR and the Pacific Northwest",
+  "serviceArea": "Serving Vancouver, WA, Clark County, and the Portland metro",
+  "serviceAreas": [
+    "Vancouver, WA",
+    "Clark County, WA",
+    "Camas, WA",
+    "Washougal, WA",
+    "Woodland, WA",
+    "La Center, WA",
+    "Portland, OR",
+    "Portland metro, OR",
+    "Southwest Washington",
+    "Pacific Northwest"
+  ],
+  "locality": {
+    "city": "Vancouver",
+    "region": "WA",
+    "country": "US",
+    "latitude": 45.6387,
+    "longitude": -122.6615
+  },
+  "knowsAbout": [
+    "Water damage restoration",
+    "Water damage mitigation",
+    "Emergency water extraction",
+    "Structural drying and dehumidification",
+    "Mold remediation",
+    "Storm damage cleanup",
+    "Sewage cleanup",
+    "Flood damage cleanup",
+    "HEPA vacuuming and air scrubbing",
+    "Structural cleaning and sanitization",
+    "Moisture mapping and inspections",
+    "Odor removal",
+    "Insurance documentation and claim support",
+    "Contents protection and jobsite containment"
+  ],
   "email": "spartanspc2026@gmail.com",
-  "address": "Vancouver, WA",
+  "address": "2606 E Evergreen Blvd, Vancouver, WA 98661",
+  "hours": "Monday–Friday, 8 AM–5 PM",
   "teamContacts": [
     {
       "name": "Justin Dauven",
@@ -86,14 +122,6 @@
     {
       "label": "Our Services",
       "href": "/our-services"
-    },
-    {
-      "label": "Insurance",
-      "href": "#insurance"
-    },
-    {
-      "label": "Gallery",
-      "href": "#gallery"
     },
     {
       "label": "Service Area",

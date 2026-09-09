@@ -53,23 +53,151 @@
   ],
   "pages": [
     {
+      "slug": "service-areas/clark-county-wa",
+      "name": "Clark County, WA",
+      "sections": [
+        {
+          "group": "topBar",
+          "variant": "top-bar-v1",
+          "id": "topBar-1563bb89"
+        },
+        {
+          "group": "header",
+          "variant": "header-v1",
+          "id": "header-65d014ce"
+        },
+        {
+          "group": "nav",
+          "variant": "nav-v1",
+          "id": "nav-5de3a6fd"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-ccwa0001"
+        },
+        {
+          "group": "hero",
+          "variant": "hero-v4",
+          "id": "hero-ccwa0001"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-ccwa0002"
+        },
+        {
+          "group": "content",
+          "variant": "text-image-v1",
+          "id": "content-ccwa0001"
+        },
+        {
+          "group": "footer",
+          "variant": "footer-v1",
+          "id": "footer-ace2b804"
+        }
+      ]
+    },
+    {
+      "slug": "contact",
+      "name": "Contact",
+      "sections": [
+        {
+          "group": "topBar",
+          "variant": "top-bar-v1",
+          "id": "topBar-1563bb89"
+        },
+        {
+          "group": "header",
+          "variant": "header-v1",
+          "id": "header-65d014ce"
+        },
+        {
+          "group": "nav",
+          "variant": "nav-v1",
+          "id": "nav-5de3a6fd"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-e86ff962"
+        },
+        {
+          "group": "hero",
+          "variant": "hero-v4",
+          "id": "hero-84814b5e"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-b5b69b23"
+        },
+        {
+          "group": "footer",
+          "variant": "footer-v1",
+          "id": "footer-ace2b804"
+        }
+      ]
+    },
+    {
+      "slug": "mold-removal",
+      "name": "Mold Removal",
+      "sections": [
+        {
+          "group": "topBar",
+          "variant": "top-bar-v1",
+          "id": "topBar-1563bb89"
+        },
+        {
+          "group": "header",
+          "variant": "header-v1",
+          "id": "header-65d014ce"
+        },
+        {
+          "group": "nav",
+          "variant": "nav-v1",
+          "id": "nav-5de3a6fd"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-e86ff962"
+        },
+        {
+          "group": "hero",
+          "variant": "hero-v4",
+          "id": "hero-8a1c3d4e"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-b5b69b23"
+        },
+        {
+          "group": "footer",
+          "variant": "footer-v1",
+          "id": "footer-ace2b804"
+        }
+      ]
+    },
+    {
       "slug": "our-services",
       "name": "Our Services",
       "sections": [
         {
           "group": "topBar",
           "variant": "top-bar-v1",
-          "id": "topBar-869a4698"
+          "id": "topBar-1563bb89"
         },
         {
           "group": "header",
           "variant": "header-v1",
-          "id": "header-da254b86"
+          "id": "header-65d014ce"
         },
         {
           "group": "nav",
           "variant": "nav-v1",
-          "id": "nav-74ee4725"
+          "id": "nav-5de3a6fd"
         },
         {
           "group": "spacer",
@@ -99,7 +227,7 @@
         {
           "group": "footer",
           "variant": "footer-v1",
-          "id": "footer-4f9d9249"
+          "id": "footer-ace2b804"
         }
       ]
     },
@@ -110,17 +238,17 @@
         {
           "group": "topBar",
           "variant": "top-bar-v1",
-          "id": "topBar-0ec43a9b"
+          "id": "topBar-1563bb89"
         },
         {
           "group": "header",
           "variant": "header-v1",
-          "id": "header-cdff2dd0"
+          "id": "header-65d014ce"
         },
         {
           "group": "nav",
           "variant": "nav-v1",
-          "id": "nav-0f6914ad"
+          "id": "nav-5de3a6fd"
         },
         {
           "group": "spacer",
@@ -128,24 +256,106 @@
           "id": "spacer-56a01881"
         },
         {
-          "group": "content",
-          "variant": "text-image-v1",
-          "id": "content-a8f5b164"
+          "group": "hero",
+          "variant": "hero-v4",
+          "id": "hero-sa-hub"
         },
         {
           "group": "spacer",
           "variant": "spacer-v2",
-          "id": "spacer-fdf67e03"
+          "id": "spacer-67a8acd5"
         },
         {
           "group": "services",
-          "variant": "service-area-v1",
-          "id": "services-194baf0d"
+          "variant": "service-area-v2",
+          "id": "services-sa-hub-v2"
         },
         {
           "group": "footer",
           "variant": "footer-v1",
-          "id": "footer-0e12211c"
+          "id": "footer-ace2b804"
+        }
+      ]
+    },
+    {
+      "slug": "storm-sewage",
+      "name": "Storm & Sewage",
+      "sections": [
+        {
+          "group": "topBar",
+          "variant": "top-bar-v1",
+          "id": "topBar-1563bb89"
+        },
+        {
+          "group": "header",
+          "variant": "header-v1",
+          "id": "header-65d014ce"
+        },
+        {
+          "group": "nav",
+          "variant": "nav-v1",
+          "id": "nav-5de3a6fd"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-e86ff962"
+        },
+        {
+          "group": "hero",
+          "variant": "hero-v4",
+          "id": "hero-9b2d5f6a"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-b5b69b23"
+        },
+        {
+          "group": "footer",
+          "variant": "footer-v1",
+          "id": "footer-ace2b804"
+        }
+      ]
+    },
+    {
+      "slug": "water-damage-restoration",
+      "name": "Water Damage Restoration",
+      "sections": [
+        {
+          "group": "topBar",
+          "variant": "top-bar-v1",
+          "id": "topBar-1563bb89"
+        },
+        {
+          "group": "header",
+          "variant": "header-v1",
+          "id": "header-65d014ce"
+        },
+        {
+          "group": "nav",
+          "variant": "nav-v1",
+          "id": "nav-5de3a6fd"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-e86ff962"
+        },
+        {
+          "group": "hero",
+          "variant": "hero-v4",
+          "id": "hero-6d4e8f2a"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-b5b69b23"
+        },
+        {
+          "group": "footer",
+          "variant": "footer-v1",
+          "id": "footer-ace2b804"
         }
       ]
     }
@@ -164,7 +374,7 @@
       "leftAccentColor": "#2c73b5",
       "rightTextColor": "#ffffff",
       "leftLabel": "Open Hours",
-      "leftAccent": "24/7",
+      "leftAccent": "Mon–Fri 8–5",
       "rightText": "Call now 503-975-9082",
       "phoneHref": "tel:+15039759082",
       "textSizePx": 18,
@@ -186,32 +396,44 @@
       "outerBackgroundColor": "#ffffff",
       "linkColor": "#ffffff",
       "linkHoverColor": "#F3C35D",
+      "mobileToggleAlign": "center",
       "items": [
         {
           "id": "nav-home",
           "label": "Home",
-          "href": "/"
+          "href": "/",
+          "visibleDesktop": true,
+          "visibleMobile": true
         },
         {
           "id": "nav-services",
           "label": "Our Services",
-          "href": "/our-services"
+          "href": "/our-services",
+          "visibleDesktop": true,
+          "visibleMobile": true
         },
         {
           "id": "nav-service-area",
           "label": "Service Area",
-          "href": "/service-area"
+          "href": "/service-area",
+          "visibleDesktop": true,
+          "visibleMobile": true
         },
         {
           "id": "nav-link-d51ec8a5",
           "label": "Contact",
-          "href": "/contact"
+          "href": "/contact",
+          "visibleDesktop": true,
+          "visibleMobile": true,
+          "openContactModal": false
         },
         {
           "id": "nav-link-5ffc835c",
           "label": "Stone Pillar Contractors",
           "href": "https://www.stonepillarcontractors.com/",
-          "target": "_blank"
+          "target": "_blank",
+          "visibleDesktop": true,
+          "visibleMobile": true
         }
       ]
     },
@@ -250,7 +472,9 @@
       "logoVerticalAlign": "center",
       "headerV1NavTextSizeEm": 1,
       "headerV1NavIcons": {
-        "water-damage-restoration": "home"
+        "water-damage-restoration": "droplets",
+        "mold-removal": "biohazard",
+        "nav-link-ab4ebe3b": "cloud-rain"
       },
       "headerV1NavIconFrameShape": "card",
       "headerV1NavIconFrameSize": "medium",
@@ -261,22 +485,19 @@
         {
           "id": "water-damage-restoration",
           "label": "Water Damage\nRestoration",
-          "pageHref": "/",
-          "anchorId": "water-damage-restoration",
+          "pageHref": "/water-damage-restoration",
           "icon": "droplets"
         },
         {
           "id": "mold-removal",
           "label": "Mold Removal",
-          "pageHref": "/",
-          "anchorId": "mold-removal",
+          "pageHref": "/mold-removal",
           "icon": "biohazard"
         },
         {
           "id": "nav-link-ab4ebe3b",
           "label": "Storm & Sewage",
-          "pageHref": "/",
-          "anchorId": "storm",
+          "pageHref": "/storm-sewage",
           "icon": "droplets"
         }
       ]
@@ -363,6 +584,66 @@
         },
         "layoutWidth": "full"
       },
+      "spacer-ccwa0001": {
+        "gradient": {
+          "heightPx": 24
+        },
+        "layoutWidth": "full",
+        "outerBackgroundColor": "#ffffff",
+        "stripe": {
+          "from": "#748B9F",
+          "to": "#000000",
+          "direction": "to right",
+          "mode": "linear",
+          "heightPx": 40,
+          "overlap": false
+        }
+      },
+      "spacer-ccwa0002": {
+        "gradient": {
+          "heightPx": 32
+        },
+        "layoutWidth": "full",
+        "outerBackgroundColor": "#ffffff",
+        "stripe": {
+          "from": "#748B9F",
+          "to": "#000000",
+          "direction": "to right",
+          "mode": "linear",
+          "heightPx": 40,
+          "overlap": false
+        }
+      },
+      "spacer-e86ff962": {
+        "stripe": {
+          "from": "#000000",
+          "to": "#2c73b5",
+          "direction": "to left",
+          "mode": "linear",
+          "heightPx": 16,
+          "overlap": false
+        },
+        "gradient": {
+          "heightPx": 40
+        },
+        "layoutWidth": "contained",
+        "outerBackgroundColor": "#ffffff"
+      },
+      "spacer-b5b69b23": {
+        "stripe": {
+          "from": "#000000",
+          "to": "#2c73b5",
+          "direction": "to right",
+          "mode": "linear",
+          "heightPx": 32,
+          "overlap": false
+        },
+        "gradient": {
+          "heightPx": 40
+        },
+        "layoutWidth": "full",
+        "outerBackgroundColor": "#ffffff"
+      },
       "spacer-d150b6ef": {
         "stripe": {
           "from": "#000000",
@@ -408,13 +689,13 @@
         "layoutWidth": "contained",
         "outerBackgroundColor": "#ffffff"
       },
-      "spacer-fdf67e03": {
+      "spacer-67a8acd5": {
         "stripe": {
           "from": "#000000",
           "to": "#2c73b5",
           "direction": "to right",
           "mode": "linear",
-          "heightPx": 16,
+          "heightPx": 24,
           "overlap": false
         },
         "gradient": {
@@ -444,15 +725,14 @@
           "layoutInverted": false,
           "phoneButtonMarginTopPx": 32,
           "phoneButtonVisible": true,
-          "contentEyebrow": "Spartan Restoration",
+          "contentEyebrow": "Spartan Restoration · Vancouver, WA",
           "contentImageSrc": "/org-assets/spartan/library/Store.jpg",
-          "contentImageAlt": "Store",
+          "contentImageAlt": "Spartan Restoration crew responding to water damage in Vancouver, WA",
           "contentHeadlineLines": [
-            "24/7 Emergency Restoration",
-            "You Can Count On Water,",
-            "Storm, Mold & Sewage Damage"
+            "Emergency Water & Mold",
+            "Restoration You Can Count On"
           ],
-          "contentBody": "Disasters don't wait for business hours and neither do we. Spartan Restoration is a locally trusted emergency restoration company serving Vancouver and the Pacific Northwest. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough."
+          "contentBody": "When water or mold threatens your property, you need a team that responds with urgency and care. Spartan Restoration is a locally trusted restoration company serving Vancouver, WA, Clark County, and the Portland metro. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough."
         }
       },
       "content-de5e3eab": {
@@ -502,13 +782,13 @@
           "row2AnchorId": "mold-removal",
           "row3AnchorId": "storm",
           "contentRow1ImageSrc": "/org-assets/spartan/library/tub3.png",
-          "contentRow1ImageAlt": "Tub3",
+          "contentRow1ImageAlt": "Technician extracting water from a flooded floor during emergency mitigation",
           "contentRow2ImageSrc": "/org-assets/spartan/library/tub4.jpg",
-          "contentRow2ImageAlt": "Tub4",
+          "contentRow2ImageAlt": "Mold remediation specialist treating affected wall and ceiling materials",
           "contentRow3ImageSrc": "/org-assets/spartan/library/Tub5.jpg",
-          "contentRow3ImageAlt": "Tub5",
+          "contentRow3ImageAlt": "Storm and flood damage cleanup at a Pacific Northwest property",
           "contentRow2Body": "Mold can trigger allergies, respiratory issues, and lasting damage to building materials when it is left untreated. It spreads quickly often after leaks, floods, or hidden moisture and proper remediation requires containment and experienced handling to help prevent cross-contamination. Spartan Restoration's certified crews assess the full scope, remove affected materials safely, and work to restore healthy indoor air quality for your home or business.",
-          "contentRow3Body": "Pacific Northwest storms can overwhelm roofs, windows, and drainage systems fast and sewage backups create serious health risks that need immediate attention. Spartan Restoration responds around the clock to extract water, dry affected areas, sanitize contaminated spaces, and help protect your property from further damage with clear communication every step of the way."
+          "contentRow3Body": "Pacific Northwest storms can overwhelm roofs, windows, and drainage systems fast and sewage backups create serious health risks that need immediate attention. Spartan Restoration responds quickly to extract water, dry affected areas, sanitize contaminated spaces, and help protect your property from further damage with clear communication every step of the way."
         }
       },
       "content-f0f5b202": {
@@ -516,6 +796,7 @@
           "backgroundFrom": "#000000",
           "backgroundTo": "#000000",
           "backgroundDirection": "none",
+          "backgroundImageSrc": "",
           "layoutWidth": "contained",
           "outerBackgroundColor": "#ffffff",
           "headingColor": "#ffffff",
@@ -525,7 +806,52 @@
           "iconBackgroundColor": "#f3c35d",
           "iconFrameShape": "card",
           "iconFrameSize": "medium",
-          "itemIcons": {}
+          "itemIcons": {
+            "why-emergency-response": "phone",
+            "why-quality": "sparkles",
+            "why-estimates": "file-text",
+            "why-licensed": "shield-check"
+          },
+          "itemTitles": {
+            "why-emergency-response": "Fast Response When You Need Us",
+            "why-quality": "Quality You Can See",
+            "why-estimates": "Honest, Competitive Estimates",
+            "why-licensed": "Licensed, Insured & Certified"
+          },
+          "itemDescriptions": {
+            "why-emergency-response": "When you're facing damage, you get a real person on the line—not a voicemail loop.",
+            "why-quality": "We keep you informed from the first visit through completion, with work built to last, not just look good on day one.",
+            "why-estimates": "Clear pricing up front, no surprises. Have a written quote from another licensed contractor? Talk to us. We'll work to earn your business.",
+            "why-licensed": "Fully insured crews trained to IICRC industry standards, so your property is in qualified hands from start to finish."
+          },
+          "contentHeading": "Why Choose Spartan Restoration?",
+          "contentSubheading": "Water and mold damage move fast. Your restoration team should too. Spartan Restoration serves Vancouver and the Pacific Northwest with the urgency and care a damaged home deserves.",
+          "items": [
+            {
+              "id": "why-emergency-response",
+              "title": "Fast Response When You Need Us",
+              "description": "When you're facing damage, you get a real person on the line—not a voicemail loop.",
+              "icon": "phone"
+            },
+            {
+              "id": "why-quality",
+              "title": "Quality You Can See",
+              "description": "We keep you informed from the first visit through completion, with work built to last, not just look good on day one.",
+              "icon": "sparkles"
+            },
+            {
+              "id": "why-estimates",
+              "title": "Honest, Competitive Estimates",
+              "description": "Clear pricing up front, no surprises. Have a written quote from another licensed contractor? Talk to us. We'll work to earn your business.",
+              "icon": "file-text"
+            },
+            {
+              "id": "why-licensed",
+              "title": "Licensed, Insured & Certified",
+              "description": "Fully insured crews trained to IICRC industry standards, so your property is in qualified hands from start to finish.",
+              "icon": "shield-check"
+            }
+          ]
         },
         "textImage": {
           "theme": "light",
@@ -540,6 +866,38 @@
           "navHoverBackground": "#243348",
           "navButtonSize": "large",
           "navButtonRadiusPx": 4
+        }
+      },
+      "content-ccwa0001": {
+        "textImage": {
+          "theme": "light",
+          "backgroundColor": "#ffffff",
+          "eyebrowColor": "#56616A",
+          "headlineColor": "#000000",
+          "bodyColor": "#333333",
+          "sidebarTextColor": "#333333",
+          "navBackground": "#f3c35d",
+          "navTextColor": "#000000",
+          "navTextHoverColor": "#ffffff",
+          "navHoverBackground": "#2c73b5",
+          "navButtonSize": "xlarge",
+          "navButtonRadiusPx": 4,
+          "entranceAnimationEnabled": true,
+          "entranceAnimationSpeedMs": 800,
+          "layoutInverted": true,
+          "phoneButtonMarginTopPx": 32,
+          "phoneButtonVisible": true,
+          "imageShadowIntensity": 0,
+          "contentEyebrow": "Clark County coverage",
+          "contentImageSrc": "/org-assets/spartan/library/Store.jpg",
+          "contentImageAlt": "Spartan Restoration crews serving Clark County, Washington",
+          "contentHeadlineLines": [
+            "Local crews.",
+            "County-wide reach."
+          ],
+          "contentBody": "Spartan Restoration dispatches from Vancouver to properties across Clark County — including Camas, Washougal, Ridgefield, La Center, Woodland, and Battle Ground. We handle emergency water extraction, structural drying, mold remediation, and storm or sewage cleanup with documentation suited for insurance claims. For Portland-metro properties near the river, call the same Vancouver team at (503) 975-9082.",
+          "contentPhoneLabel": "503-975-9082",
+          "contentPhoneHref": "tel:+15039759082"
         }
       },
       "content-b299de6e": {
@@ -561,15 +919,15 @@
           "layoutInverted": false,
           "phoneButtonMarginTopPx": 32,
           "phoneButtonVisible": true,
-          "contentEyebrow": "Spartan Restoration",
+          "imageShadowIntensity": 0,
+          "contentEyebrow": "Spartan Restoration · Vancouver, WA",
           "contentImageSrc": "/org-assets/spartan/library/Store.jpg",
-          "contentImageAlt": "Store",
+          "contentImageAlt": "Water damage restoration equipment and crew on a Pacific Northwest job site",
           "contentHeadlineLines": [
-            "24/7 Emergency Restoration",
-            "You Can Count On Water,",
-            "Storm, Mold & Sewage Damage"
+            "The best defense in water damage"
           ],
-          "contentBody": "Disasters don't wait for business hours and neither do we. Spartan Restoration is a locally trusted emergency restoration company serving Vancouver and the Pacific Northwest. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough."
+          "contentBody": "From emergency extraction to structural drying and mold remediation, Spartan Restoration helps Vancouver and Clark County property owners recover after water and mold damage. Our crews bring clear communication and hands-on experience from the first visit through final walkthrough.",
+          "contentSidebarText": "Spartan Restoration handles emergency mitigation and restoration, extraction, drying, mold, and claim documentation. Stone Pillar Contractors is our licensed general contracting partner for reconstruction, remodeling, and tenant improvements when you're ready to rebuild after mitigation."
         }
       },
       "content-127f9a95": {
@@ -577,40 +935,62 @@
           "backgroundFrom": "#000000",
           "backgroundTo": "#000000",
           "backgroundDirection": "none",
+          "backgroundImageSrc": "",
           "layoutWidth": "contained",
           "outerBackgroundColor": "#ffffff",
           "headingColor": "#ffffff",
-          "subheadingColor": "#bfbfbf"
-        }
-      },
-      "content-a8f5b164": {
-        "textImage": {
-          "theme": "light",
-          "backgroundColor": "#ffffff",
-          "eyebrowColor": "#56616A",
-          "headlineColor": "#000000",
-          "bodyColor": "#333333",
-          "sidebarTextColor": "#333333",
-          "navBackground": "#f3c35d",
-          "navTextColor": "#000000",
-          "navTextHoverColor": "#ffffff",
-          "navHoverBackground": "#2c73b5",
-          "navButtonSize": "xlarge",
-          "navButtonRadiusPx": 4,
-          "entranceAnimationEnabled": true,
-          "entranceAnimationSpeedMs": 800,
-          "layoutInverted": false,
-          "phoneButtonMarginTopPx": 32,
-          "phoneButtonVisible": true,
-          "contentEyebrow": "Spartan Restoration",
-          "contentImageSrc": "/org-assets/spartan/library/Store.jpg",
-          "contentImageAlt": "Store",
-          "contentHeadlineLines": [
-            "24/7 Emergency Restoration",
-            "You Can Count On Water,",
-            "Storm, Mold & Sewage Damage"
-          ],
-          "contentBody": "Disasters don't wait for business hours and neither do we. Spartan Restoration is a locally trusted emergency restoration company serving Vancouver and the Pacific Northwest. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough."
+          "subheadingColor": "#bfbfbf",
+          "iconColor": "#000000",
+          "iconBorderColor": "#000000",
+          "iconBackgroundColor": "#f3c35d",
+          "iconFrameShape": "card",
+          "iconFrameSize": "medium",
+          "itemIcons": {
+            "why-emergency-response": "phone",
+            "why-quality": "sparkles",
+            "why-estimates": "file-text",
+            "why-licensed": "shield-check"
+          },
+          "itemTitles": {
+            "why-emergency-response": "Fast Emergency Response",
+            "why-quality": "Quality You Can See",
+            "why-estimates": "Honest, Competitive Estimates",
+            "why-licensed": "Licensed, Insured & Certified"
+          },
+          "itemDescriptions": {
+            "why-emergency-response": "When you're facing damage, you get a real response — not a voicemail loop. Call (503) 975-9082 during business hours or leave a message anytime.",
+            "why-quality": "We keep you informed from the first visit through completion, with work built to last, not just look good on day one.",
+            "why-estimates": "Clear pricing up front, no surprises. Have a written quote from another licensed contractor? Talk to us. We'll work to earn your business.",
+            "why-licensed": "Fully insured crews trained to IICRC industry standards, so your property is in qualified hands from start to finish."
+          },
+          "contentHeading": "Why Choose Spartan Restoration?",
+          "contentSubheading": "Water and mold damage move fast. Your restoration team should too. Spartan Restoration serves Vancouver and the Pacific Northwest with the urgency and care a damaged home deserves.",
+          "items": [
+            {
+              "id": "why-emergency-response",
+              "title": "Fast Emergency Response",
+              "description": "When you're facing damage, you get a real response — not a voicemail loop. Call (503) 975-9082 during business hours or leave a message anytime.",
+              "icon": "phone"
+            },
+            {
+              "id": "why-quality",
+              "title": "Quality You Can See",
+              "description": "We keep you informed from the first visit through completion, with work built to last, not just look good on day one.",
+              "icon": "sparkles"
+            },
+            {
+              "id": "why-estimates",
+              "title": "Honest, Competitive Estimates",
+              "description": "Clear pricing up front, no surprises. Have a written quote from another licensed contractor? Talk to us. We'll work to earn your business.",
+              "icon": "file-text"
+            },
+            {
+              "id": "why-licensed",
+              "title": "Licensed, Insured & Certified",
+              "description": "Fully insured crews trained to IICRC industry standards, so your property is in qualified hands from start to finish.",
+              "icon": "shield-check"
+            }
+          ]
         }
       }
     },
@@ -638,7 +1018,9 @@
           "logoVerticalAlign": "center",
           "headerV1NavTextSizeEm": 1,
           "headerV1NavIcons": {
-            "water-damage-restoration": "home"
+            "water-damage-restoration": "droplets",
+            "mold-removal": "biohazard",
+            "nav-link-ab4ebe3b": "cloud-rain"
           },
           "headerV1NavIconFrameShape": "card",
           "headerV1NavIconFrameSize": "medium",
@@ -649,22 +1031,19 @@
             {
               "id": "water-damage-restoration",
               "label": "Water Damage\nRestoration",
-              "pageHref": "/",
-              "anchorId": "water-damage-restoration",
+              "pageHref": "/water-damage-restoration",
               "icon": "droplets"
             },
             {
               "id": "mold-removal",
               "label": "Mold Removal",
-              "pageHref": "/",
-              "anchorId": "mold-removal",
+              "pageHref": "/mold-removal",
               "icon": "biohazard"
             },
             {
               "id": "nav-link-ab4ebe3b",
               "label": "Storm & Sewage",
-              "pageHref": "/",
-              "anchorId": "storm",
+              "pageHref": "/storm-sewage",
               "icon": "droplets"
             }
           ]
@@ -703,15 +1082,14 @@
           "layoutInverted": false,
           "phoneButtonMarginTopPx": 32,
           "phoneButtonVisible": true,
-          "contentEyebrow": "Spartan Restoration",
+          "contentEyebrow": "Spartan Restoration · Vancouver, WA",
           "contentImageSrc": "/org-assets/spartan/library/Store.jpg",
-          "contentImageAlt": "Store",
+          "contentImageAlt": "Spartan Restoration crew responding to water damage in Vancouver, WA",
           "contentHeadlineLines": [
-            "24/7 Emergency Restoration",
-            "You Can Count On Water,",
-            "Storm, Mold & Sewage Damage"
+            "Emergency Water & Mold",
+            "Restoration You Can Count On"
           ],
-          "contentBody": "Disasters don't wait for business hours and neither do we. Spartan Restoration is a locally trusted emergency restoration company serving Vancouver and the Pacific Northwest. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough."
+          "contentBody": "When water or mold threatens your property, you need a team that responds with urgency and care. Spartan Restoration is a locally trusted restoration company serving Vancouver, WA, Clark County, and the Portland metro. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough."
         }
       },
       "content-de5e3eab": {
@@ -761,13 +1139,13 @@
           "row2AnchorId": "mold-removal",
           "row3AnchorId": "storm",
           "contentRow1ImageSrc": "/org-assets/spartan/library/tub3.png",
-          "contentRow1ImageAlt": "Tub3",
+          "contentRow1ImageAlt": "Technician extracting water from a flooded floor during emergency mitigation",
           "contentRow2ImageSrc": "/org-assets/spartan/library/tub4.jpg",
-          "contentRow2ImageAlt": "Tub4",
+          "contentRow2ImageAlt": "Mold remediation specialist treating affected wall and ceiling materials",
           "contentRow3ImageSrc": "/org-assets/spartan/library/Tub5.jpg",
-          "contentRow3ImageAlt": "Tub5",
+          "contentRow3ImageAlt": "Storm and flood damage cleanup at a Pacific Northwest property",
           "contentRow2Body": "Mold can trigger allergies, respiratory issues, and lasting damage to building materials when it is left untreated. It spreads quickly often after leaks, floods, or hidden moisture and proper remediation requires containment and experienced handling to help prevent cross-contamination. Spartan Restoration's certified crews assess the full scope, remove affected materials safely, and work to restore healthy indoor air quality for your home or business.",
-          "contentRow3Body": "Pacific Northwest storms can overwhelm roofs, windows, and drainage systems fast and sewage backups create serious health risks that need immediate attention. Spartan Restoration responds around the clock to extract water, dry affected areas, sanitize contaminated spaces, and help protect your property from further damage with clear communication every step of the way."
+          "contentRow3Body": "Pacific Northwest storms can overwhelm roofs, windows, and drainage systems fast and sewage backups create serious health risks that need immediate attention. Spartan Restoration responds quickly to extract water, dry affected areas, sanitize contaminated spaces, and help protect your property from further damage with clear communication every step of the way."
         }
       },
       "spacer-6288a5c6": {
@@ -814,6 +1192,7 @@
           "backgroundFrom": "#000000",
           "backgroundTo": "#000000",
           "backgroundDirection": "none",
+          "backgroundImageSrc": "",
           "layoutWidth": "contained",
           "outerBackgroundColor": "#ffffff",
           "headingColor": "#ffffff",
@@ -823,7 +1202,52 @@
           "iconBackgroundColor": "#f3c35d",
           "iconFrameShape": "card",
           "iconFrameSize": "medium",
-          "itemIcons": {}
+          "itemIcons": {
+            "why-emergency-response": "phone",
+            "why-quality": "sparkles",
+            "why-estimates": "file-text",
+            "why-licensed": "shield-check"
+          },
+          "itemTitles": {
+            "why-emergency-response": "Fast Response When You Need Us",
+            "why-quality": "Quality You Can See",
+            "why-estimates": "Honest, Competitive Estimates",
+            "why-licensed": "Licensed, Insured & Certified"
+          },
+          "itemDescriptions": {
+            "why-emergency-response": "When you're facing damage, you get a real person on the line—not a voicemail loop.",
+            "why-quality": "We keep you informed from the first visit through completion, with work built to last, not just look good on day one.",
+            "why-estimates": "Clear pricing up front, no surprises. Have a written quote from another licensed contractor? Talk to us. We'll work to earn your business.",
+            "why-licensed": "Fully insured crews trained to IICRC industry standards, so your property is in qualified hands from start to finish."
+          },
+          "contentHeading": "Why Choose Spartan Restoration?",
+          "contentSubheading": "Water and mold damage move fast. Your restoration team should too. Spartan Restoration serves Vancouver and the Pacific Northwest with the urgency and care a damaged home deserves.",
+          "items": [
+            {
+              "id": "why-emergency-response",
+              "title": "Fast Response When You Need Us",
+              "description": "When you're facing damage, you get a real person on the line—not a voicemail loop.",
+              "icon": "phone"
+            },
+            {
+              "id": "why-quality",
+              "title": "Quality You Can See",
+              "description": "We keep you informed from the first visit through completion, with work built to last, not just look good on day one.",
+              "icon": "sparkles"
+            },
+            {
+              "id": "why-estimates",
+              "title": "Honest, Competitive Estimates",
+              "description": "Clear pricing up front, no surprises. Have a written quote from another licensed contractor? Talk to us. We'll work to earn your business.",
+              "icon": "file-text"
+            },
+            {
+              "id": "why-licensed",
+              "title": "Licensed, Insured & Certified",
+              "description": "Fully insured crews trained to IICRC industry standards, so your property is in qualified hands from start to finish.",
+              "icon": "shield-check"
+            }
+          ]
         },
         "textImage": {
           "theme": "light",
@@ -841,62 +1265,482 @@
         }
       },
       "footer-ace2b804": {},
-      "topBar-869a4698": {},
-      "header-da254b86": {
-        "headerV3": {
-          "from": "#ffffff",
-          "to": "#ffffff",
-          "backgroundMode": "linear",
-          "backgroundDirection": "to right",
-          "navBackground": "#ffffff",
-          "navTextColor": "#000000",
-          "navTextHoverColor": "#d4981b",
-          "navHoverBackground": "#ffffff",
-          "navButtonSize": "medium",
-          "navButtonRadiusPx": 0,
-          "logoVariant": "color",
-          "layoutWidth": "contained",
-          "headerHeightPx": 160,
-          "logoSizePx": 0,
-          "logoHeightPx": 144,
-          "logoBackgroundColor": "transparent",
-          "logoMarginTopPx": 16,
-          "logoVerticalAlign": "center",
-          "headerV1NavTextSizeEm": 1,
-          "headerV1NavIcons": {
-            "water-damage-restoration": "home"
+      "spacer-ccwa0001": {
+        "spacer": {
+          "gradient": {
+            "heightPx": 24
           },
-          "headerV1NavIconFrameShape": "card",
-          "headerV1NavIconFrameSize": "medium",
-          "headerV1NavIconColor": "#000000",
-          "headerV1NavIconBorderColor": "#ffffff",
-          "headerV1NavIconBackgroundColor": "#f3c35d",
-          "headerV1NavLinks": [
+          "layoutWidth": "full",
+          "outerBackgroundColor": "#ffffff",
+          "stripe": {
+            "from": "#748B9F",
+            "to": "#000000",
+            "direction": "to right",
+            "mode": "linear",
+            "heightPx": 40,
+            "overlap": false
+          }
+        }
+      },
+      "hero-ccwa0001": {
+        "heroV4": {
+          "showForm": true,
+          "showBreadcrumbs": true,
+          "showBullets": false,
+          "showPhoneCta": true,
+          "eyebrow": "Spartan Restoration · Clark County, WA",
+          "headline": "Restoration services\nacross Clark County",
+          "body": "From Vancouver and Salmon Creek to Camas, Washougal, and Battle Ground, Spartan Restoration helps homeowners and businesses recover from water damage, mold, and storm events. Licensed, insured, based at 2606 E Evergreen Blvd, Vancouver.",
+          "bullets": [],
+          "primaryCtaLabel": "CALL (503) 975-9082",
+          "primaryCtaHref": "tel:+15039759082",
+          "phoneLabel": "503-975-9082",
+          "phoneHref": "tel:+15039759082",
+          "formTitle": "REQUEST HELP",
+          "formSubtext": "Water, mold, or storm damage in Clark County.",
+          "formTrustNotes": [],
+          "formLeadSource": "website-review",
+          "showServicePills": false,
+          "servicePills": [],
+          "breadcrumbs": [
             {
-              "id": "water-damage-restoration",
-              "label": "Water Damage\nRestoration",
-              "pageHref": "/",
-              "anchorId": "water-damage-restoration",
-              "icon": "droplets"
+              "label": "Home",
+              "href": "/"
             },
             {
-              "id": "mold-removal",
-              "label": "Mold Removal",
-              "pageHref": "/",
-              "anchorId": "mold-removal",
-              "icon": "biohazard"
+              "label": "Service Area",
+              "href": "/service-area"
             },
             {
-              "id": "nav-link-ab4ebe3b",
-              "label": "Storm & Sewage",
-              "pageHref": "/",
-              "anchorId": "storm",
-              "icon": "droplets"
+              "label": "Clark County, WA"
+            }
+          ],
+          "showGallery": false,
+          "gallerySlides": [],
+          "galleryIntervalMs": 5000,
+          "galleryTransition": "fade",
+          "galleryHeightPx": 300,
+          "galleryBackground": "#000000",
+          "galleryRadiusPx": 20,
+          "galleryBorderWidthPx": 1,
+          "galleryBorderColor": "",
+          "labelFontStyle": "normal",
+          "headlineBold": false,
+          "headlineFirstLineItalic": false,
+          "headlineUppercase": false,
+          "button": {
+            "navBackground": "#ffc233",
+            "navTextColor": "#000000",
+            "navTextHoverColor": "#000000",
+            "navHoverBackground": "#f8ad0d",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 4
+          },
+          "phoneButton": {
+            "navBackground": "#000000",
+            "navTextColor": "#ffffff",
+            "navTextHoverColor": "#ffffff",
+            "navHoverBackground": "#4f4f4f",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 8
+          },
+          "buttonSize": "xlarge",
+          "buttonRadiusPx": 0,
+          "backgroundColor": "#ffffff",
+          "showContactInfo": false,
+          "contactInfoItems": [],
+          "formSubmitText": "Send Message",
+          "formButtonBackground": "#2c74b5",
+          "formButtonTextColor": "#ffffff",
+          "formButtonRadiusPx": 4,
+          "formFields": [
+            {
+              "id": "legacy-name",
+              "name": "name",
+              "label": "Full Name",
+              "placeholder": "Your name",
+              "type": "text",
+              "required": true
+            },
+            {
+              "id": "legacy-businessName",
+              "name": "businessName",
+              "label": "City",
+              "placeholder": "City",
+              "type": "text",
+              "required": false
+            },
+            {
+              "id": "legacy-email",
+              "name": "email",
+              "label": "Email",
+              "placeholder": "you@example.com",
+              "type": "email",
+              "required": true
+            },
+            {
+              "id": "legacy-phone",
+              "name": "phone",
+              "label": "Phone",
+              "placeholder": "(optional)",
+              "type": "tel",
+              "required": false
+            },
+            {
+              "id": "legacy-message",
+              "name": "message",
+              "label": "What happened?",
+              "placeholder": "",
+              "type": "textarea",
+              "required": true
             }
           ]
         }
       },
-      "nav-74ee4725": {},
+      "spacer-ccwa0002": {
+        "spacer": {
+          "gradient": {
+            "heightPx": 32
+          },
+          "layoutWidth": "full",
+          "outerBackgroundColor": "#ffffff",
+          "stripe": {
+            "from": "#748B9F",
+            "to": "#000000",
+            "direction": "to right",
+            "mode": "linear",
+            "heightPx": 40,
+            "overlap": false
+          }
+        }
+      },
+      "content-ccwa0001": {
+        "textImage": {
+          "theme": "light",
+          "backgroundColor": "#ffffff",
+          "eyebrowColor": "#56616A",
+          "headlineColor": "#000000",
+          "bodyColor": "#333333",
+          "sidebarTextColor": "#333333",
+          "navBackground": "#f3c35d",
+          "navTextColor": "#000000",
+          "navTextHoverColor": "#ffffff",
+          "navHoverBackground": "#2c73b5",
+          "navButtonSize": "xlarge",
+          "navButtonRadiusPx": 4,
+          "entranceAnimationEnabled": true,
+          "entranceAnimationSpeedMs": 800,
+          "layoutInverted": true,
+          "phoneButtonMarginTopPx": 32,
+          "phoneButtonVisible": true,
+          "imageShadowIntensity": 0,
+          "contentEyebrow": "Clark County coverage",
+          "contentImageSrc": "/org-assets/spartan/library/Store.jpg",
+          "contentImageAlt": "Spartan Restoration crews serving Clark County, Washington",
+          "contentHeadlineLines": [
+            "Local crews.",
+            "County-wide reach."
+          ],
+          "contentBody": "Spartan Restoration dispatches from Vancouver to properties across Clark County — including Camas, Washougal, Ridgefield, La Center, Woodland, and Battle Ground. We handle emergency water extraction, structural drying, mold remediation, and storm or sewage cleanup with documentation suited for insurance claims. For Portland-metro properties near the river, call the same Vancouver team at (503) 975-9082.",
+          "contentPhoneLabel": "503-975-9082",
+          "contentPhoneHref": "tel:+15039759082"
+        }
+      },
+      "spacer-e86ff962": {
+        "spacer": {
+          "stripe": {
+            "from": "#000000",
+            "to": "#2c73b5",
+            "direction": "to left",
+            "mode": "linear",
+            "heightPx": 16,
+            "overlap": false
+          },
+          "gradient": {
+            "heightPx": 40
+          },
+          "layoutWidth": "contained",
+          "outerBackgroundColor": "#ffffff"
+        }
+      },
+      "hero-84814b5e": {
+        "heroV4": {
+          "showForm": true,
+          "showBreadcrumbs": false,
+          "showBullets": false,
+          "showPhoneCta": false,
+          "eyebrow": "We are Here to Help",
+          "headline": "Let’s Get Your Property Back\n to Normal.",
+          "body": "Dealing with water damage, mold, or other property damage can be stressful. Spartan Restoration is here to help you understand what needs to be done and get your property back to normal. Tell us a little about what happened, and we'll get back to you. Prefer to talk it through? Give us a call or text.",
+          "bullets": [
+            "Quality workmanship",
+            "Professional service",
+            "Premium materials",
+            "5-year workmanship warranty"
+          ],
+          "primaryCtaLabel": "REQUEST A QUOTE",
+          "primaryCtaHref": "/contact",
+          "phoneLabel": "503-975-9082",
+          "phoneHref": "tel:+15039759082",
+          "formTitle": "SEND US A MESSAGE",
+          "formSubtext": "",
+          "formTrustNotes": [],
+          "formLeadSource": "contact-form",
+          "showServicePills": false,
+          "servicePills": [
+            {
+              "label": "Siding",
+              "href": "#services",
+              "title": "Siding built for the Northwest — Langham Construction",
+              "description": "James Hardie, LP SmartSide, and wood siding installed for Washington weather. New homes and replacements in Vancouver, WA and Southwest Washington."
+            },
+            {
+              "label": "Windows",
+              "href": "#services",
+              "title": "Window installation — Langham Construction",
+              "description": "Window installation for new construction and remodels in Vancouver, WA, Clark County, and Southwest Washington."
+            },
+            {
+              "label": "Doors",
+              "href": "#services",
+              "title": "Door installation — Langham Construction",
+              "description": "Entry and exterior door installation for homes and remodels in Vancouver, WA and surrounding cities."
+            }
+          ],
+          "breadcrumbs": [
+            {
+              "label": "Home",
+              "href": "/"
+            }
+          ],
+          "showGallery": false,
+          "gallerySlides": [
+            {
+              "type": "image",
+              "value": "/org-assets/langham/library/Gallery-Siding-1.png"
+            },
+            {
+              "type": "image",
+              "value": "/org-assets/langham/library/Gallery-Siding-2.png"
+            }
+          ],
+          "galleryIntervalMs": 5000,
+          "galleryTransition": "fade",
+          "galleryHeightPx": 300,
+          "galleryBackground": "#000000",
+          "galleryRadiusPx": 0,
+          "galleryBorderWidthPx": 12,
+          "galleryBorderColor": "#000000",
+          "labelFontStyle": "normal",
+          "button": {
+            "navBackground": "#ffc233",
+            "navTextColor": "#000000",
+            "navTextHoverColor": "#000000",
+            "navHoverBackground": "#f8ad0d",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 4
+          },
+          "phoneButton": {
+            "navBackground": "#000000",
+            "navTextColor": "#ffffff",
+            "navTextHoverColor": "#ffffff",
+            "navHoverBackground": "#4f4f4f",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 8
+          },
+          "buttonSize": "xlarge",
+          "buttonRadiusPx": 0,
+          "backgroundColor": "#ffffff",
+          "showContactInfo": true,
+          "contactInfoItems": [
+            {
+              "label": "Call us",
+              "value": "(503) 975-9082",
+              "icon": "phone",
+              "href": "tel:+15039759082"
+            },
+            {
+              "label": "Email us",
+              "value": "spartanspc2026@gmail.com",
+              "icon": "mail",
+              "href": "mailto:spartanspc2026@gmail.com"
+            },
+            {
+              "label": "Hours",
+              "value": "Mon–Fri: 8 AM – 5 PM",
+              "icon": "clock"
+            },
+            {
+              "label": "Serving",
+              "value": "Vancouver, WA, Battle Ground, WA, Camas, WA & all of Clark County",
+              "icon": "map-pin"
+            }
+          ],
+          "contactInfoIconColor": "#000000",
+          "contactInfoIconBackground": "#f4c35e",
+          "contactInfoIconRadiusPx": 12,
+          "formSubmitText": "Send Message",
+          "formButtonBackground": "#2c74b5",
+          "formButtonTextColor": "#ffffff",
+          "formButtonRadiusPx": 4,
+          "formFields": [
+            {
+              "id": "legacy-name",
+              "name": "name",
+              "label": "Full Name",
+              "placeholder": "Your name",
+              "type": "text",
+              "required": true
+            },
+            {
+              "id": "legacy-businessName",
+              "name": "businessName",
+              "label": "City",
+              "placeholder": "City",
+              "type": "text",
+              "required": false
+            },
+            {
+              "id": "legacy-email",
+              "name": "email",
+              "label": "Email",
+              "placeholder": "you@example.com",
+              "type": "email",
+              "required": true
+            },
+            {
+              "id": "legacy-phone",
+              "name": "phone",
+              "label": "Phone",
+              "placeholder": "(optional)",
+              "type": "tel",
+              "required": false
+            },
+            {
+              "id": "legacy-message",
+              "name": "message",
+              "label": "How can we help?",
+              "placeholder": "",
+              "type": "textarea",
+              "required": true
+            }
+          ]
+        }
+      },
+      "spacer-b5b69b23": {
+        "spacer": {
+          "stripe": {
+            "from": "#000000",
+            "to": "#2c73b5",
+            "direction": "to right",
+            "mode": "linear",
+            "heightPx": 32,
+            "overlap": false
+          },
+          "gradient": {
+            "heightPx": 40
+          },
+          "layoutWidth": "full",
+          "outerBackgroundColor": "#ffffff"
+        }
+      },
+      "hero-8a1c3d4e": {
+        "heroV4": {
+          "showForm": true,
+          "showBreadcrumbs": false,
+          "showBullets": false,
+          "showPhoneCta": false,
+          "showContactInfo": false,
+          "showGallery": false,
+          "showServicePills": false,
+          "primaryCtaLabel": "CALL (503) 975-9082",
+          "primaryCtaHref": "tel:+15039759082",
+          "phoneLabel": "503-975-9082",
+          "phoneHref": "tel:+15039759082",
+          "formTitle": "REQUEST HELP",
+          "formSubtext": "",
+          "formTrustNotes": [],
+          "formSubmitText": "Send Message",
+          "formButtonBackground": "#2c74b5",
+          "formButtonTextColor": "#ffffff",
+          "formButtonRadiusPx": 4,
+          "labelFontStyle": "normal",
+          "buttonSize": "xlarge",
+          "buttonRadiusPx": 0,
+          "backgroundColor": "#ffffff",
+          "button": {
+            "navBackground": "#ffc233",
+            "navTextColor": "#000000",
+            "navTextHoverColor": "#000000",
+            "navHoverBackground": "#f8ad0d",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 4
+          },
+          "phoneButton": {
+            "navBackground": "#000000",
+            "navTextColor": "#ffffff",
+            "navTextHoverColor": "#ffffff",
+            "navHoverBackground": "#4f4f4f",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 8
+          },
+          "formFields": [
+            {
+              "id": "legacy-name",
+              "name": "name",
+              "label": "Full Name",
+              "placeholder": "Your name",
+              "type": "text",
+              "required": true
+            },
+            {
+              "id": "legacy-businessName",
+              "name": "businessName",
+              "label": "City",
+              "placeholder": "City",
+              "type": "text",
+              "required": false
+            },
+            {
+              "id": "legacy-email",
+              "name": "email",
+              "label": "Email",
+              "placeholder": "you@example.com",
+              "type": "email",
+              "required": true
+            },
+            {
+              "id": "legacy-phone",
+              "name": "phone",
+              "label": "Phone",
+              "placeholder": "(optional)",
+              "type": "tel",
+              "required": false
+            },
+            {
+              "id": "legacy-message",
+              "name": "message",
+              "label": "How can we help?",
+              "placeholder": "",
+              "type": "textarea",
+              "required": true
+            }
+          ],
+          "bullets": [],
+          "servicePills": [],
+          "breadcrumbs": [
+            {
+              "label": "Home",
+              "href": "/"
+            }
+          ],
+          "gallerySlides": [],
+          "eyebrow": "Spartan Restoration · Vancouver, WA",
+          "headline": "Mold Removal & Remediation\nin Vancouver, WA",
+          "body": "Musty odors, discoloration, or mold after a leak or flood need more than surface cleaning. Spartan Restoration isolates affected areas, removes contaminated materials, and runs HEPA filtration for Vancouver, Clark County, and Portland-metro properties. Work follows IICRC-informed practices—we follow up during business hours.",
+          "formLeadSource": "mold-removal"
+        }
+      },
       "spacer-d150b6ef": {
         "spacer": {
           "stripe": {
@@ -933,18 +1777,173 @@
           "layoutInverted": false,
           "phoneButtonMarginTopPx": 32,
           "phoneButtonVisible": true,
-          "contentEyebrow": "Spartan Restoration",
+          "imageShadowIntensity": 0,
+          "contentEyebrow": "Spartan Restoration · Vancouver, WA",
           "contentImageSrc": "/org-assets/spartan/library/Store.jpg",
-          "contentImageAlt": "Store",
+          "contentImageAlt": "Water damage restoration equipment and crew on a Pacific Northwest job site",
           "contentHeadlineLines": [
-            "24/7 Emergency Restoration",
-            "You Can Count On Water,",
-            "Storm, Mold & Sewage Damage"
+            "The best defense in water damage"
           ],
-          "contentBody": "Disasters don't wait for business hours and neither do we. Spartan Restoration is a locally trusted emergency restoration company serving Vancouver and the Pacific Northwest. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough."
+          "contentBody": "From emergency extraction to structural drying and mold remediation, Spartan Restoration helps Vancouver and Clark County property owners recover after water and mold damage. Our crews bring clear communication and hands-on experience from the first visit through final walkthrough.",
+          "contentSidebarText": "Spartan Restoration handles emergency mitigation and restoration, extraction, drying, mold, and claim documentation. Stone Pillar Contractors is our licensed general contracting partner for reconstruction, remodeling, and tenant improvements when you're ready to rebuild after mitigation."
         }
       },
-      "services-03be986f": {},
+      "services-03be986f": {
+        "servicesIconsV2": {
+          "backgroundFrom": "#ffffff",
+          "backgroundTo": "#ffffff",
+          "backgroundDirection": "none",
+          "layoutWidth": "contained",
+          "outerBackgroundColor": "#ffffff",
+          "cardBackgroundColor": "#000000",
+          "circleColor": "#2c73b5",
+          "iconShape": "circle",
+          "iconColor": "#ffffff",
+          "cardTextColor": "#ffffff",
+          "headingColor": "#000000",
+          "ctaBackgroundColor": "#f3c35d",
+          "ctaTextColor": "#000000",
+          "cardFontSizePx": 24,
+          "headingFontSizePx": 48,
+          "cardBorderRadiusPx": 20,
+          "cardPaddingPx": 30,
+          "cardMinHeightPx": 140,
+          "iconSizePx": 75,
+          "serviceIcons": {
+            "water-mitigation": "droplets",
+            "emergency-extraction": "waves",
+            "structural-drying": "fan",
+            "mold-remediation": "biohazard",
+            "hepa-vacuuming": "brush",
+            "air-scrubbing": "air-vent",
+            "structural-cleaning": "sparkles",
+            "flood-cleanup": "waves",
+            "moisture-mapping": "scan-search",
+            "odor-removal": "wind",
+            "insurance-claims": "file-text",
+            "demolition": "axe",
+            "contents-protection": "package",
+            "jobsite-containment": "shield-check",
+            "storm-sewage": "cloud-rain"
+          },
+          "serviceLabels": {
+            "water-mitigation": "Water Damage Mitigation",
+            "emergency-extraction": "Emergency Water Extraction",
+            "structural-drying": "Structural Drying & Dehumidification",
+            "mold-remediation": "Mold Remediation & Microbial Treatment",
+            "hepa-vacuuming": "HEPA Vacuuming",
+            "air-scrubbing": "Air Scrubbing",
+            "structural-cleaning": "Structural Cleaning & Sanitization",
+            "flood-cleanup": "Flood Damage Cleanup",
+            "moisture-mapping": "Moisture Mapping & Inspections",
+            "odor-removal": "Odor Removal",
+            "insurance-claims": "Insurance Docs & Claim Support",
+            "demolition": "Demolition of Water-Damaged Materials",
+            "contents-protection": "Contents Protection",
+            "jobsite-containment": "Jobsite Containment",
+            "storm-sewage": "Storm & Sewage Cleanup"
+          },
+          "serviceDescriptions": {
+            "insurance-claims": "Insurance documentation and claim support—no coverage promises, clear records for adjusters."
+          },
+          "ctaLabel": "(503) 975-9082",
+          "ctaHref": "tel:+15039759082",
+          "sectionHeading": "Our Services",
+          "seoDescription": "Spartan Restoration provides water damage mitigation, emergency extraction, structural drying, mold remediation, HEPA vacuuming, air scrubbing, flood cleanup, storm and sewage cleanup, moisture mapping, odor removal, insurance documentation, demolition, contents protection, and jobsite containment in Vancouver, WA and the Pacific Northwest.",
+          "services": [
+            {
+              "id": "water-mitigation",
+              "title": "Water Damage Mitigation",
+              "description": "Water damage mitigation to stop spread and stabilize the property after leaks, floods, and burst pipes.",
+              "icon": "droplets"
+            },
+            {
+              "id": "emergency-extraction",
+              "title": "Emergency Water Extraction",
+              "description": "Emergency water extraction to remove standing water quickly and limit secondary damage.",
+              "icon": "waves"
+            },
+            {
+              "id": "structural-drying",
+              "title": "Structural Drying & Dehumidification",
+              "description": "Structural drying and dehumidification to stabilize the building and limit further damage.",
+              "icon": "fan"
+            },
+            {
+              "id": "mold-remediation",
+              "title": "Mold Remediation & Microbial Treatment",
+              "description": "Mold remediation and microbial treatment with containment and certified handling.",
+              "icon": "biohazard"
+            },
+            {
+              "id": "hepa-vacuuming",
+              "title": "HEPA Vacuuming",
+              "description": "HEPA vacuuming to capture fine particulates during cleanup and restoration.",
+              "icon": "brush"
+            },
+            {
+              "id": "air-scrubbing",
+              "title": "Air Scrubbing",
+              "description": "Air scrubbing to improve indoor air quality while work is underway.",
+              "icon": "air-vent"
+            },
+            {
+              "id": "structural-cleaning",
+              "title": "Structural Cleaning & Sanitization",
+              "description": "Structural cleaning and sanitization of affected surfaces and building materials.",
+              "icon": "sparkles"
+            },
+            {
+              "id": "flood-cleanup",
+              "title": "Flood Damage Cleanup",
+              "description": "Flood damage cleanup with extraction, drying, and property stabilization.",
+              "icon": "waves"
+            },
+            {
+              "id": "storm-sewage",
+              "title": "Storm & Sewage Cleanup",
+              "description": "Storm and sewage damage cleanup—extraction, sanitization, and stabilization when Pacific Northwest weather or backups threaten your property.",
+              "icon": "cloud-rain"
+            },
+            {
+              "id": "moisture-mapping",
+              "title": "Moisture Mapping & Inspections",
+              "description": "Moisture mapping and inspections to find hidden damage and guide drying plans.",
+              "icon": "scan-search"
+            },
+            {
+              "id": "odor-removal",
+              "title": "Odor Removal",
+              "description": "Odor removal as part of water, mold, and contamination cleanup.",
+              "icon": "wind"
+            },
+            {
+              "id": "insurance-claims",
+              "title": "Insurance Docs & Claim Support",
+              "description": "Insurance documentation and claim support—no coverage promises, clear records for adjusters.",
+              "icon": "file-text"
+            },
+            {
+              "id": "demolition",
+              "title": "Demolition of Water-Damaged Materials",
+              "description": "Selective demolition of water-damaged materials to prepare for dry-out and rebuild.",
+              "icon": "axe"
+            },
+            {
+              "id": "contents-protection",
+              "title": "Contents Protection",
+              "description": "Contents protection to safeguard belongings during mitigation and restoration.",
+              "icon": "package"
+            },
+            {
+              "id": "jobsite-containment",
+              "title": "Jobsite Containment",
+              "description": "Jobsite containment to limit cross-contamination and protect unaffected areas.",
+              "icon": "shield-check"
+            }
+          ]
+        }
+      },
       "spacer-6bfe6a85": {
         "spacer": {
           "stripe": {
@@ -967,105 +1966,64 @@
           "backgroundFrom": "#000000",
           "backgroundTo": "#000000",
           "backgroundDirection": "none",
+          "backgroundImageSrc": "",
           "layoutWidth": "contained",
           "outerBackgroundColor": "#ffffff",
           "headingColor": "#ffffff",
-          "subheadingColor": "#bfbfbf"
-        }
-      },
-      "footer-4f9d9249": {
-        "footerV3": {
-          "subtextColor": "#4d82b8",
-          "extraTextColor": "#ffffff",
-          "linkColor": "#4d82b8",
-          "linkHoverColor": "#ffffff",
-          "accentColor": "#5696d7",
-          "copyrightColor": "#85a33f",
-          "domainColor": "#dedede",
-          "socialColor": "#ffffff",
-          "socialHoverColor": "#4d82b8",
-          "layoutWidth": "full",
-          "logoVariant": "color",
-          "theme": "dark"
-        },
-        "footerV1": {
-          "brandNameColor": "#36475e",
-          "taglineColor": "#2c73b5",
-          "navColor": "#243348",
-          "navHoverColor": "#f3c35d",
-          "contactHeadingColor": "#243348",
-          "contactTextColor": "#2c73b5",
-          "contactLinkHoverColor": "#243348",
-          "contactButtonBgColor": "#f3c35d",
-          "contactButtonHoverBgColor": "#bababa",
-          "contactButtonTextColor": "#243348",
-          "mainBackgroundFrom": "#ffffff",
-          "mainBackgroundTo": "#ffffff",
-          "mainBackgroundDirection": "none",
-          "bottomBarBackgroundColor": "#2c73b5",
-          "bottomBarTextColor": "#ffffff",
-          "contactTextSizeEm": 1.2,
-          "layoutWidth": "contained",
-          "contentInsetPx": 32,
-          "outerBackgroundColor": "#ffffff"
-        }
-      },
-      "topBar-0ec43a9b": {},
-      "header-cdff2dd0": {
-        "headerV3": {
-          "from": "#ffffff",
-          "to": "#ffffff",
-          "backgroundMode": "linear",
-          "backgroundDirection": "to right",
-          "navBackground": "#ffffff",
-          "navTextColor": "#000000",
-          "navTextHoverColor": "#d4981b",
-          "navHoverBackground": "#ffffff",
-          "navButtonSize": "medium",
-          "navButtonRadiusPx": 0,
-          "logoVariant": "color",
-          "layoutWidth": "contained",
-          "headerHeightPx": 160,
-          "logoSizePx": 0,
-          "logoHeightPx": 144,
-          "logoBackgroundColor": "transparent",
-          "logoMarginTopPx": 16,
-          "logoVerticalAlign": "center",
-          "headerV1NavTextSizeEm": 1,
-          "headerV1NavIcons": {
-            "water-damage-restoration": "home"
+          "subheadingColor": "#bfbfbf",
+          "iconColor": "#000000",
+          "iconBorderColor": "#000000",
+          "iconBackgroundColor": "#f3c35d",
+          "iconFrameShape": "card",
+          "iconFrameSize": "medium",
+          "itemIcons": {
+            "why-emergency-response": "phone",
+            "why-quality": "sparkles",
+            "why-estimates": "file-text",
+            "why-licensed": "shield-check"
           },
-          "headerV1NavIconFrameShape": "card",
-          "headerV1NavIconFrameSize": "medium",
-          "headerV1NavIconColor": "#000000",
-          "headerV1NavIconBorderColor": "#ffffff",
-          "headerV1NavIconBackgroundColor": "#f3c35d",
-          "headerV1NavLinks": [
+          "itemTitles": {
+            "why-emergency-response": "Fast Emergency Response",
+            "why-quality": "Quality You Can See",
+            "why-estimates": "Honest, Competitive Estimates",
+            "why-licensed": "Licensed, Insured & Certified"
+          },
+          "itemDescriptions": {
+            "why-emergency-response": "When you're facing damage, you get a real response — not a voicemail loop. Call (503) 975-9082 during business hours or leave a message anytime.",
+            "why-quality": "We keep you informed from the first visit through completion, with work built to last, not just look good on day one.",
+            "why-estimates": "Clear pricing up front, no surprises. Have a written quote from another licensed contractor? Talk to us. We'll work to earn your business.",
+            "why-licensed": "Fully insured crews trained to IICRC industry standards, so your property is in qualified hands from start to finish."
+          },
+          "contentHeading": "Why Choose Spartan Restoration?",
+          "contentSubheading": "Water and mold damage move fast. Your restoration team should too. Spartan Restoration serves Vancouver and the Pacific Northwest with the urgency and care a damaged home deserves.",
+          "items": [
             {
-              "id": "water-damage-restoration",
-              "label": "Water Damage\nRestoration",
-              "pageHref": "/",
-              "anchorId": "water-damage-restoration",
-              "icon": "droplets"
+              "id": "why-emergency-response",
+              "title": "Fast Emergency Response",
+              "description": "When you're facing damage, you get a real response — not a voicemail loop. Call (503) 975-9082 during business hours or leave a message anytime.",
+              "icon": "phone"
             },
             {
-              "id": "mold-removal",
-              "label": "Mold Removal",
-              "pageHref": "/",
-              "anchorId": "mold-removal",
-              "icon": "biohazard"
+              "id": "why-quality",
+              "title": "Quality You Can See",
+              "description": "We keep you informed from the first visit through completion, with work built to last, not just look good on day one.",
+              "icon": "sparkles"
             },
             {
-              "id": "nav-link-ab4ebe3b",
-              "label": "Storm & Sewage",
-              "pageHref": "/",
-              "anchorId": "storm",
-              "icon": "droplets"
+              "id": "why-estimates",
+              "title": "Honest, Competitive Estimates",
+              "description": "Clear pricing up front, no surprises. Have a written quote from another licensed contractor? Talk to us. We'll work to earn your business.",
+              "icon": "file-text"
+            },
+            {
+              "id": "why-licensed",
+              "title": "Licensed, Insured & Certified",
+              "description": "Fully insured crews trained to IICRC industry standards, so your property is in qualified hands from start to finish.",
+              "icon": "shield-check"
             }
           ]
         }
       },
-      "nav-0f6914ad": {},
       "spacer-56a01881": {
         "spacer": {
           "stripe": {
@@ -1083,44 +2041,144 @@
           "outerBackgroundColor": "#ffffff"
         }
       },
-      "content-a8f5b164": {
-        "textImage": {
-          "theme": "light",
-          "backgroundColor": "#ffffff",
-          "eyebrowColor": "#56616A",
-          "headlineColor": "#000000",
-          "bodyColor": "#333333",
-          "sidebarTextColor": "#333333",
-          "navBackground": "#f3c35d",
-          "navTextColor": "#000000",
-          "navTextHoverColor": "#ffffff",
-          "navHoverBackground": "#2c73b5",
-          "navButtonSize": "xlarge",
-          "navButtonRadiusPx": 4,
-          "entranceAnimationEnabled": true,
-          "entranceAnimationSpeedMs": 800,
-          "layoutInverted": false,
-          "phoneButtonMarginTopPx": 32,
-          "phoneButtonVisible": true,
-          "contentEyebrow": "Spartan Restoration",
-          "contentImageSrc": "/org-assets/spartan/library/Store.jpg",
-          "contentImageAlt": "Store",
-          "contentHeadlineLines": [
-            "24/7 Emergency Restoration",
-            "You Can Count On Water,",
-            "Storm, Mold & Sewage Damage"
+      "hero-sa-hub": {
+        "heroV4": {
+          "showForm": true,
+          "showBreadcrumbs": true,
+          "showBullets": false,
+          "showPhoneCta": true,
+          "eyebrow": "Where We Serve",
+          "headline": "Restoration across Clark County",
+          "body": "From Vancouver and Salmon Creek to Battle Ground, Camas, and Washougal, Spartan Restoration covers Clark County and the Portland metro. Licensed, insured, IICRC-certified crews for water damage, mold, and storm cleanup.",
+          "bullets": [],
+          "primaryCtaLabel": "CALL (503) 975-9082",
+          "primaryCtaHref": "tel:+15039759082",
+          "phoneLabel": "503-975-9082",
+          "phoneHref": "tel:+15039759082",
+          "formTitle": "REQUEST HELP",
+          "formSubtext": "Water, mold, or storm damage in your area.",
+          "formTrustNotes": [],
+          "formLeadSource": "website-review",
+          "showServicePills": true,
+          "servicePills": [
+            {
+              "label": "Water Damage",
+              "href": "/water-damage-restoration",
+              "title": "Water damage restoration in Clark County, WA",
+              "description": "Emergency extraction, structural drying, and documentation for Vancouver, Camas, Washougal, and Clark County properties."
+            },
+            {
+              "label": "Mold Removal",
+              "href": "/mold-removal",
+              "title": "Mold removal and remediation in Clark County, WA",
+              "description": "Containment, HEPA filtration, and IICRC-informed mold remediation across Southwest Washington."
+            },
+            {
+              "label": "Storm & Sewage",
+              "href": "/storm-sewage",
+              "title": "Storm and sewage cleanup in Clark County, WA",
+              "description": "Storm damage, sewage backups, and Category 3 water cleanup for Clark County and the Portland metro."
+            }
           ],
-          "contentBody": "Disasters don't wait for business hours and neither do we. Spartan Restoration is a locally trusted emergency restoration company serving Vancouver and the Pacific Northwest. Our crews bring clear communication, steady leadership, and hands-on experience to every job, from the first call through final walkthrough."
+          "breadcrumbs": [
+            {
+              "label": "Home",
+              "href": "/"
+            },
+            {
+              "label": "Service Area"
+            }
+          ],
+          "showGallery": false,
+          "gallerySlides": [],
+          "galleryIntervalMs": 5000,
+          "galleryTransition": "fade",
+          "galleryHeightPx": 300,
+          "galleryBackground": "#000000",
+          "galleryRadiusPx": 20,
+          "galleryBorderWidthPx": 1,
+          "galleryBorderColor": "",
+          "labelFontStyle": "normal",
+          "headlineBold": true,
+          "headlineFirstLineItalic": true,
+          "headlineUppercase": false,
+          "button": {
+            "navBackground": "#ffc233",
+            "navTextColor": "#000000",
+            "navTextHoverColor": "#000000",
+            "navHoverBackground": "#f8ad0d",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 4
+          },
+          "phoneButton": {
+            "navBackground": "#000000",
+            "navTextColor": "#ffffff",
+            "navTextHoverColor": "#ffffff",
+            "navHoverBackground": "#4f4f4f",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 8
+          },
+          "buttonSize": "xlarge",
+          "buttonRadiusPx": 0,
+          "backgroundColor": "#ffffff",
+          "showContactInfo": false,
+          "contactInfoItems": [],
+          "formSubmitText": "Send Message",
+          "formButtonBackground": "#2c74b5",
+          "formButtonTextColor": "#ffffff",
+          "formButtonRadiusPx": 4,
+          "formFields": [
+            {
+              "id": "legacy-name",
+              "name": "name",
+              "label": "Full Name",
+              "placeholder": "Your name",
+              "type": "text",
+              "required": true
+            },
+            {
+              "id": "legacy-businessName",
+              "name": "businessName",
+              "label": "City",
+              "placeholder": "City",
+              "type": "text",
+              "required": false
+            },
+            {
+              "id": "legacy-email",
+              "name": "email",
+              "label": "Email",
+              "placeholder": "you@example.com",
+              "type": "email",
+              "required": true
+            },
+            {
+              "id": "legacy-phone",
+              "name": "phone",
+              "label": "Phone",
+              "placeholder": "(optional)",
+              "type": "tel",
+              "required": false
+            },
+            {
+              "id": "legacy-message",
+              "name": "message",
+              "label": "What happened?",
+              "placeholder": "",
+              "type": "textarea",
+              "required": true
+            }
+          ]
         }
       },
-      "spacer-fdf67e03": {
+      "spacer-67a8acd5": {
         "spacer": {
           "stripe": {
             "from": "#000000",
             "to": "#2c73b5",
             "direction": "to right",
             "mode": "linear",
-            "heightPx": 16,
+            "heightPx": 24,
             "overlap": false
           },
           "gradient": {
@@ -1130,85 +2188,222 @@
           "outerBackgroundColor": "#ffffff"
         }
       },
-      "services-194baf0d": {
-        "servicesV1": {
-          "layoutWidth": "full"
-        },
-        "servicesIconsV2": {
-          "backgroundFrom": "#ffffff",
-          "backgroundTo": "#ffffff",
-          "backgroundDirection": "none",
+      "services-sa-hub-v2": {
+        "serviceAreaV2": {
+          "theme": "dark",
+          "eyebrow": "How we help locally",
+          "heading": "Restoration where you are",
+          "intro": "One Vancouver team covering Clark County and the Portland metro.",
+          "accentColor": "#2c73b5",
           "layoutWidth": "contained",
-          "outerBackgroundColor": "#ffffff",
-          "cardBackgroundColor": "#000000",
-          "circleColor": "#2c73b5",
-          "iconColor": "#ffffff",
+          "solidBackground": "#111111",
+          "backgroundMode": "solid",
+          "background": {
+            "from": "#ffffff",
+            "to": "#f6f8fa",
+            "direction": "to bottom",
+            "intensity": 0
+          },
+          "cardBackgroundColor": "#2c74b5",
+          "cardHoverBackgroundColor": "#1f2d40",
           "cardTextColor": "#ffffff",
-          "headingColor": "#000000",
-          "ctaBackgroundColor": "#f3c35d",
-          "ctaTextColor": "#000000",
-          "cardFontSizePx": 24,
-          "headingFontSizePx": 48,
-          "cardBorderRadiusPx": 20,
-          "cardPaddingPx": 30,
-          "cardMinHeightPx": 140,
-          "iconSizePx": 75,
-          "serviceIcons": {},
-          "serviceLabels": {
-            "water-mitigation": "Water Mitigation & Extraction"
-          }
-        },
-        "serviceAreaV1": {
-          "layoutWidth": "full",
-          "size": "medium",
-          "outerBackgroundColor": "#ffffff",
-          "backgroundMode": "gradient",
-          "backgroundColor": "#4d82b8",
-          "backgroundGradientFrom": "#5cb0ff",
-          "backgroundGradientTo": "#000000",
-          "backgroundGradientAngle": 247,
-          "cardBorderRadiusPx": 16,
-          "headingColor": "#ffffff",
-          "iconColor": "#f3c35d",
-          "locationTextColor": "#ffffff",
-          "locationLabels": {}
+          "cardMutedColor": "#b8b8c8",
+          "linkColor": "#000000",
+          "cardBorderRadiusPx": 16
         }
       },
-      "footer-0e12211c": {
-        "footerV3": {
-          "subtextColor": "#4d82b8",
-          "extraTextColor": "#ffffff",
-          "linkColor": "#4d82b8",
-          "linkHoverColor": "#ffffff",
-          "accentColor": "#5696d7",
-          "copyrightColor": "#85a33f",
-          "domainColor": "#dedede",
-          "socialColor": "#ffffff",
-          "socialHoverColor": "#4d82b8",
-          "layoutWidth": "full",
-          "logoVariant": "color",
-          "theme": "dark"
-        },
-        "footerV1": {
-          "brandNameColor": "#36475e",
-          "taglineColor": "#2c73b5",
-          "navColor": "#243348",
-          "navHoverColor": "#f3c35d",
-          "contactHeadingColor": "#243348",
-          "contactTextColor": "#2c73b5",
-          "contactLinkHoverColor": "#243348",
-          "contactButtonBgColor": "#f3c35d",
-          "contactButtonHoverBgColor": "#bababa",
-          "contactButtonTextColor": "#243348",
-          "mainBackgroundFrom": "#ffffff",
-          "mainBackgroundTo": "#ffffff",
-          "mainBackgroundDirection": "none",
-          "bottomBarBackgroundColor": "#2c73b5",
-          "bottomBarTextColor": "#ffffff",
-          "contactTextSizeEm": 1.2,
-          "layoutWidth": "contained",
-          "contentInsetPx": 32,
-          "outerBackgroundColor": "#ffffff"
+      "hero-9b2d5f6a": {
+        "heroV4": {
+          "showForm": true,
+          "showBreadcrumbs": false,
+          "showBullets": false,
+          "showPhoneCta": false,
+          "showContactInfo": false,
+          "showGallery": false,
+          "showServicePills": false,
+          "primaryCtaLabel": "CALL (503) 975-9082",
+          "primaryCtaHref": "tel:+15039759082",
+          "phoneLabel": "503-975-9082",
+          "phoneHref": "tel:+15039759082",
+          "formTitle": "REQUEST HELP",
+          "formSubtext": "",
+          "formTrustNotes": [],
+          "formSubmitText": "Send Message",
+          "formButtonBackground": "#2c74b5",
+          "formButtonTextColor": "#ffffff",
+          "formButtonRadiusPx": 4,
+          "labelFontStyle": "normal",
+          "buttonSize": "xlarge",
+          "buttonRadiusPx": 0,
+          "backgroundColor": "#ffffff",
+          "button": {
+            "navBackground": "#ffc233",
+            "navTextColor": "#000000",
+            "navTextHoverColor": "#000000",
+            "navHoverBackground": "#f8ad0d",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 4
+          },
+          "phoneButton": {
+            "navBackground": "#000000",
+            "navTextColor": "#ffffff",
+            "navTextHoverColor": "#ffffff",
+            "navHoverBackground": "#4f4f4f",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 8
+          },
+          "formFields": [
+            {
+              "id": "legacy-name",
+              "name": "name",
+              "label": "Full Name",
+              "placeholder": "Your name",
+              "type": "text",
+              "required": true
+            },
+            {
+              "id": "legacy-businessName",
+              "name": "businessName",
+              "label": "City",
+              "placeholder": "City",
+              "type": "text",
+              "required": false
+            },
+            {
+              "id": "legacy-email",
+              "name": "email",
+              "label": "Email",
+              "placeholder": "you@example.com",
+              "type": "email",
+              "required": true
+            },
+            {
+              "id": "legacy-phone",
+              "name": "phone",
+              "label": "Phone",
+              "placeholder": "(optional)",
+              "type": "tel",
+              "required": false
+            },
+            {
+              "id": "legacy-message",
+              "name": "message",
+              "label": "How can we help?",
+              "placeholder": "",
+              "type": "textarea",
+              "required": true
+            }
+          ],
+          "bullets": [],
+          "servicePills": [],
+          "breadcrumbs": [
+            {
+              "label": "Home",
+              "href": "/"
+            }
+          ],
+          "gallerySlides": [],
+          "eyebrow": "Spartan Restoration · Vancouver, WA",
+          "headline": "Storm & Sewage Cleanup\nin Vancouver, WA",
+          "body": "Pacific Northwest storms and sewage backups can contaminate floors, walls, and belongings. Spartan Restoration extracts, sanitizes affected areas, and stabilizes your property in Vancouver, Clark County, and the Portland metro. Tell us what happened—we respond during business hours.",
+          "formLeadSource": "storm-sewage"
+        }
+      },
+      "hero-6d4e8f2a": {
+        "heroV4": {
+          "showForm": true,
+          "showBreadcrumbs": false,
+          "showBullets": false,
+          "showPhoneCta": false,
+          "showContactInfo": false,
+          "showGallery": false,
+          "showServicePills": false,
+          "eyebrow": "Spartan Restoration · Vancouver, WA",
+          "headline": "Water Damage Restoration\nin Vancouver, WA",
+          "body": "Burst pipes, appliance leaks, and roof intrusions can soak structure and finishes fast. Spartan Restoration responds with emergency extraction, structural drying, and clear documentation for Vancouver, Clark County, and Portland-metro properties. Tell us what happened—we will follow up during business hours.",
+          "primaryCtaLabel": "CALL (503) 975-9082",
+          "primaryCtaHref": "tel:+15039759082",
+          "phoneLabel": "503-975-9082",
+          "phoneHref": "tel:+15039759082",
+          "formTitle": "REQUEST HELP",
+          "formSubtext": "",
+          "formTrustNotes": [],
+          "formLeadSource": "water-damage-restoration",
+          "formSubmitText": "Send Message",
+          "formButtonBackground": "#2c74b5",
+          "formButtonTextColor": "#ffffff",
+          "formButtonRadiusPx": 4,
+          "labelFontStyle": "normal",
+          "buttonSize": "xlarge",
+          "buttonRadiusPx": 0,
+          "backgroundColor": "#ffffff",
+          "button": {
+            "navBackground": "#ffc233",
+            "navTextColor": "#000000",
+            "navTextHoverColor": "#000000",
+            "navHoverBackground": "#f8ad0d",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 4
+          },
+          "phoneButton": {
+            "navBackground": "#000000",
+            "navTextColor": "#ffffff",
+            "navTextHoverColor": "#ffffff",
+            "navHoverBackground": "#4f4f4f",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 8
+          },
+          "formFields": [
+            {
+              "id": "legacy-name",
+              "name": "name",
+              "label": "Full Name",
+              "placeholder": "Your name",
+              "type": "text",
+              "required": true
+            },
+            {
+              "id": "legacy-businessName",
+              "name": "businessName",
+              "label": "City",
+              "placeholder": "City",
+              "type": "text",
+              "required": false
+            },
+            {
+              "id": "legacy-email",
+              "name": "email",
+              "label": "Email",
+              "placeholder": "you@example.com",
+              "type": "email",
+              "required": true
+            },
+            {
+              "id": "legacy-phone",
+              "name": "phone",
+              "label": "Phone",
+              "placeholder": "(optional)",
+              "type": "tel",
+              "required": false
+            },
+            {
+              "id": "legacy-message",
+              "name": "message",
+              "label": "What happened?",
+              "placeholder": "",
+              "type": "textarea",
+              "required": true
+            }
+          ],
+          "bullets": [],
+          "servicePills": [],
+          "breadcrumbs": [
+            {
+              "label": "Home",
+              "href": "/"
+            }
+          ],
+          "gallerySlides": []
         }
       }
     },
@@ -1221,6 +2416,7 @@
       "borderRadius": 28,
       "titleColor": "#ffffff",
       "bodyColor": "#a8a8b8",
+      "submitText": "Send Message",
       "formFields": [
         {
           "id": "legacy-name",
@@ -1233,8 +2429,8 @@
         {
           "id": "legacy-businessName",
           "name": "businessName",
-          "label": "Business Name",
-          "placeholder": "Your business name",
+          "label": "City",
+          "placeholder": "City",
           "type": "text",
           "required": true
         },
@@ -1263,8 +2459,8 @@
           "required": true
         }
       ],
-      "contentTitle": "Let's Talk",
-      "contentSubtext": "Let's start the conversation with a Free Consultation",
+      "contentTitle": "SEND US A MESSAGE",
+      "contentSubtext": "Water, Mold, and Storm Damage Restoration",
       "buttonBackground": "#f3c35d",
       "buttonTextColor": "#000000",
       "leadToEmail": "spartanspc2026@gmail.com"

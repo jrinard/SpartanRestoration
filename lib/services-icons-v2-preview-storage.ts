@@ -8,10 +8,16 @@ import {
   isServicesIconsV2IconShape,
   normalizeServicesIconsV2BorderRadiusPx,
   type ServicesIconsV2PreviewSettings,
+  type ServicesIconsV2ServiceItem,
 } from "@/lib/services-icons-v2-preview";
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
 import type { SiteLayoutWidth } from "@/lib/site-layout";
-import { normalizeServiceIconsMap, normalizeServiceLabelsMap } from "@/lib/site-icons";
+import {
+  isSiteIconName,
+  normalizeServiceDescriptionsMap,
+  normalizeServiceIconsMap,
+  normalizeServiceLabelsMap,
+} from "@/lib/site-icons";
 
 import { orgStorageGet, orgStorageSet } from "@/lib/org/browser-storage";
 
@@ -49,6 +55,34 @@ function normalizeCtaHref(value: unknown): string | undefined {
   const href = normalizeOptionalString(value);
   if (!href?.startsWith("tel:")) return undefined;
   return href;
+}
+
+function normalizeServiceItem(value: unknown, index: number): ServicesIconsV2ServiceItem | null {
+  if (!value || typeof value !== "object") return null;
+  const record = value as Partial<ServicesIconsV2ServiceItem>;
+  const id =
+    typeof record.id === "string" && record.id.trim()
+      ? record.id.trim()
+      : `service-${index + 1}`;
+  const title = typeof record.title === "string" ? record.title : "";
+  const description =
+    typeof record.description === "string" ? record.description : undefined;
+  const icon = isSiteIconName(record.icon) ? record.icon : undefined;
+  return {
+    id,
+    title,
+    ...(description !== undefined ? { description } : {}),
+    ...(icon ? { icon } : {}),
+  };
+}
+
+function normalizeOptionalServices(value: unknown): ServicesIconsV2ServiceItem[] | undefined {
+  if (value === undefined) return undefined;
+  if (!Array.isArray(value)) return undefined;
+  return value.flatMap((item, index) => {
+    const next = normalizeServiceItem(item, index);
+    return next ? [next] : [];
+  });
 }
 function isServicesIconsV2PreviewSettings(
   value: unknown,
@@ -112,9 +146,12 @@ export function normalizeServicesIconsV2PreviewSettings(
     iconSizePx: clampServicesIconsV2IconSizePx(value.iconSizePx ?? defaults.iconSizePx),
     serviceIcons: normalizeServiceIconsMap(value.serviceIcons),
     serviceLabels: normalizeServiceLabelsMap(value.serviceLabels),
+    serviceDescriptions: normalizeServiceDescriptionsMap(value.serviceDescriptions),
     ctaLabel: normalizeOptionalString(value.ctaLabel),
     ctaHref: normalizeCtaHref(value.ctaHref),
     sectionHeading: normalizeOptionalString(value.sectionHeading),
+    services: normalizeOptionalServices(value.services),
+    seoDescription: normalizeOptionalString(value.seoDescription),
   };
 }
 

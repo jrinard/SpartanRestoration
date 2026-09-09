@@ -40,7 +40,7 @@ export async function loadLiveOrgPage(slug?: string): Promise<LiveOrgPageModel |
   setRuntimePolicies(policies);
 
   if (slug) {
-    const locationConfig = withServiceAreaLocationPageConfig(config, slug);
+    const locationConfig = withServiceAreaLocationPageConfig(config, slug, orgId);
     const pageConfig = locationConfig ?? withHomepagePageSections(config, slug);
     const page =
       findHomepagePageByLocationSlug(config, slug) ?? getHomepagePageSnapshot(config, slug);
@@ -89,6 +89,7 @@ export async function liveOrgPageMetadata(slug?: string): Promise<Metadata> {
       ogImageAlt: home?.ogImageAlt ?? pageSeo.home.ogImageAlt,
       keywords: home?.keywords,
       favicon,
+      site,
     });
   }
 
@@ -105,6 +106,7 @@ export async function liveOrgPageMetadata(slug?: string): Promise<Metadata> {
     ogImageAlt: route?.ogImageAlt,
     keywords: route?.keywords,
     favicon,
+    site,
   });
 }
 
@@ -141,5 +143,35 @@ export async function livePolicyMetadata(kind: OrgPolicyKind): Promise<Metadata>
     ogImageAlt: route?.ogImageAlt,
     keywords: route?.keywords,
     favicon,
+    site,
+  });
+}
+
+/** `/preview` metadata from org Home SEO — never LifeSpring `pageSeo.preview`. */
+export async function previewOrgPageMetadata(slug?: string): Promise<Metadata> {
+  const orgId = await readCurrentOrgId();
+  const [favicon, site, seo] = await Promise.all([
+    readPublishedFaviconSettings(),
+    readOrgSite(orgId),
+    readOrgSeo(orgId),
+  ]);
+  setRuntimeSite(site);
+
+  const home = seo.routes.home;
+  const route = slug ? findOrgSeoRouteBySlug(seo, slug) : undefined;
+  const title = route?.title?.trim() || home?.title?.trim() || site.name;
+  const description =
+    route?.description?.trim() || home?.description?.trim() || site.description;
+
+  return createMetadata({
+    title,
+    description,
+    path: slug ? `/preview/${slug}` : "/preview",
+    noIndex: true,
+    ogImage: site.assets.logo,
+    ogImageAlt: route?.ogImageAlt ?? home?.ogImageAlt ?? `${site.name} — ${site.tagline}`,
+    keywords: route?.keywords ?? home?.keywords,
+    favicon,
+    site,
   });
 }

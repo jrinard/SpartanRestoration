@@ -1,0 +1,92 @@
+{
+  "entries": [
+    {
+      "id": "langham",
+      "label": "Langham",
+      "settings": {
+        "heading": "SERVICES",
+        "headingColor": "#ffffff",
+        "showDivider": false,
+        "cardBorderRadiusPx": 0,
+        "cardBorderWidthPx": 4,
+        "cardBorderColor": "",
+        "showBookEnds": true,
+        "bookEndWidthPx": 160,
+        "layoutWidth": "full",
+        "labelFontStyle": "italic",
+        "subtitleColor": "#ffffff",
+        "backgroundFrom": "",
+        "backgroundTo": "",
+        "backgroundDirection": "none",
+        "outerBackgroundColor": "",
+        "cards": [
+          {
+            "id": "cards-v1-residential",
+            "title": "Quality Workmanship",
+            "subtitle": "Expert install you can see in the finish.",
+            "imageSrc": "/org-assets/langham/library/Gallery-Siding-1.png",
+            "variant": "dark"
+          },
+          {
+            "id": "cards-v1-commercial",
+            "title": "Professional Service",
+            "subtitle": "Knowledgeable crew. Finished on time.",
+            "imageSrc": "/org-assets/langham/library/Gallery-Siding-2.png",
+            "variant": "medium"
+          },
+          {
+            "id": "cards-v1-organic",
+            "title": "Premium Materials",
+            "subtitle": "Hardie, SmartSide, and wood that last.",
+            "imageSrc": "",
+            "variant": "light"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ospressure",
+      "label": "OS Pressure",
+      "settings": {
+        "heading": "SERVICES",
+        "headingColor": "#ffffff",
+        "showDivider": false,
+        "cardBorderRadiusPx": 0,
+        "cardBorderWidthPx": 4,
+        "cardBorderColor": "",
+        "showBookEnds": false,
+        "bookEndWidthPx": 100,
+        "layoutWidth": "full",
+        "labelFontStyle": "italic",
+        "subtitleColor": "#ffffff",
+        "backgroundFrom": "",
+        "backgroundTo": "",
+        "backgroundDirection": "none",
+        "outerBackgroundColor": "",
+        "cards": [
+          {
+            "id": "cards-v1-residential",
+            "title": "Residential Washing",
+            "subtitle": "",
+            "imageSrc": "/osp/pic-pressure3.jpeg",
+            "variant": "dark"
+          },
+          {
+            "id": "cards-v1-commercial",
+            "title": "Commercial Washing",
+            "subtitle": "",
+            "imageSrc": "/osp/pic-commercial3.jpeg",
+            "variant": "medium"
+          },
+          {
+            "id": "cards-v1-organic",
+            "title": "Organic Growth Management",
+            "subtitle": "",
+            "imageSrc": "/osp/Organic_management.jpeg",
+            "variant": "light"
+          }
+        ]
+      }
+    }
+  ]
+}

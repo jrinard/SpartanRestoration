@@ -14,10 +14,15 @@ import {
   loadImagesV1PreviewSettings,
   normalizeImagesV1PreviewSettings,
 } from "@/lib/images-v1-preview-storage";
+import {
+  loadCardsV1PreviewSettings,
+  normalizeCardsV1PreviewSettings,
+} from "@/lib/cards-v1-preview-storage";
 import type { TextIconsV3PreviewSettings } from "@/lib/text-icons-v3-preview";
 import type { TextImagePreviewSettings } from "@/lib/text-image-preview";
 import type { TextImagesPreviewSettings } from "@/lib/text-images-preview";
 import type { ImagesV1PreviewSettings } from "@/lib/images-v1-preview";
+import type { CardsV1PreviewSettings } from "@/lib/cards-v1-preview";
 import type { ColorThemeId } from "@/lib/color-themes";
 import { copyEffectiveSectionInstanceSettings } from "@/lib/section-instance-copy";
 import type { SectionGroupId } from "@/lib/section-registry";
@@ -30,7 +35,7 @@ import {
 
 export type ContentInstanceSettings = Pick<
   SectionInstanceSettings,
-  "textIconsV3" | "textImage" | "textImages" | "imagesV1"
+  "textIconsV3" | "textImage" | "textImages" | "imagesV1" | "cardsV1"
 >;
 
 /** @deprecated Use sectionInstancesStorageKey */
@@ -43,10 +48,11 @@ export function loadContentInstanceSettings(
   const textImage = loadSectionInstanceField(instanceId, "textImage");
   const textImages = loadSectionInstanceField(instanceId, "textImages");
   const imagesV1 = loadSectionInstanceField(instanceId, "imagesV1");
+  const cardsV1 = loadSectionInstanceField(instanceId, "cardsV1");
 
-  if (!textIconsV3 && !textImage && !textImages && !imagesV1) return undefined;
+  if (!textIconsV3 && !textImage && !textImages && !imagesV1 && !cardsV1) return undefined;
 
-  return { textIconsV3, textImage, textImages, imagesV1 };
+  return { textIconsV3, textImage, textImages, imagesV1, cardsV1 };
 }
 
 export function saveContentInstanceSettings(
@@ -61,12 +67,19 @@ export function loadAllContentInstanceSettings(): Record<string, ContentInstance
   const contents: Record<string, ContentInstanceSettings> = {};
 
   for (const [id, settings] of Object.entries(all)) {
-    if (settings.textIconsV3 || settings.textImage || settings.textImages || settings.imagesV1) {
+    if (
+      settings.textIconsV3 ||
+      settings.textImage ||
+      settings.textImages ||
+      settings.imagesV1 ||
+      settings.cardsV1
+    ) {
       contents[id] = {
         textIconsV3: settings.textIconsV3,
         textImage: settings.textImage,
         textImages: settings.textImages,
         imagesV1: settings.imagesV1,
+        cardsV1: settings.cardsV1,
       };
     }
   }
@@ -166,6 +179,28 @@ export function loadEffectiveImagesV1InstanceSettings(
   return loadImagesV1InstanceSettings(instanceId) ?? loadImagesV1PreviewSettings();
 }
 
+export function loadCardsV1InstanceSettings(
+  instanceId: string,
+): CardsV1PreviewSettings | undefined {
+  const stored = loadSectionInstanceField(instanceId, "cardsV1");
+  return stored ? normalizeCardsV1PreviewSettings(stored) : undefined;
+}
+
+export function saveCardsV1InstanceSettings(
+  instanceId: string,
+  settings: CardsV1PreviewSettings,
+): void {
+  patchSectionInstanceSettings(instanceId, {
+    cardsV1: normalizeCardsV1PreviewSettings(settings),
+  });
+}
+
+export function loadEffectiveCardsV1InstanceSettings(
+  instanceId: string,
+): CardsV1PreviewSettings {
+  return loadCardsV1InstanceSettings(instanceId) ?? loadCardsV1PreviewSettings();
+}
+
 export function copyEffectiveContentInstanceSettings(
   fromId: string,
   toId: string,
@@ -195,6 +230,14 @@ export function copyEffectiveContentInstanceSettings(
     patchSectionInstanceSettings(toId, {
       ...current,
       imagesV1: structuredClone(loadEffectiveImagesV1InstanceSettings(fromId)),
+    });
+    return;
+  }
+
+  if (variant === "cards-v1") {
+    patchSectionInstanceSettings(toId, {
+      ...current,
+      cardsV1: structuredClone(loadEffectiveCardsV1InstanceSettings(fromId)),
     });
     return;
   }

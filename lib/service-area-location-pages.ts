@@ -220,7 +220,12 @@ export function getServiceAreaLocationPreviewSettings(
 export function withServiceAreaLocationPageConfig(
   config: HomepageConfig,
   slug: string,
+  orgId?: string,
 ): HomepageConfig | null {
+  if (orgId !== "lsd") {
+    return null;
+  }
+
   if (!isServiceAreaLocationSlug(slug) && slug !== SERVICE_AREAS_PAGE_SLUG) {
     return null;
   }

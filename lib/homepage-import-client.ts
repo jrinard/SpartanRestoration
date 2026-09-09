@@ -26,8 +26,10 @@ import { textIconsV3PreviewStorageKey } from "@/lib/text-icons-v3-preview-storag
 import { textImagePreviewStorageKey } from "@/lib/text-image-preview-storage";
 import { textImagesPreviewStorageKey } from "@/lib/text-images-preview-storage";
 import { imagesV1PreviewStorageKey } from "@/lib/images-v1-preview-storage";
+import { cardsV1PreviewStorageKey } from "@/lib/cards-v1-preview-storage";
 import { navBarPreviewStorageKey } from "@/lib/nav-bar-preview-storage";
 import { topBarPreviewStorageKey } from "@/lib/top-bar-preview-storage";
+import { topBarV2PreviewStorageKey } from "@/lib/top-bar-v2-preview-storage";
 import { servicesV1PreviewStorageKey } from "@/lib/services-v1-preview-storage";
 import { servicesIconsV2PreviewStorageKey } from "@/lib/services-icons-v2-preview-storage";
 import { serviceAreaV2PreviewStorageKey } from "@/lib/service-area-v2-preview-storage";
@@ -105,6 +107,7 @@ export function applyHomepageConfigToStorage(config: HomepageConfig): void {
   writeJson(sectionInstancesStorageKey, buildSectionInstances(previewSettings));
 
   writeOptionalJson(topBarPreviewStorageKey, previewSettings.topBar);
+  writeOptionalJson(topBarV2PreviewStorageKey, previewSettings.topBarV2);
   writeOptionalJson(navBarPreviewStorageKey, previewSettings.navBar);
   writeOptionalJson(heroBannerPreviewStorageKey, previewSettings.heroBanner);
   writeOptionalJson(heroV1PreviewStorageKey, previewSettings.heroV1);
@@ -127,6 +130,7 @@ export function applyHomepageConfigToStorage(config: HomepageConfig): void {
   writeOptionalJson(textImagePreviewStorageKey, previewSettings.textImage);
   writeOptionalJson(textImagesPreviewStorageKey, previewSettings.textImages);
   writeOptionalJson(imagesV1PreviewStorageKey, previewSettings.imagesV1);
+  writeOptionalJson(cardsV1PreviewStorageKey, previewSettings.cardsV1);
   writeOptionalJson(servicesIconsV2PreviewStorageKey, previewSettings.servicesIconsV2);
   writeOptionalJson(serviceAreaV2PreviewStorageKey, previewSettings.serviceAreaV2);
   writeOptionalJson(reviewsPreviewStorageKey, previewSettings.reviews);

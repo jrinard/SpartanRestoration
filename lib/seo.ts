@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { siteConfig } from "@/config/site";
+import type { SiteConfigData } from "@/config/site-data";
 import { buildFaviconMetadataIcons, type FaviconPreviewSettings } from "@/lib/favicon-preview";
+import { getRuntimeSite } from "@/lib/org/runtime-site";
 
 type PageSEO = {
   title?: string;
@@ -13,9 +14,9 @@ type PageSEO = {
   ogImageAlt?: string;
   keywords?: string[];
   favicon?: FaviconPreviewSettings | null;
+  /** Current org site — avoids LifeSpring fallbacks if runtime site is not set yet. */
+  site?: SiteConfigData;
 };
-
-const defaultOgImage = siteConfig.assets.ogImage;
 
 /** Block crawlers from internal dev/preview routes. */
 export const noIndexRobots: Metadata["robots"] = {
@@ -37,34 +38,37 @@ export function createMetadata({
   description,
   path = "",
   noIndex = false,
-  ogImage = defaultOgImage,
+  ogImage,
   ogImageAlt,
   keywords,
   favicon,
+  site: siteOverride,
 }: PageSEO = {}): Metadata {
-  const socialTitle = title?.trim() || browserTitle?.trim() || siteConfig.name;
+  const site = siteOverride ?? getRuntimeSite();
+  const socialTitle = title?.trim() || browserTitle?.trim() || site.name;
   const pageTitle = browserTitle?.trim() || socialTitle;
-  const pageDescription = description ?? siteConfig.description;
-  const url = `${siteConfig.url}${path}`;
-  const imageAlt = ogImageAlt ?? `${siteConfig.name} — ${siteConfig.tagline}`;
+  const pageDescription = description ?? site.description;
+  const url = `${site.url}${path}`;
+  const imageAlt = ogImageAlt ?? `${site.name} — ${site.tagline}`;
+  const image = ogImage || site.assets.ogImage || site.assets.logo;
 
   return {
     title: pageTitle,
     description: pageDescription,
     ...(keywords && keywords.length > 0 && { keywords }),
-    metadataBase: new URL(siteConfig.url),
+    metadataBase: new URL(site.url),
     alternates: { canonical: url },
     icons: buildFaviconMetadataIcons(favicon ?? undefined),
     openGraph: {
       title: socialTitle,
       description: pageDescription,
       url,
-      siteName: siteConfig.name,
+      siteName: site.name,
       locale: "en_US",
       type: "website",
       images: [
         {
-          url: ogImage,
+          url: image,
           width: 1200,
           height: 630,
           alt: imageAlt,
@@ -75,7 +79,7 @@ export function createMetadata({
       card: "summary_large_image",
       title: socialTitle,
       description: pageDescription,
-      images: [ogImage],
+      images: [image],
     },
     robots: noIndex ? noIndexRobots : { index: true, follow: true },
   };

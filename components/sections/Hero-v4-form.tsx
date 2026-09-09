@@ -22,6 +22,7 @@ function EditableTextBlock({
   value,
   multiline,
   rows,
+  editorPlacement = "below",
   onSave,
   children,
 }: {
@@ -31,6 +32,8 @@ function EditableTextBlock({
   value: string;
   multiline?: boolean;
   rows?: number;
+  /** Trust notes sit at the card bottom — open upward so the panel stays visible. */
+  editorPlacement?: "above" | "below";
   onSave?: (value: string) => void;
   children: ReactNode;
 }) {
@@ -41,7 +44,7 @@ function EditableTextBlock({
   }
 
   return (
-    <div className="relative max-w-full pr-8">
+    <div className={cn("relative max-w-full pr-8", editorOpen && "z-[200]")}>
       {children}
       <button
         type="button"
@@ -53,11 +56,17 @@ function EditableTextBlock({
         <Pencil size={devEditIconSize} strokeWidth={2} />
       </button>
       {editorOpen ? (
-        <div className="absolute top-full right-0 z-30 mt-2">
+        <div
+          className={cn(
+            "absolute right-0 z-[200]",
+            editorPlacement === "above" ? "bottom-full mb-2" : "top-full mt-2",
+          )}
+        >
           <TextImageTextEditor
             value={value}
             multiline={multiline}
             rows={rows}
+            className="z-[200]"
             dialogTitle={editorTitle}
             dialogAriaLabel={editorTitle}
             inputAriaLabel={ariaLabel}
@@ -140,6 +149,7 @@ export function HeroV4Form({ title, subtext, trustNotes, settings, className }: 
           value={formatHeroV4Bullets(trustNotes)}
           multiline
           rows={3}
+          editorPlacement="above"
           onSave={(value) => update({ formTrustNotes: parseHeroV4Bullets(value) })}
         >
           <ul className="hero-v4-form-trust mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs">
@@ -159,6 +169,7 @@ export function HeroV4Form({ title, subtext, trustNotes, settings, className }: 
           value=""
           multiline
           rows={3}
+          editorPlacement="above"
           onSave={(value) => update({ formTrustNotes: parseHeroV4Bullets(value) })}
         >
           <p className="mt-3 text-xs text-muted/70">Add trust notes</p>

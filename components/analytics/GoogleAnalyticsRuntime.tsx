@@ -6,23 +6,35 @@ import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import {
   analyticsPreviewUpdatedEvent,
   getActiveGaMeasurementId,
-  normalizeAnalyticsPreviewSettings,
+  shouldInjectGoogleAnalytics,
   type AnalyticsPreviewSettings,
 } from "@/lib/analytics-preview";
-import { loadAnalyticsPreviewSettings } from "@/lib/analytics-preview-storage";
 import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
-import { isForgePrefix } from "@/lib/forge";
 
 type GoogleAnalyticsRuntimeProps = {
   initialSettings?: AnalyticsPreviewSettings | null;
+  /** Workshop / Forge never send. Vision production sets this true. */
+  allowTracking?: boolean;
 };
+
+function currentHostname(): string | null {
+  if (typeof window === "undefined") return null;
+  return window.location.hostname;
+}
 
 function resolveRuntimeMeasurementId(
   pathname: string,
+  allowTracking: boolean,
   initialSettings?: AnalyticsPreviewSettings | null,
 ): string | null {
-  if (isForgePrefix(pathname)) {
-    return getActiveGaMeasurementId(loadAnalyticsPreviewSettings());
+  if (
+    !shouldInjectGoogleAnalytics({
+      allowTracking,
+      pathname,
+      hostname: currentHostname(),
+    })
+  ) {
+    return null;
   }
 
   const committed = getCommittedHomepagePreviewSettings()?.analytics;
@@ -33,22 +45,25 @@ function resolveRuntimeMeasurementId(
   return getActiveGaMeasurementId(initialSettings ?? undefined);
 }
 
-/** Loads GA from playground storage, preview bridge, or published homepage config. */
-export function GoogleAnalyticsRuntime({ initialSettings }: GoogleAnalyticsRuntimeProps) {
+/** Loads GA on Vision production only. Workshop, Forge, and localhost never send. */
+export function GoogleAnalyticsRuntime({
+  initialSettings,
+  allowTracking = false,
+}: GoogleAnalyticsRuntimeProps) {
   const pathname = usePathname();
   const [measurementId, setMeasurementId] = useState<string | null>(() =>
-    getActiveGaMeasurementId(normalizeAnalyticsPreviewSettings(initialSettings ?? undefined)),
+    resolveRuntimeMeasurementId(pathname, allowTracking, initialSettings),
   );
 
   useEffect(() => {
     function sync() {
-      setMeasurementId(resolveRuntimeMeasurementId(pathname, initialSettings));
+      setMeasurementId(resolveRuntimeMeasurementId(pathname, allowTracking, initialSettings));
     }
 
     sync();
     window.addEventListener(analyticsPreviewUpdatedEvent, sync);
     return () => window.removeEventListener(analyticsPreviewUpdatedEvent, sync);
-  }, [pathname, initialSettings]);
+  }, [pathname, allowTracking, initialSettings]);
 
   if (!measurementId) return null;
 

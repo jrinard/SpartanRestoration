@@ -17,6 +17,7 @@ import type { NavBarPreviewSettings } from "@/lib/nav-bar-preview";
 import type { PortfolioPreviewSettings } from "@/lib/portfolio-preview";
 import type { PortfolioV2PreviewSettings } from "@/lib/portfolio-v2-preview";
 import type { ImagesV1PreviewSettings } from "@/lib/images-v1-preview";
+import type { CardsV1PreviewSettings } from "@/lib/cards-v1-preview";
 import type { ReviewboxPreviewSettings } from "@/lib/reviewbox-preview";
 import type { ReviewsPreviewSettings } from "@/lib/reviews-preview";
 import type { ServiceAreaV1PreviewSettings } from "@/lib/service-area-preview";
@@ -28,6 +29,7 @@ import type { TextIconsV3PreviewSettings } from "@/lib/text-icons-v3-preview";
 import type { TextImagePreviewSettings } from "@/lib/text-image-preview";
 import type { TextImagesPreviewSettings } from "@/lib/text-images-preview";
 import type { TopBarPreviewSettings } from "@/lib/top-bar-preview";
+import type { TopBarV2PreviewSettings } from "@/lib/top-bar-v2-preview";
 
 import { orgStorageGet, orgStorageSet } from "@/lib/org/browser-storage";
 
@@ -42,6 +44,7 @@ export type ServicesV1InstanceSettings = {
 /** Per playground section slot — keyed by unique section id. */
 export type SectionInstanceSettings = {
   topBar?: TopBarPreviewSettings;
+  topBarV2?: TopBarV2PreviewSettings;
   navBar?: NavBarPreviewSettings;
   headerV3?: HeaderV3PreviewSettings;
   heroBanner?: HeroBannerPreviewSettings;
@@ -53,6 +56,7 @@ export type SectionInstanceSettings = {
   textImage?: TextImagePreviewSettings;
   textImages?: TextImagesPreviewSettings;
   imagesV1?: ImagesV1PreviewSettings;
+  cardsV1?: CardsV1PreviewSettings;
   servicesV1?: ServicesV1InstanceSettings;
   servicesIconsV2?: ServicesIconsV2PreviewSettings;
   serviceAreaV1?: ServiceAreaV1PreviewSettings;

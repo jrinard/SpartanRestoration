@@ -55,19 +55,19 @@ export function normalizeTopBarPreviewSettings(
       ? value.rightTextColor
       : defaultTopBarPreviewSettings.rightTextColor,
     leftLabel:
-      typeof value.leftLabel === "string" && value.leftLabel.trim()
+      typeof value.leftLabel === "string"
         ? value.leftLabel
         : defaultTopBarPreviewSettings.leftLabel,
     leftAccent:
-      typeof value.leftAccent === "string" && value.leftAccent.trim()
+      typeof value.leftAccent === "string"
         ? value.leftAccent
         : defaultTopBarPreviewSettings.leftAccent,
     rightText:
-      typeof value.rightText === "string" && value.rightText.trim()
+      typeof value.rightText === "string"
         ? value.rightText
         : defaultTopBarPreviewSettings.rightText,
     phoneHref:
-      typeof value.phoneHref === "string" && value.phoneHref.trim()
+      typeof value.phoneHref === "string"
         ? value.phoneHref
         : defaultTopBarPreviewSettings.phoneHref,
     textSizePx:

@@ -683,6 +683,7 @@ export function getServicesIconsV2SeoDescription() {
   return `${siteConfig.name} offers cabinetry, carpentry, concrete, demolition, doors, drywall, fencing, gutters, painting, junk removal, patio enclosures, power washing, snow removal, and window services.`;
 }
 
+/** Shared fallback (Stone construction list). Org lists live in services-icons-v2 presets. */
 export const servicesIconsV2Services: ReadonlyArray<{
   id: string;
   title: string;

@@ -1,3 +1,4 @@
+import { isContactHref } from "@/lib/contact-modal";
 import { getSiteLayoutWidthClassName } from "@/lib/site-layout";
 import { parseNavHref } from "@/lib/scroll-to-hash";
 
@@ -16,6 +17,11 @@ export type NavBarLink = {
   visibleDesktop?: boolean;
   /** When false, link is hidden on mobile nav. Defaults to visible. */
   visibleMobile?: boolean;
+  /**
+   * When href is /contact: true or missing opens the contact modal (legacy default);
+   * false navigates to the contact page.
+   */
+  openContactModal?: boolean;
 };
 
 export type NavBarPreviewSettings = {
@@ -62,6 +68,13 @@ export function createNavBarLinkId(): string {
     return `nav-link-${crypto.randomUUID().slice(0, 8)}`;
   }
   return `nav-link-${Date.now().toString(36)}`;
+}
+
+export function navBarLinkOpensContactModal(
+  link: Pick<NavBarLink, "href" | "openContactModal">,
+): boolean {
+  if (!isContactHref(link.href)) return false;
+  return link.openContactModal !== false;
 }
 
 export function isExternalNavHref(href: string): boolean {
@@ -138,6 +151,12 @@ export function createNavBarLink(partial: Partial<NavBarLink> = {}, index = 0): 
     target: partial.target,
     visibleDesktop: partial.visibleDesktop !== false,
     visibleMobile: partial.visibleMobile !== false,
+    openContactModal:
+      partial.openContactModal === false
+        ? false
+        : partial.openContactModal === true
+          ? true
+          : undefined,
   };
 }
 

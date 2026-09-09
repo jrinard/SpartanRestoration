@@ -94,6 +94,9 @@ export const reviewsSliderSpeedPresets = [
   { value: 0.65, label: "Fast" },
 ] as const;
 
+/** Mobile cards are nearly full-width, so the same px/frame crawls. */
+export const reviewsMarqueeMobileSpeedMultiplier = 3;
+
 export const reviewsTopBorderSizePresets = [0, 1, 2, 3, 4, 6, 8] as const;
 
 export const reviewsSectionThemes: { value: ReviewsSectionTheme; label: string }[] = [

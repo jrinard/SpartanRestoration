@@ -2,8 +2,9 @@ import { SERVICE_AREAS_PATH } from "@/lib/service-area-pages";
 import {
   getServiceAreaV2CardBySlug,
   getServiceAreaV2CardHref,
-  serviceAreaV2Cards,
+  type ServiceAreaV2Card,
 } from "@/lib/service-area-v2-content";
+import { getServiceAreaV2CardsForOrg } from "@/lib/service-area-v2-cards";
 import type { OrgSeoFile } from "@/lib/org/types";
 import { findOrgSeoRouteBySlug } from "@/lib/org/seo-route";
 import {
@@ -17,8 +18,8 @@ function headlineAreaFromName(name: string): string {
   return name.replace(/,\s*WA$/i, "").trim();
 }
 
-function locationSchemaItems(seo: OrgSeoFile) {
-  return serviceAreaV2Cards.map((card) => {
+function locationSchemaItems(cards: ServiceAreaV2Card[], seo: OrgSeoFile) {
+  return cards.map((card) => {
     const route = findOrgSeoRouteBySlug(seo, card.slug);
     return {
       name: card.title,
@@ -29,8 +30,52 @@ function locationSchemaItems(seo: OrgSeoFile) {
   });
 }
 
-/** Location JSON-LD from the Official LSD local-SEO overhaul, keyed off org pages. */
-export function buildLiveSlugSeoSchemas(slug: string, seo: OrgSeoFile): Record<string, unknown>[] {
+/** Location JSON-LD keyed off org pages and hub cards. */
+export function buildLiveSlugSeoSchemas(
+  slug: string,
+  seo: OrgSeoFile,
+  orgId?: string,
+): Record<string, unknown>[] {
+  const cards = getServiceAreaV2CardsForOrg(orgId ?? "lsd");
+
+  if (orgId === "spartan" && slug === "service-area") {
+    const hubDescription =
+      findOrgSeoRouteBySlug(seo, "service-area")?.description ??
+      "Spartan Restoration serves Vancouver, Clark County, and the Portland metro.";
+    return [
+      buildBreadcrumbListSchema([
+        { name: "Home", path: "/" },
+        { name: "Service Area", path: "/service-area" },
+      ]),
+      buildServiceAreaLocationsItemListSchema(locationSchemaItems(cards, seo), hubDescription),
+    ];
+  }
+
+  if (orgId === "spartan" && slug === "service-areas/clark-county-wa") {
+    const route = findOrgSeoRouteBySlug(seo, slug);
+    const path = route?.path ?? "/service-areas/clark-county-wa";
+    const description =
+      route?.description ??
+      "Spartan Restoration serves Clark County, WA with water damage, mold, and storm cleanup.";
+    const location = {
+      name: "Clark County, WA",
+      path,
+      description,
+      headlineArea: "Clark County",
+    };
+    return [
+      buildBreadcrumbListSchema([
+        { name: "Home", path: "/" },
+        { name: "Service Area", path: "/service-area" },
+        { name: "Clark County, WA", path },
+      ]),
+      buildServiceAreaLocationWebPageSchema(
+        location,
+        route?.title ?? "Restoration Services in Clark County, WA | Spartan Restoration",
+      ),
+    ];
+  }
+
   if (slug === "service-areas") {
     return [
       buildBreadcrumbListSchema([
@@ -38,14 +83,14 @@ export function buildLiveSlugSeoSchemas(slug: string, seo: OrgSeoFile): Record<s
         { name: "Service Areas", path: SERVICE_AREAS_PATH },
       ]),
       buildServiceAreaLocationsItemListSchema(
-        locationSchemaItems(seo),
+        locationSchemaItems(cards, seo),
         findOrgSeoRouteBySlug(seo, "service-areas")?.description ?? pageSeo.serviceAreas.description,
       ),
     ];
   }
 
   const card = getServiceAreaV2CardBySlug(slug);
-  if (!card) return [];
+  if (!card || orgId === "spartan") return [];
 
   const route = findOrgSeoRouteBySlug(seo, slug);
   const path = route?.path ?? getServiceAreaV2CardHref(card);

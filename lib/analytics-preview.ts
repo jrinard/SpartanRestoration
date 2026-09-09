@@ -1,3 +1,4 @@
+import { isForgePrefix } from "@/lib/forge";
 import { normalizeGoogleSiteVerificationFile } from "@/lib/google-site-verification";
 export type AnalyticsPreviewSettings = {
   enabled: boolean;
@@ -49,6 +50,25 @@ export function getActiveGaMeasurementId(
   if (!normalized.enabled) return null;
   if (!isValidGaMeasurementId(normalized.measurementId)) return null;
   return normalized.measurementId;
+}
+
+const localAnalyticsHosts = new Set(["localhost", "127.0.0.1", "[::1]"]);
+
+export function isLocalAnalyticsHostname(hostname: string | null | undefined): boolean {
+  if (!hostname) return false;
+  return localAnalyticsHosts.has(hostname.toLowerCase());
+}
+
+/** Workshop / localhost never send. Vision production on a real host does. */
+export function shouldInjectGoogleAnalytics(options: {
+  allowTracking: boolean;
+  pathname?: string | null;
+  hostname?: string | null;
+}): boolean {
+  if (!options.allowTracking) return false;
+  if (isForgePrefix(options.pathname)) return false;
+  if (isLocalAnalyticsHostname(options.hostname)) return false;
+  return true;
 }
 
 export const analyticsPreviewUpdatedEvent = "lifespring-analytics-preview-updated";

@@ -12,6 +12,7 @@ import {
   headerHeightOptions,
   headerV1NavTextSizeOptions,
   snapHeaderV1NavTextSizeEm,
+  isHeaderV1NavFontStyle,
   type HeaderLogoVerticalAlign,
   type HeaderV2MobileLogoAlign,
   type HeaderV3LayoutWidth,
@@ -176,6 +177,12 @@ export function normalizeHeaderV3PreviewSettings(
     headerV1NavIconBackgroundColor: isColor(value.headerV1NavIconBackgroundColor)
       ? value.headerV1NavIconBackgroundColor
       : defaultHeaderV3PreviewSettings.headerV1NavIconBackgroundColor,
+    headerV1ShowNavIcons: value.headerV1ShowNavIcons !== false,
+    headerV1NavTilt: value.headerV1NavTilt === true,
+    headerV1IncludeMobileNav: value.headerV1IncludeMobileNav === true,
+    headerV1NavFontStyle: isHeaderV1NavFontStyle(value.headerV1NavFontStyle)
+      ? value.headerV1NavFontStyle
+      : defaultHeaderV3PreviewSettings.headerV1NavFontStyle,
     headerV1NavLinks: normalizeHeaderV1NavLinks(value.headerV1NavLinks, {
       headerV1NavLinkTargets: legacy.headerV1NavLinkTargets,
       headerV1NavIcons: normalizeServiceIconsMap(value.headerV1NavIcons),

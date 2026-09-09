@@ -54,6 +54,11 @@ const nextConfig: NextConfig = {
       key: "X-Robots-Tag",
       value: "noindex, nofollow, noarchive, nosnippet, noimageindex",
     };
+    // Photos + theme files. HTML stays uncached via `dynamic = "force-dynamic"`.
+    const assetCache = {
+      key: "Cache-Control",
+      value: "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
+    };
 
     return [
       {
@@ -81,13 +86,16 @@ const nextConfig: NextConfig = {
         headers: [devRobots],
       },
       {
-        source: "/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "no-store, no-cache, must-revalidate",
-          },
-        ],
+        source: "/org-assets/:path*",
+        headers: [assetCache],
+      },
+      {
+        source: "/stone/:path*",
+        headers: [assetCache],
+      },
+      {
+        source: "/spartan/:path*",
+        headers: [assetCache],
       },
     ];
   },

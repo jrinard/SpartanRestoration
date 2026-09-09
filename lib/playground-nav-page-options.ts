@@ -6,14 +6,17 @@ export type PlaygroundNavPageOption = {
   href: string;
 };
 
+/** Editor-only select value — saved nav links still use `/contact` + openContactModal. */
+export const contactPopupPageSelectValue = "__contact_popup__";
+
 /** Baked-in target for nav links that open the contact modal (no /contact page required). */
 export const contactPopupPageOption: PlaygroundNavPageOption = {
   label: "Contact (popup)",
-  href: CONTACT_PAGE_HREF,
+  href: contactPopupPageSelectValue,
 };
 
 export function isContactPopupPageHref(pageHref: string): boolean {
-  return pageHref.trim() === CONTACT_PAGE_HREF;
+  return pageHref.trim() === contactPopupPageSelectValue;
 }
 
 export function getPlaygroundNavPageOptions(

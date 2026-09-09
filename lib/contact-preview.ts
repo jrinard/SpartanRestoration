@@ -37,6 +37,8 @@ export type ContactPreviewSettings = {
   borderRadius: number;
   titleColor: string;
   bodyColor: string;
+  /** Phone number link. Missing keeps today’s theme accent-blue. */
+  phoneColor?: string;
   /** Section background behind the card — omitted until saved in playground. */
   sectionBackgroundColor?: string;
   /** Custom form fields — omitted until saved; legacy fields used as fallback. */
@@ -63,6 +65,9 @@ export const defaultContactButtonSettings = {
   buttonTextColor: "#ffffff",
   buttonRadiusPx: defaultButtonBorderRadiusPx,
 } as const;
+
+/** Picker-only fallback. Live color stays theme accent-blue until a hex is saved. */
+export const contactPhoneColorPickerFallback = "#3a8bd0";
 
 export const defaultContactPreviewSettings: ContactPreviewSettings = {
   backgroundMode: "solid",
@@ -228,6 +233,12 @@ export function getContactCardStyle(settings: ContactPreviewSettings): CSSProper
     borderRadius: `${settings.borderRadius}px`,
     "--contact-title-color": settings.titleColor,
     "--contact-body-color": settings.bodyColor,
+    ...(settings.phoneColor
+      ? {
+          "--contact-phone-color": settings.phoneColor,
+          "--contact-phone-hover-color": `color-mix(in srgb, ${settings.phoneColor} 72%, #000000)`,
+        }
+      : {}),
     "--contact-field-text-color": "#0f0f12",
     "--contact-field-bg-color": "#ffffff",
     "--contact-field-border-color": "#0f0f12",
@@ -250,12 +261,38 @@ export function getContactSubmitButtonStyle(settings: ContactPreviewSettings): C
   };
 }
 
-/** Light card chrome for Hero-v4 inline form — fields/submit/inbox match site contact settings. */
+export type HeroV4FormButtonOverrides = {
+  formSubmitText?: string;
+  formButtonBackground?: string;
+  formButtonTextColor?: string;
+  formButtonRadiusPx?: number;
+  formFields?: ContactFormField[];
+};
+
+/** Light card chrome for Hero-v4 inline form — hero submit overrides win over site contact. */
 export function getHeroV4FormSettings(
   contactSettings: ContactPreviewSettings = defaultContactPreviewSettings,
   leadSource?: string,
+  heroForm?: HeroV4FormButtonOverrides,
 ): ContactPreviewSettings {
   const smsBase = getEffectiveContactSmsOptInSettings(contactSettings);
+  const heroButtonOverrides: Partial<ContactPreviewSettings> = {};
+
+  if (heroForm?.formSubmitText?.trim()) {
+    heroButtonOverrides.submitText = heroForm.formSubmitText.trim();
+  }
+  if (heroForm?.formButtonBackground) {
+    heroButtonOverrides.buttonBackground = heroForm.formButtonBackground;
+  }
+  if (heroForm?.formButtonTextColor) {
+    heroButtonOverrides.buttonTextColor = heroForm.formButtonTextColor;
+  }
+  if (typeof heroForm?.formButtonRadiusPx === "number") {
+    heroButtonOverrides.buttonRadiusPx = heroForm.formButtonRadiusPx;
+  }
+  if (heroForm?.formFields !== undefined) {
+    heroButtonOverrides.formFields = heroForm.formFields;
+  }
 
   return {
     ...contactSettings,
@@ -271,5 +308,6 @@ export function getHeroV4FormSettings(
       ...smsBase,
       source: leadSource?.trim() || smsBase.source,
     }),
+    ...heroButtonOverrides,
   };
 }

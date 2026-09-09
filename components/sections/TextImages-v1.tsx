@@ -105,6 +105,7 @@ function TextImagesMediaBlock({
   animationSpeedMs,
   editingEnabled,
   onImageSelect,
+  onImageAltChange,
   overlapIndex,
 }: {
   imageSrc: string;
@@ -114,9 +115,11 @@ function TextImagesMediaBlock({
   animationSpeedMs: number;
   editingEnabled: boolean;
   onImageSelect?: (src: string, alt: string) => void;
+  onImageAltChange?: (alt: string) => void;
   overlapIndex?: 1 | 2;
 }) {
   const [libraryOpen, setLibraryOpen] = useState(false);
+  const [altEditorOpen, setAltEditorOpen] = useState(false);
   const { ref: imageWrapRef, wrapStyle: imageWrapStyle } = useEntranceFadeInView({
     enabled: animationEnabled,
     speedMs: animationSpeedMs,
@@ -151,20 +154,48 @@ function TextImagesMediaBlock({
         </div>
         {editingEnabled && onImageSelect && (
           <>
-            <button
-              type="button"
-              onClick={() => setLibraryOpen((open) => !open)}
-              className={devLibraryPillClassName}
-              aria-label="Choose image from library"
-              aria-expanded={libraryOpen}
-            >
-              <Images size={devLibraryIconSize} strokeWidth={2} />
-              <span className={devLibraryLabelClassName}>Library</span>
-            </button>
+            <div className="absolute top-2 right-2 z-30 flex flex-wrap items-center justify-end gap-1.5">
+              {onImageAltChange ? (
+                <button
+                  type="button"
+                  onClick={() => setAltEditorOpen((open) => !open)}
+                  className={devLibraryPillClassName}
+                  aria-label="Edit image alt text"
+                  aria-expanded={altEditorOpen}
+                >
+                  <Pencil size={devLibraryIconSize} strokeWidth={2} />
+                  <span className={devLibraryLabelClassName}>Alt</span>
+                </button>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => setLibraryOpen((open) => !open)}
+                className={devLibraryPillClassName}
+                aria-label="Choose image from library"
+                aria-expanded={libraryOpen}
+              >
+                <Images size={devLibraryIconSize} strokeWidth={2} />
+                <span className={devLibraryLabelClassName}>Library</span>
+              </button>
+            </div>
+            {altEditorOpen && onImageAltChange ? (
+              <div className="absolute top-full right-0 z-40 mt-2">
+                <TextImageTextEditor
+                  value={imageAlt}
+                  dialogTitle="Image alt text"
+                  dialogAriaLabel="Edit image alt text"
+                  inputAriaLabel="Image alt text"
+                  onChange={onImageAltChange}
+                  onClose={() => setAltEditorOpen(false)}
+                />
+              </div>
+            ) : null}
             {libraryOpen && (
               <div className="absolute top-full right-0 z-40 mt-2">
                 <ImageLibraryPicker
                   value={imageSrc}
+                  defaultAlt={imageAlt}
+                  promptAlt
                   onSelect={(entry) => onImageSelect(entry.src, entry.alt)}
                   onClose={() => setLibraryOpen(false)}
                 />
@@ -282,6 +313,7 @@ function TextImagesRow1Block({
         animationSpeedMs={settings.entranceAnimationSpeedMs}
         editingEnabled={editingEnabled}
         onImageSelect={preview ? (src, alt) => preview.setRow1Image(src, alt) : undefined}
+        onImageAltChange={preview ? (alt) => preview.setRow1ImageAlt(alt) : undefined}
       />
     </div>
   );
@@ -298,6 +330,7 @@ function TextImagesStandardRowBlock({
   onTitleSave,
   onBodySave,
   onImageSelect,
+  onImageAltChange,
   overlapIndex,
 }: {
   row: TextImagesStandardRowContent;
@@ -310,6 +343,7 @@ function TextImagesStandardRowBlock({
   onTitleSave?: (value: string) => void;
   onBodySave?: (value: string) => void;
   onImageSelect?: (src: string, alt: string) => void;
+  onImageAltChange?: (alt: string) => void;
   overlapIndex?: 1 | 2;
 }) {
   return (
@@ -378,6 +412,7 @@ function TextImagesStandardRowBlock({
         animationSpeedMs={settings.entranceAnimationSpeedMs}
         editingEnabled={editingEnabled}
         onImageSelect={onImageSelect}
+        onImageAltChange={onImageAltChange}
         overlapIndex={overlapIndex}
       />
     </div>
@@ -484,6 +519,7 @@ function TextImagesRow3Block({
         animationSpeedMs={settings.entranceAnimationSpeedMs}
         editingEnabled={editingEnabled}
         onImageSelect={preview ? (src, alt) => preview.setRow3Image(src, alt) : undefined}
+        onImageAltChange={preview ? (alt) => preview.setRow3ImageAlt(alt) : undefined}
         overlapIndex={2}
       />
     </div>
@@ -539,6 +575,7 @@ export function TextImagesV1({ row1, row2, row3, className }: TextImagesV1Props)
             onTitleSave={preview ? (value) => preview.setRow2Title(value) : undefined}
             onBodySave={preview ? (value) => preview.setRow2Body(value) : undefined}
             onImageSelect={preview ? (src, alt) => preview.setRow2Image(src, alt) : undefined}
+            onImageAltChange={preview ? (alt) => preview.setRow2ImageAlt(alt) : undefined}
             overlapIndex={1}
           />
           <TextImagesRow3Block

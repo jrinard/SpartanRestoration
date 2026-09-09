@@ -43,13 +43,16 @@ type TextImagesPreviewContextValue = {
   setRow1HeadlineLines: (lines: string[]) => void;
   setRow1Body: (value: string) => void;
   setRow1Image: (src: string, alt: string) => void;
+  setRow1ImageAlt: (alt: string) => void;
   setRow2Title: (value: string) => void;
   setRow2Body: (value: string) => void;
   setRow2Image: (src: string, alt: string) => void;
+  setRow2ImageAlt: (alt: string) => void;
   setRow3Title: (value: string) => void;
   setRow3Body: (value: string) => void;
   setRow3Phone: (label: string, href?: string) => void;
   setRow3Image: (src: string, alt: string) => void;
+  setRow3ImageAlt: (alt: string) => void;
 };
 
 const TextImagesPreviewContext = createContext<TextImagesPreviewContextValue | null>(null);
@@ -206,6 +209,36 @@ export function TextImagesPreviewProvider({
     [enableContentEditing, settings, setSettings],
   );
 
+  const setRow1ImageAlt = useCallback(
+    (alt: string) => {
+      if (!enableContentEditing) return;
+      const trimmedAlt = alt.trim();
+      if (!trimmedAlt) return;
+      setSettings({ ...settings, contentRow1ImageAlt: trimmedAlt });
+    },
+    [enableContentEditing, settings, setSettings],
+  );
+
+  const setRow2ImageAlt = useCallback(
+    (alt: string) => {
+      if (!enableContentEditing) return;
+      const trimmedAlt = alt.trim();
+      if (!trimmedAlt) return;
+      setSettings({ ...settings, contentRow2ImageAlt: trimmedAlt });
+    },
+    [enableContentEditing, settings, setSettings],
+  );
+
+  const setRow3ImageAlt = useCallback(
+    (alt: string) => {
+      if (!enableContentEditing) return;
+      const trimmedAlt = alt.trim();
+      if (!trimmedAlt) return;
+      setSettings({ ...settings, contentRow3ImageAlt: trimmedAlt });
+    },
+    [enableContentEditing, settings, setSettings],
+  );
+
   return (
     <TextImagesPreviewContext.Provider
       value={{
@@ -217,13 +250,16 @@ export function TextImagesPreviewProvider({
         setRow1HeadlineLines,
         setRow1Body,
         setRow1Image,
+        setRow1ImageAlt,
         setRow2Title,
         setRow2Body,
         setRow2Image,
+        setRow2ImageAlt,
         setRow3Title,
         setRow3Body,
         setRow3Phone,
         setRow3Image,
+        setRow3ImageAlt,
       }}
     >
       {children}

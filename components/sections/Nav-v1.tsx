@@ -8,13 +8,13 @@ import {
   useHashNavigationClick,
   useResolvePlaygroundHref,
 } from "@/components/dev/useHashNavigation";
-import { isContactHref } from "@/lib/contact-modal";
 import {
   defaultNavBarPreviewSettings,
   filterNavBarLinksForViewport,
   getNavBarMobileToggleAlignClassName,
   getNavBarLayoutWidthClassName,
   isExternalNavHref,
+  navBarLinkOpensContactModal,
   resolveNavBarLinkTarget,
   type NavBarLink,
 } from "@/lib/nav-bar-preview";
@@ -88,7 +88,7 @@ function NavBarV1Links({
               target={opensNewTab ? "_blank" : undefined}
               rel={opensNewTab ? "noopener noreferrer" : undefined}
               onClick={(event) => {
-                if (contactModal && isContactHref(item.href)) {
+                if (contactModal && navBarLinkOpensContactModal(item)) {
                   event.preventDefault();
                   contactModal.openContact();
                   onNavigate?.();

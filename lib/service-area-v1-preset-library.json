@@ -1,0 +1,62 @@
+{
+  "entries": [
+    {
+      "id": "spartan",
+      "label": "Spartan",
+      "settings": {
+        "layoutWidth": "full",
+        "size": "medium",
+        "outerBackgroundColor": "#ffffff",
+        "backgroundMode": "solid",
+        "backgroundColor": "#4d82b8",
+        "backgroundGradientFrom": "#4d82b8",
+        "backgroundGradientTo": "#2e4359",
+        "backgroundGradientAngle": 135,
+        "cardBorderRadiusPx": 16,
+        "headingColor": "#ffffff",
+        "iconColor": "#000000",
+        "locationTextColor": "#ffffff",
+        "sectionHeading": "Areas we service",
+        "locationLabels": {},
+        "locations": [
+          { "id": "vancouver", "label": "Vancouver", "href": "" },
+          { "id": "camas", "label": "Camas", "href": "" },
+          { "id": "washougal", "label": "Washougal", "href": "" },
+          { "id": "woodland", "label": "Woodland", "href": "" },
+          { "id": "la-center", "label": "La Center", "href": "" },
+          { "id": "portland", "label": "Portland", "href": "" }
+        ]
+      }
+    },
+    {
+      "id": "langham",
+      "label": "Langham",
+      "settings": {
+        "layoutWidth": "full",
+        "size": "medium",
+        "outerBackgroundColor": "#000000",
+        "backgroundMode": "solid",
+        "backgroundColor": "#000000",
+        "backgroundGradientFrom": "#000000",
+        "backgroundGradientTo": "#171718",
+        "backgroundGradientAngle": 135,
+        "cardBorderRadiusPx": 0,
+        "headingColor": "#ffffff",
+        "iconColor": "#f7aa0a",
+        "locationTextColor": "#ffffff",
+        "sectionHeading": "Service Area",
+        "graphImageSrc": "/org-assets/langham/library/Langham-Brand.png",
+        "locationLabels": {},
+        "locations": [
+          { "id": "vancouver", "label": "Vancouver", "href": "" },
+          { "id": "camas-washougal", "label": "Camas / Washougal", "href": "" },
+          { "id": "ridgefield", "label": "Ridgefield", "href": "" },
+          { "id": "la-center", "label": "La Center", "href": "" },
+          { "id": "battle-ground", "label": "Battle Ground", "href": "" },
+          { "id": "amboy-yacolt", "label": "Amboy / Yacolt", "href": "" },
+          { "id": "kelso-longview", "label": "Kelso / Longview", "href": "" }
+        ]
+      }
+    }
+  ]
+}

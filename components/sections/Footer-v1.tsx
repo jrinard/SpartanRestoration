@@ -30,9 +30,9 @@ import {
   footerV1ServiceAreaId,
   getFooterV1TeamContacts,
 } from "@/lib/footer-v1-seo";
-import { isContactHref } from "@/lib/contact-modal";
 import {
   isExternalNavHref,
+  navBarLinkOpensContactModal,
   resolveNavBarLinkTarget,
   getNavBarLinkVisibilityClassName,
 } from "@/lib/nav-bar-preview";
@@ -280,7 +280,7 @@ export function FooterV1({ description }: FooterV1Props) {
                               target={opensNewTab ? "_blank" : undefined}
                               rel={opensNewTab ? "noopener noreferrer" : undefined}
                               onClick={(event) => {
-                                if (contactModal && isContactHref(item.href)) {
+                                if (contactModal && navBarLinkOpensContactModal(item)) {
                                   event.preventDefault();
                                   contactModal.openContact();
                                   return;

@@ -36,6 +36,7 @@ import {
   setPlaygroundPageIncludeInNav,
   setPlaygroundPageRoute,
   upsertPlaygroundLocationPagesFromConfig,
+  upsertPlaygroundPagesFromHomepageConfig,
   updatePlaygroundPageSections,
   type PlaygroundPage,
   type PlaygroundPagesState,
@@ -110,7 +111,8 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
     let state = loadPlaygroundPagesState();
     const workshopConfig = org.pillar.workshopConfig;
     if (workshopConfig) {
-      const synced = upsertPlaygroundLocationPagesFromConfig(state, workshopConfig);
+      let synced = upsertPlaygroundPagesFromHomepageConfig(state, workshopConfig);
+      synced = upsertPlaygroundLocationPagesFromConfig(synced, workshopConfig);
       if (synced !== state) {
         savePlaygroundPagesState(synced);
         state = synced;
@@ -182,14 +184,14 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
   const createPage = useCallback((name: string) => {
     setPagesState((current) => {
       const page = createPlaygroundPage(name, current.pages);
-      const homeSections = getPlaygroundPageSections(current, homePlaygroundPageId);
-      const clonedSections = clonePlaygroundPageSectionsFromHome(homeSections);
+      const sourceSections = getPlaygroundPageSections(current, current.activePageId);
+      const clonedSections = clonePlaygroundPageSectionsFromHome(sourceSections);
 
       const storedColor = orgStorageGet(creativeStorageKeys.colorTheme);
       const colorThemeId = storedColor
         ? getColorTheme(storedColor).id
         : getColorTheme("lifespring").id;
-      copyPlaygroundSectionInstanceSettings(homeSections, clonedSections, colorThemeId);
+      copyPlaygroundSectionInstanceSettings(sourceSections, clonedSections, colorThemeId);
 
       return {
         pages: [...current.pages, page],
@@ -342,7 +344,8 @@ export function usePlaygroundSectionsStorage(previewSlug?: string) {
     let state = loadPlaygroundPagesState();
     const workshopConfig = org?.pillar?.workshopConfig;
     if (workshopConfig) {
-      const synced = upsertPlaygroundLocationPagesFromConfig(state, workshopConfig);
+      let synced = upsertPlaygroundPagesFromHomepageConfig(state, workshopConfig);
+      synced = upsertPlaygroundLocationPagesFromConfig(synced, workshopConfig);
       if (synced !== state) {
         savePlaygroundPagesState(synced);
         state = synced;

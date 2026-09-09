@@ -3,6 +3,7 @@ import { HeaderV1 } from "@/components/layout/Header-v1";
 import { HeaderV2 } from "@/components/layout/Header-v2";
 import { HeaderV3 } from "@/components/layout/Header-v3";
 import { TopBarV1 } from "@/components/sections/TopBar-v1";
+import { TopBarV2 } from "@/components/sections/TopBar-v2";
 import { NavV1 } from "@/components/sections/Nav-v1";
 import { HeroV1 } from "@/components/sections/Hero-v1";
 import { HeroV2 } from "@/components/sections/Hero-v2";
@@ -13,6 +14,7 @@ import { HeroWashingV1 } from "@/components/sections/HeroWashing-v1";
 import { HeroWashingV2 } from "@/components/sections/HeroWashing-v2";
 import { HeroVideoV1 } from "@/components/sections/HeroVideo-v1";
 import { FlipCards } from "@/components/sections/FlipCards";
+import { CardsV1 } from "@/components/sections/Cards-v1";
 import { TextIconsV3 } from "@/components/sections/TextIcons-v3";
 import { TextImageV1 } from "@/components/sections/TextImage-v1";
 import { TextImagesV1 } from "@/components/sections/TextImages-v1";
@@ -35,7 +37,7 @@ import { ServicesV3 } from "@/components/sections/Services-v3";
 import { ServicesIconsV1 } from "@/components/sections/ServicesIcons-v1";
 import { ServicesIconsV2WithPreview } from "@/components/dev/ServicesIconsV2WithPreview";
 import { ServiceAreaV1WithPreview } from "@/components/dev/ServiceAreaV1WithPreview";
-import { ServiceAreaV2WithPreview } from "@/components/dev/ServiceAreaV2WithPreview";
+import { ServiceAreaV2OrgSection } from "@/components/dev/ServiceAreaV2OrgSection";
 import { HeroV4WithPreview } from "@/components/dev/HeroV4WithPreview";
 import { ReviewsV1WithPreview } from "@/components/dev/ReviewsV1WithPreview";
 import { CTAV1 } from "@/components/sections/CTA-v1";
@@ -47,7 +49,6 @@ import { FooterV2 } from "@/components/layout/Footer-v2";
 import { FooterV3 } from "@/components/layout/Footer-v3";
 import { FooterV4 } from "@/components/layout/Footer-v4";
 import { siteConfig } from "@/config/site";
-import { serviceAreaV2Cards } from "@/lib/service-area-v2-content";
 import {
   detailedServices,
   getBrandingProjects,
@@ -108,6 +109,10 @@ export const sectionGroups = {
       "top-bar-v1": {
         label: "TopBar-v1",
         render: () => <TopBarV1 />,
+      },
+      "top-bar-v2": {
+        label: "TopBar-v2 (Center)",
+        render: () => <TopBarV2 />,
       },
     },
   },
@@ -248,6 +253,10 @@ export const sectionGroups = {
       "flipCards-v2": {
         label: "Flip Cards v2",
         render: () => <FlipCards cards={fourFlipCards} layout="four" />,
+      },
+      "cards-v1": {
+        label: "Cards v1",
+        render: () => <CardsV1 />,
       },
       "text-icons-v3": {
         label: "Text-icons v3",
@@ -474,7 +483,7 @@ export const sectionGroups = {
       },
       "service-area-v2": {
         label: "Service-Area-v2",
-        render: () => <ServiceAreaV2WithPreview cards={[...serviceAreaV2Cards]} />,
+        render: () => <ServiceAreaV2OrgSection />,
       },
       "services-v3": {
         label: "Services-v3",

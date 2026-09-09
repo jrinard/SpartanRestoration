@@ -1,3 +1,4 @@
+import { CONTACT_PAGE_HREF } from "@/lib/contact-modal";
 import { defaultSiteIconName, resolveSiteIconName, type SiteIconName } from "@/lib/site-icons";
 
 export type HeaderV1NavSide = "left" | "right";
@@ -93,10 +94,26 @@ export function normalizeHeaderV1AnchorId(value: string): string {
   return value.trim().replace(/^#/, "");
 }
 
+export function headerV1NavLinkOpensContact(link: HeaderV1NavLink): boolean {
+  return link.pageHref.trim() === CONTACT_PAGE_HREF;
+}
+
+function isRedundantPageAnchor(pageHref: string, anchorId: string): boolean {
+  const slug = pageHref.replace(/^\/+|\/+$/g, "");
+  const last = slug.split("/").pop() ?? "";
+  return Boolean(last) && last === normalizeHeaderV1AnchorId(anchorId);
+}
+
 export function getHeaderV1NavLinkHref(link: HeaderV1NavLink): string {
   const page = link.pageHref.trim() || "/";
+  if (headerV1NavLinkOpensContact(link)) {
+    return CONTACT_PAGE_HREF;
+  }
   const anchor = normalizeHeaderV1AnchorId(link.anchorId);
-  return anchor ? `${page}#${anchor}` : page;
+  if (!anchor || isRedundantPageAnchor(page, anchor)) {
+    return page;
+  }
+  return `${page}#${anchor}`;
 }
 
 /** @deprecated Use getHeaderV1NavLinkHref */
@@ -319,6 +336,19 @@ export function deleteHeaderV1NavLink(
   linkId: string,
 ): HeaderV1NavLink[] {
   return links.filter((link) => link.id !== linkId);
+}
+
+export function reorderHeaderV1NavLinks(
+  links: readonly HeaderV1NavLink[],
+  fromIndex: number,
+  toIndex: number,
+): HeaderV1NavLink[] {
+  if (fromIndex === toIndex) return [...links];
+  const next = [...links];
+  const [moved] = next.splice(fromIndex, 1);
+  if (!moved) return [...links];
+  next.splice(toIndex, 0, moved);
+  return next;
 }
 
 export function headerV1NavLinksToItems(links: readonly HeaderV1NavLink[]): HeaderV1NavLink[] {

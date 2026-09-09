@@ -1,0 +1,135 @@
+{
+  "entries": [
+    {
+      "id": "lifespring",
+      "label": "LifeSpring",
+      "settings": {
+        "from": "#1b1b1b",
+        "to": "#030303",
+        "backgroundMode": "linear",
+        "backgroundDirection": "to right",
+        "navBackground": "transparent",
+        "navTextColor": "#ffffff",
+        "navTextHoverColor": "#85a33f",
+        "navHoverBackground": "transparent",
+        "navButtonSize": "medium",
+        "navButtonRadiusPx": 4,
+        "logoVariant": "color",
+        "layoutWidth": "contained",
+        "headerHeightPx": 80,
+        "logoSizePx": 0,
+        "logoHeightPx": 0,
+        "logoBackgroundColor": "#000000",
+        "logoMarginTopPx": 0,
+        "logoVerticalAlign": "center",
+        "headerV1NavTextSizeEm": 1,
+        "headerV1NavIcons": {},
+        "headerV1NavIconFrameShape": "card",
+        "headerV1NavIconFrameSize": "medium",
+        "headerV1NavIconColor": "#000000",
+        "headerV1NavIconBorderColor": "rgba(0, 0, 0, 0.35)",
+        "headerV1NavIconBackgroundColor": "transparent",
+        "headerV1ShowNavIcons": true,
+        "headerV1NavTilt": false,
+        "headerV1NavFontStyle": "normal",
+        "headerV1NavLinks": [
+          {
+            "id": "commercial",
+            "label": "Commercial",
+            "pageHref": "/",
+            "anchorId": "commercial",
+            "icon": "building-2",
+            "side": "left"
+          },
+          {
+            "id": "residential",
+            "label": "Residential",
+            "pageHref": "/",
+            "anchorId": "residential",
+            "icon": "home",
+            "side": "left"
+          },
+          {
+            "id": "restoration",
+            "label": "Restoration",
+            "pageHref": "/",
+            "anchorId": "restoration",
+            "icon": "hammer",
+            "side": "right"
+          }
+        ],
+        "headerV2NavVisible": true,
+        "headerV2UseGradientBackground": false,
+        "headerV2BackgroundColor": "#faf0e0",
+        "headerV2BackgroundImageSrc": "",
+        "headerV2MobileLogoAlign": "center"
+      }
+    },
+    {
+      "id": "langham",
+      "label": "Langham",
+      "settings": {
+        "from": "#000000",
+        "to": "#3b3b3b",
+        "backgroundMode": "linear",
+        "backgroundDirection": "to right",
+        "navBackground": "#040404",
+        "navTextColor": "#ffffff",
+        "navTextHoverColor": "#121212",
+        "navHoverBackground": "#ffc233",
+        "navButtonSize": "medium",
+        "navButtonRadiusPx": 4,
+        "logoVariant": "color",
+        "layoutWidth": "contained",
+        "headerHeightPx": 104,
+        "logoSizePx": 80,
+        "logoHeightPx": 0,
+        "logoBackgroundColor": "#000000",
+        "logoMarginTopPx": 0,
+        "logoVerticalAlign": "center",
+        "headerV1NavTextSizeEm": 1,
+        "headerV1NavIcons": {},
+        "headerV1NavIconFrameShape": "none",
+        "headerV1NavIconFrameSize": "medium",
+        "headerV1NavIconColor": "#ffffff",
+        "headerV1NavIconBorderColor": "transparent",
+        "headerV1NavIconBackgroundColor": "transparent",
+        "headerV1ShowNavIcons": true,
+        "headerV1NavTilt": false,
+        "headerV1IncludeMobileNav": true,
+        "headerV1NavFontStyle": "normal",
+        "headerV1NavLinks": [
+          {
+            "id": "commercial",
+            "label": "HOME",
+            "pageHref": "/",
+            "anchorId": "Home",
+            "icon": "home",
+            "side": "left"
+          },
+          {
+            "id": "residential",
+            "label": "ABOUT",
+            "pageHref": "/",
+            "anchorId": "about",
+            "icon": "hammer",
+            "side": "left"
+          },
+          {
+            "id": "restoration",
+            "label": "CONTACT",
+            "pageHref": "/",
+            "anchorId": "contact",
+            "icon": "phone",
+            "side": "right"
+          }
+        ],
+        "headerV2NavVisible": true,
+        "headerV2UseGradientBackground": false,
+        "headerV2BackgroundColor": "#faf0e0",
+        "headerV2BackgroundImageSrc": "",
+        "headerV2MobileLogoAlign": "center"
+      }
+    }
+  ]
+}

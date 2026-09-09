@@ -51,6 +51,7 @@ export function FooterV3PreviewProvider({
     loadGlobal: loadFooterV3PreviewSettings,
     saveGlobal: saveFooterV3PreviewSettings,
     normalize: normalizeFooterV3PreviewSettings,
+    globalOnly: true,
   });
 
   return (

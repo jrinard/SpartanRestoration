@@ -46,7 +46,7 @@ export default async function LiveSlugPage({ params }: LiveSlugPageProps) {
     <SiteShell config={config}>
       <JsonLd
         data={[
-          ...buildLiveSlugSeoSchemas(slug, seo),
+          ...buildLiveSlugSeoSchemas(slug, seo, page.orgId),
           buildPortfolioItemListSchema(
             getPublishedProjects(config).length > 0
               ? getPublishedProjects(config)

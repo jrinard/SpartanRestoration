@@ -6,27 +6,27 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getPublishedProjects, getPublishedServices } from "@/lib/org/migrate-section-copy";
 import { resolveStagingPreviewPageConfig } from "@/lib/homepage-staging-config.server";
-import { createMetadata } from "@/lib/seo";
+import type { Metadata } from "next";
 import {
   buildPortfolioItemListSchema,
   buildServicesItemListSchema,
 } from "@/lib/seo-schema";
-import { pageSeo } from "@/lib/seo-content";
+import { previewOrgPageMetadata } from "@/lib/org/live-page.server";
 import { siteConfig } from "@/config/site";
 import { joinCatchAllSlug } from "@/lib/playground-pages";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = createMetadata({
-  title: pageSeo.preview.title,
-  description: pageSeo.preview.description,
-  path: pageSeo.preview.path,
-  noIndex: pageSeo.preview.noIndex,
-});
-
 type PreviewSlugRoutePageProps = {
   params: Promise<{ slug: string[] }>;
 };
+
+export async function generateMetadata({
+  params,
+}: PreviewSlugRoutePageProps): Promise<Metadata> {
+  const slug = joinCatchAllSlug((await params).slug);
+  return previewOrgPageMetadata(slug);
+}
 
 export default async function PreviewSlugRoutePage({ params }: PreviewSlugRoutePageProps) {
   const slug = joinCatchAllSlug((await params).slug);

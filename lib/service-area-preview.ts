@@ -4,7 +4,51 @@ import type { CSSProperties } from "react";
 export type ServiceAreaV1Location = {
   id: string;
   label: string;
+  /** Empty / missing keeps today’s non-linked pin label. */
+  href?: string;
 };
+
+export const defaultServiceAreaV1Locations: ServiceAreaV1Location[] = [
+  { id: "vancouver", label: "Vancouver" },
+  { id: "camas", label: "Camas" },
+  { id: "washougal", label: "Washougal" },
+  { id: "woodland", label: "Woodland" },
+  { id: "la-center", label: "La Center" },
+  { id: "portland", label: "Portland" },
+];
+
+export function createServiceAreaV1LocationId(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return `location-${crypto.randomUUID().slice(0, 8)}`;
+  }
+  return `location-${Date.now().toString(36)}`;
+}
+
+export function createServiceAreaV1Location(
+  partial: Partial<ServiceAreaV1Location> = {},
+  index = 0,
+): ServiceAreaV1Location {
+  return {
+    id: partial.id?.trim() || createServiceAreaV1LocationId(),
+    label: partial.label?.trim() || `Location ${index + 1}`,
+    href: partial.href?.trim() || "",
+  };
+}
+
+export function getServiceAreaV1LocationHref(location: ServiceAreaV1Location): string {
+  return location.href?.trim() ?? "";
+}
+
+/** Missing `locations` keeps today’s built-in list. Explicit `[]` is a saved empty list. */
+export function resolveServiceAreaV1Locations(
+  settings: { locations?: ServiceAreaV1Location[] },
+  fallback: readonly ServiceAreaV1Location[] = defaultServiceAreaV1Locations,
+): ServiceAreaV1Location[] {
+  if (settings.locations !== undefined) {
+    return settings.locations.map((location, index) => createServiceAreaV1Location(location, index));
+  }
+  return fallback.map((location, index) => createServiceAreaV1Location(location, index));
+}
 
 export type ServiceAreaV1Size = "small" | "medium" | "large";
 
@@ -76,6 +120,11 @@ export type ServiceAreaV1PreviewSettings = {
   graphImageSrc?: string;
   /** Playground location label overrides keyed by location id. */
   locationLabels: Partial<Record<string, string>>;
+  /**
+   * Editable location pins. Missing keeps today’s built-in Spartan list.
+   * Explicit empty array is a saved choice.
+   */
+  locations?: ServiceAreaV1Location[];
 };
 
 export const defaultServiceAreaV1BackgroundColor = "#4d82b8";
@@ -125,6 +174,27 @@ export function getServiceAreaV1SizeOption(
   );
 }
 
+/**
+ * Six pins stay today’s 3×2. More pins stay two rows (up to five across)
+ * and shrink a little so ~10 still fit without adding height.
+ */
+export function getServiceAreaV1LocationGrid(count: number): {
+  columns: number;
+  scale: number;
+  compact: boolean;
+} {
+  const safeCount = Number.isFinite(count) ? Math.max(0, Math.floor(count)) : 0;
+  if (safeCount <= 6) {
+    return { columns: 3, scale: 1, compact: false };
+  }
+
+  return {
+    columns: Math.min(5, Math.ceil(safeCount / 2)),
+    scale: Math.max(0.72, 1 - (safeCount - 6) * 0.06),
+    compact: true,
+  };
+}
+
 export function resolveServiceAreaV1GraphSrc(
   settings: ServiceAreaV1PreviewSettings,
 ): string | null {
@@ -141,15 +211,7 @@ export function getServiceAreaV1PinStyle(
   return {
     width: iconSizePx,
     height: iconSizePx,
-    backgroundColor: iconColor,
-    WebkitMaskImage: `url(${serviceAreaV1PinSrc})`,
-    maskImage: `url(${serviceAreaV1PinSrc})`,
-    WebkitMaskSize: "contain",
-    maskSize: "contain",
-    WebkitMaskRepeat: "no-repeat",
-    maskRepeat: "no-repeat",
-    WebkitMaskPosition: "center",
-    maskPosition: "center",
+    color: iconColor,
   };
 }
 

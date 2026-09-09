@@ -7,16 +7,15 @@ import { Images, Pencil } from "lucide-react";
 import { ImageLibraryPicker } from "@/components/dev/ImageLibraryPicker";
 import { TextImageTextEditor } from "@/components/dev/TextImageTextEditor";
 import { useFooterV4Preview } from "@/components/dev/FooterV4PreviewContext";
-import {
-  usePlaygroundNavLinkHref,
-  usePlaygroundPageLink,
-} from "@/components/dev/usePlaygroundPageLink";
+import { useHashNavigationClick } from "@/components/dev/useHashNavigation";
+import { usePlaygroundNavLinkHref } from "@/components/dev/usePlaygroundPageLink";
 import { siteConfig } from "@/config/site";
 import {
   buildFooterV4DefaultContent,
   defaultFooterV4PreviewSettings,
   getFooterV4Style,
   resolveFooterV4LogoSrc,
+  splitFooterV4CopyrightLines,
   type FooterV4ServiceLink,
 } from "@/lib/footer-v4-preview";
 import {
@@ -117,7 +116,7 @@ export function FooterV4({ hours, serviceLinks, licenses }: FooterV4Props) {
   const editingEnabled = preview?.contentEditingEnabled ?? false;
   const [logoLibraryOpen, setLogoLibraryOpen] = useState(false);
   const { folder: libraryFolder } = usePlaygroundImageLibraryFolder();
-  const handlePageLink = usePlaygroundPageLink();
+  const handleHashNavigation = useHashNavigationClick();
   const resolveNavHref = usePlaygroundNavLinkHref();
 
   const defaultContent = useMemo(
@@ -294,7 +293,7 @@ export function FooterV4({ hours, serviceLinks, licenses }: FooterV4Props) {
                 <li key={`${item.label}-${item.href}`}>
                   <Link
                     href={resolveNavHref(item.href)}
-                    onClick={(event) => handlePageLink(item.href, event)}
+                    onClick={(event) => handleHashNavigation(item.href, event)}
                   >
                     {item.label}
                   </Link>
@@ -327,15 +326,36 @@ export function FooterV4({ hours, serviceLinks, licenses }: FooterV4Props) {
         </div>
       </aside>
       <div className="footer-washing-bottom" role="contentinfo">
-        <EditableTextBlock
-          editingEnabled={canEditContent}
-          ariaLabel="Edit footer copyright"
-          editorTitle="Footer copyright"
-          value={content.copyright}
-          onSave={(value) => preview?.saveContentOverrides({ contentCopyright: value })}
-        >
-          <p>{content.copyright}</p>
-        </EditableTextBlock>
+        <div className="footer-washing-bottom-inner">
+          <EditableTextBlock
+            editingEnabled={canEditContent}
+            ariaLabel="Edit footer copyright"
+            editorTitle="Footer copyright"
+            value={content.copyright}
+            className="footer-washing-copyright-edit"
+            onSave={(value) => preview?.saveContentOverrides({ contentCopyright: value })}
+          >
+            <p className="footer-washing-copyright">
+              {splitFooterV4CopyrightLines(content.copyright).map((line, index) => (
+                <span key={`${index}-${line}`} className="footer-washing-copyright-line">
+                  {line}
+                </span>
+              ))}
+            </p>
+          </EditableTextBlock>
+          <span className="footer-washing-bottom-divider" aria-hidden="true">
+            ·
+          </span>
+          <a
+            href={siteConfig.designerCredit.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-washing-designer-link"
+            aria-label={`Website design by ${siteConfig.designerCredit.label}`}
+          >
+            {siteConfig.designerCredit.label}
+          </a>
+        </div>
       </div>
     </footer>
   );

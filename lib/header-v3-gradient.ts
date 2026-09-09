@@ -67,6 +67,17 @@ export type HeaderV3PreviewSettings = {
   headerV1NavIconColor: string;
   headerV1NavIconBorderColor: string;
   headerV1NavIconBackgroundColor: string;
+  /** Header v1 / v2 nav icons. Missing = shown (today’s default). */
+  headerV1ShowNavIcons?: boolean;
+  /** Skew header-v1 nav buttons. Missing = off (today’s default). */
+  headerV1NavTilt?: boolean;
+  /**
+   * Header-v1 hamburger using the same menu items when no Nav section is on the page.
+   * Missing = off (today’s default: logo only on mobile).
+   */
+  headerV1IncludeMobileNav?: boolean;
+  /** Header-v1 nav label style. Missing = normal (today’s default). */
+  headerV1NavFontStyle?: HeaderV1NavFontStyle;
   /** Header v1 nav links — label, page, anchor, icon. Shared with header v2 (split left/right). */
   headerV1NavLinks: HeaderV1NavLink[];
   /** Header v2 — show icon nav on left/right of logo. */
@@ -149,6 +160,38 @@ export function formatHeaderV1NavTextSizeEm(value: number): string {
   return `${value}em`;
 }
 
+export const headerV1NavFontStyleOptions = [
+  { value: "normal", label: "Normal" },
+  { value: "italic", label: "Italic" },
+  { value: "slant", label: "Slant" },
+] as const;
+
+export type HeaderV1NavFontStyle = (typeof headerV1NavFontStyleOptions)[number]["value"];
+
+export function isHeaderV1NavFontStyle(value: unknown): value is HeaderV1NavFontStyle {
+  return value === "normal" || value === "italic" || value === "slant";
+}
+
+export function headerV1NavTiltIsOn(
+  settings?: Pick<HeaderV3PreviewSettings, "headerV1NavTilt">,
+): boolean {
+  return settings?.headerV1NavTilt === true;
+}
+
+export function headerV1MobileNavIsOn(
+  settings?: Pick<HeaderV3PreviewSettings, "headerV1IncludeMobileNav">,
+): boolean {
+  return settings?.headerV1IncludeMobileNav === true;
+}
+
+export function getHeaderV1NavFontStyle(
+  settings?: Pick<HeaderV3PreviewSettings, "headerV1NavFontStyle">,
+): HeaderV1NavFontStyle {
+  return isHeaderV1NavFontStyle(settings?.headerV1NavFontStyle)
+    ? settings.headerV1NavFontStyle
+    : "normal";
+}
+
 /** Matches LifeSpring header-v3 defaults. */
 export const defaultHeaderV3PreviewSettings: HeaderV3PreviewSettings = {
   from: "#1b1b1b",
@@ -171,6 +214,10 @@ export const defaultHeaderV3PreviewSettings: HeaderV3PreviewSettings = {
   headerV1NavIconColor: defaultHeaderV1NavIconColor,
   headerV1NavIconBorderColor: defaultHeaderV1NavIconBorderColor,
   headerV1NavIconBackgroundColor: "transparent",
+  headerV1ShowNavIcons: true,
+  headerV1NavTilt: false,
+  headerV1IncludeMobileNav: false,
+  headerV1NavFontStyle: "normal",
   headerV1NavLinks: defaultHeaderV1NavLinks.map((link) => ({ ...link })),
   headerV2NavVisible: true,
   headerV2UseGradientBackground: false,
@@ -178,6 +225,13 @@ export const defaultHeaderV3PreviewSettings: HeaderV3PreviewSettings = {
   headerV2BackgroundImageSrc: "",
   headerV2MobileLogoAlign: "center",
 };
+
+/** Missing or true = today’s header icons. Explicit false hides them. */
+export function headerV1NavIconsAreVisible(
+  settings?: Pick<HeaderV3PreviewSettings, "headerV1ShowNavIcons">,
+): boolean {
+  return settings?.headerV1ShowNavIcons !== false;
+}
 
 export function pickHeaderV1NavIconFrameSettings(
   settings: HeaderV3PreviewSettings,

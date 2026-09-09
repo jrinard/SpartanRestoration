@@ -1,0 +1,125 @@
+{
+  "entries": [
+    {
+      "id": "lifespring",
+      "label": "LifeSpring",
+      "settings": {
+        "backgroundMode": "solid",
+        "solidColor": "#0f0f12",
+        "gradientFrom": "#0f0f12",
+        "gradientTo": "#4d82b8",
+        "gradientAngle": 135,
+        "borderRadius": 28,
+        "titleColor": "#ffffff",
+        "bodyColor": "#a8a8b8",
+        "submitText": "Submit",
+        "formFields": [
+          {
+            "id": "legacy-name",
+            "name": "name",
+            "label": "Name",
+            "placeholder": "Your name",
+            "type": "text",
+            "required": true
+          },
+          {
+            "id": "legacy-businessName",
+            "name": "businessName",
+            "label": "Business Name",
+            "placeholder": "Your business name",
+            "type": "text",
+            "required": true
+          },
+          {
+            "id": "legacy-email",
+            "name": "email",
+            "label": "Email",
+            "placeholder": "you@example.com",
+            "type": "email",
+            "required": true
+          },
+          {
+            "id": "legacy-phone",
+            "name": "phone",
+            "label": "Phone",
+            "placeholder": "(optional)",
+            "type": "tel",
+            "required": false
+          },
+          {
+            "id": "legacy-message",
+            "name": "message",
+            "label": "Tell us where your business is today and where you'd like it to go.",
+            "placeholder": "",
+            "type": "textarea",
+            "required": true
+          }
+        ],
+        "contentTitle": "Let's Talk",
+        "contentSubtext": "Let's start the conversation with a Free Consultation",
+        "contentPhonePrefix": "Call us at",
+        "buttonBackground": "#4d82b8",
+        "buttonTextColor": "#ffffff",
+        "buttonRadiusPx": 4
+      }
+    },
+    {
+      "id": "langham",
+      "label": "Langham",
+      "settings": {
+        "backgroundMode": "solid",
+        "solidColor": "#171718",
+        "gradientFrom": "#171718",
+        "gradientTo": "#535353",
+        "gradientAngle": 135,
+        "borderRadius": 8,
+        "titleColor": "#ffffff",
+        "bodyColor": "#f8f8f6",
+        "submitText": "Reach Out!",
+        "formFields": [
+          {
+            "id": "legacy-name",
+            "name": "name",
+            "label": "Name",
+            "placeholder": "Your name",
+            "type": "text",
+            "required": true
+          },
+          {
+            "id": "legacy-email",
+            "name": "email",
+            "label": "Email",
+            "placeholder": "you@example.com",
+            "type": "email",
+            "required": true
+          },
+          {
+            "id": "legacy-phone",
+            "name": "phone",
+            "label": "Phone",
+            "placeholder": "Your phone",
+            "type": "tel",
+            "required": true
+          },
+          {
+            "id": "legacy-message",
+            "name": "message",
+            "label": "Tell us about the job — new home, replacement, or warranty.",
+            "placeholder": "",
+            "type": "textarea",
+            "required": true
+          }
+        ],
+        "contentTitle": "Start Your Project",
+        "contentSubtext": "You don’t need another bid. You need a crew that’ll walk the house and tell you straight.",
+        "contentPhonePrefix": "Call us at",
+        "contentPhoneLabel": "360-567-8273",
+        "contentPhoneHref": "tel:+13605678273",
+        "buttonBackground": "#f7aa0a",
+        "buttonTextColor": "#171718",
+        "buttonRadiusPx": 0,
+        "leadToEmail": "office@langhamconstruction.com"
+      }
+    }
+  ]
+}

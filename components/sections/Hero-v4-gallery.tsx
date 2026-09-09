@@ -7,6 +7,7 @@ import { useHeroV4Preview } from "@/components/dev/HeroV4PreviewContext";
 import type { HeroBannerSlide } from "@/lib/hero-banner-preview";
 import {
   defaultHeroV4GalleryHeightPx,
+  defaultHeroV4PreviewSettings,
   normalizeHeroV4PreviewSettings,
 } from "@/lib/hero-v4-preview";
 import {
@@ -43,6 +44,8 @@ type HeroV4GalleryProps = {
   heightPx?: number;
   background?: string;
   radiusPx?: number;
+  borderWidthPx?: number;
+  borderColor?: string;
   className?: string;
 };
 
@@ -53,6 +56,8 @@ export function HeroV4Gallery({
   heightPx = defaultHeroV4GalleryHeightPx,
   background = "#000000",
   radiusPx = 20,
+  borderWidthPx = defaultHeroV4PreviewSettings.galleryBorderWidthPx,
+  borderColor = defaultHeroV4PreviewSettings.galleryBorderColor,
   className,
 }: HeroV4GalleryProps) {
   const preview = useHeroV4Preview();
@@ -60,6 +65,7 @@ export function HeroV4Gallery({
   const [activeIndex, setActiveIndex] = useState(0);
   const [libraryOpen, setLibraryOpen] = useState(false);
   const visibleSlides = slides.filter((slide) => slide.value.trim());
+  const isCarousel = visibleSlides.length > 1;
 
   useEffect(() => {
     setActiveIndex(0);
@@ -109,6 +115,18 @@ export function HeroV4Gallery({
     );
   }
 
+  function removeActiveSlide() {
+    if (!preview || visibleSlides.length === 0) return;
+    const settings = normalizeHeroV4PreviewSettings(preview.settings);
+    const source = settings.gallerySlides ?? [];
+    const visibleIndexes = source.flatMap((slide, index) => (slide.value.trim() ? [index] : []));
+    const sourceIndex = visibleIndexes[Math.min(activeIndex, visibleIndexes.length - 1)];
+    if (sourceIndex === undefined) return;
+    const nextSlides = source.filter((_, index) => index !== sourceIndex);
+    preview.setSettings(normalizeHeroV4PreviewSettings({ ...settings, gallerySlides: nextSlides }));
+    setActiveIndex((current) => Math.max(0, Math.min(current, Math.max(nextSlides.length - 1, 0))));
+  }
+
   return (
     <div
       className={cn("hero-v4-gallery-card relative overflow-hidden", className)}
@@ -117,14 +135,24 @@ export function HeroV4Gallery({
           "--hero-v4-gallery-height": `${heightPx}px`,
           "--hero-v4-gallery-bg": background,
           "--hero-v4-gallery-radius": radiusPx >= 999 ? "999px" : `${radiusPx}px`,
+          "--hero-v4-gallery-border-width": `${borderWidthPx ?? 1}px`,
+          ...(borderColor
+            ? { "--hero-v4-gallery-border-color": borderColor }
+            : {}),
         } as CSSProperties
       }
       aria-label="Project gallery"
-      aria-roledescription="carousel"
+      aria-roledescription={isCarousel ? "carousel" : undefined}
     >
       {visibleSlides.length === 0 ? (
         <div className="hero-v4-gallery-empty">
           {editingEnabled ? "Add gallery images" : null}
+        </div>
+      ) : !isCarousel ? (
+        <div className="hero-v4-gallery-slides hero-v4-gallery-slides--static">
+          <div className="hero-v4-gallery-slide is-active">
+            <GallerySlideFill slide={visibleSlides[0]} />
+          </div>
         </div>
       ) : transition === "fade" ? (
         <div className="hero-v4-gallery-slides hero-v4-gallery-slides--fade" aria-live="off">
@@ -175,18 +203,30 @@ export function HeroV4Gallery({
 
       {editingEnabled ? (
         <>
-          <button
-            type="button"
-            onClick={() => setLibraryOpen((open) => !open)}
-            className={devLibraryPillClassName}
-            aria-label={visibleSlides.length ? "Change gallery image" : "Add gallery image"}
-            aria-expanded={libraryOpen}
-          >
-            <Images size={devLibraryIconSize} strokeWidth={2} />
-            <span className={devLibraryLabelClassName}>
-              {visibleSlides.length ? "Image" : "Add"}
-            </span>
-          </button>
+          <div className="absolute top-2 right-2 z-20 flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => setLibraryOpen((open) => !open)}
+              className={cn(devLibraryPillClassName, "relative top-auto right-auto")}
+              aria-label={visibleSlides.length ? "Change gallery image" : "Add gallery image"}
+              aria-expanded={libraryOpen}
+            >
+              <Images size={devLibraryIconSize} strokeWidth={2} />
+              <span className={devLibraryLabelClassName}>
+                {visibleSlides.length ? "Image" : "Add"}
+              </span>
+            </button>
+            {visibleSlides.length > 0 ? (
+              <button
+                type="button"
+                onClick={removeActiveSlide}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-accent-purple/50 bg-background/95 text-base leading-none text-accent-purple shadow-sm transition-colors hover:border-red-400 hover:bg-red-500/10 hover:text-red-500"
+                aria-label="Remove current gallery image"
+              >
+                ×
+              </button>
+            ) : null}
+          </div>
           {libraryOpen ? (
             <div className="absolute top-12 right-2 z-30">
               <ImageLibraryPicker

@@ -20,6 +20,7 @@ import { SiteJsonLd } from "@/components/seo/JsonLd";
 import { createMetadata } from "@/lib/seo";
 import { pageSeo } from "@/lib/seo-content";
 import { readCurrentOrgId, readOrgPolicies, readOrgSeo, readOrgSite } from "@/lib/org/read-org.server";
+import { isVisionRuntime } from "@/lib/org/vision-runtime";
 import { setRuntimeSite } from "@/lib/org/runtime-site";
 import { setRuntimePolicies } from "@/lib/org/runtime-policies";
 import "./globals.css";
@@ -88,6 +89,7 @@ export async function generateMetadata(): Promise<Metadata> {
     ogImageAlt: home?.ogImageAlt ?? pageSeo.home.ogImageAlt,
     keywords: home?.keywords,
     favicon,
+    site,
   });
 }
 
@@ -121,7 +123,10 @@ export default async function RootLayout({
             {children}
           </RecaptchaProvider>
         </SiteRuntimeProvider>
-        <GoogleAnalyticsRuntime initialSettings={publishedAnalytics} />
+        <GoogleAnalyticsRuntime
+          allowTracking={isVisionRuntime() && process.env.NODE_ENV === "production"}
+          initialSettings={publishedAnalytics}
+        />
         <FaviconRuntime initialSettings={publishedFavicon} />
         <Analytics />
       </body>

@@ -108,6 +108,13 @@ export function useInstancePreviewSettings<T, K extends keyof SectionInstanceSet
         readUsesGlobalStorage();
       if (persistGlobally) {
         saveGlobal(normalized);
+        if (instanceId) {
+          saveSectionInstanceField(
+            instanceId,
+            field,
+            normalized as NonNullable<SectionInstanceSettings[K]>,
+          );
+        }
         onGlobalSaveRef.current?.(normalized);
         return;
       }

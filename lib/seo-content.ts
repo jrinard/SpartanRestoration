@@ -93,12 +93,18 @@ export const pageSeo = {
 /** Local SEO copy for JSON-LD — follows the current org site, not leftover trade-demo text. */
 export const tradeDemoSeo = {
   headline: "Custom Websites & Software for Vancouver, WA Businesses",
-  leadText: siteConfig.serviceArea,
-  description: siteConfig.description,
-  areaServed: siteConfig.serviceAreas ?? [
-    "Clark County, WA",
-    "Vancouver, WA",
-  ],
+  get leadText() {
+    return siteConfig.serviceArea;
+  },
+  get description() {
+    return siteConfig.description;
+  },
+  get areaServed() {
+    return siteConfig.serviceAreas ?? [
+      "Clark County, WA",
+      "Vancouver, WA",
+    ];
+  },
   serviceTypes: [
     "Website Design",
     "Custom Software Development",

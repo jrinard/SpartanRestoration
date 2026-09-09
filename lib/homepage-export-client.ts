@@ -35,6 +35,7 @@ import {
 import {
   getPlaygroundSectionVariant,
   getPreviewSections,
+  getStagedPlaygroundSections,
   type PlaygroundSectionConfig,
 } from "@/lib/playground-sections";
 import { portfolioPreviewStorageKey } from "@/lib/portfolio-preview-storage";
@@ -44,8 +45,10 @@ import { textIconsV3PreviewStorageKey } from "@/lib/text-icons-v3-preview-storag
 import { textImagePreviewStorageKey } from "@/lib/text-image-preview-storage";
 import { textImagesPreviewStorageKey } from "@/lib/text-images-preview-storage";
 import { imagesV1PreviewStorageKey } from "@/lib/images-v1-preview-storage";
+import { cardsV1PreviewStorageKey } from "@/lib/cards-v1-preview-storage";
 import { navBarPreviewStorageKey } from "@/lib/nav-bar-preview-storage";
 import { topBarPreviewStorageKey } from "@/lib/top-bar-preview-storage";
+import { topBarV2PreviewStorageKey } from "@/lib/top-bar-v2-preview-storage";
 import { servicesV1PreviewStorageKey } from "@/lib/services-v1-preview-storage";
 import { servicesIconsV2PreviewStorageKey } from "@/lib/services-icons-v2-preview-storage";
 import { serviceAreaV2PreviewStorageKey } from "@/lib/service-area-v2-preview-storage";
@@ -123,8 +126,9 @@ function collectPreviewSettingsFromPages(
   const contents: HomepagePreviewSettings["contents"] = {};
 
   for (const page of pagesState.pages) {
-    const previewSectionSlots = getPreviewSections(
+    const previewSectionSlots = getStagedPlaygroundSections(
       getPlaygroundPageSections(pagesState, page.id),
+      { allowVisibleFallback: !page.isHome },
     );
 
     for (const section of previewSectionSlots) {
@@ -137,12 +141,19 @@ function collectPreviewSettingsFromPages(
         spacers[section.id] = settings.spacer;
       }
 
-      if (settings.textIconsV3 || settings.textImage || settings.textImages || settings.imagesV1) {
+      if (
+        settings.textIconsV3 ||
+        settings.textImage ||
+        settings.textImages ||
+        settings.imagesV1 ||
+        settings.cardsV1
+      ) {
         contents[section.id] = {
           textIconsV3: settings.textIconsV3,
           textImage: settings.textImage,
           textImages: settings.textImages,
           imagesV1: settings.imagesV1,
+          cardsV1: settings.cardsV1,
         };
       }
     }
@@ -150,6 +161,7 @@ function collectPreviewSettingsFromPages(
 
   const previewSettings: HomepagePreviewSettings = {
     topBar: readJson(topBarPreviewStorageKey),
+    topBarV2: readJson(topBarV2PreviewStorageKey),
     navBar: readJson(navBarPreviewStorageKey),
     heroBanner: readJson(heroBannerPreviewStorageKey),
     heroV1: readJson(heroV1PreviewStorageKey),
@@ -177,6 +189,7 @@ function collectPreviewSettingsFromPages(
     textImage: readJson(textImagePreviewStorageKey),
     textImages: readJson(textImagesPreviewStorageKey),
     imagesV1: readJson(imagesV1PreviewStorageKey),
+    cardsV1: readJson(cardsV1PreviewStorageKey),
     servicesIconsV2: readJson(servicesIconsV2PreviewStorageKey),
     serviceAreaV2: readJson(serviceAreaV2PreviewStorageKey),
     reviews: readJson(reviewsPreviewStorageKey),
@@ -209,8 +222,9 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
   const pages: HomepagePageSnapshot[] = pagesState.pages.flatMap((page) => {
     if (page.isHome) return [];
 
-    const previewSections = getPreviewSections(
+    const previewSections = getStagedPlaygroundSections(
       getPlaygroundPageSections(pagesState, page.id),
+      { allowVisibleFallback: true },
     );
     if (previewSections.length === 0) return [];
 

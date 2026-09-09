@@ -1,0 +1,125 @@
+{
+  "entries": [
+    {
+      "id": "ospressure",
+      "label": "OS Pressure",
+      "settings": {
+        "bannerFrom": "#1e5799",
+        "bannerTo": "#78e7fd",
+        "headingColor": "#ffffff",
+        "textColor": "#ffffff",
+        "linkColor": "#ffffff",
+        "linkHoverColor": "#ffffff",
+        "socialColor": "#ffffff",
+        "socialHoverColor": "#ffffff",
+        "bottomBarBackgroundColor": "#000000",
+        "bottomBarTextColor": "#ffffff",
+        "logoSizePx": 96,
+        "showFacebook": true,
+        "showInstagram": true,
+        "contentHours": [
+          "Monday - Friday: 8:00 AM - 6:00 PM",
+          "Saturday: 9:00 AM - 4:00 PM",
+          "Sunday: Closed"
+        ],
+        "contentLicenses": [
+          "Oregon Department of Agriculture License #AG-L1103370CPA",
+          "WA Contractors License #OSPREPW741CJ"
+        ],
+        "serviceLinks": [
+          {
+            "id": "footer-v4-service-0",
+            "label": "Pressure Washing",
+            "href": "#pressure-washing"
+          },
+          {
+            "id": "footer-v4-service-1",
+            "label": "Roof Cleaning",
+            "href": "#pressure-washing"
+          },
+          {
+            "id": "footer-v4-service-2",
+            "label": "House Washing",
+            "href": "#pressure-washing"
+          },
+          {
+            "id": "footer-v4-service-3",
+            "label": "Concrete Cleaning",
+            "href": "#pressure-washing"
+          },
+          {
+            "id": "footer-v4-service-4",
+            "label": "Paver Cleaning",
+            "href": "#pressure-washing"
+          },
+          {
+            "id": "footer-v4-service-5",
+            "label": "Gutter Cleaning",
+            "href": "#pressure-washing"
+          },
+          {
+            "id": "footer-v4-service-6",
+            "label": "Commercial Cleaning",
+            "href": "#commercial-cleaning"
+          },
+          {
+            "id": "footer-v4-service-7",
+            "label": "Organic Growth Management",
+            "href": "#organic-growth"
+          }
+        ]
+      }
+    },
+    {
+      "id": "langham",
+      "label": "Langham",
+      "settings": {
+        "bannerFrom": "#0a0a0a",
+        "bannerTo": "#707070",
+        "headingColor": "#ffffff",
+        "textColor": "#ffffff",
+        "linkColor": "#ffffff",
+        "linkHoverColor": "#ffffff",
+        "socialColor": "#ffffff",
+        "socialHoverColor": "#ffffff",
+        "bottomBarBackgroundColor": "#000000",
+        "bottomBarTextColor": "#ffffff",
+        "logoSizePx": 96,
+        "showFacebook": true,
+        "showInstagram": false,
+        "contentAddress": "Proudly located in Vancouver, WA",
+        "contentPhone": "360-567-8273",
+        "contentEmail": "office@langhamconstruction.com",
+        "contentCopyright": "© 2026 Langham Construction. All rights reserved.",
+        "contentHours": [
+          "Monday – Friday 8:00 AM to 5:00 PM"
+        ],
+        "contentLicenses": [
+          "5-year transferable workmanship warranty"
+        ],
+        "serviceLinks": [
+          {
+            "id": "footer-v4-siding",
+            "label": "Siding",
+            "href": "#services"
+          },
+          {
+            "id": "footer-v4-windows",
+            "label": "Windows",
+            "href": "#services"
+          },
+          {
+            "id": "footer-v4-doors",
+            "label": "Doors",
+            "href": "#services"
+          },
+          {
+            "id": "footer-v4-warranty",
+            "label": "Warranty",
+            "href": "/about#warranty"
+          }
+        ]
+      }
+    }
+  ]
+}

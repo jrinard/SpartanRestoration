@@ -2,34 +2,33 @@
   "schemaVersion": 1,
   "routes": {
     "home": {
-      "title": "Spartan Restoration | The best defense in water damage.",
-      "description": "24/7 emergency water, mold, storm, and sewage restoration in Vancouver, WA, Portland, OR, and the Pacific Northwest. Licensed, insured, IICRC-certified crews.",
+      "title": "Water & Mold Restoration in Vancouver, WA | Spartan Restoration",
+      "description": "Spartan Restoration — emergency water damage, mold remediation, storm and sewage cleanup in Vancouver, WA, Clark County, and the Portland metro. Licensed, insured, IICRC-certified crews.",
       "path": "/",
-      "ogImageAlt": "Spartan Restoration logo — The best defense in water damage.",
+      "ogImageAlt": "Spartan Restoration — water and mold restoration in Vancouver, Washington",
       "keywords": [
-        "Spartan Restoration",
+        "Spartan Restoration Vancouver WA",
         "water damage restoration Vancouver WA",
         "water damage restoration Portland OR",
-        "emergency water damage restoration",
         "mold remediation Vancouver WA",
-        "mold remediation Portland OR",
+        "mold remediation Clark County WA",
         "storm damage restoration Pacific Northwest",
         "sewage cleanup Vancouver WA",
         "IICRC certified restoration company",
-        "24/7 emergency restoration Clark County"
+        "emergency restoration Clark County"
       ]
     },
     "our-services": {
-      "title": "Water & Mold Restoration Services | Spartan Restoration",
-      "description": "Water damage restoration, mold remediation, storm damage repair, sewage cleanup, and 24/7 emergency response in Vancouver, WA and Portland, OR. Licensed, insured, IICRC-certified technicians.",
+      "title": "Restoration Services in Vancouver, WA | Spartan Restoration",
+      "description": "Water damage mitigation, mold remediation, storm and sewage cleanup, and structural drying for Vancouver, WA, Clark County, and the Portland metro. Licensed, insured, IICRC-certified technicians.",
       "path": "/our-services",
-      "ogImageAlt": "Spartan Restoration — water, mold, storm, and sewage restoration services",
+      "ogImageAlt": "Spartan Restoration restoration services in Vancouver, Washington",
       "keywords": [
-        "water damage restoration services",
+        "water damage restoration services Vancouver WA",
         "mold remediation Portland OR",
-        "mold removal Vancouver WA",
+        "mold removal Clark County WA",
         "storm damage repair Pacific Northwest",
-        "sewage cleanup contractor",
+        "sewage cleanup contractor Vancouver WA",
         "emergency water extraction",
         "structural drying services",
         "insurance claim restoration help",
@@ -38,13 +37,12 @@
       ]
     },
     "service-area": {
-      "title": "Service Area | Spartan Restoration — Vancouver, Portland & PNW",
-      "description": "Spartan Restoration serves Vancouver, WA, Portland, OR, Clark County, and the Pacific Northwest with licensed, insured, 24/7 emergency restoration crews.",
+      "title": "Service Area — Vancouver, WA & Portland Metro | Spartan Restoration",
+      "description": "Spartan Restoration serves Vancouver, WA, Clark County, Camas, Washougal, and the greater Portland metro with licensed, insured restoration crews. Explore Clark County coverage and water, mold, and storm services.",
       "path": "/service-area",
-      "ogImageAlt": "Spartan Restoration service area — Vancouver, Portland, and the Pacific Northwest",
+      "ogImageAlt": "Spartan Restoration service area — Vancouver, Clark County, and Portland metro",
       "keywords": [
         "water damage restoration Vancouver WA",
-        "water damage restoration Portland OR",
         "restoration company Clark County WA",
         "mold remediation Southwest Washington",
         "emergency restoration Pacific Northwest",
@@ -60,6 +58,65 @@
       "description": "Client staging preview — design review only, not indexed by search engines.",
       "path": "/preview",
       "noIndex": true
+    },
+    "contact": {
+      "title": "Contact Spartan Restoration | Vancouver, WA",
+      "description": "Contact Spartan Restoration for water damage, mold remediation, and environmental restoration in Vancouver, WA, Clark County, and the Portland metro. Mon–Fri 8 AM–5 PM.",
+      "path": "/contact"
+    },
+    "water-damage-restoration": {
+      "title": "Water Damage Restoration in Vancouver, WA | Spartan Restoration",
+      "description": "Emergency water damage restoration in Vancouver, WA and Clark County—extraction, structural drying, and insurance documentation. Licensed, insured, IICRC-certified crews. Mon–Fri 8 AM–5 PM.",
+      "path": "/water-damage-restoration",
+      "ogImageAlt": "Spartan Restoration water damage restoration in Vancouver, Washington",
+      "keywords": [
+        "water damage restoration Vancouver WA",
+        "emergency water extraction Clark County",
+        "burst pipe cleanup Vancouver WA",
+        "structural drying Portland metro",
+        "flood damage restoration Southwest Washington",
+        "IICRC water mitigation Vancouver"
+      ]
+    },
+    "mold-removal": {
+      "title": "Mold Removal & Remediation in Vancouver, WA | Spartan Restoration",
+      "description": "Mold removal and remediation in Vancouver, WA and Clark County—containment, HEPA filtration, and IICRC-informed handling. Licensed, insured crews. Mon–Fri 8 AM–5 PM.",
+      "path": "/mold-removal",
+      "ogImageAlt": "Spartan Restoration mold removal in Vancouver, Washington",
+      "keywords": [
+        "mold removal Vancouver WA",
+        "mold remediation Clark County",
+        "mold remediation Portland metro",
+        "IICRC mold remediation Vancouver",
+        "musty odor mold cleanup Southwest Washington"
+      ]
+    },
+    "service-areas/clark-county-wa": {
+      "title": "Restoration Services in Clark County, WA | Spartan Restoration",
+      "description": "Water damage, mold remediation, and storm cleanup across Clark County, WA — Vancouver, Camas, Washougal, Battle Ground, and nearby communities. Licensed, insured Vancouver crews. Mon–Fri 8 AM–5 PM.",
+      "path": "/service-areas/clark-county-wa",
+      "ogImageAlt": "Spartan Restoration serving Clark County, Washington",
+      "keywords": [
+        "water damage restoration Clark County WA",
+        "mold remediation Vancouver WA",
+        "storm cleanup Camas WA",
+        "restoration company Washougal WA",
+        "emergency restoration Battle Ground WA",
+        "Spartan Restoration Clark County"
+      ]
+    },
+    "storm-sewage": {
+      "title": "Storm & Sewage Cleanup in Vancouver, WA | Spartan Restoration",
+      "description": "Storm damage and sewage cleanup in Vancouver, WA and Clark County—extraction, sanitization, and stabilization. Licensed, insured restoration crews. Mon–Fri 8 AM–5 PM.",
+      "path": "/storm-sewage",
+      "ogImageAlt": "Spartan Restoration storm and sewage cleanup in Vancouver, Washington",
+      "keywords": [
+        "storm damage cleanup Vancouver WA",
+        "sewage cleanup Clark County",
+        "sewage backup cleanup Portland metro",
+        "Pacific Northwest storm restoration",
+        "Category 3 water cleanup Vancouver WA"
+      ]
     }
   }
 }

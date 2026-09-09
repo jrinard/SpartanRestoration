@@ -1,10 +1,17 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
+import { Pencil } from "lucide-react";
 import { PreviewAwareLink } from "@/components/site/PreviewAwareLink";
 import { Container } from "@/components/ui/Container";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ServiceLabelEditor } from "@/components/dev/ServiceLabelEditor";
 import { useServiceAreaV2Preview } from "@/components/dev/ServiceAreaV2PreviewContext";
+import {
+  devEditButtonClassName,
+  devEditIconSize,
+} from "@/lib/dev-overlay-controls";
+import { cn } from "@/lib/utils";
 import type { ServiceAreaV2Card } from "@/lib/service-area-v2-content";
 import { getServiceAreaV2CardHref } from "@/lib/service-area-v2-content";
 import {
@@ -14,7 +21,6 @@ import {
   type ServiceAreaV2PreviewSettings,
 } from "@/lib/service-area-v2-preview";
 import { buildServiceAreaLocationsItemListSchema } from "@/lib/seo-schema";
-import { cn } from "@/lib/utils";
 
 type ServiceAreaV2Props = {
   cards: ServiceAreaV2Card[];
@@ -23,6 +29,63 @@ type ServiceAreaV2Props = {
 };
 
 const headingId = "service-area-v2-heading";
+
+function EditableHeaderLine({
+  value,
+  editingEnabled,
+  onChange,
+  dialogTitle,
+  inputAriaLabel,
+  multiline = false,
+  rows = 3,
+  children,
+  className,
+}: {
+  value: string;
+  editingEnabled: boolean;
+  onChange?: (value: string) => void;
+  dialogTitle: string;
+  inputAriaLabel: string;
+  multiline?: boolean;
+  rows?: number;
+  children: ReactNode;
+  className?: string;
+}) {
+  const [editorOpen, setEditorOpen] = useState(false);
+
+  return (
+    <div className={cn("relative max-w-full", className)}>
+      {children}
+      {editingEnabled && onChange && (
+        <>
+          <button
+            type="button"
+            onClick={() => setEditorOpen((open) => !open)}
+            className={cn(devEditButtonClassName, "-right-8 top-0")}
+            aria-label={dialogTitle}
+            aria-expanded={editorOpen}
+          >
+            <Pencil size={devEditIconSize} strokeWidth={2} />
+          </button>
+          {editorOpen && (
+            <div className="absolute top-full left-0 z-30 mt-2">
+              <ServiceLabelEditor
+                value={value}
+                onChange={onChange}
+                onClose={() => setEditorOpen(false)}
+                dialogTitle={dialogTitle}
+                dialogAriaLabel={dialogTitle}
+                inputAriaLabel={inputAriaLabel}
+                multiline={multiline}
+                rows={rows}
+              />
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
 
 function getServiceAreaV2CardStyle(settings: ServiceAreaV2PreviewSettings): CSSProperties {
   return {
@@ -66,6 +129,7 @@ function LocationCard({
 export function ServiceAreaV2({ cards, settings: settingsProp, className }: ServiceAreaV2Props) {
   const preview = useServiceAreaV2Preview();
   const settings = settingsProp ?? preview?.settings ?? defaultServiceAreaV2PreviewSettings;
+  const editingEnabled = Boolean(preview?.contentEditingEnabled);
   const locationSchema = buildServiceAreaLocationsItemListSchema(
     cards.map((card) => ({
       name: card.title,
@@ -86,25 +150,53 @@ export function ServiceAreaV2({ cards, settings: settingsProp, className }: Serv
       <JsonLd data={locationSchema} />
       <Container className={getServiceAreaV2LayoutWidthClassName(settings.layoutWidth)}>
         <header className="service-area-v2-header max-w-3xl text-left">
-          <p
-            className="service-area-v2-eyebrow text-xs font-semibold tracking-[0.22em] uppercase sm:text-sm"
-            style={{ color: settings.accentColor }}
+          <EditableHeaderLine
+            value={settings.eyebrow}
+            editingEnabled={editingEnabled}
+            onChange={preview?.setEyebrow}
+            dialogTitle="Edit eyebrow"
+            inputAriaLabel="Section eyebrow"
           >
-            {settings.eyebrow}
-          </p>
-          <h2
-            id={headingId}
-            className="service-area-v2-heading mt-3 font-serif text-3xl font-bold uppercase tracking-tight text-balance sm:text-4xl lg:text-[2.5rem]"
-            style={{ color: settings.cardTextColor }}
+            <p
+              className="service-area-v2-eyebrow text-xs font-semibold tracking-[0.22em] uppercase sm:text-sm"
+              style={{ color: settings.accentColor }}
+            >
+              {settings.eyebrow}
+            </p>
+          </EditableHeaderLine>
+          <EditableHeaderLine
+            value={settings.heading}
+            editingEnabled={editingEnabled}
+            onChange={preview?.setHeading}
+            dialogTitle="Edit heading"
+            inputAriaLabel="Section heading"
+            className="mt-3"
           >
-            {settings.heading}
-          </h2>
-          <p
-            className="service-area-v2-intro mt-4 max-w-2xl text-base leading-relaxed sm:text-lg"
-            style={{ color: settings.cardMutedColor }}
+            <h2
+              id={headingId}
+              className="service-area-v2-heading font-serif text-3xl font-bold uppercase tracking-tight text-balance sm:text-4xl lg:text-[2.5rem]"
+              style={{ color: settings.cardTextColor }}
+            >
+              {settings.heading}
+            </h2>
+          </EditableHeaderLine>
+          <EditableHeaderLine
+            value={settings.intro}
+            editingEnabled={editingEnabled}
+            onChange={preview?.setIntro}
+            dialogTitle="Edit intro"
+            inputAriaLabel="Section intro"
+            multiline
+            rows={4}
+            className="mt-4 max-w-2xl"
           >
-            {settings.intro}
-          </p>
+            <p
+              className="service-area-v2-intro text-base leading-relaxed sm:text-lg"
+              style={{ color: settings.cardMutedColor }}
+            >
+              {settings.intro}
+            </p>
+          </EditableHeaderLine>
         </header>
 
         <ul className="service-area-v2-grid mt-10 grid list-none gap-5 lg:mt-12 lg:grid-cols-3">

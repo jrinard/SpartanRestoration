@@ -33,7 +33,10 @@ import { loadTextIconsV3PreviewSettings } from "@/lib/text-icons-v3-preview-stor
 import { loadTextImagePreviewSettings } from "@/lib/text-image-preview-storage";
 import { loadTextImagesPreviewSettings } from "@/lib/text-images-preview-storage";
 import { loadImagesV1PreviewSettings } from "@/lib/images-v1-preview-storage";
+import { loadCardsV1PreviewSettings } from "@/lib/cards-v1-preview-storage";
 import { loadTopBarPreviewSettings } from "@/lib/top-bar-preview-storage";
+import { loadTopBarV2PreviewSettings } from "@/lib/top-bar-v2-preview-storage";
+import { playgroundChromeSectionGroups } from "@/lib/playground-section-scope";
 import type { PlaygroundSectionConfig } from "@/lib/playground-sections";
 import { getPlaygroundSectionVariant } from "@/lib/playground-sections";
 
@@ -43,7 +46,10 @@ function loadGlobalSettingsForGroup(
 ): SectionInstanceSettings {
   switch (group) {
     case "topBar":
-      return { topBar: loadTopBarPreviewSettings() };
+      return {
+        topBar: loadTopBarPreviewSettings(),
+        topBarV2: loadTopBarV2PreviewSettings(),
+      };
     case "nav":
       return { navBar: loadNavBarPreviewSettings() };
     case "header":
@@ -63,6 +69,7 @@ function loadGlobalSettingsForGroup(
         textImage: loadTextImagePreviewSettings(),
         textImages: loadTextImagesPreviewSettings(),
         imagesV1: loadImagesV1PreviewSettings(),
+        cardsV1: loadCardsV1PreviewSettings(),
       };
     case "services":
       return {
@@ -149,17 +156,56 @@ export function copyPlaygroundPageSectionInstances(
   sourceSections: PlaygroundSectionConfig[],
   targetSections: PlaygroundSectionConfig[],
   colorThemeId: ColorThemeId,
-  options?: { includeSpacers?: boolean },
+  options?: {
+    includeSpacers?: boolean;
+    groups?: readonly SectionGroupId[];
+    matchBy?: "index" | "group";
+  },
 ): void {
+  const allowed = options?.groups;
+  const include = (section: PlaygroundSectionConfig) => {
+    if (section.group === "spacer" && options?.includeSpacers === false) return false;
+    if (allowed && !allowed.includes(section.group)) return false;
+    return true;
+  };
+
+  if (options?.matchBy === "group") {
+    const groups = allowed ?? [
+      ...new Set(
+        [...sourceSections, ...targetSections].map((section) => section.group),
+      ),
+    ];
+    for (const group of groups) {
+      const source = sourceSections.find((section) => section.group === group && include(section));
+      const target = targetSections.find((section) => section.group === group && include(section));
+      if (!source || !target) continue;
+      copyPlaygroundSectionInstanceSettingsByConfig(source, target, colorThemeId, options);
+    }
+    return;
+  }
+
   const pairCount = Math.min(sourceSections.length, targetSections.length);
 
   for (let index = 0; index < pairCount; index += 1) {
     const source = sourceSections[index];
     const target = targetSections[index];
-    if (!source || !target) continue;
+    if (!source || !target || !include(source) || !include(target)) continue;
 
     copyPlaygroundSectionInstanceSettingsByConfig(source, target, colorThemeId, options);
   }
+}
+
+/** Keep header/nav/top bar/footer in sync without overwriting per-page heroes. */
+export function copyPlaygroundChromeSectionInstances(
+  sourceSections: PlaygroundSectionConfig[],
+  targetSections: PlaygroundSectionConfig[],
+  colorThemeId: ColorThemeId,
+): void {
+  copyPlaygroundPageSectionInstances(sourceSections, targetSections, colorThemeId, {
+    includeSpacers: false,
+    groups: playgroundChromeSectionGroups as readonly SectionGroupId[],
+    matchBy: "group",
+  });
 }
 
 /** Resolve published/live settings for a section slot (unified + legacy maps). */
@@ -168,7 +214,10 @@ export function resolvePublishedSectionInstanceSettings(
   previewSettings?: {
     sections?: Record<string, SectionInstanceSettings>;
     spacers?: Record<string, SpacerInstanceSettings>;
-    contents?: Record<string, Pick<SectionInstanceSettings, "textIconsV3" | "textImage" | "textImages" | "imagesV1">>;
+    contents?: Record<
+      string,
+      Pick<SectionInstanceSettings, "textIconsV3" | "textImage" | "textImages" | "imagesV1" | "cardsV1">
+    >;
   },
 ): SectionInstanceSettings | undefined {
   if (!sectionId || !previewSettings) return undefined;

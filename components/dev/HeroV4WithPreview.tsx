@@ -35,6 +35,22 @@ export function HeroV4WithPreview() {
       galleryHeightPx={settings.galleryHeightPx}
       galleryBackground={settings.galleryBackground}
       galleryRadiusPx={settings.galleryRadiusPx}
+      galleryBorderWidthPx={settings.galleryBorderWidthPx}
+      galleryBorderColor={settings.galleryBorderColor}
+      labelFontStyle={settings.labelFontStyle}
+      headlineBold={settings.headlineBold}
+      headlineFirstLineItalic={settings.headlineFirstLineItalic}
+      headlineUppercase={settings.headlineUppercase}
+      button={settings.button}
+      phoneButton={settings.phoneButton}
+      buttonSize={settings.buttonSize}
+      buttonRadiusPx={settings.buttonRadiusPx}
+      backgroundColor={settings.backgroundColor}
+      showContactInfo={settings.showContactInfo}
+      contactInfoItems={settings.contactInfoItems}
+      contactInfoIconColor={settings.contactInfoIconColor}
+      contactInfoIconBackground={settings.contactInfoIconBackground}
+      contactInfoIconRadiusPx={settings.contactInfoIconRadiusPx}
     />
   );
 }

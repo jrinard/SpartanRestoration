@@ -11,6 +11,7 @@ import {
   formatReviewsRatingDisplay,
   getReviewsBackgroundStyle,
   resolveReviewsRating,
+  reviewsMarqueeMobileSpeedMultiplier,
 } from "@/lib/reviews-preview";
 import { normalizeReviewsPreviewSettings } from "@/lib/reviews-preview-storage";
 import { buildSeamlessMarqueeReviews, dedupeGoogleReviews } from "@/lib/reviews-marquee";
@@ -245,6 +246,11 @@ export function ReviewsV1({ placeholderReviews = [] }: ReviewsV1Props) {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
 
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
+    const speedForViewport = () =>
+      settings.sliderSpeed *
+      (mobileQuery.matches ? reviewsMarqueeMobileSpeedMultiplier : 1);
+
     const tick = () => {
       const halfWidth = track.scrollWidth / 2;
       if (halfWidth <= 0) {
@@ -252,7 +258,7 @@ export function ReviewsV1({ placeholderReviews = [] }: ReviewsV1Props) {
         return;
       }
 
-      offsetRef.current += settings.sliderSpeed;
+      offsetRef.current += speedForViewport();
       if (offsetRef.current >= halfWidth) {
         offsetRef.current = 0;
       }

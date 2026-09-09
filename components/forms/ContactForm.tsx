@@ -3,6 +3,9 @@
 /** Contact form with reCAPTCHA Enterprise on submit. @see docs/recaptcha.md */
 import { Fragment, useState, type FormEvent } from "react";
 import Link from "next/link";
+import { Pencil } from "lucide-react";
+import { useContactV1Preview } from "@/components/dev/ContactV1PreviewContext";
+import { TextImageTextEditor } from "@/components/dev/TextImageTextEditor";
 import { useRecaptcha } from "@/components/forms/RecaptchaProvider";
 import { recaptchaAction } from "@/lib/recaptcha-config";
 import {
@@ -11,6 +14,7 @@ import {
 } from "@/lib/contact-form-fields";
 import {
   buildSmsOptInLeadMetadata,
+  defaultContactButtonSettings,
   getContactSubmitButtonStyle,
   getEffectiveContactFormFields,
   getEffectiveContactSmsOptInSettings,
@@ -19,6 +23,7 @@ import {
   validateContactSmsOptIn,
   type ContactPreviewSettings,
 } from "@/lib/contact-preview";
+import { devEditButtonClassName, devEditIconSize } from "@/lib/dev-overlay-controls";
 import { defaultContactSmsOptInLabel } from "@/lib/contact-sms-opt-in";
 import {
   appendSmsOptInLeadFields,
@@ -153,12 +158,15 @@ function renderField(
 
 export function ContactForm({ className, settings, initialValues }: ContactFormProps) {
   const { enabled: recaptchaEnabled, executeRecaptcha } = useRecaptcha();
+  const preview = useContactV1Preview();
+  const editingEnabled = preview?.contentEditingEnabled ?? false;
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [submitEditorOpen, setSubmitEditorOpen] = useState(false);
 
   const fields = settings ? getEffectiveContactFormFields(settings) : defaultContactFormFields;
   const smsOptInSettings = getEffectiveContactSmsOptInSettings(settings);
-  const submitText = settings?.submitText ?? "Submit";
+  const submitText = settings?.submitText ?? defaultContactButtonSettings.submitText;
   const useCustomSubmitButton = Boolean(settings && hasCustomContactSubmitButton(settings));
   const submitButtonStyle = useCustomSubmitButton && settings
     ? getContactSubmitButtonStyle(settings)
@@ -229,17 +237,44 @@ export function ContactForm({ className, settings, initialValues }: ContactFormP
       </div>
 
       <div className="mt-6">
-        <button
-          type="submit"
-          disabled={status === "loading"}
-          className={cn(
-            "contact-form-submit inline-flex w-full items-center justify-center px-6 py-2.5 text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue/50 disabled:pointer-events-none disabled:opacity-50 sm:w-auto",
-            !settings && "radial-hover-shine bg-accent-blue text-white shadow-lg shadow-accent-blue/20",
-          )}
-          style={submitButtonStyle}
-        >
-          {status === "loading" ? "Submitting..." : submitText}
-        </button>
+        <div className={cn(editingEnabled && "relative inline-flex max-w-full pr-8")}>
+          <button
+            type="submit"
+            disabled={status === "loading"}
+            className={cn(
+              "contact-form-submit inline-flex w-full items-center justify-center px-6 py-2.5 text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue/50 disabled:pointer-events-none disabled:opacity-50 sm:w-auto",
+              !settings && "radial-hover-shine bg-accent-blue text-white shadow-lg shadow-accent-blue/20",
+            )}
+            style={submitButtonStyle}
+          >
+            {status === "loading" ? "Submitting..." : submitText}
+          </button>
+          {editingEnabled && preview ? (
+            <>
+              <button
+                type="button"
+                onClick={() => setSubmitEditorOpen((open) => !open)}
+                className={devEditButtonClassName}
+                aria-label="Edit submit text"
+                aria-expanded={submitEditorOpen}
+              >
+                <Pencil size={devEditIconSize} strokeWidth={2} />
+              </button>
+              {submitEditorOpen ? (
+                <div className="absolute top-full left-0 z-50 mt-2">
+                  <TextImageTextEditor
+                    value={submitText}
+                    dialogTitle="Submit text"
+                    dialogAriaLabel="Edit submit text"
+                    inputAriaLabel="Submit button text"
+                    onChange={(value) => preview.setContentSubmitText(value)}
+                    onClose={() => setSubmitEditorOpen(false)}
+                  />
+                </div>
+              ) : null}
+            </>
+          ) : null}
+        </div>
       </div>
 
       {recaptchaEnabled && (

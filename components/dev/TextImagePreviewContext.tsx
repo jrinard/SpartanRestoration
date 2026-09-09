@@ -44,6 +44,7 @@ type TextImagePreviewContextValue = {
   setContentSidebarText: (value: string) => void;
   setContentPhone: (label: string, href?: string) => void;
   setContentImage: (src: string, alt: string) => void;
+  setContentImageAlt: (alt: string) => void;
 };
 
 const TextImagePreviewContext = createContext<TextImagePreviewContextValue | null>(null);
@@ -146,6 +147,19 @@ export function TextImagePreviewProvider({
     [enableContentEditing, settings, setSettings],
   );
 
+  const setContentImageAlt = useCallback(
+    (alt: string) => {
+      if (!enableContentEditing) return;
+      const trimmedAlt = alt.trim();
+      if (!trimmedAlt) return;
+      setSettings({
+        ...settings,
+        contentImageAlt: trimmedAlt,
+      });
+    },
+    [enableContentEditing, settings, setSettings],
+  );
+
   return (
     <TextImagePreviewContext.Provider
       value={{
@@ -159,6 +173,7 @@ export function TextImagePreviewProvider({
         setContentSidebarText,
         setContentPhone,
         setContentImage,
+        setContentImageAlt,
       }}
     >
       {children}

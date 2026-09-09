@@ -36,6 +36,8 @@ export const defaultTopBarLeftWidthPercent = 40;
 export const defaultTopBarTextSizePx = 18;
 export const defaultTopBarSocialLinksInsetPx = 20;
 
+export const topBarHeightOptions = [32, 40, 48, 56, 61, 64, 72, 80, 88, 96, 104, 112, 120] as const;
+
 export const topBarTextSizeOptions = [14, 16, 18, 20, 22, 24] as const;
 
 export const topBarLayoutWidths: { value: TopBarLayoutWidth; label: string }[] = [

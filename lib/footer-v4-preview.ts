@@ -41,6 +41,11 @@ export type FooterV4PreviewSettings = {
   bottomBarBackgroundColor: string;
   bottomBarTextColor: string;
   logoSizePx: number;
+  /**
+   * Horizontal nudge for logos with transparent padding.
+   * Missing = 0 (today’s default). Negative pulls left.
+   */
+  logoOffsetXPx?: number;
   showFacebook: boolean;
   showInstagram: boolean;
   contentAddress?: string;
@@ -56,6 +61,25 @@ export type FooterV4PreviewSettings = {
 };
 
 export const defaultFooterV4LogoSizePx = 96;
+
+export const footerV4LogoOffsetXOptions = [
+  -40, -32, -24, -16, -10, -8, 0, 8, 10, 16, 24, 32, 40,
+] as const;
+
+export function snapFooterV4LogoOffsetXPx(value: number): number {
+  const options = footerV4LogoOffsetXOptions;
+  return options.reduce((closest, option) =>
+    Math.abs(option - value) < Math.abs(closest - value) ? option : closest,
+  );
+}
+
+export function resolveFooterV4LogoOffsetXPx(
+  settings?: Pick<FooterV4PreviewSettings, "logoOffsetXPx">,
+): number {
+  const value = settings?.logoOffsetXPx;
+  if (typeof value !== "number" || !Number.isFinite(value)) return 0;
+  return snapFooterV4LogoOffsetXPx(value);
+}
 
 export { footerV1LogoSizeOptions as footerV4LogoSizeOptions, stepFooterV1LogoSizePx as stepFooterV4LogoSizePx };
 
@@ -81,6 +105,7 @@ export const defaultFooterV4PreviewSettings: FooterV4PreviewSettings = {
   bottomBarBackgroundColor: "#000000",
   bottomBarTextColor: "#ffffff",
   logoSizePx: defaultFooterV4LogoSizePx,
+  logoOffsetXPx: 0,
   showFacebook: true,
   showInstagram: true,
 };
@@ -118,6 +143,15 @@ export function buildDefaultFooterV4Copyright(
   year = new Date().getFullYear(),
 ): string {
   return `© ${year} ${brandName}. All rights reserved.`;
+}
+
+/** `/` in the copyright pencil is a wrap mark — not shown on the live line. */
+export function splitFooterV4CopyrightLines(copyright: string): string[] {
+  const parts = copyright
+    .split(/\s*\/\s*/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+  return parts.length > 0 ? parts : [""];
 }
 
 export function resolveFooterV4ServiceLinks(
@@ -175,6 +209,7 @@ export function getFooterV4CssVariables(
     "--footer-v4-bottom-text": settings.bottomBarTextColor,
     "--footer-v4-logo-height": `${logoHeightPx}px`,
     "--footer-v4-logo-max-width": `${getFooterV4LogoMaxWidthPx(logoHeightPx)}px`,
+    "--footer-v4-logo-offset-x": `${resolveFooterV4LogoOffsetXPx(settings)}px`,
   };
 }
 

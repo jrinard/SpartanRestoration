@@ -1,6 +1,7 @@
 import type { HomepageConfig } from "@/lib/homepage-config";
 import { getHomepageSections } from "@/lib/homepage-config";
 import type { HomepagePreviewSettings } from "@/lib/homepage-settings";
+import { isPlaygroundChromeSectionGroup } from "@/lib/playground-section-scope";
 import type { SectionGroupId } from "@/lib/section-registry";
 import { resolveSectionVariantId } from "@/lib/section-registry";
 import type { SectionInstanceSettings } from "@/lib/section-instance-storage";
@@ -33,19 +34,18 @@ function homeSectionGlobalBinding(
   group: SectionGroupId,
   variant: string | undefined,
 ): HomeGlobalBinding | null {
+  if (!isPlaygroundChromeSectionGroup(group)) return null;
+
   switch (group) {
-    case "topBar":
+    case "topBar": {
+      const variantId = resolveSectionVariantId(group, variant ?? "");
+      if (variantId === "top-bar-v2") return { field: "topBarV2", globalKey: "topBarV2" };
       return { field: "topBar", globalKey: "topBar" };
+    }
     case "header":
       return { field: "headerV3", globalKey: "headerV3" };
-    case "hero": {
-      const variantId = resolveSectionVariantId(group, variant ?? "");
-      if (variantId === "hero-v2.1") return { field: "heroV21", globalKey: "heroV21" };
-      if (variantId === "hero-v1") return { field: "heroV1", globalKey: "heroV1" };
-      if (variantId === "hero-v4") return { field: "heroV4", globalKey: "heroV4" };
-      if (variantId === "hero-banner") return { field: "heroBanner", globalKey: "heroBanner" };
-      return null;
-    }
+    case "nav":
+      return { field: "navBar", globalKey: "navBar" };
     case "footer": {
       const variantId = resolveSectionVariantId(group, variant ?? "");
       if (variantId === "footer-v1") return { field: "footerV1", globalKey: "footerV1" };
@@ -53,15 +53,6 @@ function homeSectionGlobalBinding(
       if (variantId === "footer-v3") return { field: "footerV3", globalKey: "footerV3" };
       return { field: "footerV3", globalKey: "footerV3" };
     }
-    case "reviewbox":
-      return { field: "reviewbox", globalKey: "reviewbox" };
-    case "portfolio": {
-      const variantId = resolveSectionVariantId(group, variant ?? "");
-      if (variantId === "portfolio-v2") return { field: "portfolioV2", globalKey: "portfolioV2" };
-      return { field: "portfolio", globalKey: "portfolio" };
-    }
-    case "cta":
-      return { field: "ctaV1", globalKey: "ctaV1" };
     default:
       return null;
   }
@@ -91,7 +82,6 @@ export function resolveSectionPreviewField<T>({
   previewSettings,
   field,
   globalKey,
-  homeSectionIds,
 }: {
   sectionId: string | undefined;
   group: SectionGroupId;
@@ -99,6 +89,7 @@ export function resolveSectionPreviewField<T>({
   previewSettings: HomepagePreviewSettings | undefined;
   field: keyof SectionInstanceSettings;
   globalKey: keyof HomepagePreviewSettings;
+  /** @deprecated Chrome is site-wide on every page; unused. */
   homeSectionIds?: ReadonlySet<string>;
 }): T | undefined {
   const slot = sectionId
@@ -106,15 +97,13 @@ export function resolveSectionPreviewField<T>({
     : undefined;
   const global = previewSettings?.[globalKey] as T | undefined;
   const binding = homeSectionGlobalBinding(group, variant);
-  const isHomeGlobalSlot = Boolean(
-    sectionId &&
-      homeSectionIds?.has(sectionId) &&
-      binding &&
-      binding.field === field &&
-      binding.globalKey === globalKey,
+  const isSiteWideChrome = Boolean(
+    binding && binding.field === field && binding.globalKey === globalKey,
   );
 
-  if (isHomeGlobalSlot) {
+  // Chrome is shared on every page. Heroes and other cloned sections use the
+  // per-slot copy — do not let the home global overwrite an inner-page edit.
+  if (isSiteWideChrome) {
     return resolveHomeGlobalPreviewField(global, slot);
   }
 
@@ -146,7 +135,9 @@ export function promoteHomePageInstanceSettingsToGlobal(
     if (instanceValue === null || instanceValue === undefined) continue;
 
     const globalValue = previewSettings[binding.globalKey];
-    const promoted = mergeGlobalWins(globalValue, instanceValue);
+    // Chrome is edited in global storage. A stale per-slot copy (e.g. cloned
+    // header nav links) must not overwrite the live labels on Save to /preview.
+    const promoted = mergeGlobalWins(instanceValue, globalValue);
     if (JSON.stringify(promoted) === JSON.stringify(globalValue)) continue;
 
     nextSettings = { ...nextSettings, [binding.globalKey]: promoted as never };
@@ -165,8 +156,8 @@ export function promoteHomePageInstanceSettingsToGlobal(
  * previewSettings keys. Page cloning can leave stale per-slot copies in
  * previewSettings.sections — align home slots with global before pull/load/publish.
  *
- * Intentionally skipped: spacers, services, content blocks, reviews — those are
- * meant to differ per slot/page.
+ * Intentionally skipped: heroes, spacers, services, content, reviews, portfolio,
+ * CTA — those stay per slot/page after a clone.
  */
 export function reconcileHomePageGlobalPreviewSettings(config: HomepageConfig): HomepageConfig {
   const previewSettings = config.previewSettings;

@@ -1,0 +1,56 @@
+{
+  "entries": [
+    {
+      "id": "lifespring",
+      "label": "LifeSpring",
+      "settings": {
+        "theme": "light",
+        "eyebrow": "Clark County & Beyond",
+        "heading": "Find your town",
+        "intro": "Every community gets the same local team, the same thoughtful strategy and clean builds, and the same honest, no-pressure project quote.",
+        "accentColor": "#4d82b8",
+        "layoutWidth": "contained",
+        "solidBackground": "#ffffff",
+        "backgroundMode": "solid",
+        "background": {
+          "from": "#f6f5fa",
+          "to": "#e8e6f0",
+          "direction": "to bottom",
+          "intensity": 0
+        },
+        "cardBackgroundColor": "#eef4fb",
+        "cardHoverBackgroundColor": "#e3eef9",
+        "cardTextColor": "#12121c",
+        "cardMutedColor": "#5c5c72",
+        "linkColor": "#85a33f",
+        "cardBorderRadiusPx": 20
+      }
+    },
+    {
+      "id": "spartan",
+      "label": "Spartan",
+      "settings": {
+        "theme": "light",
+        "eyebrow": "Where we serve",
+        "heading": "Areas we cover",
+        "intro": "Spartan Restoration dispatches from Vancouver across Clark County, the Portland metro, and southwest Washington. Select your area below or call (503) 975-9082 — Mon–Fri 8 AM–5 PM.",
+        "accentColor": "#2c73b5",
+        "layoutWidth": "contained",
+        "solidBackground": "#ffffff",
+        "backgroundMode": "solid",
+        "background": {
+          "from": "#ffffff",
+          "to": "#f6f8fa",
+          "direction": "to bottom",
+          "intensity": 0
+        },
+        "cardBackgroundColor": "#eef4fb",
+        "cardHoverBackgroundColor": "#e3eef9",
+        "cardTextColor": "#12121c",
+        "cardMutedColor": "#5c5c72",
+        "linkColor": "#2c73b5",
+        "cardBorderRadiusPx": 16
+      }
+    }
+  ]
+}

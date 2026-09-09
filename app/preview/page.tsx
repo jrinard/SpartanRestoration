@@ -6,22 +6,19 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getPublishedProjects, getPublishedServices } from "@/lib/org/migrate-section-copy";
 import { resolveStagingPreviewConfig } from "@/lib/homepage-staging-config.server";
-import { createMetadata } from "@/lib/seo";
+import type { Metadata } from "next";
 import {
   buildPortfolioItemListSchema,
   buildServicesItemListSchema,
 } from "@/lib/seo-schema";
-import { pageSeo } from "@/lib/seo-content";
+import { previewOrgPageMetadata } from "@/lib/org/live-page.server";
 import { siteConfig } from "@/config/site";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = createMetadata({
-  title: pageSeo.preview.title,
-  description: pageSeo.preview.description,
-  path: pageSeo.preview.path,
-  noIndex: pageSeo.preview.noIndex,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  return previewOrgPageMetadata();
+}
 
 export default async function PreviewRoutePage() {
   const staged = await resolveStagingPreviewConfig();

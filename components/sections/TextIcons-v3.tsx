@@ -8,22 +8,21 @@ import { LucideIconPicker } from "@/components/dev/LucideIconPicker";
 import { TextImageTextEditor } from "@/components/dev/TextImageTextEditor";
 import { IconFrame } from "@/components/icons/IconFrame";
 import { Container } from "@/components/ui/Container";
+import { getTextIconsV3ItemGrid } from "@/lib/text-icons-v3-items";
 import {
   defaultTextIconsV3PreviewSettings,
   getTextIconsV3InnerBackgroundStyle,
   getTextIconsV3CssVariables,
+  getTextIconsV3SectionId,
+  resolveTextIconsV3Items,
+  type TextIconsV3Item,
 } from "@/lib/text-icons-v3-preview";
 import { defaultSiteIconName, resolveSiteIconName, type SiteIconName } from "@/lib/site-icons";
 import { devEditButtonClassName, devEditIconSize } from "@/lib/dev-overlay-controls";
 import { getSiteLayoutWidthClassName } from "@/lib/site-layout";
 import { cn } from "@/lib/utils";
 
-export type TextIconsV3Item = {
-  id: string;
-  title: string;
-  description: string;
-  icon?: SiteIconName;
-};
+export type { TextIconsV3Item };
 
 type TextIconsV3Props = {
   heading: string;
@@ -154,6 +153,9 @@ export function TextIconsV3({ heading, subheading, items, className }: TextIcons
 
   const displayHeading = preview?.getHeading(heading) ?? heading;
   const displaySubheading = preview?.getSubheading(subheading) ?? subheading;
+  const displayItems = resolveTextIconsV3Items(settings, items);
+  const itemGrid = getTextIconsV3ItemGrid(displayItems.length);
+  const sectionId = getTextIconsV3SectionId(settings);
 
   const innerBackgroundStyle = getTextIconsV3InnerBackgroundStyle(settings);
   const textStyle = getTextIconsV3CssVariables(settings) as CSSProperties;
@@ -195,11 +197,18 @@ export function TextIconsV3({ heading, subheading, items, className }: TextIcons
 
       <div
         className={cn(
-          "mt-12 grid gap-10 sm:grid-cols-2 lg:mt-16 lg:gap-8",
-          items.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4",
+          "text-icons-v3-grid mt-12 grid gap-10 sm:grid-cols-2 lg:mt-16",
+          !itemGrid.compact && "lg:gap-8",
         )}
+        data-compact={itemGrid.compact ? "true" : undefined}
+        style={
+          {
+            "--text-icons-v3-cols": String(itemGrid.columns),
+            "--text-icons-v3-cols-lg": String(itemGrid.columnsLg),
+          } as CSSProperties
+        }
       >
-        {items.map((item) => {
+        {displayItems.map((item) => {
           const fallbackIcon = resolveSiteIconName(item.icon, defaultSiteIconName);
           const displayTitle = preview?.getItemTitle(item.id, item.title) ?? item.title;
           const displayDescription =
@@ -265,7 +274,7 @@ export function TextIconsV3({ heading, subheading, items, className }: TextIcons
     };
 
     return (
-      <section className={cn("text-icons-v3", className)} style={sectionStyle}>
+      <section id={sectionId} className={cn("text-icons-v3", className)} style={sectionStyle}>
         <div className={getSiteLayoutWidthClassName("contained")}>
           <div className="py-16 lg:py-20" style={innerStyle}>
             {content}
@@ -281,7 +290,11 @@ export function TextIconsV3({ heading, subheading, items, className }: TextIcons
   };
 
   return (
-    <section className={cn("text-icons-v3 py-16 lg:py-20", className)} style={sectionStyle}>
+    <section
+      id={sectionId}
+      className={cn("text-icons-v3 py-16 lg:py-20", className)}
+      style={sectionStyle}
+    >
       <Container>{content}</Container>
     </section>
   );

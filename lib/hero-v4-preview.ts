@@ -1,12 +1,25 @@
+import type { CSSProperties } from "react";
 import { siteConfig } from "@/config/site";
 import { SERVICE_AREAS_PATH } from "@/lib/service-area-pages";
 import { phoneTelHref } from "@/lib/phone";
 import type { NavBarLink } from "@/lib/nav-bar-preview";
 import {
+  defaultHeroButtonPreviewSettings,
+  isButtonPreviewSize,
+  normalizeButtonBorderRadiusPx,
+  type ButtonPreviewSettings,
+} from "@/lib/button-preview";
+import {
   heroBannerTransitions,
   type HeroBannerSlide,
   type HeroBannerTransition,
 } from "@/lib/hero-banner-preview";
+import { contactButtonBorderRadiusOptions } from "@/lib/contact-preview";
+import {
+  normalizeContactFormFields,
+  type ContactFormField,
+} from "@/lib/contact-form-fields";
+import { resolveSiteIconName, type SiteIconName } from "@/lib/site-icons";
 
 export type HeroV4Breadcrumb = {
   label: string;
@@ -20,6 +33,14 @@ export type HeroV4ServicePill = {
   title: string;
   /** Schema.org Service description. */
   description: string;
+};
+
+export type HeroV4ContactInfoItem = {
+  label: string;
+  value: string;
+  icon?: SiteIconName;
+  /** Optional override — phone/email links are inferred when omitted. */
+  href?: string;
 };
 
 export type HeroV4FormLeadSourceId = "website-review" | "contact-form";
@@ -93,12 +114,86 @@ export type HeroV4PreviewSettings = {
   galleryHeightPx?: number;
   galleryBackground?: string;
   galleryRadiusPx?: number;
+  /** Missing keeps today’s 1px translucent black edge. */
+  galleryBorderWidthPx?: number;
+  /** Empty keeps today’s mixed black border. */
+  galleryBorderColor?: string;
+  /** Eyebrow, headline, and CTA/phone. Missing keeps today’s roman type. */
+  labelFontStyle?: HeroV4LabelFontStyle;
+  /** Headline weight — missing keeps today’s light serif H1. */
+  headlineBold?: boolean;
+  /** First headline line italic — matches Text-image-v1 first-line treatment. */
+  headlineFirstLineItalic?: boolean;
+  /** ALL CAPS on headline lines — matches Text-image-v1. */
+  headlineUppercase?: boolean;
+  /**
+   * Quote CTA colors. Missing keeps today’s accent-blue button.
+   */
+  button?: ButtonPreviewSettings;
+  /**
+   * Phone button colors. Missing keeps today’s green phone button.
+   */
+  phoneButton?: ButtonPreviewSettings;
+  /** Shared CTA + phone size. Missing keeps today’s large / lg look. */
+  buttonSize?: ButtonPreviewSettings["navButtonSize"];
+  /** Shared CTA + phone radius. Missing keeps today’s rounded-lg. */
+  buttonRadiusPx?: number;
+  /** Section fill. Missing keeps today’s theme gradient (.hero-v3-bg). */
+  backgroundColor?: string;
+  /** Icon + text rows below the CTA / phone row. Missing/false keeps today’s layout. */
+  showContactInfo?: boolean;
+  contactInfoItems?: HeroV4ContactInfoItem[];
+  /** Missing keeps today’s theme accent icon color. */
+  contactInfoIconColor?: string;
+  /** Missing keeps today’s translucent accent fill behind the icon. */
+  contactInfoIconBackground?: string;
+  /** Missing keeps today’s pill/circle radius. */
+  contactInfoIconRadiusPx?: number;
+  /** Inline form submit — missing keeps site contact / theme defaults. */
+  formSubmitText?: string;
+  formButtonBackground?: string;
+  formButtonTextColor?: string;
+  formButtonRadiusPx?: number;
+  /** Inline form fields — missing keeps site contact / legacy defaults. */
+  formFields?: ContactFormField[];
 };
 
 export const defaultHeroV4Breadcrumbs: HeroV4Breadcrumb[] = [
   { label: "Home", href: "/" },
   { label: "Service Areas", href: SERVICE_AREAS_PATH },
   { label: "Clark County, WA" },
+];
+
+export const defaultHeroV4ContactInfoIcons: SiteIconName[] = [
+  "phone",
+  "mail",
+  "clock",
+  "map-pin",
+];
+
+export const defaultHeroV4ContactInfoItems: HeroV4ContactInfoItem[] = [
+  {
+    label: "Call us",
+    value: siteConfig.phone,
+    icon: "phone",
+    href: phoneTelHref(siteConfig.phone),
+  },
+  {
+    label: "Email us",
+    value: siteConfig.email,
+    icon: "mail",
+    href: siteConfig.email ? `mailto:${siteConfig.email}` : undefined,
+  },
+  {
+    label: "Hours",
+    value: "Monday–Friday, 8 AM–5 PM",
+    icon: "clock",
+  },
+  {
+    label: "Serving",
+    value: siteConfig.serviceArea,
+    icon: "map-pin",
+  },
 ];
 
 export const defaultHeroV4ServicePills: HeroV4ServicePill[] = [
@@ -179,10 +274,25 @@ export const defaultHeroV4PreviewSettings: HeroV4PreviewSettings = {
   galleryHeightPx: 300,
   galleryBackground: "#000000",
   galleryRadiusPx: 20,
+  galleryBorderWidthPx: 1,
+  galleryBorderColor: "",
+  labelFontStyle: "normal",
 };
 
 export type HeroV4GallerySlide = HeroBannerSlide;
 export type HeroV4GalleryTransition = HeroBannerTransition;
+
+export const heroV4LabelFontStyleOptions = [
+  { value: "normal", label: "Normal" },
+  { value: "italic", label: "Italic" },
+  { value: "slant", label: "Slant" },
+] as const;
+
+export type HeroV4LabelFontStyle = (typeof heroV4LabelFontStyleOptions)[number]["value"];
+
+export function isHeroV4LabelFontStyle(value: unknown): value is HeroV4LabelFontStyle {
+  return value === "normal" || value === "italic" || value === "slant";
+}
 
 export const heroV4GalleryTransitions = heroBannerTransitions;
 
@@ -191,6 +301,12 @@ export const defaultHeroV4GalleryHeightPx = 300;
 export const heroV4GalleryHeightOptions = [240, 280, 300, 320, 360, 400, 440, 480] as const;
 
 export const defaultHeroV4GalleryBackground = "#000000";
+/** Picker-only when no saved hero background — live fill stays theme gradient until set. */
+export const heroV4BackgroundColorPickerFallback = "#06060e";
+export const defaultHeroV4GalleryBorderWidthPx = 1;
+export const defaultHeroV4GalleryBorderColor = "";
+
+export const heroV4GalleryBorderWidthOptions = [0, 1, 2, 3, 4, 6, 8, 12] as const;
 
 export const heroV4GalleryRadiusOptions = [
   { value: 0, label: "0" },
@@ -201,6 +317,93 @@ export const heroV4GalleryRadiusOptions = [
   { value: 28, label: "28" },
   { value: 999, label: "Full" },
 ] as const;
+
+export const heroV4ContactInfoRadiusOptions = heroV4GalleryRadiusOptions;
+
+/** Picker-only — live icon color stays theme accent until saved. */
+export const heroV4ContactInfoIconColorPickerFallback = "#2c73b5";
+/** Picker-only — live icon fill stays theme mix until saved. */
+export const heroV4ContactInfoIconBackgroundPickerFallback = "#e6eef6";
+export const defaultHeroV4ContactInfoIconRadiusPx = 999;
+
+function isHeroV4ContactInfoItem(value: unknown): value is HeroV4ContactInfoItem {
+  if (!value || typeof value !== "object") return false;
+  const item = value as Partial<HeroV4ContactInfoItem>;
+  return (
+    typeof item.label === "string" &&
+    item.label.trim().length > 0 &&
+    typeof item.value === "string" &&
+    item.value.trim().length > 0
+  );
+}
+
+export function normalizeHeroV4ContactInfoItems(value: unknown): HeroV4ContactInfoItem[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter(isHeroV4ContactInfoItem)
+    .map((item, index) => ({
+      label: item.label.trim(),
+      value: item.value.trim(),
+      icon: resolveSiteIconName(
+        item.icon,
+        defaultHeroV4ContactInfoIcons[index] ?? defaultHeroV4ContactInfoIcons[0]!,
+      ),
+      href: typeof item.href === "string" && item.href.trim() ? item.href.trim() : undefined,
+    }));
+}
+
+export function resolveHeroV4ContactInfoHref(item: HeroV4ContactInfoItem): string | undefined {
+  if (item.href?.trim()) return item.href.trim();
+  if (item.icon === "phone") return phoneTelHref(item.value);
+  if (item.icon === "mail" && item.value.includes("@")) {
+    return `mailto:${item.value.trim()}`;
+  }
+  return undefined;
+}
+
+function normalizeHeroV4ContactInfoColor(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+  if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(trimmed)) return trimmed;
+  return undefined;
+}
+
+function normalizeHeroV4ContactInfoIconRadiusPx(value: unknown): number | undefined {
+  if (typeof value !== "number" || Number.isNaN(value)) return undefined;
+  if (value >= 999) return 999;
+  return Math.min(48, Math.max(0, Math.round(value)));
+}
+
+export function getHeroV4ContactInfoStyle(
+  settings: Pick<
+    HeroV4PreviewSettings,
+    "contactInfoIconColor" | "contactInfoIconBackground" | "contactInfoIconRadiusPx"
+  >,
+): CSSProperties {
+  const style: Record<string, string> = {};
+  if (settings.contactInfoIconColor) {
+    style["--hero-v4-contact-info-icon-color"] = settings.contactInfoIconColor;
+  }
+  if (settings.contactInfoIconBackground) {
+    style["--hero-v4-contact-info-icon-bg"] = settings.contactInfoIconBackground;
+  }
+  if (typeof settings.contactInfoIconRadiusPx === "number") {
+    style["--hero-v4-contact-info-icon-radius"] =
+      settings.contactInfoIconRadiusPx >= 999
+        ? "9999px"
+        : `${settings.contactInfoIconRadiusPx}px`;
+  }
+  return style as CSSProperties;
+}
+
+function normalizeHeroV4BackgroundColor(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+  if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(trimmed)) return trimmed;
+  return undefined;
+}
 
 function normalizeHeroV4GalleryBackground(value: unknown): string {
   if (typeof value === "string" && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(value.trim())) {
@@ -217,6 +420,62 @@ function normalizeHeroV4GalleryRadiusPx(value: unknown): number {
   return Math.min(48, Math.max(0, Math.round(value)));
 }
 
+function normalizeHeroV4GalleryBorderWidthPx(value: unknown): number {
+  if (typeof value !== "number" || Number.isNaN(value)) {
+    return defaultHeroV4GalleryBorderWidthPx;
+  }
+  return Math.min(12, Math.max(0, Math.round(value)));
+}
+
+function normalizeHeroV4GalleryBorderColor(value: unknown): string {
+  if (typeof value !== "string") return defaultHeroV4GalleryBorderColor;
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+  if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(trimmed)) return trimmed;
+  return defaultHeroV4GalleryBorderColor;
+}
+
+export const defaultHeroV4PhoneButtonSettings: ButtonPreviewSettings = {
+  navBackground: "#85a33f",
+  navTextColor: "#ffffff",
+  navTextHoverColor: "#ffffff",
+  navHoverBackground: "#96b54a",
+  navButtonSize: "large",
+  navButtonRadiusPx: 8,
+};
+
+export function normalizeHeroV4ButtonSettings(
+  value: Partial<ButtonPreviewSettings> | null | undefined,
+): ButtonPreviewSettings | undefined {
+  if (!value || typeof value !== "object") return undefined;
+  if (typeof value.navBackground !== "string") return undefined;
+
+  return {
+    ...defaultHeroButtonPreviewSettings,
+    ...value,
+    navBackground: value.navBackground,
+    navTextColor:
+      typeof value.navTextColor === "string"
+        ? value.navTextColor
+        : defaultHeroButtonPreviewSettings.navTextColor,
+    navTextHoverColor:
+      typeof value.navTextHoverColor === "string"
+        ? value.navTextHoverColor
+        : defaultHeroButtonPreviewSettings.navTextHoverColor,
+    navHoverBackground:
+      typeof value.navHoverBackground === "string"
+        ? value.navHoverBackground
+        : defaultHeroButtonPreviewSettings.navHoverBackground,
+    navButtonSize: isButtonPreviewSize(value.navButtonSize)
+      ? value.navButtonSize
+      : defaultHeroButtonPreviewSettings.navButtonSize,
+    navButtonRadiusPx:
+      typeof value.navButtonRadiusPx === "number"
+        ? normalizeButtonBorderRadiusPx(Math.round(value.navButtonRadiusPx))
+        : defaultHeroButtonPreviewSettings.navButtonRadiusPx,
+  };
+}
+
 function isHeroV4GallerySlide(value: unknown): value is HeroBannerSlide {
   if (!value || typeof value !== "object") return false;
   const slide = value as Partial<HeroBannerSlide>;
@@ -230,6 +489,15 @@ function isHeroV4GallerySlide(value: unknown): value is HeroBannerSlide {
 export function normalizeHeroV4GallerySlides(value: unknown): HeroBannerSlide[] {
   if (!Array.isArray(value)) return [];
   return value.filter(isHeroV4GallerySlide);
+}
+
+/** Normalize line endings — saved headline newlines render as breaks in Hero-v4. */
+export function normalizeHeroV4MultilineText(value: string): string {
+  return value.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+}
+
+export function splitHeroV4HeadlineLines(headline: string): string[] {
+  return normalizeHeroV4MultilineText(headline).split("\n");
 }
 
 export function parseHeroV4Bullets(value: string): string[] {
@@ -401,10 +669,13 @@ export function normalizeHeroV4PreviewSettings(
       typeof value.eyebrow === "string" && value.eyebrow.trim()
         ? value.eyebrow.trim()
         : defaultHeroV4PreviewSettings.eyebrow,
-    headline:
-      typeof value.headline === "string" && value.headline.trim()
-        ? value.headline.trim()
-        : defaultHeroV4PreviewSettings.headline,
+    headline: (() => {
+      if (typeof value.headline !== "string") {
+        return defaultHeroV4PreviewSettings.headline;
+      }
+      const normalized = normalizeHeroV4MultilineText(value.headline).trim();
+      return normalized || defaultHeroV4PreviewSettings.headline;
+    })(),
     body:
       typeof value.body === "string" && value.body.trim()
         ? value.body.trim()
@@ -455,5 +726,41 @@ export function normalizeHeroV4PreviewSettings(
         : defaultHeroV4PreviewSettings.galleryHeightPx,
     galleryBackground: normalizeHeroV4GalleryBackground(value.galleryBackground),
     galleryRadiusPx: normalizeHeroV4GalleryRadiusPx(value.galleryRadiusPx),
+    galleryBorderWidthPx: normalizeHeroV4GalleryBorderWidthPx(value.galleryBorderWidthPx),
+    galleryBorderColor: normalizeHeroV4GalleryBorderColor(value.galleryBorderColor),
+    labelFontStyle: isHeroV4LabelFontStyle(value.labelFontStyle)
+      ? value.labelFontStyle
+      : defaultHeroV4PreviewSettings.labelFontStyle,
+    headlineBold: value.headlineBold === true,
+    headlineFirstLineItalic: value.headlineFirstLineItalic === true,
+    headlineUppercase: value.headlineUppercase === true,
+    button: normalizeHeroV4ButtonSettings(value.button),
+    phoneButton: normalizeHeroV4ButtonSettings(value.phoneButton),
+    buttonSize: isButtonPreviewSize(value.buttonSize) ? value.buttonSize : undefined,
+    buttonRadiusPx:
+      typeof value.buttonRadiusPx === "number"
+        ? normalizeButtonBorderRadiusPx(Math.round(value.buttonRadiusPx))
+        : undefined,
+    backgroundColor: normalizeHeroV4BackgroundColor(value.backgroundColor),
+    showContactInfo: value.showContactInfo === true,
+    contactInfoItems: normalizeHeroV4ContactInfoItems(value.contactInfoItems),
+    contactInfoIconColor: normalizeHeroV4ContactInfoColor(value.contactInfoIconColor),
+    contactInfoIconBackground: normalizeHeroV4ContactInfoColor(value.contactInfoIconBackground),
+    contactInfoIconRadiusPx: normalizeHeroV4ContactInfoIconRadiusPx(value.contactInfoIconRadiusPx),
+    formSubmitText:
+      typeof value.formSubmitText === "string" && value.formSubmitText.trim()
+        ? value.formSubmitText.trim()
+        : undefined,
+    formButtonBackground: normalizeHeroV4ContactInfoColor(value.formButtonBackground),
+    formButtonTextColor: normalizeHeroV4ContactInfoColor(value.formButtonTextColor),
+    formButtonRadiusPx:
+      typeof value.formButtonRadiusPx === "number"
+        ? contactButtonBorderRadiusOptions.includes(
+            value.formButtonRadiusPx as (typeof contactButtonBorderRadiusOptions)[number],
+          )
+          ? value.formButtonRadiusPx
+          : normalizeButtonBorderRadiusPx(Math.round(value.formButtonRadiusPx))
+        : undefined,
+    formFields: normalizeContactFormFields(value.formFields),
   };
 }

@@ -1,8 +1,15 @@
 import type { NavBarLink } from "@/lib/nav-bar-preview";
-import { isContactHref } from "@/lib/contact-modal";
 import { createNavBarLinkId } from "@/lib/nav-bar-preview";
 import { createPlaygroundSectionId } from "@/lib/playground-section-id";
-import type { HomepageConfig, HomepageSectionEntry } from "@/lib/homepage-config";
+import {
+  bindPlaygroundChromeSectionIds,
+  isPlaygroundChromeSectionGroup,
+} from "@/lib/playground-section-scope";
+import type {
+  HomepageConfig,
+  HomepagePageSnapshot,
+  HomepageSectionEntry,
+} from "@/lib/homepage-config";
 import { orgStorageGet, orgStorageSet } from "@/lib/org/browser-storage";
 import { SERVICE_AREAS_PAGE_SLUG } from "@/lib/service-area-pages";
 import { getServiceAreaLocationDefinition } from "@/lib/service-area-location-content";
@@ -67,10 +74,6 @@ export function resolvePreviewNavHref(href: string): string {
   const hashIndex = href.indexOf("#");
   const pathname = (hashIndex === -1 ? href : href.slice(0, hashIndex)).trim() || "/";
   const hash = hashIndex === -1 ? "" : href.slice(hashIndex);
-
-  if (isContactHref(pathname)) {
-    return href;
-  }
 
   if (pathname.startsWith("/preview")) {
     return href;
@@ -195,10 +198,12 @@ export function clonePlaygroundPageSectionsFromHome(
     group: section.group,
     defaultVariant: section.defaultVariant,
     variant: section.variant,
-    /** Each page opts into preview independently — do not inherit home checkboxes. */
-    preview: false,
-    hidden: false,
-    id: createPlaygroundSectionId(section.group),
+    /** Copy home’s Preview checks so Save to /preview actually stages the new page. */
+    preview: section.preview === true,
+    hidden: section.hidden === true,
+    id: isPlaygroundChromeSectionGroup(section.group)
+      ? section.id
+      : createPlaygroundSectionId(section.group),
   }));
 }
 
@@ -324,8 +329,10 @@ export function normalizePlaygroundPagesState(value: unknown): PlaygroundPagesSt
 
     if (isPlaygroundSectionArray(stored)) {
       const parsed = parsePlaygroundSectionOrder(stored, { mergeMissingDefaults: false });
-      sectionsByPageId[page.id] =
-        parsed.length > 0 ? parsed : clonePlaygroundPageSectionsFromHome(homeTemplate);
+      sectionsByPageId[page.id] = bindPlaygroundChromeSectionIds(
+        homeTemplate,
+        parsed.length > 0 ? parsed : clonePlaygroundPageSectionsFromHome(homeTemplate),
+      );
     } else {
       sectionsByPageId[page.id] = clonePlaygroundPageSectionsFromHome(homeTemplate);
     }
@@ -553,6 +560,100 @@ function uniqueSlug(baseSlug: string, pages: PlaygroundPage[]): string {
   return uniquePageSlug(baseSlug, pages);
 }
 
+function upsertOnePlaygroundPageFromSnapshot(
+  next: PlaygroundPagesState,
+  pageSnapshot: HomepagePageSnapshot,
+  options: { syncSections: boolean },
+): { next: PlaygroundPagesState; changed: boolean } {
+  let changed = false;
+  const location = getServiceAreaLocationDefinition(pageSnapshot.slug);
+
+  let playgroundPage = next.pages.find(
+    (page) =>
+      !page.isHome &&
+      (page.slug === pageSnapshot.slug ||
+        (location &&
+          getServiceAreaLocationDefinition(page.slug)?.slug === location.slug)),
+  );
+
+  if (!playgroundPage) {
+    const created = createPlaygroundPage(pageSnapshot.name, next.pages);
+    playgroundPage = {
+      ...created,
+      name: pageSnapshot.name,
+      slug: pageSnapshot.slug,
+      includeInNav: pageSnapshot.includeInNav,
+    };
+    next = { ...next, pages: [...next.pages, playgroundPage] };
+    changed = true;
+  } else if (
+    playgroundPage.slug !== pageSnapshot.slug ||
+    playgroundPage.name !== pageSnapshot.name
+  ) {
+    next = {
+      ...next,
+      pages: next.pages.map((page) =>
+        page.id === playgroundPage?.id
+          ? { ...page, slug: pageSnapshot.slug, name: pageSnapshot.name }
+          : page,
+      ),
+    };
+    playgroundPage = next.pages.find((page) => page.id === playgroundPage?.id);
+    changed = true;
+  }
+
+  if (!playgroundPage || !options.syncSections) {
+    return { next, changed };
+  }
+
+  const nextSections = bindPlaygroundChromeSectionIds(
+    next.sectionsByPageId[homePlaygroundPageId] ?? defaultPlaygroundSections,
+    buildPlaygroundSectionsFromSnapshot(pageSnapshot.sections),
+  );
+  const previous = next.sectionsByPageId[playgroundPage.id];
+  if (JSON.stringify(previous) !== JSON.stringify(nextSections)) {
+    next = updatePlaygroundPageSections(next, playgroundPage.id, nextSections);
+    changed = true;
+  }
+
+  return { next, changed };
+}
+
+/**
+ * Add pages from org JSON that are missing in Forge localStorage.
+ * New slugs get their section stack; existing pages are left as-is.
+ */
+export function upsertPlaygroundPagesFromHomepageConfig(
+  state: PlaygroundPagesState,
+  config: HomepageConfig,
+): PlaygroundPagesState {
+  let next: PlaygroundPagesState = {
+    ...state,
+    pages: [...state.pages],
+    sectionsByPageId: { ...state.sectionsByPageId },
+  };
+  let changed = false;
+
+  for (const pageSnapshot of config.pages ?? []) {
+    const exists = next.pages.some(
+      (page) => !page.isHome && page.slug === pageSnapshot.slug,
+    );
+    const result = upsertOnePlaygroundPageFromSnapshot(next, pageSnapshot, {
+      syncSections: !exists,
+    });
+    next = result.next;
+    changed = changed || result.changed;
+  }
+
+  const sorted = sortPlaygroundPages(next.pages);
+  if (sorted.some((page, index) => page.id !== next.pages[index]?.id)) {
+    next = { ...next, pages: sorted };
+    changed = true;
+  }
+
+  return changed ? next : state;
+}
+
 /**
  * Official LSD extra town pages: unique Clark County template + unique hero, not the hub.
  * Always restore those stacks from org JSON so Forge page switches match live.
@@ -572,44 +673,11 @@ export function upsertPlaygroundLocationPagesFromConfig(
     const location = getServiceAreaLocationDefinition(pageSnapshot.slug);
     if (!location) continue;
 
-    let playgroundPage = next.pages.find(
-      (page) =>
-        !page.isHome &&
-        (page.slug === pageSnapshot.slug ||
-          getServiceAreaLocationDefinition(page.slug)?.slug === location.slug),
-    );
-
-    if (!playgroundPage) {
-      const created = createPlaygroundPage(pageSnapshot.name, next.pages);
-      playgroundPage = {
-        ...created,
-        name: pageSnapshot.name,
-        slug: pageSnapshot.slug,
-        includeInNav: pageSnapshot.includeInNav,
-      };
-      next.pages.push(playgroundPage);
-      changed = true;
-    } else if (
-      playgroundPage.slug !== pageSnapshot.slug ||
-      playgroundPage.name !== pageSnapshot.name
-    ) {
-      next.pages = next.pages.map((page) =>
-        page.id === playgroundPage?.id
-          ? { ...page, slug: pageSnapshot.slug, name: pageSnapshot.name }
-          : page,
-      );
-      playgroundPage = next.pages.find((page) => page.id === playgroundPage?.id);
-      changed = true;
-    }
-
-    if (!playgroundPage) continue;
-
-    const nextSections = buildPlaygroundSectionsFromSnapshot(pageSnapshot.sections);
-    const previous = next.sectionsByPageId[playgroundPage.id];
-    if (JSON.stringify(previous) !== JSON.stringify(nextSections)) {
-      next = updatePlaygroundPageSections(next, playgroundPage.id, nextSections);
-      changed = true;
-    }
+    const result = upsertOnePlaygroundPageFromSnapshot(next, pageSnapshot, {
+      syncSections: true,
+    });
+    next = result.next;
+    changed = changed || result.changed;
   }
 
   const sorted = sortPlaygroundPages(next.pages);
@@ -665,7 +733,10 @@ export function buildPlaygroundPagesStateFromHomepageConfig(
       includeInNav: pageSnapshot.includeInNav,
     };
     pages.push(page);
-    sectionsByPageId[page.id] = buildPlaygroundSectionsFromSnapshot(pageSnapshot.sections);
+    sectionsByPageId[page.id] = bindPlaygroundChromeSectionIds(
+      sectionsByPageId[home.id],
+      buildPlaygroundSectionsFromSnapshot(pageSnapshot.sections),
+    );
   }
 
   return {

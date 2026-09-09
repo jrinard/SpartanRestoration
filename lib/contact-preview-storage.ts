@@ -3,6 +3,8 @@ import {
   type ContactBackgroundMode,
   type ContactPreviewSettings,
 } from "@/lib/contact-preview";
+
+export type { ContactPreviewSettings };
 import { normalizeContactFormFields } from "@/lib/contact-form-fields";
 import { normalizeContactSmsOptInSettings } from "@/lib/contact-sms-opt-in";
 import {
@@ -64,6 +66,7 @@ export function normalizeContactPreviewSettings(
     bodyColor: isHexColor(value.bodyColor)
       ? value.bodyColor
       : defaultContactPreviewSettings.bodyColor,
+    phoneColor: isHexColor(value.phoneColor) ? value.phoneColor : undefined,
     sectionBackgroundColor: isColor(value.sectionBackgroundColor)
       ? value.sectionBackgroundColor
       : undefined,
@@ -109,6 +112,7 @@ function isContactPreviewSettings(value: unknown): value is Partial<ContactPrevi
   if (settings.gradientTo !== undefined && !isHexColor(settings.gradientTo)) return false;
   if (settings.titleColor !== undefined && !isHexColor(settings.titleColor)) return false;
   if (settings.bodyColor !== undefined && !isHexColor(settings.bodyColor)) return false;
+  if (settings.phoneColor !== undefined && !isHexColor(settings.phoneColor)) return false;
   if (settings.sectionBackgroundColor !== undefined && !isColor(settings.sectionBackgroundColor)) {
     return false;
   }

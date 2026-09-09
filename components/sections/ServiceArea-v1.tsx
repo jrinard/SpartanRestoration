@@ -6,14 +6,18 @@ import Image from "next/image";
 import { Images, Pencil } from "lucide-react";
 import { ImageLibraryPicker } from "@/components/dev/ImageLibraryPicker";
 import { ServiceLabelEditor } from "@/components/dev/ServiceLabelEditor";
+import { PreviewAwareLink } from "@/components/site/PreviewAwareLink";
 import {
   defaultServiceAreaV1PreviewSettings,
   getServiceAreaV1CardStyle,
   getServiceAreaV1LayoutWidthClassName,
+  getServiceAreaV1LocationHref,
   getServiceAreaV1SectionStyle,
+  getServiceAreaV1LocationGrid,
   getServiceAreaV1SizeOption,
   getServiceAreaV1PinStyle,
   resolveServiceAreaV1GraphSrc,
+  resolveServiceAreaV1Locations,
   type ServiceAreaV1Location,
   type ServiceAreaV1PreviewSettings,
 } from "@/lib/service-area-preview";
@@ -175,13 +179,22 @@ function LocationPin({ iconSizePx, iconColor }: { iconSizePx: number; iconColor:
       aria-hidden="true"
       className="service-area-v1-pin inline-block shrink-0"
       style={getServiceAreaV1PinStyle(iconSizePx, iconColor)}
-    />
+    >
+      <svg viewBox="0 0 48 64" className="block h-full w-full" fill="currentColor">
+        <ellipse cx="24" cy="60" rx="10" ry="3" opacity="0.32" />
+        <path
+          fillRule="evenodd"
+          d="M24 4c-9.4 0-17 7.5-17 16.8 0 12.6 17 35.2 17 35.2s17-22.6 17-35.2C41 11.5 33.4 4 24 4zm0 22.6a6.4 6.4 0 1 0 0-12.8 6.4 6.4 0 0 0 0 12.8z"
+        />
+      </svg>
+    </span>
   );
 }
 
 function LocationCell({
   locationId,
   label,
+  href,
   iconSizePx,
   iconColor,
   locationFontSizePx,
@@ -191,6 +204,7 @@ function LocationCell({
 }: {
   locationId: string;
   label: string;
+  href?: string;
   iconSizePx: number;
   iconColor: string;
   locationFontSizePx: number;
@@ -199,16 +213,21 @@ function LocationCell({
   onLabelChange?: (label: string) => void;
 }) {
   const [editorOpen, setEditorOpen] = useState(false);
+  const locationClassName = "service-area-v1-location font-medium leading-snug";
+  const locationStyle = { color: textColor, fontSize: `${locationFontSizePx}px` };
 
   return (
-    <div className="relative flex flex-col items-center gap-3 text-center">
+    <div className="relative flex min-w-0 flex-col items-center gap-3 text-center">
       <LocationPin iconSizePx={iconSizePx} iconColor={iconColor} />
-      <p
-        className="service-area-v1-location font-medium leading-snug"
-        style={{ color: textColor, fontSize: `${locationFontSizePx}px` }}
-      >
-        {label}
-      </p>
+      {href ? (
+        <PreviewAwareLink href={href} className={cn(locationClassName, "no-underline")} style={locationStyle}>
+          {label}
+        </PreviewAwareLink>
+      ) : (
+        <p className={locationClassName} style={locationStyle}>
+          {label}
+        </p>
+      )}
       {editingEnabled && onLabelChange && (
         <>
           <button
@@ -238,7 +257,7 @@ function LocationCell({
   );
 }
 
-/** Service area map pins — headline left, 2×3 location grid right. */
+/** Service area map pins — headline left, two-row location grid right. */
 export function ServiceAreaV1({
   heading: defaultHeading,
   locations,
@@ -254,7 +273,11 @@ export function ServiceAreaV1({
   className,
 }: ServiceAreaV1Props) {
   const settings = settingsProp ?? defaultServiceAreaV1PreviewSettings;
+  const resolvedLocations = resolveServiceAreaV1Locations(settings, locations);
   const sizeOption = getServiceAreaV1SizeOption(settings.size);
+  const locationGrid = getServiceAreaV1LocationGrid(resolvedLocations.length);
+  const iconSizePx = Math.round(sizeOption.iconSizePx * locationGrid.scale);
+  const locationFontSizePx = Math.round(sizeOption.locationFontSizePx * locationGrid.scale);
   const heading = getSectionHeading ? getSectionHeading(defaultHeading) : defaultHeading;
   const graphImageSrc = getGraphImageSrc
     ? getGraphImageSrc()
@@ -274,8 +297,12 @@ export function ServiceAreaV1({
       className={cn(
         "service-area-v1-inner items-center py-14 sm:py-16 lg:py-20",
         isContained
-          ? "grid gap-10 px-8 sm:px-10 lg:grid-cols-2 lg:gap-12 lg:px-12"
-          : "mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-10 px-8 sm:px-10 lg:grid-cols-2 lg:items-center lg:gap-x-16 lg:px-12 xl:px-16",
+          ? locationGrid.compact
+            ? "grid gap-8 px-8 sm:px-10 lg:grid-cols-[minmax(12rem,0.32fr)_minmax(0,1fr)] lg:gap-8 lg:px-12"
+            : "grid gap-10 px-8 sm:px-10 lg:grid-cols-2 lg:gap-12 lg:px-12"
+          : locationGrid.compact
+            ? "mx-auto grid w-full max-w-[1760px] grid-cols-1 gap-10 px-8 sm:px-10 lg:grid-cols-[minmax(13rem,0.24fr)_minmax(0,1fr)] lg:items-center lg:gap-x-8 lg:px-12 xl:px-16"
+            : "mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-10 px-8 sm:px-10 lg:grid-cols-2 lg:items-center lg:gap-x-16 lg:px-12 xl:px-16",
       )}
     >
       <div
@@ -300,24 +327,38 @@ export function ServiceAreaV1({
 
       <ul
         className={cn(
-          "service-area-v1-grid grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-12",
-          !isContained && "lg:ml-5 lg:mr-[10%] lg:justify-self-start",
+          "service-area-v1-grid grid grid-cols-2 gap-x-6 gap-y-10",
+          locationGrid.compact
+            ? "w-full min-w-0 sm:gap-x-3 sm:gap-y-8"
+            : "sm:grid-cols-3 sm:gap-x-8 sm:gap-y-12",
+          !isContained &&
+            (locationGrid.compact
+              ? "lg:ml-0 lg:mr-0"
+              : "lg:ml-5 lg:mr-[10%] lg:justify-self-start"),
         )}
+        style={
+          locationGrid.compact
+            ? ({ "--sa-v1-cols": String(locationGrid.columns) } as CSSProperties)
+            : undefined
+        }
+        data-cols={locationGrid.compact ? locationGrid.columns : undefined}
         aria-label="Service locations"
       >
-        {locations.map((location) => {
+        {resolvedLocations.map((location) => {
           const label = getLocationLabel
             ? getLocationLabel(location.id, location.label)
             : location.label;
+          const href = getServiceAreaV1LocationHref(location);
 
           return (
-            <li key={location.id}>
+            <li key={location.id} className="min-w-0">
               <LocationCell
                 locationId={location.id}
                 label={label}
-                iconSizePx={sizeOption.iconSizePx}
+                href={href || undefined}
+                iconSizePx={iconSizePx}
                 iconColor={settings.iconColor}
-                locationFontSizePx={sizeOption.locationFontSizePx}
+                locationFontSizePx={locationFontSizePx}
                 textColor={settings.locationTextColor}
                 editingEnabled={editingEnabled}
                 onLabelChange={

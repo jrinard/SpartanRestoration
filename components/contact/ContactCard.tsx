@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState, type CSSProperties, type ReactNode } from "react";
 import { Pencil } from "lucide-react";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { ContactPhoneLineEditor } from "@/components/dev/ContactPhoneLineEditor";
@@ -60,16 +60,14 @@ function EditableTextBlock({
   }
 
   return (
-    <div className={cn("group relative", className)}>
+    <div className={cn("relative max-w-full pr-8", className)}>
       {children}
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={cn(
-          devEditButtonClassName,
-          "absolute -right-2 -top-2 z-10 opacity-0 group-hover:opacity-100",
-        )}
+        className={devEditButtonClassName}
         aria-label={ariaLabel}
+        aria-expanded={open}
       >
         <Pencil size={devEditIconSize} strokeWidth={2} />
       </button>
@@ -90,20 +88,31 @@ function EditableTextBlock({
   );
 }
 
+function phoneLinkStyle(phoneColor?: string): CSSProperties | undefined {
+  if (!phoneColor) return undefined;
+  return {
+    color: phoneColor,
+    textDecorationColor: phoneColor,
+  };
+}
+
 function EditablePhoneLine({
   editingEnabled,
   phonePrefix,
   phoneLabel,
   phoneHref,
+  phoneColor,
   onSave,
 }: {
   editingEnabled: boolean;
   phonePrefix: string;
   phoneLabel: string;
   phoneHref: string;
+  phoneColor?: string;
   onSave?: (phonePrefix: string, phoneLabel: string) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const linkStyle = phoneLinkStyle(phoneColor);
 
   if (!phonePrefix && !phoneLabel && !editingEnabled) return null;
 
@@ -115,7 +124,8 @@ function EditablePhoneLine({
         {phonePrefix}{" "}
         <a
           href={phoneHref}
-          className="contact-card-phone font-bold text-accent-blue underline decoration-accent-blue/40 underline-offset-4 transition-colors hover:text-accent-blue-dark hover:decoration-accent-blue/70"
+          className="contact-card-phone font-bold underline underline-offset-4 transition-colors"
+          style={linkStyle}
         >
           {phoneLabel}
         </a>
@@ -124,7 +134,7 @@ function EditablePhoneLine({
   }
 
   return (
-    <div className="group relative mt-2">
+    <div className="relative mt-2 max-w-full pr-8">
       {(phonePrefix || phoneLabel) && (
         <p className="contact-card-body text-sm leading-relaxed sm:text-base">
           {phonePrefix}
@@ -132,7 +142,8 @@ function EditablePhoneLine({
           {phoneLabel ? (
             <a
               href={phoneHref || phoneTelHref(phoneLabel)}
-              className="contact-card-phone font-bold text-accent-blue underline decoration-accent-blue/40 underline-offset-4 transition-colors hover:text-accent-blue-dark hover:decoration-accent-blue/70"
+              className="contact-card-phone font-bold underline underline-offset-4 transition-colors"
+              style={linkStyle}
             >
               {phoneLabel}
             </a>
@@ -142,11 +153,9 @@ function EditablePhoneLine({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={cn(
-          devEditButtonClassName,
-          "absolute -right-2 -top-2 z-10 opacity-0 group-hover:opacity-100",
-        )}
+        className={devEditButtonClassName}
         aria-label="Edit phone line"
+        aria-expanded={open}
       >
         <Pencil size={devEditIconSize} strokeWidth={2} />
       </button>
@@ -180,7 +189,8 @@ export function ContactCard({
 }: ContactCardProps) {
   const preview = useContactV1Preview();
   const editingEnabled = preview?.contentEditingEnabled ?? false;
-  const cardStyle = getContactCardStyle(settings);
+  const resolvedSettings = preview?.settings ?? settings;
+  const cardStyle = getContactCardStyle(resolvedSettings);
 
   const defaultContent = useMemo<ContactContent>(
     () => ({
@@ -241,6 +251,7 @@ export function ContactCard({
             phonePrefix={content.phonePrefix}
             phoneLabel={content.phoneLabel}
             phoneHref={content.phoneHref}
+            phoneColor={resolvedSettings.phoneColor}
             onSave={
               preview
                 ? (nextPrefix, nextPhone) => preview.setContentPhoneLine(nextPrefix, nextPhone)
@@ -285,7 +296,7 @@ export function ContactCard({
       <ContactForm
         key={formKey}
         className="contact-card-form relative mt-6"
-        settings={settings}
+        settings={resolvedSettings}
         initialValues={initialFormValues}
       />
     </div>

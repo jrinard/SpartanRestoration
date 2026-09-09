@@ -38,13 +38,12 @@ function applyFaviconSettings(settings: FaviconPreviewSettings) {
   upsertLink("apple-touch-icon", normalized.favicon180, "180x180");
 }
 
+function isPreviewPathname(pathname: string): boolean {
+  return pathname === "/preview" || pathname.startsWith("/preview/");
+}
+
 function shouldApplyBrowserTitle(pathname: string): boolean {
-  return (
-    pathname === "/" ||
-    isForgePathname(pathname) ||
-    pathname === "/preview" ||
-    pathname.startsWith("/preview/")
-  );
+  return pathname === "/" || isForgePathname(pathname);
 }
 
 export function FaviconRuntime({ initialSettings }: FaviconRuntimeProps) {
@@ -54,6 +53,11 @@ export function FaviconRuntime({ initialSettings }: FaviconRuntimeProps) {
   );
 
   useEffect(() => {
+    if (isPreviewPathname(pathname)) {
+      setSettings(normalizeFaviconPreviewSettings(initialSettings ?? undefined));
+      return;
+    }
+
     function syncFromStorage() {
       setSettings(loadFaviconPreviewSettings());
     }
@@ -61,7 +65,7 @@ export function FaviconRuntime({ initialSettings }: FaviconRuntimeProps) {
     syncFromStorage();
     window.addEventListener(faviconPreviewUpdatedEvent, syncFromStorage);
     return () => window.removeEventListener(faviconPreviewUpdatedEvent, syncFromStorage);
-  }, []);
+  }, [initialSettings, pathname]);
 
   useEffect(() => {
     applyFaviconSettings(settings);

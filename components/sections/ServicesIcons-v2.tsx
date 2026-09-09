@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { CSSProperties } from "react";
-import { Pencil, Shuffle } from "lucide-react";
+import { FileText, Pencil, Shuffle } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { useServicesIconsV2Preview } from "@/components/dev/ServicesIconsV2PreviewContext";
 import { LucideIconPicker } from "@/components/dev/LucideIconPicker";
@@ -15,6 +15,7 @@ import {
   defaultServicesIconsV2PreviewSettings,
   getServicesIconsV2BackgroundStyle,
   getServicesIconsV2IconFrameBorderRadius,
+  resolveServicesIconsV2Services,
   type ServicesIconsV2PreviewSettings,
 } from "@/lib/services-icons-v2-preview";
 import { buildServicesIconsV2ItemListSchema } from "@/lib/seo-schema";
@@ -93,6 +94,8 @@ function ServiceCard({
   iconEditingEnabled,
   onIconChange,
   onLabelChange,
+  onDescriptionChange,
+  onCardContentSave,
 }: {
   service: ServicesIconsV2Service;
   settings: ServicesIconsV2PreviewSettings;
@@ -102,6 +105,8 @@ function ServiceCard({
   iconEditingEnabled: boolean;
   onIconChange?: (iconName: SiteIconName) => void;
   onLabelChange?: (label: string) => void;
+  onDescriptionChange?: (description: string) => void;
+  onCardContentSave?: (label: string, description: string) => void;
 }) {
   const [iconPickerOpen, setIconPickerOpen] = useState(false);
   const [labelEditorOpen, setLabelEditorOpen] = useState(false);
@@ -178,15 +183,29 @@ function ServiceCard({
             >
               <Pencil size={devEditIconSize} strokeWidth={2} />
             </button>
-            {labelEditorOpen && (
-              <div className="absolute top-7 right-0 z-30">
+            {labelEditorOpen &&
+              (onDescriptionChange ? (
                 <ServiceLabelEditor
                   value={label}
                   onChange={onLabelChange}
+                  seoValue={description ?? ""}
+                  onSeoChange={onDescriptionChange}
+                  onSaveCombined={onCardContentSave}
                   onClose={() => setLabelEditorOpen(false)}
+                  dialogTitle="Edit card"
+                  dialogAriaLabel={`Edit label and SEO description for ${label}`}
+                  inputAriaLabel="Card label"
+                  seoInputAriaLabel="SEO description for this service"
                 />
-              </div>
-            )}
+              ) : (
+                <div className="absolute top-7 right-0 z-30">
+                  <ServiceLabelEditor
+                    value={label}
+                    onChange={onLabelChange}
+                    onClose={() => setLabelEditorOpen(false)}
+                  />
+                </div>
+              ))}
           </>
         )}
       </div>
@@ -328,31 +347,40 @@ export function ServicesIconsV2({
   const isContained = settings.layoutWidth === "contained";
   const gradientBackground = getServicesIconsV2BackgroundStyle(settings);
 
+  const displayServices = useMemo(
+    () => resolveServicesIconsV2Services(settings, services),
+    [settings, services],
+  );
+
   const resolvedServices = useMemo(
     () =>
-      services.map((service) => {
+      displayServices.map((service) => {
         const label = preview?.getServiceLabel(service.id, service.title) ?? service.title;
+        const description =
+          preview?.getServiceDescription(service.id, service.description) ?? service.description;
         return {
           id: service.id,
           label,
-          description: service.description,
+          description,
           icon: service.icon,
         };
       }),
-    [preview, services],
+    [preview, displayServices],
   );
+
+  const resolvedSeoDescription = settings.seoDescription ?? seoDescription;
 
   const structuredData = useMemo(
     () =>
       buildServicesIconsV2ItemListSchema(
         sectionHeading,
-        seoDescription,
+        resolvedSeoDescription,
         resolvedServices.map((service) => ({
           name: service.label,
           description: service.description,
         })),
       ),
-    [sectionHeading, resolvedServices, seoDescription],
+    [sectionHeading, resolvedServices, resolvedSeoDescription],
   );
 
   const headingStyle: CSSProperties = {
@@ -371,16 +399,19 @@ export function ServicesIconsV2({
           preview ? (nextHeading) => preview.setSectionHeading(nextHeading) : undefined
         }
       />
-      <p className="sr-only">{seoDescription}</p>
+      <p className="sr-only">{resolvedSeoDescription}</p>
 
       <ul
         className="grid list-none grid-cols-1 justify-items-stretch gap-6 p-0 md:grid-cols-2 lg:grid-cols-3"
         aria-label={`${sectionHeading} list`}
       >
-        {services.map((service) => {
+        {displayServices.map((service) => {
           const fallbackIcon = resolveSiteIconName(service.icon, defaultSiteIconName);
           const iconName = preview?.getServiceIcon(service.id, fallbackIcon) ?? fallbackIcon;
           const label = preview?.getServiceLabel(service.id, service.title) ?? service.title;
+          const description =
+            preview?.getServiceDescription(service.id, service.description) ??
+            service.description;
 
           return (
             <li key={service.id}>
@@ -389,7 +420,7 @@ export function ServicesIconsV2({
                 settings={settings}
                 iconName={iconName}
                 label={label}
-                description={service.description}
+                description={description}
                 iconEditingEnabled={editingEnabled}
                 onIconChange={
                   preview
@@ -399,6 +430,21 @@ export function ServicesIconsV2({
                 onLabelChange={
                   preview
                     ? (nextLabel) => preview.setServiceLabel(service.id, nextLabel)
+                    : undefined
+                }
+                onDescriptionChange={
+                  preview
+                    ? (nextDescription) =>
+                        preview.setServiceDescription(service.id, nextDescription)
+                    : undefined
+                }
+                onCardContentSave={
+                  preview
+                    ? (nextLabel, nextDescription) =>
+                        preview.setServiceCardContent(service.id, {
+                          label: nextLabel,
+                          description: nextDescription,
+                        })
                     : undefined
                 }
               />

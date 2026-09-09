@@ -6,9 +6,12 @@ import {
   Brush,
   Building2,
   ClipboardCheck,
+  Clock,
   CloudRain,
   DoorOpen,
   Droplets,
+  Mail,
+  MapPin,
   Fan,
   Fence,
   FileText,
@@ -74,6 +77,9 @@ export const siteIconCatalog = {
   "file-text": { Icon: FileText, label: "Document" },
   "clipboard-check": { Icon: ClipboardCheck, label: "Claims" },
   phone: { Icon: Phone, label: "Phone" },
+  mail: { Icon: Mail, label: "Email" },
+  clock: { Icon: Clock, label: "Hours" },
+  "map-pin": { Icon: MapPin, label: "Location" },
 } as const satisfies Record<string, SiteIconEntry>;
 
 export type SiteIconName = keyof typeof siteIconCatalog;
@@ -114,6 +120,21 @@ export function normalizeServiceLabelsMap(value: unknown): Partial<Record<string
   for (const [serviceId, label] of Object.entries(value)) {
     if (typeof serviceId === "string" && typeof label === "string") {
       const trimmed = label.trim();
+      if (trimmed) normalized[serviceId] = trimmed;
+    }
+  }
+  return normalized;
+}
+
+export function normalizeServiceDescriptionsMap(
+  value: unknown,
+): Partial<Record<string, string>> {
+  if (!value || typeof value !== "object") return {};
+
+  const normalized: Partial<Record<string, string>> = {};
+  for (const [serviceId, description] of Object.entries(value)) {
+    if (typeof serviceId === "string" && typeof description === "string") {
+      const trimmed = description.trim();
       if (trimmed) normalized[serviceId] = trimmed;
     }
   }

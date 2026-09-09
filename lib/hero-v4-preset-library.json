@@ -1,0 +1,332 @@
+{
+  "entries": [
+    {
+      "id": "lifespring",
+      "label": "LifeSpring",
+      "settings": {
+        "showForm": false,
+        "showBreadcrumbs": true,
+        "showBullets": false,
+        "showPhoneCta": true,
+        "eyebrow": "Where We Serve",
+        "headline": "Web design all across Clark County",
+        "body": "From Vancouver and Salmon Creek to Battle Ground, Ridgefield, Camas, and Washougal, LifeSpring Design covers the whole county. Custom websites, software, and branding for local businesses ready to grow online.",
+        "bullets": [
+          "Custom websites",
+          "Web design & SEO",
+          "Software & branding",
+          "Free website review"
+        ],
+        "primaryCtaLabel": "Get a Free Website Review",
+        "primaryCtaHref": "/contact",
+        "phoneLabel": "208-316-8338",
+        "phoneHref": "tel:+12083168338",
+        "formTitle": "Get a Free Website Review",
+        "formSubtext": "Web design & custom software in Clark County, WA.",
+        "formTrustNotes": [
+          "No spam, ever",
+          "100% free review"
+        ],
+        "formLeadSource": "website-review",
+        "showServicePills": true,
+        "servicePills": [
+          {
+            "label": "Custom Web Design",
+            "href": "#services",
+            "title": "Custom web design in Clark County, WA — LifeSpring Design",
+            "description": "Custom website design and development for Vancouver, Camas, Battle Ground, and businesses across Clark County, Washington."
+          },
+          {
+            "label": "Custom Software",
+            "href": "#services",
+            "title": "Custom software development for Clark County, WA businesses",
+            "description": "Custom business software, internal tools, dashboards, and workflow applications built for Clark County and Pacific Northwest teams."
+          },
+          {
+            "label": "CRM",
+            "href": "#services",
+            "title": "Custom CRM development for Clark County, WA businesses",
+            "description": "Custom CRM systems, customer management tools, and sales workflow software for Clark County and Pacific Northwest businesses."
+          },
+          {
+            "label": "Logo & Branding",
+            "href": "#services",
+            "title": "Logo design and branding for Clark County businesses",
+            "description": "Professional logo design, brand identity, and graphic design for Pacific Northwest and Clark County businesses."
+          },
+          {
+            "label": "Reputation Growth",
+            "href": "#reviewbox",
+            "title": "Online reputation management and Google reviews with Reviewbox.io",
+            "description": "Grow Google reviews and online reputation for local Clark County businesses with Reviewbox.io review management."
+          },
+          {
+            "label": "Optimization",
+            "href": "#services",
+            "title": "Website optimization and SEO for local search in Clark County, WA",
+            "description": "Website performance optimization, SEO, and ongoing improvements to help Clark County businesses get found online."
+          }
+        ],
+        "breadcrumbs": [
+          {
+            "label": "Home",
+            "href": "/"
+          },
+          {
+            "label": "Service Areas",
+            "href": "/service-areas"
+          },
+          {
+            "label": "Clark County, WA"
+          }
+        ],
+        "showGallery": false,
+        "gallerySlides": [],
+        "galleryIntervalMs": 5000,
+        "galleryTransition": "fade",
+        "galleryHeightPx": 300,
+        "galleryBackground": "#000000",
+        "galleryRadiusPx": 20,
+        "galleryBorderWidthPx": 1,
+        "galleryBorderColor": "",
+        "labelFontStyle": "normal",
+        "headlineBold": false,
+        "headlineFirstLineItalic": false,
+        "headlineUppercase": false,
+        "showContactInfo": false,
+        "contactInfoItems": []
+      }
+    },
+    {
+      "id": "langham",
+      "label": "Langham",
+      "settings": {
+        "showForm": false,
+        "showBreadcrumbs": false,
+        "showBullets": true,
+        "showPhoneCta": true,
+        "eyebrow": "Siding · Windows · Doors",
+        "headline": "Weather ready. Straight lines. No compromise.",
+        "body": "At Langham Construction, siding isn’t just a service we offer — it’s our craft. We combine industry-leading materials with expert installation to create exteriors that look sharp and perform even better. Whether you’re replacing old siding or building a brand-new home, our team of knowledgeable installers will ensure your project is completed on time and to the highest level of quality.",
+        "bullets": [
+          "Quality workmanship",
+          "Professional service",
+          "Premium materials",
+          "5-year workmanship warranty"
+        ],
+        "primaryCtaLabel": "REQUEST A QUOTE",
+        "primaryCtaHref": "/contact",
+        "phoneLabel": "360-567-8273",
+        "phoneHref": "tel:+13605678273",
+        "formTitle": "Request a Quote",
+        "formSubtext": "New home siding, replacements, and warranty claims — Vancouver, WA.",
+        "formTrustNotes": [
+          "5-year transferable warranty",
+          "Family-run since 2023"
+        ],
+        "formLeadSource": "contact-form",
+        "showServicePills": true,
+        "servicePills": [
+          {
+            "label": "Siding",
+            "href": "#services",
+            "title": "Siding built for the Northwest — Langham Construction",
+            "description": "James Hardie, LP SmartSide, and wood siding installed for Washington weather. New homes and replacements in Vancouver, WA and Southwest Washington."
+          },
+          {
+            "label": "Windows",
+            "href": "#services",
+            "title": "Window installation — Langham Construction",
+            "description": "Window installation for new construction and remodels in Vancouver, WA, Clark County, and Southwest Washington."
+          },
+          {
+            "label": "Doors",
+            "href": "#services",
+            "title": "Door installation — Langham Construction",
+            "description": "Entry and exterior door installation for homes and remodels in Vancouver, WA and surrounding cities."
+          }
+        ],
+        "breadcrumbs": [
+          {
+            "label": "Home",
+            "href": "/"
+          }
+        ],
+        "showGallery": true,
+        "gallerySlides": [
+          {
+            "type": "image",
+            "value": "/org-assets/langham/library/Gallery-Siding-1.png"
+          },
+          {
+            "type": "image",
+            "value": "/org-assets/langham/library/Gallery-Siding-2.png"
+          }
+        ],
+        "galleryIntervalMs": 5000,
+        "galleryTransition": "fade",
+        "galleryHeightPx": 300,
+        "galleryBackground": "#000000",
+        "galleryRadiusPx": 0,
+        "galleryBorderWidthPx": 12,
+        "galleryBorderColor": "#000000",
+        "labelFontStyle": "normal",
+        "headlineBold": false,
+        "headlineFirstLineItalic": false,
+        "headlineUppercase": false,
+        "button": {
+          "navBackground": "#ffc233",
+          "navTextColor": "#000000",
+          "navTextHoverColor": "#000000",
+          "navHoverBackground": "#f8ad0d",
+          "navButtonSize": "large",
+          "navButtonRadiusPx": 4
+        },
+        "phoneButton": {
+          "navBackground": "#000000",
+          "navTextColor": "#ffffff",
+          "navTextHoverColor": "#ffffff",
+          "navHoverBackground": "#4f4f4f",
+          "navButtonSize": "large",
+          "navButtonRadiusPx": 8
+        },
+        "buttonSize": "xlarge",
+        "buttonRadiusPx": 0,
+        "showContactInfo": false,
+        "contactInfoItems": []
+      }
+    },
+    {
+      "id": "spartan",
+      "label": "Spartan",
+      "settings": {
+        "showForm": true,
+        "showBreadcrumbs": true,
+        "showBullets": false,
+        "showPhoneCta": true,
+        "eyebrow": "Where We Serve",
+        "headline": "Restoration across\nClark County",
+        "body": "From Vancouver and Salmon Creek to Battle Ground, Camas, and Washougal, Spartan Restoration covers Clark County and the Portland metro. Licensed, insured, IICRC-certified crews for water damage, mold, and storm cleanup.",
+        "bullets": [],
+        "primaryCtaLabel": "CALL (503) 975-9082",
+        "primaryCtaHref": "tel:+15039759082",
+        "phoneLabel": "503-975-9082",
+        "phoneHref": "tel:+15039759082",
+        "formTitle": "REQUEST HELP",
+        "formSubtext": "Water, mold, or storm damage in your area.",
+        "formTrustNotes": [],
+        "formLeadSource": "website-review",
+        "showServicePills": true,
+        "servicePills": [
+          {
+            "label": "Water Damage",
+            "href": "/water-damage-restoration",
+            "title": "Water damage restoration in Clark County, WA",
+            "description": "Emergency extraction, structural drying, and documentation for Vancouver, Camas, Washougal, and Clark County properties."
+          },
+          {
+            "label": "Mold Removal",
+            "href": "/mold-removal",
+            "title": "Mold removal and remediation in Clark County, WA",
+            "description": "Containment, HEPA filtration, and IICRC-informed mold remediation across Southwest Washington."
+          },
+          {
+            "label": "Storm & Sewage",
+            "href": "/storm-sewage",
+            "title": "Storm and sewage cleanup in Clark County, WA",
+            "description": "Storm damage, sewage backups, and Category 3 water cleanup for Clark County and the Portland metro."
+          }
+        ],
+        "breadcrumbs": [
+          {
+            "label": "Home",
+            "href": "/"
+          },
+          {
+            "label": "Service Area"
+          }
+        ],
+        "showGallery": false,
+        "gallerySlides": [],
+        "galleryIntervalMs": 5000,
+        "galleryTransition": "fade",
+        "galleryHeightPx": 300,
+        "galleryBackground": "#000000",
+        "galleryRadiusPx": 20,
+        "galleryBorderWidthPx": 1,
+        "galleryBorderColor": "",
+        "labelFontStyle": "normal",
+        "headlineBold": false,
+        "headlineFirstLineItalic": false,
+        "headlineUppercase": false,
+        "button": {
+          "navBackground": "#ffc233",
+          "navTextColor": "#000000",
+          "navTextHoverColor": "#000000",
+          "navHoverBackground": "#f8ad0d",
+          "navButtonSize": "large",
+          "navButtonRadiusPx": 4
+        },
+        "phoneButton": {
+          "navBackground": "#000000",
+          "navTextColor": "#ffffff",
+          "navTextHoverColor": "#ffffff",
+          "navHoverBackground": "#4f4f4f",
+          "navButtonSize": "large",
+          "navButtonRadiusPx": 8
+        },
+        "buttonSize": "xlarge",
+        "buttonRadiusPx": 0,
+        "backgroundColor": "#ffffff",
+        "showContactInfo": false,
+        "contactInfoItems": [],
+        "formSubmitText": "Send Message",
+        "formButtonBackground": "#2c74b5",
+        "formButtonTextColor": "#ffffff",
+        "formButtonRadiusPx": 4,
+        "formFields": [
+          {
+            "id": "legacy-name",
+            "name": "name",
+            "label": "Full Name",
+            "placeholder": "Your name",
+            "type": "text",
+            "required": true
+          },
+          {
+            "id": "legacy-businessName",
+            "name": "businessName",
+            "label": "City",
+            "placeholder": "City",
+            "type": "text",
+            "required": false
+          },
+          {
+            "id": "legacy-email",
+            "name": "email",
+            "label": "Email",
+            "placeholder": "you@example.com",
+            "type": "email",
+            "required": true
+          },
+          {
+            "id": "legacy-phone",
+            "name": "phone",
+            "label": "Phone",
+            "placeholder": "(optional)",
+            "type": "tel",
+            "required": false
+          },
+          {
+            "id": "legacy-message",
+            "name": "message",
+            "label": "What happened?",
+            "placeholder": "",
+            "type": "textarea",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

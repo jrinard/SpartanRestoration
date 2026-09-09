@@ -1,11 +1,13 @@
 import { mkdir, readFile, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { normalizeHomepageConfig, type HomepageConfig } from "@/lib/homepage-config";
-import type {
-  HomepageConfigHistoryAction,
-  HomepageConfigHistoryEntry,
-  HomepageConfigHistoryManifest,
-  HomepageConfigHistorySnapshot,
+import {
+  filterHomepageConfigHistoryOlderThan,
+  HOMEPAGE_CONFIG_HISTORY_RETENTION_DAYS,
+  type HomepageConfigHistoryAction,
+  type HomepageConfigHistoryEntry,
+  type HomepageConfigHistoryManifest,
+  type HomepageConfigHistorySnapshot,
 } from "@/lib/homepage-config-history";
 import { fillMissingSectionCopy } from "@/lib/org/migrate-section-copy";
 import { reconcileHomePageGlobalPreviewSettings } from "@/lib/home-preview-sync";
@@ -142,4 +144,28 @@ export async function deleteHomepageConfigHistoryEntry(
   manifest.entries = manifest.entries.filter((candidate) => candidate.id !== id);
   await writeHomepageConfigHistoryManifest(orgId, manifest);
   return true;
+}
+
+export async function deleteHomepageConfigHistoryOlderThan(
+  orgId: string,
+  days = HOMEPAGE_CONFIG_HISTORY_RETENTION_DAYS,
+): Promise<{ deletedIds: string[]; remaining: HomepageConfigHistoryEntry[] }> {
+  const manifest = await readHomepageConfigHistoryManifest(orgId);
+  const stale = filterHomepageConfigHistoryOlderThan(manifest.entries, days);
+  if (stale.length === 0) {
+    return { deletedIds: [], remaining: manifest.entries };
+  }
+
+  const staleIds = new Set(stale.map((entry) => entry.id));
+  for (const entry of stale) {
+    try {
+      await unlink(path.join(historyDir(orgId), entry.filename));
+    } catch {
+      // Missing file is fine — still remove manifest entry.
+    }
+  }
+
+  manifest.entries = manifest.entries.filter((entry) => !staleIds.has(entry.id));
+  await writeHomepageConfigHistoryManifest(orgId, manifest);
+  return { deletedIds: stale.map((entry) => entry.id), remaining: manifest.entries };
 }

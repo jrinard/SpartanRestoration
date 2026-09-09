@@ -21,7 +21,7 @@ export type PlaygroundSectionConfig = {
 
 export const playgroundSectionOrderKey = "lifespring-playground-section-order";
 
-const duplicatableSectionGroups = new Set<SectionGroupId>(["spacer", "content"]);
+const duplicatableSectionGroups = new Set<SectionGroupId>(["spacer", "content", "services"]);
 
 export function canDuplicatePlaygroundSection(group: SectionGroupId): boolean {
   return duplicatableSectionGroups.has(group);
@@ -106,6 +106,24 @@ export function getPreviewSections(sections: PlaygroundSectionConfig[]): Playgro
   );
 }
 
+/**
+ * Inner pages used to clone home with Preview off, so Save to /preview dropped them.
+ * If nothing is checked, stage what’s visible on the canvas instead.
+ */
+export function getStagedPlaygroundSections(
+  sections: PlaygroundSectionConfig[],
+  options?: { allowVisibleFallback?: boolean },
+): PlaygroundSectionConfig[] {
+  const preview = getPreviewSections(sections);
+  if (preview.length > 0 || !options?.allowVisibleFallback) {
+    return preview;
+  }
+
+  return getVisiblePlaygroundSections(sections).filter((section) =>
+    canIncludePlaygroundSectionInPreview(section.group),
+  );
+}
+
 export function getVisiblePlaygroundSections(
   sections: PlaygroundSectionConfig[],
 ): PlaygroundSectionConfig[] {
@@ -116,7 +134,7 @@ export function getPlaygroundSectionLabel(
   sections: PlaygroundSectionConfig[],
   config: PlaygroundSectionConfig,
 ): string {
-  if (config.group === "spacer" || config.group === "content") {
+  if (canDuplicatePlaygroundSection(config.group)) {
     const sectionIndex = sections.findIndex((section) => section.id === config.id);
     const groupIndex = sections
       .slice(0, sectionIndex + 1)

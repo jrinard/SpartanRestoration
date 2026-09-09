@@ -27,6 +27,8 @@ export type SiteConfigData = {
     latitude?: number;
     longitude?: number;
   };
+  /** JSON-LD knowsAbout — restoration/trade types for this org (optional). */
+  knowsAbout?: string[];
   email: string;
   /** Legal entity on privacy/terms pages. Defaults to `${name} LLC`. */
   legalEntityName?: string;

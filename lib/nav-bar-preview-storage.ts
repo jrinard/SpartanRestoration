@@ -42,8 +42,14 @@ function normalizeNavBarLink(value: unknown, fallback: NavBarLink, index: number
     link.target === "_blank" || link.target === "_self" ? link.target : undefined;
   const visibleDesktop = link.visibleDesktop !== false;
   const visibleMobile = link.visibleMobile !== false;
+  const openContactModal =
+    link.openContactModal === false
+      ? false
+      : link.openContactModal === true
+        ? true
+        : undefined;
 
-  return { id, label, href, target, visibleDesktop, visibleMobile };
+  return { id, label, href, target, visibleDesktop, visibleMobile, openContactModal };
 }
 
 export function normalizeNavBarItems(value: unknown): NavBarLink[] {

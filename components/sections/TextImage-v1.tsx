@@ -141,6 +141,7 @@ export function TextImageV1({
   });
   const headlineDraft = content.headlineLines.join("\n");
   const [libraryOpen, setLibraryOpen] = useState(false);
+  const [altEditorOpen, setAltEditorOpen] = useState(false);
   const imageInverted = shouldInvertTextImageForTheme(settings.theme, defaultTextImageV1Theme);
   const imageBoxShadow = getTextImageImageBoxShadow(settings.imageShadowIntensity);
 
@@ -283,20 +284,46 @@ export function TextImageV1({
               </div>
               {editingEnabled && preview && (
                 <>
-                  <button
-                    type="button"
-                    onClick={() => setLibraryOpen((open) => !open)}
-                    className={devLibraryPillClassName}
-                    aria-label="Choose image from library"
-                    aria-expanded={libraryOpen}
-                  >
-                    <Images size={devLibraryIconSize} strokeWidth={2} />
-                    <span className={devLibraryLabelClassName}>Library</span>
-                  </button>
+                  <div className="absolute top-2 right-2 z-30 flex flex-wrap items-center justify-end gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => setAltEditorOpen((open) => !open)}
+                      className={devLibraryPillClassName}
+                      aria-label="Edit image alt text"
+                      aria-expanded={altEditorOpen}
+                    >
+                      <Pencil size={devLibraryIconSize} strokeWidth={2} />
+                      <span className={devLibraryLabelClassName}>Alt</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setLibraryOpen((open) => !open)}
+                      className={devLibraryPillClassName}
+                      aria-label="Choose image from library"
+                      aria-expanded={libraryOpen}
+                    >
+                      <Images size={devLibraryIconSize} strokeWidth={2} />
+                      <span className={devLibraryLabelClassName}>Library</span>
+                    </button>
+                  </div>
+                  {altEditorOpen ? (
+                    <div className="absolute top-full right-0 z-40 mt-2">
+                      <TextImageTextEditor
+                        value={content.imageAlt}
+                        dialogTitle="Image alt text"
+                        dialogAriaLabel="Edit image alt text"
+                        inputAriaLabel="Image alt text"
+                        onChange={(value) => preview.setContentImageAlt(value)}
+                        onClose={() => setAltEditorOpen(false)}
+                      />
+                    </div>
+                  ) : null}
                   {libraryOpen && (
                     <div className="absolute top-full right-0 z-40 mt-2">
                       <ImageLibraryPicker
                         value={content.imageSrc}
+                        defaultAlt={content.imageAlt}
+                        promptAlt
                         onSelect={(entry) => preview.setContentImage(entry.src, entry.alt)}
                         onClose={() => setLibraryOpen(false)}
                       />

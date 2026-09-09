@@ -45,6 +45,22 @@ function areaServedNames(): string[] {
   return [...tradeDemoSeo.areaServed];
 }
 
+function schemaKnowsAbout(): string[] {
+  if (siteConfig.knowsAbout && siteConfig.knowsAbout.length > 0) {
+    return siteConfig.knowsAbout;
+  }
+  return [...tradeDemoSeo.serviceTypes];
+}
+
+const defaultOrganizationKnowsAbout = [
+  "Web Design",
+  "Custom Software Development",
+  "Branding",
+  "Graphic Design",
+  "Online Reputation Management",
+  "Reviewbox.io",
+] as const;
+
 function areaServedSchema(): JsonLd[] {
   return areaServedNames().map((name) => ({
     "@type": "AdministrativeArea",
@@ -77,14 +93,7 @@ export function buildOrganizationSchema(): JsonLd {
     ...(siteConfig.email && { email: siteConfig.email }),
     ...(siteConfig.phone && { telephone: siteConfig.phone }),
     areaServed: areaServedSchema(),
-    knowsAbout: [
-      "Web Design",
-      "Custom Software Development",
-      "Branding",
-      "Graphic Design",
-      "Online Reputation Management",
-      "Reviewbox.io",
-    ],
+    knowsAbout: siteConfig.knowsAbout ?? [...defaultOrganizationKnowsAbout],
     address: businessAddress(),
     ...(contactPoints.length > 0 && { contactPoint: contactPoints }),
     ...(sameAs.length > 0 && { sameAs }),
@@ -103,7 +112,7 @@ export function buildLocalBusinessSchema(): JsonLd {
     name: siteConfig.name,
     url: siteConfig.url,
     logo: footerV1LogoUrl(),
-    description: tradeDemoSeo.description || siteDescription(),
+    description: siteDescription(),
     ...(primaryPhone && {
       telephone: primaryPhone,
       contactPoint: {
@@ -118,7 +127,7 @@ export function buildLocalBusinessSchema(): JsonLd {
     address: businessAddress(),
     ...(geo && { geo }),
     areaServed: areaServedSchema(),
-    knowsAbout: tradeDemoSeo.serviceTypes,
+    knowsAbout: schemaKnowsAbout(),
     ...(sameAs.length > 0 && { sameAs }),
     ...(primaryPhone && {
       potentialAction: {

@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { useHeaderV3Preview } from "@/components/dev/HeaderV3PreviewContext";
 import { HeaderBrand } from "@/components/ui/HeaderBrand";
 import { HeaderBrandLink } from "@/components/ui/HeaderBrandLink";
@@ -16,6 +16,7 @@ import {
   getHeaderLogoLinkStyle,
   getHeaderLogoVerticalAlignClassName,
   headerLogoOverflows,
+  headerV1MobileNavIsOn,
 } from "@/lib/header-v3-gradient";
 import { cn } from "@/lib/utils";
 
@@ -23,15 +24,36 @@ type HeaderV1Props = {
   className?: string;
 };
 
+function HeaderV1MenuIcon({ open }: { open: boolean }) {
+  if (open) {
+    return (
+      <svg viewBox="0 0 24 24" className="header-v1-mobile-icon" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M18.3 5.71 12 12l6.3 6.29-1.41 1.42L10.59 13.4l-6.29 6.31-1.42-1.42L9.17 12 2.88 5.71 4.3 4.29l6.29 6.3 6.29-6.3z"
+        />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" className="header-v1-mobile-icon" aria-hidden="true">
+      <path fill="currentColor" d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z" />
+    </svg>
+  );
+}
+
 /** Classic header — logo left, navigation right. */
 export function HeaderV1({ className }: HeaderV1Props) {
   const preview = useHeaderV3Preview();
   const settings = preview?.settings ?? defaultHeaderV3PreviewSettings;
   const layoutWidth = settings.layoutWidth;
   const isCustom = Boolean(preview);
+  const includeMobileNav = headerV1MobileNavIsOn(settings);
   const logoOverflow = headerLogoOverflows(settings, "header-v1");
   const logoImageHeightPx = getHeaderLogoImageHeightPx(settings, "header-v1");
   const backgroundLayerHeightPx = getHeaderBackgroundLayerHeightPx(settings, "header-v1");
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const style: CSSProperties | undefined = preview
     ? {
@@ -42,6 +64,21 @@ export function HeaderV1({ className }: HeaderV1Props) {
       }
     : undefined;
 
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setMobileOpen(false);
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!includeMobileNav) setMobileOpen(false);
+  }, [includeMobileNav]);
+
   return (
     <header
       className={cn(
@@ -49,6 +86,7 @@ export function HeaderV1({ className }: HeaderV1Props) {
         !isCustom && "bg-background/80 backdrop-blur-sm",
         isCustom && "header-custom",
         logoOverflow && "header-logo-overflow",
+        includeMobileNav && "header-v1--mobile-nav",
         className,
       )}
       style={style}
@@ -68,13 +106,17 @@ export function HeaderV1({ className }: HeaderV1Props) {
       <div
         className={cn(
           getHeaderLayoutWidthClassName(layoutWidth),
-          "relative z-10 flex items-center justify-center overflow-visible md:justify-between",
+          "relative z-10 flex items-center overflow-visible",
+          includeMobileNav ? "justify-between" : "justify-center md:justify-between",
         )}
         style={getHeaderInnerHeightStyle(settings, "header-v1")}
       >
         <HeaderBrandLink
           className={cn(
-            "header-brand-link flex shrink-0 items-center max-md:mx-auto max-md:w-full max-md:justify-center max-md:px-4",
+            "header-brand-link flex shrink-0 items-center max-md:px-4",
+            includeMobileNav
+              ? "max-md:min-w-0"
+              : "max-md:mx-auto max-md:w-full max-md:justify-center",
             logoOverflow && "header-brand-link--overflow",
             (settings.logoMarginTopPx > 0 ||
               settings.logoHeightPx > 0 ||
@@ -84,12 +126,50 @@ export function HeaderV1({ className }: HeaderV1Props) {
           )}
           style={isCustom ? getHeaderLogoLinkStyle(settings, "header-v1") : undefined}
         >
-          <HeaderBrand priority headerVariant="header-v1" className="max-md:mx-auto max-md:object-center" />
+          <HeaderBrand
+            priority
+            headerVariant="header-v1"
+            className={
+              includeMobileNav ? "max-md:object-left" : "max-md:mx-auto max-md:object-center"
+            }
+          />
         </HeaderBrandLink>
         <HeaderV1Nav
           ariaLabel="Service navigation"
           className="header-custom-nav hidden justify-end md:flex"
         />
+        {includeMobileNav ? (
+          <>
+            <div className="header-v1-mobile">
+              <button
+                type="button"
+                className="header-v1-mobile-toggle"
+                aria-expanded={mobileOpen}
+                aria-controls="header-v1-mobile-menu"
+                aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+                onClick={() => setMobileOpen((open) => !open)}
+              >
+                <HeaderV1MenuIcon open={mobileOpen} />
+              </button>
+            </div>
+            <div
+              id="header-v1-mobile-menu"
+              className={cn(
+                "header-v1-mobile-menu bg-background",
+                mobileOpen ? "block" : "hidden",
+              )}
+              style={
+                isCustom ? { background: getHeaderCustomBackground(settings) } : undefined
+              }
+            >
+              <HeaderV1Nav
+                ariaLabel="Mobile navigation"
+                layout="mobile"
+                onNavigate={() => setMobileOpen(false)}
+              />
+            </div>
+          </>
+        ) : null}
       </div>
     </header>
   );

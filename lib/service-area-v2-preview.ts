@@ -61,13 +61,14 @@ export function getServiceAreaV2ThemeDefaults(theme: ServiceAreaV2SectionTheme) 
   return theme === "light" ? serviceAreaV2LightThemeDefaults : serviceAreaV2DarkThemeDefaults;
 }
 
+/** Matches the bundled `lifespring` preset in service-area-v2-preset-library.json. */
 export const defaultServiceAreaV2PreviewSettings: ServiceAreaV2PreviewSettings = {
   theme: "light",
   eyebrow: "Clark County & Beyond",
-  heading: "FIND YOUR TOWN",
+  heading: "Find your town",
   intro:
     "Every community gets the same local team, the same thoughtful strategy and clean builds, and the same honest, no-pressure project quote.",
-  accentColor: "#85a33f",
+  accentColor: "#4d82b8",
   layoutWidth: "contained",
   solidBackground: serviceAreaV2LightThemeDefaults.solidBackground,
   backgroundMode: "solid",
@@ -77,7 +78,7 @@ export const defaultServiceAreaV2PreviewSettings: ServiceAreaV2PreviewSettings =
   cardTextColor: serviceAreaV2LightThemeDefaults.cardTextColor,
   cardMutedColor: serviceAreaV2LightThemeDefaults.cardMutedColor,
   linkColor: serviceAreaV2LightThemeDefaults.linkColor,
-  cardBorderRadiusPx: 12,
+  cardBorderRadiusPx: 20,
 };
 
 export function getServiceAreaV2BackgroundStyle(

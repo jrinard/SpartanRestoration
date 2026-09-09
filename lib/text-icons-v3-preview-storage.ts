@@ -1,11 +1,18 @@
 import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
 import {
   defaultTextIconsV3PreviewSettings,
+  type TextIconsV3Item,
   type TextIconsV3PreviewSettings,
 } from "@/lib/text-icons-v3-preview";
+
+export type { TextIconsV3PreviewSettings };
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
 import type { SiteLayoutWidth } from "@/lib/site-layout";
-import { normalizeServiceIconsMap, normalizeServiceLabelsMap } from "@/lib/site-icons";
+import {
+  isSiteIconName,
+  normalizeServiceIconsMap,
+  normalizeServiceLabelsMap,
+} from "@/lib/site-icons";
 import { isIconFrameShape, isIconFrameSize } from "@/lib/icon-frame-preview";
 
 import { orgStorageGet, orgStorageSet } from "@/lib/org/browser-storage";
@@ -25,7 +32,7 @@ function isRgbaColor(value: unknown): value is string {
 }
 
 function isColor(value: unknown): value is string {
-  return isHexColor(value) || isRgbaColor(value);
+  return isHexColor(value) || isRgbaColor(value) || value === "transparent";
 }
 
 function isPreviewGradientDirection(value: unknown): value is PreviewGradientDirection {
@@ -46,6 +53,28 @@ function normalizeOptionalString(value: unknown): string | undefined {
   if (typeof value !== "string") return undefined;
   const trimmed = value.trim();
   return trimmed || undefined;
+}
+
+function normalizeTextIconsV3Item(value: unknown, index: number): TextIconsV3Item | null {
+  if (!value || typeof value !== "object") return null;
+  const record = value as Partial<TextIconsV3Item>;
+  const id =
+    typeof record.id === "string" && record.id.trim()
+      ? record.id.trim()
+      : `item-${index + 1}`;
+  const title = typeof record.title === "string" ? record.title : "";
+  const description = typeof record.description === "string" ? record.description : "";
+  const icon = isSiteIconName(record.icon) ? record.icon : undefined;
+  return icon ? { id, title, description, icon } : { id, title, description };
+}
+
+function normalizeOptionalItems(value: unknown): TextIconsV3Item[] | undefined {
+  if (value === undefined) return undefined;
+  if (!Array.isArray(value)) return undefined;
+  return value.flatMap((item, index) => {
+    const next = normalizeTextIconsV3Item(item, index);
+    return next ? [next] : [];
+  });
 }
 
 export function normalizeTextIconsV3PreviewSettings(
@@ -87,10 +116,12 @@ export function normalizeTextIconsV3PreviewSettings(
     itemIcons: normalizeServiceIconsMap(value.itemIcons),
     contentHeading: normalizeOptionalString(value.contentHeading),
     contentSubheading: normalizeOptionalString(value.contentSubheading),
+    anchorId: normalizeOptionalString(value.anchorId)?.replace(/^#/, ""),
     itemTitles: normalizeServiceLabelsMap(value.itemTitles),
     itemDescriptions: normalizeServiceLabelsMap(value.itemDescriptions),
     backgroundImageSrc:
       typeof value.backgroundImageSrc === "string" ? value.backgroundImageSrc.trim() : "",
+    items: normalizeOptionalItems(value.items),
   };
 }
 

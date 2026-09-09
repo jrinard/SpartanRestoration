@@ -8,6 +8,8 @@ export type ServiceAreaV2Card = {
   title: string;
   description: string;
   ctaLabel: string;
+  /** When set, link target instead of `/service-areas/{slug}`. */
+  href?: string;
 };
 
 export const serviceAreaV2Cards: ServiceAreaV2Card[] = [
@@ -116,5 +118,7 @@ export function getServiceAreaV2CardSlugs(): string[] {
 
 /** Resolve the live path for a service-area card. */
 export function getServiceAreaV2CardHref(card: ServiceAreaV2Card): string {
+  const custom = card.href?.trim();
+  if (custom) return custom.startsWith("/") ? custom : `/${custom}`;
   return getServiceAreaLocationPath(card.slug);
 }

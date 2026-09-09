@@ -1,6 +1,7 @@
 "use client";
 
 import { TopBarPreviewProvider } from "@/components/dev/TopBarPreviewContext";
+import { TopBarV2PreviewProvider } from "@/components/dev/TopBarV2PreviewContext";
 import { NavBarPreviewProvider } from "@/components/dev/NavBarPreviewContext";
 import { HeroBannerPreviewProvider } from "@/components/dev/HeroBannerPreviewContext";
 import { HeroV1PreviewProvider } from "@/components/dev/HeroV1PreviewContext";
@@ -11,7 +12,6 @@ import { PortfolioV2PreviewProvider } from "@/components/dev/PortfolioV2PreviewC
 import { FooterV3PreviewProvider } from "@/components/dev/FooterV3PreviewContext";
 import { FooterV1PreviewProvider } from "@/components/dev/FooterV1PreviewContext";
 import { FooterV4PreviewProvider } from "@/components/dev/FooterV4PreviewContext";
-import { resolveFooterV4PreviewSettings } from "@/lib/footer-v4-preview-storage";
 import { resolveFooterV1PreviewSettings } from "@/lib/footer-v1-preview-storage";
 import { ReviewboxPreviewProvider } from "@/components/dev/ReviewboxPreviewContext";
 import { ContactV1PreviewProvider } from "@/components/dev/ContactV1PreviewContext";
@@ -27,6 +27,7 @@ import { TextIconsV3PreviewProvider } from "@/components/dev/TextIconsV3PreviewC
 import { TextImagePreviewProvider } from "@/components/dev/TextImagePreviewContext";
 import { TextImagesPreviewProvider } from "@/components/dev/TextImagesPreviewContext";
 import { ImagesV1PreviewProvider } from "@/components/dev/ImagesV1PreviewContext";
+import { CardsV1PreviewProvider } from "@/components/dev/CardsV1PreviewContext";
 import { headerVariantUsesPreviewControls } from "@/lib/header-v3-gradient";
 import { resolveSectionPreviewField } from "@/lib/home-preview-sync";
 import type { HomepagePreviewSettings } from "@/lib/homepage-settings";
@@ -80,6 +81,17 @@ export function SectionPreview({
 
   const published = <T,>(slotValue: T | undefined, legacyValue: T | undefined): T | undefined =>
     slotValue ?? legacyValue;
+
+  if (group === "topBar" && variantId === "top-bar-v2") {
+    return (
+      <TopBarV2PreviewProvider
+        instanceId={sectionId}
+        initialSettings={savedField("topBarV2", "topBarV2")}
+      >
+        {content}
+      </TopBarV2PreviewProvider>
+    );
+  }
 
   if (group === "topBar") {
     return (
@@ -298,10 +310,7 @@ export function SectionPreview({
     return (
       <FooterV4PreviewProvider
         instanceId={sectionId}
-        initialSettings={resolveFooterV4PreviewSettings(
-          slot?.footerV4,
-          previewSettings?.footerV4,
-        )}
+        initialSettings={savedField("footerV4", "footerV4")}
       >
         {content}
       </FooterV4PreviewProvider>
@@ -387,6 +396,17 @@ export function SectionPreview({
       >
         {content}
       </ImagesV1PreviewProvider>
+    );
+  }
+
+  if (group === "content" && variantId === "cards-v1") {
+    return (
+      <CardsV1PreviewProvider
+        instanceId={sectionId}
+        initialSettings={published(slot?.cardsV1, previewSettings?.cardsV1)}
+      >
+        {content}
+      </CardsV1PreviewProvider>
     );
   }
 

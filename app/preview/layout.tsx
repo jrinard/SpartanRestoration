@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { noIndexRobots } from "@/lib/seo";
+import { previewOrgPageMetadata } from "@/lib/org/live-page.server";
 
-export const metadata: Metadata = {
-  robots: noIndexRobots,
-};
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return previewOrgPageMetadata();
+}
 
 export default function PreviewLayout({ children }: { children: React.ReactNode }) {
   return children;

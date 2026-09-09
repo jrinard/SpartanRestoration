@@ -1,0 +1,200 @@
+{
+  "entries": [
+    {
+      "id": "stone-pillar",
+      "label": "Stone Pillar",
+      "settings": {
+        "backgroundFrom": "#000000",
+        "backgroundTo": "#000000",
+        "backgroundDirection": "none",
+        "backgroundImageSrc": "",
+        "layoutWidth": "full",
+        "outerBackgroundColor": "#ffffff",
+        "headingColor": "#ffffff",
+        "subheadingColor": "#bfbfbf",
+        "iconColor": "#f3c35d",
+        "iconBorderColor": "rgba(243, 195, 93, 0.55)",
+        "iconBackgroundColor": "rgba(243, 195, 93, 0.12)",
+        "iconFrameShape": "card",
+        "iconFrameSize": "medium",
+        "itemIcons": {
+          "why-quality": "sparkles",
+          "why-value": "home",
+          "why-partnership": "hard-hat"
+        },
+        "itemTitles": {
+          "why-quality": "Quality Without Compromise",
+          "why-value": "Value Back Into Your Home",
+          "why-partnership": "Plan. Build. Complete."
+        },
+        "itemDescriptions": {
+          "why-quality": "We hold every project to the highest standards of craftsmanship. No shortcuts, no cut corners, just careful work built to last, even when it means more time on the job.",
+          "why-value": "Our goal is superiority in every detail, with work that improves your property, stands the test of time, and delivers real value long after we leave.",
+          "why-partnership": "We guide you from planning through implementation and closure, keeping you informed, answering questions honestly, and measuring success by your satisfaction."
+        },
+        "contentHeading": "Why Choose Stone Pillar Contractors?",
+        "contentSubheading": "Quality and inspiration drive everything we do. We never compromise on craftsmanship, even when a project needs more time, and we work to put lasting value back into your home. From cabinetry and carpentry to concrete and complete renovations, we educate our clients and serve as good stewards through every phase of the job.",
+        "items": [
+          {
+            "id": "why-quality",
+            "title": "Quality Without Compromise",
+            "description": "We hold every project to the highest standards of craftsmanship. No shortcuts, no cut corners, just careful work built to last, even when it means more time on the job.",
+            "icon": "sparkles"
+          },
+          {
+            "id": "why-value",
+            "title": "Value Back Into Your Home",
+            "description": "Our goal is superiority in every detail, with work that improves your property, stands the test of time, and delivers real value long after we leave.",
+            "icon": "home"
+          },
+          {
+            "id": "why-partnership",
+            "title": "Plan. Build. Complete.",
+            "description": "We guide you from planning through implementation and closure, keeping you informed, answering questions honestly, and measuring success by your satisfaction.",
+            "icon": "hard-hat"
+          }
+        ]
+      }
+    },
+    {
+      "id": "langham",
+      "label": "Langham",
+      "settings": {
+        "backgroundFrom": "#000000",
+        "backgroundTo": "#000000",
+        "backgroundDirection": "none",
+        "backgroundImageSrc": "",
+        "layoutWidth": "full",
+        "outerBackgroundColor": "#000000",
+        "headingColor": "#ffffff",
+        "subheadingColor": "#bfbfbf",
+        "iconColor": "#f7aa0a",
+        "iconBorderColor": "rgba(247, 170, 10, 0.55)",
+        "iconBackgroundColor": "rgba(247, 170, 10, 0.12)",
+        "iconFrameShape": "card",
+        "iconFrameSize": "medium",
+        "itemIcons": {
+          "warranty-term": "shield",
+          "warranty-transferable": "home",
+          "warranty-coverage": "shield-check",
+          "warranty-maintenance": "sparkles",
+          "warranty-claim": "phone"
+        },
+        "itemTitles": {
+          "warranty-term": "5-Year Workmanship",
+          "warranty-transferable": "Fully Transferable",
+          "warranty-coverage": "What Our Warranty Covers",
+          "warranty-maintenance": "No Maintenance Requirements",
+          "warranty-claim": "How to File a Claim"
+        },
+        "itemDescriptions": {
+          "warranty-term": "Every siding project we complete is backed by a 5-year workmanship warranty, starting from the date of substantial completion.",
+          "warranty-transferable": "If you sell your home during the 5-year warranty period, the remaining coverage automatically transfers to the new owner, no paperwork, no fees, no hassles.",
+          "warranty-coverage": "We guarantee that your siding is installed according to the manufacturer’s specifications and industry best practices. Our warranty covers workmanship-related issues only, not material defects or failures unrelated to installation.",
+          "warranty-maintenance": "Homeowners are not required to perform any specific maintenance to keep this workmanship warranty valid.",
+          "warranty-claim": "If a workmanship-related issue arises, call 360-567-8273 or contact us. We respond to your claim within 72 hours and resolve confirmed installation defects within 30 working days."
+        },
+        "contentHeading": "5 YEAR WARRANTY FOR YOUR CONFIDENCE",
+        "contentSubheading": "We take pride in doing the job right and standing behind it long after the project is complete.",
+        "anchorId": "warranty",
+        "items": [
+          {
+            "id": "warranty-term",
+            "title": "5-Year Workmanship",
+            "description": "Every siding project we complete is backed by a 5-year workmanship warranty, starting from the date of substantial completion.",
+            "icon": "shield"
+          },
+          {
+            "id": "warranty-transferable",
+            "title": "Fully Transferable",
+            "description": "If you sell your home during the 5-year warranty period, the remaining coverage automatically transfers to the new owner, no paperwork, no fees, no hassles.",
+            "icon": "home"
+          },
+          {
+            "id": "warranty-coverage",
+            "title": "What Our Warranty Covers",
+            "description": "We guarantee that your siding is installed according to the manufacturer’s specifications and industry best practices. Our warranty covers workmanship-related issues only, not material defects or failures unrelated to installation.",
+            "icon": "shield-check"
+          },
+          {
+            "id": "warranty-maintenance",
+            "title": "No Maintenance Requirements",
+            "description": "Homeowners are not required to perform any specific maintenance to keep this workmanship warranty valid.",
+            "icon": "sparkles"
+          },
+          {
+            "id": "warranty-claim",
+            "title": "How to File a Claim",
+            "description": "If a workmanship-related issue arises, call 360-567-8273 or contact us. We respond to your claim within 72 hours and resolve confirmed installation defects within 30 working days.",
+            "icon": "phone"
+          }
+        ]
+      }
+    },
+    {
+      "id": "spartan",
+      "label": "Spartan",
+      "settings": {
+        "backgroundFrom": "#000000",
+        "backgroundTo": "#000000",
+        "backgroundDirection": "none",
+        "backgroundImageSrc": "",
+        "layoutWidth": "contained",
+        "outerBackgroundColor": "#ffffff",
+        "headingColor": "#ffffff",
+        "subheadingColor": "#bfbfbf",
+        "iconColor": "#000000",
+        "iconBorderColor": "#000000",
+        "iconBackgroundColor": "#f3c35d",
+        "iconFrameShape": "card",
+        "iconFrameSize": "medium",
+        "itemIcons": {
+          "why-emergency-response": "phone",
+          "why-quality": "sparkles",
+          "why-estimates": "file-text",
+          "why-licensed": "shield-check"
+        },
+        "itemTitles": {
+          "why-emergency-response": "Fast Response When You Need Us",
+          "why-quality": "Quality You Can See",
+          "why-estimates": "Honest, Competitive Estimates",
+          "why-licensed": "Licensed, Insured & Certified"
+        },
+        "itemDescriptions": {
+          "why-emergency-response": "When you're facing damage, you get a real person on the line—not a voicemail loop.",
+          "why-quality": "We keep you informed from the first visit through completion, with work built to last, not just look good on day one.",
+          "why-estimates": "Clear pricing up front, no surprises. Have a written quote from another licensed contractor? Talk to us. We'll work to earn your business.",
+          "why-licensed": "Fully insured crews trained to IICRC industry standards, so your property is in qualified hands from start to finish."
+        },
+        "contentHeading": "Why Choose Spartan Restoration?",
+        "contentSubheading": "Water and mold damage move fast. Your restoration team should too. Spartan Restoration serves Vancouver and the Pacific Northwest with the urgency and care a damaged home deserves.",
+        "items": [
+          {
+            "id": "why-emergency-response",
+            "title": "Fast Response When You Need Us",
+            "description": "When you're facing damage, you get a real person on the line—not a voicemail loop.",
+            "icon": "phone"
+          },
+          {
+            "id": "why-quality",
+            "title": "Quality You Can See",
+            "description": "We keep you informed from the first visit through completion, with work built to last, not just look good on day one.",
+            "icon": "sparkles"
+          },
+          {
+            "id": "why-estimates",
+            "title": "Honest, Competitive Estimates",
+            "description": "Clear pricing up front, no surprises. Have a written quote from another licensed contractor? Talk to us. We'll work to earn your business.",
+            "icon": "file-text"
+          },
+          {
+            "id": "why-licensed",
+            "title": "Licensed, Insured & Certified",
+            "description": "Fully insured crews trained to IICRC industry standards, so your property is in qualified hands from start to finish.",
+            "icon": "shield-check"
+          }
+        ]
+      }
+    }
+  ]
+}

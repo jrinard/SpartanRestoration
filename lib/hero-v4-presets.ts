@@ -1,97 +1,123 @@
 import { siteConfig } from "@/config/site";
+import bundledHeroV4PresetLibrary from "@/lib/hero-v4-preset-library.json";
 import {
-  defaultHeroV4FormLeadSourceId,
-  defaultHeroV4PreviewSettings,
   normalizeHeroV4PreviewSettings,
   type HeroV4PreviewSettings,
 } from "@/lib/hero-v4-preview";
 import { phoneTelHref } from "@/lib/phone";
 
-export type HeroV4PresetId = "lifespring" | "langham";
+export type HeroV4PresetId = string;
 
-export const defaultHeroV4PresetId: HeroV4PresetId = "lifespring";
-
-/** Langham Construction starter — copy only. Apply does not change the saved JSON schema. */
-const langhamHeroV4PresetSettings: HeroV4PreviewSettings = {
-  showForm: true,
-  showBreadcrumbs: false,
-  showBullets: true,
-  showPhoneCta: true,
-  eyebrow: "Siding · Windows · Doors",
-  headline: "Weather ready. Straight lines. No compromise.",
-  body:
-    "At Langham Construction, siding isn’t just a service we offer — it’s our craft. We combine industry-leading materials with expert installation to create exteriors that look sharp and perform even better. Whether you’re replacing old siding or building a brand-new home, our team of knowledgeable installers will ensure your project is completed on time and to the highest level of quality.",
-  bullets: [
-    "Quality workmanship",
-    "Professional service",
-    "Premium materials",
-    "5-year workmanship warranty",
-  ],
-  primaryCtaLabel: "Request a Quote",
-  primaryCtaHref: "/contact",
-  phoneLabel: siteConfig.phone,
-  phoneHref: phoneTelHref(siteConfig.phone),
-  formTitle: "Request a Quote",
-  formSubtext: "New home siding, replacements, and warranty claims — Vancouver, WA.",
-  formTrustNotes: ["5-year transferable warranty", "Family-run since 2023"],
-  formLeadSource: "contact-form",
-  showServicePills: true,
-  servicePills: [
-    {
-      label: "Siding",
-      href: "#services",
-      title: "Siding built for the Northwest — Langham Construction",
-      description:
-        "James Hardie, LP SmartSide, and wood siding installed for Washington weather. New homes and replacements in Vancouver, WA and Southwest Washington.",
-    },
-    {
-      label: "Windows",
-      href: "#services",
-      title: "Window installation — Langham Construction",
-      description:
-        "Window installation for new construction and remodels in Vancouver, WA, Clark County, and Southwest Washington.",
-    },
-    {
-      label: "Doors",
-      href: "#services",
-      title: "Door installation — Langham Construction",
-      description:
-        "Entry and exterior door installation for homes and remodels in Vancouver, WA and surrounding cities.",
-    },
-  ],
-  breadcrumbs: [{ label: "Home", href: "/" }],
-};
-
-export const heroV4Presets: {
+export type HeroV4PresetEntry = {
   id: HeroV4PresetId;
   label: string;
   settings: HeroV4PreviewSettings;
-}[] = [
-  { id: "lifespring", label: "LifeSpring", settings: defaultHeroV4PreviewSettings },
-  { id: "langham", label: "Langham", settings: langhamHeroV4PresetSettings },
-];
+};
 
-function cloneHeroV4Settings(settings: HeroV4PreviewSettings): HeroV4PreviewSettings {
+export type HeroV4PresetLibrary = {
+  entries: HeroV4PresetEntry[];
+};
+
+export function slugifyHeroV4PresetId(label: string): string {
+  return label
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 48);
+}
+
+export function isHeroV4PresetId(value: string): boolean {
+  return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value.trim());
+}
+
+export function labelForHeroV4PresetId(id: string): string {
+  if (id === "lifespring") return "LifeSpring";
+  if (id === "langham") return "Langham";
+  return id
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function entryFromUnknown(value: unknown, fallbackId: string): HeroV4PresetEntry | null {
+  if (!value || typeof value !== "object") return null;
+  const record = value as { id?: unknown; label?: unknown; settings?: unknown };
+  const id =
+    typeof record.id === "string" && isHeroV4PresetId(record.id) ? record.id : fallbackId;
+  if (!isHeroV4PresetId(id)) return null;
+  const settingsSource =
+    record.settings && typeof record.settings === "object" ? record.settings : value;
   return {
-    ...settings,
-    bullets: [...settings.bullets],
-    formTrustNotes: [...settings.formTrustNotes],
-    formLeadSource: settings.formLeadSource ?? defaultHeroV4FormLeadSourceId,
-    servicePills: settings.servicePills.map((pill) => ({ ...pill })),
-    breadcrumbs: settings.breadcrumbs?.map((crumb) => ({ ...crumb })),
-    gallerySlides: settings.gallerySlides?.map((slide) => ({ ...slide })),
-    galleryBackground: settings.galleryBackground,
-    galleryRadiusPx: settings.galleryRadiusPx,
+    id,
+    label:
+      typeof record.label === "string" && record.label.trim()
+        ? record.label.trim()
+        : labelForHeroV4PresetId(id),
+    settings: normalizeHeroV4PreviewSettings(settingsSource as Partial<HeroV4PreviewSettings>),
   };
 }
 
-/** Replace this instance's copy with a named starter. Does not persist a preset id. */
-export function applyHeroV4Preset(id: HeroV4PresetId): HeroV4PreviewSettings {
-  const preset =
-    heroV4Presets.find((item) => item.id === id) ?? heroV4Presets[0];
+export function normalizeHeroV4PresetLibrary(value: unknown): HeroV4PresetLibrary {
+  const fallback = { entries: [] as HeroV4PresetEntry[] };
+  if (!value || typeof value !== "object") {
+    return normalizeHeroV4PresetLibrary(bundledHeroV4PresetLibrary);
+  }
+
+  const raw = value as { entries?: unknown } & Record<string, unknown>;
+  if (Array.isArray(raw.entries)) {
+    const entries = raw.entries.flatMap((item, index) => {
+      const entry = entryFromUnknown(item, `preset-${index + 1}`);
+      return entry ? [entry] : [];
+    });
+    if (entries.length > 0) return { entries };
+  }
+
+  const entries = Object.entries(raw).flatMap(([id, settings]) => {
+    if (id === "entries") return [];
+    const entry = entryFromUnknown({ id, settings }, id);
+    return entry ? [entry] : [];
+  });
+
+  if (entries.length > 0) return { entries };
+  if (value !== bundledHeroV4PresetLibrary) {
+    return normalizeHeroV4PresetLibrary(bundledHeroV4PresetLibrary);
+  }
+  return fallback;
+}
+
+export const bundledHeroV4Presets = normalizeHeroV4PresetLibrary(bundledHeroV4PresetLibrary);
+
+export function listHeroV4Presets(
+  library: HeroV4PresetLibrary = bundledHeroV4Presets,
+): HeroV4PresetEntry[] {
+  return library.entries;
+}
+
+export function getHeroV4Preset(
+  id: string,
+  library: HeroV4PresetLibrary = bundledHeroV4Presets,
+): HeroV4PresetEntry | undefined {
+  return library.entries.find((entry) => entry.id === id);
+}
+
+function cloneHeroV4Settings(settings: HeroV4PreviewSettings): HeroV4PreviewSettings {
+  return normalizeHeroV4PreviewSettings(
+    JSON.parse(JSON.stringify(settings)) as Partial<HeroV4PreviewSettings>,
+  );
+}
+
+/** Replace this instance's hero with a named starter. Does not persist a preset id. */
+export function applyHeroV4Preset(
+  id: HeroV4PresetId,
+  library: HeroV4PresetLibrary = bundledHeroV4Presets,
+): HeroV4PreviewSettings {
+  const preset = getHeroV4Preset(id, library)?.settings ?? library.entries[0]?.settings;
+  if (!preset) return normalizeHeroV4PreviewSettings(undefined);
 
   return normalizeHeroV4PreviewSettings({
-    ...cloneHeroV4Settings(preset.settings),
+    ...cloneHeroV4Settings(preset),
     phoneLabel: siteConfig.phone,
     phoneHref: phoneTelHref(siteConfig.phone),
   });

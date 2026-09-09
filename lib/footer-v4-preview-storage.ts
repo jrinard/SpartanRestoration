@@ -6,9 +6,12 @@ import {
   defaultFooterV4PreviewSettings,
   mergeFooterV4GlobalContent,
   pickFooterV4ContentOverrides,
+  resolveFooterV4LogoOffsetXPx,
   type FooterV4ContentOverrides,
   type FooterV4PreviewSettings,
 } from "@/lib/footer-v4-preview";
+
+export type { FooterV4PreviewSettings };
 import type { NavBarLink } from "@/lib/nav-bar-preview";
 import {
   loadAllSectionInstanceSettings,
@@ -68,6 +71,7 @@ export function normalizeFooterV4PreviewSettings(
       typeof value.logoSizePx === "number" && Number.isFinite(value.logoSizePx)
         ? value.logoSizePx
         : defaultFooterV4PreviewSettings.logoSizePx,
+    logoOffsetXPx: resolveFooterV4LogoOffsetXPx(value),
     showFacebook:
       typeof value.showFacebook === "boolean"
         ? value.showFacebook
