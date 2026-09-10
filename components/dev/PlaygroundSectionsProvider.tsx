@@ -30,7 +30,7 @@ import {
   homePlaygroundPageId,
   loadPlaygroundPagesState,
   renamePlaygroundPage,
-  reorderPlaygroundPages,
+  reorderPlaygroundPagesNonHome,
   savePlaygroundPagesState,
   setActivePlaygroundPageInStorage,
   setPlaygroundPageIncludeInNav,
@@ -67,7 +67,7 @@ type PlaygroundSectionsContextValue = {
   renamePage: (pageId: string, name: string) => void;
   setPageRoute: (pageId: string, route: string) => string | null;
   setIncludeInNav: (pageId: string, includeInNav: boolean) => void;
-  reorderPages: (fromIndex: number, toIndex: number) => void;
+  reorderNonHomePages: (fromIndex: number, toIndex: number) => void;
   navLinks: ReturnType<typeof getNavLinksFromPlaygroundPages>;
   sections: PlaygroundSectionConfig[];
   setSections: (sections: PlaygroundSectionConfig[]) => void;
@@ -229,8 +229,8 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
     setPagesState((current) => setPlaygroundPageIncludeInNav(current, pageId, includeInNav) ?? current);
   }, []);
 
-  const reorderPages = useCallback((fromIndex: number, toIndex: number) => {
-    setPagesState((current) => reorderPlaygroundPages(current, fromIndex, toIndex));
+  const reorderNonHomePages = useCallback((fromIndex: number, toIndex: number) => {
+    setPagesState((current) => reorderPlaygroundPagesNonHome(current, fromIndex, toIndex));
   }, []);
 
   const setSections = useCallback((next: PlaygroundSectionConfig[]) => {
@@ -290,7 +290,7 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
     renamePage,
     setPageRoute,
     setIncludeInNav,
-    reorderPages,
+    reorderNonHomePages,
     navLinks,
     sections,
     setSections,

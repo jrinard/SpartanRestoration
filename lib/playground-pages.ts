@@ -11,7 +11,6 @@ import type {
   HomepageSectionEntry,
 } from "@/lib/homepage-config";
 import { orgStorageGet, orgStorageSet } from "@/lib/org/browser-storage";
-import { SERVICE_AREAS_PAGE_SLUG } from "@/lib/service-area-pages";
 import { getServiceAreaLocationDefinition } from "@/lib/service-area-location-content";
 
 import {
@@ -33,6 +32,8 @@ export type PlaygroundPage = {
   isHome?: boolean;
   /** When false, omit from nav generated from pages. Default true. */
   includeInNav?: boolean;
+  /** Forge-only sort key — lower values appear earlier (after Home). */
+  createdAt?: number;
 };
 
 export type PlaygroundPagesState = {
@@ -253,6 +254,7 @@ export function createPlaygroundPage(name: string, pages: PlaygroundPage[]): Pla
     id: createPageId(),
     name: label,
     slug: uniquePageSlug(label, pages),
+    createdAt: Date.now(),
   };
 }
 
@@ -344,24 +346,39 @@ export function normalizePlaygroundPagesState(value: unknown): PlaygroundPagesSt
       ? record.activePageId
       : normalizedPages[0].id;
 
+  const orderedPages = ensureHomePlaygroundPageFirst(
+    assignMissingPlaygroundPageCreatedAt(normalizedPages),
+  );
+
   return {
-    pages: sortPlaygroundPages(normalizedPages),
+    pages: orderedPages,
     activePageId,
     sectionsByPageId,
   };
 }
 
+function assignMissingPlaygroundPageCreatedAt(pages: PlaygroundPage[]): PlaygroundPage[] {
+  const base = Date.now();
+  return pages.map((page, index) => ({
+    ...page,
+    createdAt: page.createdAt ?? base + index,
+  }));
+}
+
+/** Home stays first; other pages keep their saved array order. */
+export function ensureHomePlaygroundPageFirst(pages: PlaygroundPage[]): PlaygroundPage[] {
+  const home = pages.find((page) => page.isHome) ?? createHomePlaygroundPage();
+  const others = pages.filter((page) => !page.isHome);
+  return [home, ...others];
+}
+
+/** Dropdown / nav order — creation or manual order, never alphabetical. */
 export function sortPlaygroundPages(pages: PlaygroundPage[]): PlaygroundPage[] {
-  const homePages = pages.filter((page) => page.isHome);
-  const otherPages = pages.filter((page) => !page.isHome);
+  return ensureHomePlaygroundPageFirst(pages);
+}
 
-  otherPages.sort((a, b) => {
-    if (a.slug === SERVICE_AREAS_PAGE_SLUG) return -1;
-    if (b.slug === SERVICE_AREAS_PAGE_SLUG) return 1;
-    return a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
-  });
-
-  return [...homePages, ...otherPages];
+export function getPlaygroundPagesForDropdown(pages: PlaygroundPage[]): PlaygroundPage[] {
+  return sortPlaygroundPages(pages);
 }
 
 export function createDefaultPlaygroundPagesState(): PlaygroundPagesState {
@@ -553,7 +570,33 @@ export function reorderPlaygroundPages(
   const [moved] = pages.splice(fromIndex, 1);
   pages.splice(toIndex, 0, moved);
 
-  return { ...state, pages };
+  return { ...state, pages: ensureHomePlaygroundPageFirst(pages) };
+}
+
+/** Reorder non-home pages in the page dropdown (Home stays pinned first). */
+export function reorderPlaygroundPagesNonHome(
+  state: PlaygroundPagesState,
+  fromIndex: number,
+  toIndex: number,
+): PlaygroundPagesState {
+  if (fromIndex === toIndex) return state;
+
+  const homePages = state.pages.filter((page) => page.isHome);
+  const others = [...state.pages.filter((page) => !page.isHome)];
+
+  if (
+    fromIndex < 0 ||
+    toIndex < 0 ||
+    fromIndex >= others.length ||
+    toIndex >= others.length
+  ) {
+    return state;
+  }
+
+  const [moved] = others.splice(fromIndex, 1);
+  others.splice(toIndex, 0, moved);
+
+  return { ...state, pages: [...homePages, ...others] };
 }
 
 function uniqueSlug(baseSlug: string, pages: PlaygroundPage[]): string {
@@ -645,9 +688,9 @@ export function upsertPlaygroundPagesFromHomepageConfig(
     changed = changed || result.changed;
   }
 
-  const sorted = sortPlaygroundPages(next.pages);
-  if (sorted.some((page, index) => page.id !== next.pages[index]?.id)) {
-    next = { ...next, pages: sorted };
+  const ordered = ensureHomePlaygroundPageFirst(next.pages);
+  if (ordered.some((page, index) => page.id !== next.pages[index]?.id)) {
+    next = { ...next, pages: ordered };
     changed = true;
   }
 
@@ -680,9 +723,9 @@ export function upsertPlaygroundLocationPagesFromConfig(
     changed = changed || result.changed;
   }
 
-  const sorted = sortPlaygroundPages(next.pages);
-  if (sorted.some((page, index) => page.id !== next.pages[index]?.id)) {
-    next = { ...next, pages: sorted };
+  const ordered = ensureHomePlaygroundPageFirst(next.pages);
+  if (ordered.some((page, index) => page.id !== next.pages[index]?.id)) {
+    next = { ...next, pages: ordered };
     changed = true;
   }
 
@@ -725,12 +768,15 @@ export function buildPlaygroundPagesStateFromHomepageConfig(
     [home.id]: buildPlaygroundSectionsFromSnapshot(config.sections),
   };
 
-  for (const pageSnapshot of config.pages ?? []) {
+  const baseCreatedAt = Date.now();
+
+  for (const [index, pageSnapshot] of (config.pages ?? []).entries()) {
     const page: PlaygroundPage = {
       id: createPageId(),
       name: pageSnapshot.name,
       slug: uniqueSlug(pageSnapshot.slug || pageSnapshot.name, pages),
       includeInNav: pageSnapshot.includeInNav,
+      createdAt: baseCreatedAt + index,
     };
     pages.push(page);
     sectionsByPageId[page.id] = bindPlaygroundChromeSectionIds(
@@ -740,7 +786,7 @@ export function buildPlaygroundPagesStateFromHomepageConfig(
   }
 
   return {
-    pages: sortPlaygroundPages(pages),
+    pages: ensureHomePlaygroundPageFirst(pages),
     activePageId: home.id,
     sectionsByPageId,
   };
