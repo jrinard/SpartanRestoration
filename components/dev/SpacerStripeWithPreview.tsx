@@ -12,6 +12,7 @@ export function SpacerStripeWithPreview() {
     <SpacerStripe
       style={context.stripe}
       layoutWidth={context.layoutWidth}
+      layoutWidthMobile={context.layoutWidthMobile}
       outerBackgroundColor={context.outerBackgroundColor}
     />
   );

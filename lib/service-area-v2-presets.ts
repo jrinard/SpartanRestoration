@@ -30,6 +30,7 @@ export function isServiceAreaV2PresetId(value: string): boolean {
 export function labelForServiceAreaV2PresetId(id: string): string {
   if (id === "lifespring") return "LifeSpring";
   if (id === "spartan") return "Spartan";
+  if (id === "stonepillar") return "Stone Pillar";
   return id
     .split("-")
     .filter(Boolean)

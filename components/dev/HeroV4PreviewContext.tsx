@@ -27,6 +27,9 @@ import {
   heroV4GalleryHeightOptions,
   heroV4GalleryRadiusOptions,
   heroV4BackgroundColorPickerFallback,
+  heroV4BodyColorPickerFallback,
+  heroV4EyebrowColorPickerFallback,
+  heroV4HeadlineColorPickerFallback,
   heroV4GalleryTransitions,
   heroV4HeadlineFontSizeOptions,
   heroV4LabelFontStyleOptions,
@@ -531,6 +534,63 @@ export function HeroV4PreviewControls() {
           <button
             type="button"
             onClick={() => update({ backgroundColor: undefined })}
+            className="font-mono text-xs tracking-wide text-accent-purple/80 uppercase hover:text-accent-purple"
+          >
+            Default
+          </button>
+        ) : null}
+      </label>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Eyebrow</span>
+        <input
+          type="color"
+          value={settings.eyebrowColor ?? heroV4EyebrowColorPickerFallback}
+          onChange={(event) => update({ eyebrowColor: event.target.value })}
+          className={`${colorInputClassName}${settings.eyebrowColor ? "" : " opacity-40"}`}
+          aria-label="Hero eyebrow text color"
+        />
+        {settings.eyebrowColor ? (
+          <button
+            type="button"
+            onClick={() => update({ eyebrowColor: undefined })}
+            className="font-mono text-xs tracking-wide text-accent-purple/80 uppercase hover:text-accent-purple"
+          >
+            Default
+          </button>
+        ) : null}
+      </label>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">H1</span>
+        <input
+          type="color"
+          value={settings.headlineColor ?? heroV4HeadlineColorPickerFallback}
+          onChange={(event) => update({ headlineColor: event.target.value })}
+          className={`${colorInputClassName}${settings.headlineColor ? "" : " opacity-40"}`}
+          aria-label="Hero headline text color"
+        />
+        {settings.headlineColor ? (
+          <button
+            type="button"
+            onClick={() => update({ headlineColor: undefined })}
+            className="font-mono text-xs tracking-wide text-accent-purple/80 uppercase hover:text-accent-purple"
+          >
+            Default
+          </button>
+        ) : null}
+      </label>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Body</span>
+        <input
+          type="color"
+          value={settings.bodyColor ?? heroV4BodyColorPickerFallback}
+          onChange={(event) => update({ bodyColor: event.target.value })}
+          className={`${colorInputClassName}${settings.bodyColor ? "" : " opacity-40"}`}
+          aria-label="Hero body text color"
+        />
+        {settings.bodyColor ? (
+          <button
+            type="button"
+            onClick={() => update({ bodyColor: undefined })}
             className="font-mono text-xs tracking-wide text-accent-purple/80 uppercase hover:text-accent-purple"
           >
             Default

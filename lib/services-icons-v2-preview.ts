@@ -16,6 +16,8 @@ export type ServicesIconsV2ServiceItem = {
   id: string;
   title: string;
   icon?: SiteIconName;
+  /** Optional internal route — card becomes a link when set. */
+  href?: string;
   /** Used for JSON-LD and screen-reader context — not shown on the card face. */
   description?: string;
 };
@@ -27,6 +29,8 @@ export type ServicesIconsV2PreviewSettings = {
   layoutWidth: SiteLayoutWidth;
   outerBackgroundColor: string;
   cardBackgroundColor: string;
+  /** Linked service cards — background on hover (optional). */
+  cardHoverBackgroundColor?: string;
   /** Icon frame fill — circle, rounded card, or sharp square. */
   circleColor: string;
   iconShape: ServicesIconsV2IconShape;
@@ -71,6 +75,7 @@ export const defaultServicesIconsV2PreviewSettings: ServicesIconsV2PreviewSettin
   layoutWidth: "contained",
   outerBackgroundColor: defaultServicesIconsV2OuterBackgroundColor,
   cardBackgroundColor: "#000000",
+  cardHoverBackgroundColor: "#333333",
   circleColor: "#748B9F",
   iconShape: "circle",
   iconColor: "#ffffff",
@@ -164,7 +169,7 @@ export function clampServicesIconsV2IconSizePx(value: number): number {
 export function patchServicesIconsV2ServiceCard(
   settings: ServicesIconsV2PreviewSettings,
   serviceId: string,
-  patch: { label?: string; description?: string },
+  patch: { label?: string; description?: string; href?: string },
 ): ServicesIconsV2PreviewSettings {
   let next: ServicesIconsV2PreviewSettings = { ...settings };
 
@@ -214,6 +219,24 @@ export function patchServicesIconsV2ServiceCard(
     }
   }
 
+  if (patch.href !== undefined) {
+    const trimmed = patch.href.trim();
+    const href = trimmed.startsWith("/") ? trimmed : undefined;
+    if (next.services) {
+      next = {
+        ...next,
+        services: next.services.map((service) => {
+          if (service.id !== serviceId) return service;
+          if (!href) {
+            const { href: _removed, ...rest } = service;
+            return rest;
+          }
+          return { ...service, href };
+        }),
+      };
+    }
+  }
+
   return next;
 }
 
@@ -230,6 +253,7 @@ export function resolveServicesIconsV2Services(
     return {
       id,
       title: settings.serviceLabels[id] ?? service.title,
+      ...(service.href ? { href: service.href } : {}),
       ...(description !== undefined ? { description } : {}),
       icon: settings.serviceIcons[id] ?? service.icon,
     };

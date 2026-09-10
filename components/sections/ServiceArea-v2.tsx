@@ -140,7 +140,7 @@ function LocationCard({
       </h3>
       <p
         className="service-area-v2-card-description mt-3 flex-1 whitespace-pre-line text-sm leading-relaxed sm:text-[0.9375rem]"
-        style={{ color: settings.cardMutedColor }}
+        style={{ color: settings.cardBodyColor ?? settings.cardMutedColor }}
       >
         {card.description}
       </p>

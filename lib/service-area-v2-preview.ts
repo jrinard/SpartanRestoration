@@ -29,6 +29,8 @@ export type ServiceAreaV2PreviewSettings = {
   cardHoverBackgroundColor: string;
   cardTextColor: string;
   cardMutedColor: string;
+  /** Card description/body — falls back to cardMutedColor when unset. */
+  cardBodyColor?: string;
   linkColor: string;
   cardBorderRadiusPx: number;
   /** Instance overrides for hub cards — falls back to org defaults when unset. */

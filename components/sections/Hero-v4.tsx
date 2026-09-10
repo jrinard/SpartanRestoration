@@ -154,15 +154,14 @@ function EditableLinksBlock({
         <Pencil size={devEditIconSize} strokeWidth={2} />
       </button>
       {editorOpen ? (
-        <div className="absolute top-full left-0 z-30 mt-2">
-          <HeroV4LinksControls
-            title={title}
-            links={links}
-            allowCurrentPage={allowCurrentPage}
-            addLabel={addLabel}
-            onChange={onChange}
-          />
-        </div>
+        <HeroV4LinksControls
+          title={title}
+          links={links}
+          allowCurrentPage={allowCurrentPage}
+          addLabel={addLabel}
+          onChange={onChange}
+          onClose={() => setEditorOpen(false)}
+        />
       ) : null}
     </div>
   );
@@ -207,6 +206,9 @@ type HeroV4Props = {
   buttonSize?: ButtonPreviewSettings["navButtonSize"];
   buttonRadiusPx?: number;
   backgroundColor?: string;
+  eyebrowColor?: string;
+  headlineColor?: string;
+  bodyColor?: string;
   showContactInfo?: boolean;
   contactInfoItems?: HeroV4PreviewSettings["contactInfoItems"];
   contactInfoIconColor?: string;
@@ -258,6 +260,9 @@ export function HeroV4({
   buttonSize,
   buttonRadiusPx,
   backgroundColor,
+  eyebrowColor,
+  headlineColor,
+  bodyColor,
   showContactInfo = false,
   contactInfoItems = defaultHeroV4ContactInfoItems,
   contactInfoIconColor,
@@ -479,7 +484,13 @@ export function HeroV4({
               value={eyebrow}
               onSave={(value) => update({ eyebrow: value })}
             >
-              <p className="hero-v4-eyebrow text-sm font-medium uppercase tracking-[0.18em] text-accent-blue">
+              <p
+                className={cn(
+                  "hero-v4-eyebrow text-sm font-medium uppercase tracking-[0.18em]",
+                  !eyebrowColor && "text-accent-blue",
+                )}
+                style={eyebrowColor ? { color: eyebrowColor } : undefined}
+              >
                 {eyebrow}
               </p>
             </EditableTextBlock>
@@ -498,13 +509,17 @@ export function HeroV4({
                 return (
                   <HeadlineTag
                     className={cn(
-                      "hero-v4-headline mt-4 font-serif leading-[1.08] tracking-tight text-foreground",
+                      "hero-v4-headline mt-4 font-serif leading-[1.08] tracking-tight",
+                      !headlineColor && "text-foreground",
                       !headlineFontSizePx && "text-4xl sm:text-5xl lg:text-[3.25rem]",
                       headlineBold ? "font-semibold" : "font-light",
                       headlineFirstLineItalic && labelFontStyle !== "slant" && "italic",
                       headlineUppercase && "uppercase",
                     )}
-                    style={headlineFontSizePx ? { fontSize: `${headlineFontSizePx}px` } : undefined}
+                    style={{
+                      ...(headlineFontSizePx ? { fontSize: `${headlineFontSizePx}px` } : {}),
+                      ...(headlineColor ? { color: headlineColor } : {}),
+                    }}
                   >
                     {splitHeroV4HeadlineLines(headline).map((line, index) => (
                       <span key={`headline-line-${index}`} className="hero-v4-headline-line block">
@@ -529,9 +544,11 @@ export function HeroV4({
                   <p
                     key={`hero-body-${index}`}
                     className={cn(
-                      "hero-v4-body max-w-2xl whitespace-pre-line text-base leading-relaxed text-muted sm:text-lg",
+                      "hero-v4-body max-w-2xl whitespace-pre-line text-base leading-relaxed sm:text-lg",
+                      !bodyColor && "text-muted",
                       index === 0 ? "mt-5" : "mt-4",
                     )}
+                    style={bodyColor ? { color: bodyColor } : undefined}
                   >
                     {block || "\u00A0"}
                   </p>

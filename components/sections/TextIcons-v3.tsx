@@ -1,25 +1,24 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
-import type { CSSProperties } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 import { Pencil, Shuffle } from "lucide-react";
 import { useTextIconsV3Preview } from "@/components/dev/TextIconsV3PreviewContext";
 import { LucideIconPicker } from "@/components/dev/LucideIconPicker";
 import { TextImageTextEditor } from "@/components/dev/TextImageTextEditor";
 import { IconFrame } from "@/components/icons/IconFrame";
-import { Container } from "@/components/ui/Container";
 import { getTextIconsV3ItemGrid } from "@/lib/text-icons-v3-items";
 import {
   defaultTextIconsV3PreviewSettings,
   getTextIconsV3InnerBackgroundStyle,
   getTextIconsV3CssVariables,
   getTextIconsV3SectionId,
+  getTextIconsV3ShellClassName,
   resolveTextIconsV3Items,
   type TextIconsV3Item,
 } from "@/lib/text-icons-v3-preview";
 import { defaultSiteIconName, resolveSiteIconName, type SiteIconName } from "@/lib/site-icons";
 import { devEditButtonClassName, devEditIconSize } from "@/lib/dev-overlay-controls";
-import { getSiteLayoutWidthClassName } from "@/lib/site-layout";
+import { resolveLayoutWidthMobile, siteContainedPaddingClass } from "@/lib/site-layout";
 import { cn } from "@/lib/utils";
 
 export type { TextIconsV3Item };
@@ -30,6 +29,8 @@ type TextIconsV3Props = {
   items: readonly TextIconsV3Item[];
   className?: string;
 };
+
+const innerContentPaddingClass = siteContainedPaddingClass;
 
 function EditableTextBlock({
   editingEnabled,
@@ -55,7 +56,7 @@ function EditableTextBlock({
   const [editorOpen, setEditorOpen] = useState(false);
 
   return (
-    <div className={cn("relative max-w-full pr-8", className)}>
+    <div className={cn("relative max-w-full", editingEnabled && "pr-8", className)}>
       {children}
       {editingEnabled && onSave && (
         <>
@@ -149,7 +150,12 @@ export function TextIconsV3({ heading, subheading, items, className }: TextIcons
   const preview = useTextIconsV3Preview();
   const settings = preview?.settings ?? defaultTextIconsV3PreviewSettings;
   const editingEnabled = preview?.contentEditingEnabled ?? false;
-  const isContained = settings.layoutWidth === "contained";
+
+  const layoutWidth = settings.layoutWidth;
+  const layoutWidthMobile = settings.layoutWidthMobile;
+  const mobile = resolveLayoutWidthMobile(layoutWidth, layoutWidthMobile);
+  const isDesktopContained = layoutWidth === "contained";
+  const mobileFullDesktopContained = mobile === "full" && isDesktopContained;
 
   const displayHeading = preview?.getHeading(heading) ?? heading;
   const displaySubheading = preview?.getSubheading(subheading) ?? subheading;
@@ -263,39 +269,58 @@ export function TextIconsV3({ heading, subheading, items, className }: TextIcons
     </>
   );
 
-  if (isContained) {
+  const innerPanelClassName = cn("py-16 lg:py-20", innerContentPaddingClass);
+
+  if (!isDesktopContained) {
     const sectionStyle: CSSProperties = {
-      backgroundColor: settings.outerBackgroundColor,
+      ...innerBackgroundStyle,
       ...textStyle,
     };
 
-    const innerStyle: CSSProperties = {
-      ...innerBackgroundStyle,
-    };
-
     return (
-      <section id={sectionId} className={cn("text-icons-v3", className)} style={sectionStyle}>
-        <div className={getSiteLayoutWidthClassName("contained")}>
-          <div className="py-16 lg:py-20" style={innerStyle}>
-            {content}
-          </div>
+      <section
+        id={sectionId}
+        className={cn("text-icons-v3", className)}
+        style={sectionStyle}
+      >
+        <div
+          className={cn(
+            getTextIconsV3ShellClassName(layoutWidth, layoutWidthMobile),
+            innerPanelClassName,
+          )}
+        >
+          {content}
         </div>
       </section>
     );
   }
 
-  const sectionStyle: CSSProperties = {
-    ...innerBackgroundStyle,
-    ...textStyle,
-  };
+  const sectionStyle: CSSProperties = mobileFullDesktopContained
+    ? {
+        ...innerBackgroundStyle,
+        ...textStyle,
+        ["--text-icons-v3-outer-bg" as string]: settings.outerBackgroundColor,
+      }
+    : {
+        backgroundColor: settings.outerBackgroundColor,
+        ...textStyle,
+      };
 
   return (
     <section
       id={sectionId}
-      className={cn("text-icons-v3 py-16 lg:py-20", className)}
+      className={cn(
+        "text-icons-v3",
+        mobileFullDesktopContained && "lg:!bg-[var(--text-icons-v3-outer-bg)]",
+        className,
+      )}
       style={sectionStyle}
     >
-      <Container>{content}</Container>
+      <div className={getTextIconsV3ShellClassName(layoutWidth, layoutWidthMobile)}>
+        <div className={innerPanelClassName} style={innerBackgroundStyle}>
+          {content}
+        </div>
+      </div>
     </section>
   );
 }

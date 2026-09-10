@@ -11,6 +11,7 @@ export function SpacerFadeWithPreview() {
   return (
     <SpacerFade
       layoutWidth={context.layoutWidth}
+      layoutWidthMobile={context.layoutWidthMobile}
       outerBackgroundColor={context.outerBackgroundColor}
     />
   );

@@ -150,7 +150,11 @@ export function TopBarV2() {
       style={{ ...barStyle, backgroundColor: settings.outerBackgroundColor }}
       aria-label="Site announcement bar"
     >
-      <div className={cn(getTopBarV2LayoutWidthClassName(settings.layoutWidth))}>
+      <div
+        className={cn(
+          getTopBarV2LayoutWidthClassName(settings.layoutWidth, settings.layoutWidthMobile),
+        )}
+      >
         <div
           className={cn("top-bar-v2-inner", editingEnabled && "relative")}
           style={{ backgroundColor: settings.backgroundColor }}

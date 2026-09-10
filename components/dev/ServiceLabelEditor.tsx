@@ -17,7 +17,10 @@ export function ServiceLabelEditor(_props: {
   onSeoChange?: (description: string) => void;
   seoInputAriaLabel?: string;
   seoRows?: number;
-  onSaveCombined?: (label: string, seoDescription: string) => void;
+  linkValue?: string;
+  onLinkChange?: (href: string) => void;
+  linkInputAriaLabel?: string;
+  onSaveCombined?: (label: string, seoDescription: string, href?: string) => void;
 }): null {
   return null;
 }

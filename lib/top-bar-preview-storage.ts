@@ -5,6 +5,7 @@ import {
   type TopBarLayoutWidth,
   type TopBarPreviewSettings,
 } from "@/lib/top-bar-preview";
+import { normalizeOptionalLayoutWidthMobile } from "@/lib/site-layout";
 import { normalizeTopBarSocialLinks } from "@/lib/top-bar-social";
 
 import { orgStorageGet, orgStorageSet } from "@/lib/org/browser-storage";
@@ -28,6 +29,9 @@ export function normalizeTopBarPreviewSettings(
     layoutWidth: isTopBarLayoutWidth(value.layoutWidth)
       ? value.layoutWidth
       : defaultTopBarPreviewSettings.layoutWidth,
+    ...(normalizeOptionalLayoutWidthMobile(value.layoutWidthMobile)
+      ? { layoutWidthMobile: normalizeOptionalLayoutWidthMobile(value.layoutWidthMobile) }
+      : {}),
     heightPx:
       typeof value.heightPx === "number"
         ? Math.min(120, Math.max(32, Math.round(value.heightPx)))

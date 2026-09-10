@@ -1,5 +1,5 @@
 import { isContactHref } from "@/lib/contact-modal";
-import { getSiteLayoutWidthClassName } from "@/lib/site-layout";
+import { getResponsiveSiteLayoutWidthClassName } from "@/lib/site-layout";
 import { parseNavHref } from "@/lib/scroll-to-hash";
 
 export type NavBarLayoutWidth = "contained" | "full";
@@ -26,6 +26,7 @@ export type NavBarLink = {
 
 export type NavBarPreviewSettings = {
   layoutWidth: NavBarLayoutWidth;
+  layoutWidthMobile?: NavBarLayoutWidth;
   heightPx: number;
   backgroundColor: string;
   /** Full-width background behind the bar (visible in contained mode). */
@@ -205,8 +206,11 @@ export const defaultNavBarPreviewSettings: NavBarPreviewSettings = {
   items: defaultNavBarLinks,
 };
 
-export function getNavBarLayoutWidthClassName(layoutWidth: NavBarLayoutWidth): string {
-  return getSiteLayoutWidthClassName(layoutWidth);
+export function getNavBarLayoutWidthClassName(
+  layoutWidth: NavBarLayoutWidth,
+  layoutWidthMobile?: NavBarLayoutWidth,
+): string {
+  return getResponsiveSiteLayoutWidthClassName(layoutWidth, layoutWidthMobile);
 }
 
 export function getNavBarMobileToggleAlignClassName(

@@ -2,7 +2,11 @@ import type { CSSProperties, ReactNode } from "react";
 import type { PreviewGradientDirection, PreviewGradientMode } from "@/lib/preview-gradient";
 import { getSpacerStripeBackground } from "@/lib/preview-gradient";
 import { getDefaultSpacerStripeStyle } from "@/lib/spacer-defaults";
-import { getSiteLayoutWidthClassName, type SiteLayoutWidth } from "@/lib/site-layout";
+import {
+  getResponsiveSiteLayoutWidthClassName,
+  resolveLayoutWidthMobile,
+  type SiteLayoutWidth,
+} from "@/lib/site-layout";
 import { cn } from "@/lib/utils";
 
 export const defaultSpacerOuterBackgroundColor = "#ffffff";
@@ -22,22 +26,52 @@ export const defaultSpacerStripeStyle: SpacerStripeStyle =
 
 type SpacerLayoutOptions = {
   layoutWidth?: SiteLayoutWidth;
+  layoutWidthMobile?: SiteLayoutWidth;
   outerBackgroundColor?: string;
 };
 
 function getSpacerSectionStyle({
   layoutWidth = "full",
+  layoutWidthMobile,
   outerBackgroundColor = defaultSpacerOuterBackgroundColor,
 }: SpacerLayoutOptions): CSSProperties | undefined {
-  if (layoutWidth === "contained") {
+  const mobile = resolveLayoutWidthMobile(layoutWidth, layoutWidthMobile);
+
+  if (mobile === layoutWidth) {
+    if (layoutWidth === "contained") {
+      return { backgroundColor: outerBackgroundColor };
+    }
+    return undefined;
+  }
+
+  if (mobile === "full" && layoutWidth === "contained") {
+    return {
+      backgroundColor: "transparent",
+      ["--spacer-outer-bg" as string]: outerBackgroundColor,
+    } as CSSProperties;
+  }
+
+  if (mobile === "contained") {
     return { backgroundColor: outerBackgroundColor };
   }
 
   return undefined;
 }
 
+function getSpacerSectionClassName(
+  layoutWidth: SiteLayoutWidth,
+  layoutWidthMobile?: SiteLayoutWidth,
+): string | undefined {
+  const mobile = resolveLayoutWidthMobile(layoutWidth, layoutWidthMobile);
+  if (mobile === "full" && layoutWidth === "contained") {
+    return "lg:!bg-[var(--spacer-outer-bg)]";
+  }
+  return undefined;
+}
+
 type SpacerLayoutShellProps = {
   layoutWidth: SiteLayoutWidth;
+  layoutWidthMobile?: SiteLayoutWidth;
   children: ReactNode;
   className?: string;
 };
@@ -45,16 +79,20 @@ type SpacerLayoutShellProps = {
 /** Wraps spacer content in the site contained width or full bleed. */
 export function SpacerLayoutShell({
   layoutWidth,
+  layoutWidthMobile,
   children,
   className,
 }: SpacerLayoutShellProps) {
-  if (layoutWidth === "contained") {
-    return (
-      <div className={cn(getSiteLayoutWidthClassName("contained"), className)}>{children}</div>
-    );
-  }
-
-  return <div className={cn("w-full", className)}>{children}</div>;
+  return (
+    <div
+      className={cn(
+        getResponsiveSiteLayoutWidthClassName(layoutWidth, layoutWidthMobile),
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
 }
 
 type SpacerStripeProps = SpacerLayoutOptions & {
@@ -65,6 +103,7 @@ type SpacerStripeProps = SpacerLayoutOptions & {
 export function SpacerStripe({
   style = defaultSpacerStripeStyle,
   layoutWidth = "full",
+  layoutWidthMobile,
   outerBackgroundColor = defaultSpacerOuterBackgroundColor,
 }: SpacerStripeProps) {
   const overlap = style.overlap === true;
@@ -92,9 +131,10 @@ export function SpacerStripe({
       className={cn(
         "spacer-stripe bg-transparent p-0 leading-none",
         overlap && "spacer-overlap relative z-10",
+        getSpacerSectionClassName(layoutWidth, layoutWidthMobile),
       )}
       style={{
-        ...getSpacerSectionStyle({ layoutWidth, outerBackgroundColor }),
+        ...getSpacerSectionStyle({ layoutWidth, layoutWidthMobile, outerBackgroundColor }),
         ...(overlap
           ? {
               marginTop: -(halfHeight + bleedPx),
@@ -104,7 +144,9 @@ export function SpacerStripe({
       }}
       aria-hidden="true"
     >
-      <SpacerLayoutShell layoutWidth={layoutWidth}>{stripeBand}</SpacerLayoutShell>
+      <SpacerLayoutShell layoutWidth={layoutWidth} layoutWidthMobile={layoutWidthMobile}>
+        {stripeBand}
+      </SpacerLayoutShell>
     </section>
   );
 }
@@ -125,15 +167,16 @@ type SpacerGradientProps = SpacerLayoutOptions & {
 export function SpacerGradient({
   style = defaultSpacerGradientStyle,
   layoutWidth = "full",
+  layoutWidthMobile,
   outerBackgroundColor = defaultSpacerOuterBackgroundColor,
 }: SpacerGradientProps) {
   return (
     <section
-      className="py-6"
-      style={getSpacerSectionStyle({ layoutWidth, outerBackgroundColor })}
+      className={cn("py-6", getSpacerSectionClassName(layoutWidth, layoutWidthMobile))}
+      style={getSpacerSectionStyle({ layoutWidth, layoutWidthMobile, outerBackgroundColor })}
       aria-hidden="true"
     >
-      <SpacerLayoutShell layoutWidth={layoutWidth}>
+      <SpacerLayoutShell layoutWidth={layoutWidth} layoutWidthMobile={layoutWidthMobile}>
         <div
           className="spacer-gradient-h-band w-full"
           style={{ height: `${style.heightPx}px` }}
@@ -148,15 +191,16 @@ type SpacerLineProps = SpacerLayoutOptions;
 /** Hairline rule. */
 export function SpacerLine({
   layoutWidth = "contained",
+  layoutWidthMobile,
   outerBackgroundColor = defaultSpacerOuterBackgroundColor,
 }: SpacerLineProps) {
   return (
     <section
-      className="py-1"
-      style={getSpacerSectionStyle({ layoutWidth, outerBackgroundColor })}
+      className={cn("py-1", getSpacerSectionClassName(layoutWidth, layoutWidthMobile))}
+      style={getSpacerSectionStyle({ layoutWidth, layoutWidthMobile, outerBackgroundColor })}
       aria-hidden="true"
     >
-      <SpacerLayoutShell layoutWidth={layoutWidth}>
+      <SpacerLayoutShell layoutWidth={layoutWidth} layoutWidthMobile={layoutWidthMobile}>
         <hr className="border-0 border-t border-border" />
       </SpacerLayoutShell>
     </section>
@@ -168,14 +212,16 @@ type SpacerFadeProps = SpacerLayoutOptions;
 /** Soft vertical fade — subtle breathing room between sections. */
 export function SpacerFade({
   layoutWidth = "full",
+  layoutWidthMobile,
   outerBackgroundColor = defaultSpacerOuterBackgroundColor,
 }: SpacerFadeProps) {
   return (
     <section
-      style={getSpacerSectionStyle({ layoutWidth, outerBackgroundColor })}
+      className={getSpacerSectionClassName(layoutWidth, layoutWidthMobile)}
+      style={getSpacerSectionStyle({ layoutWidth, layoutWidthMobile, outerBackgroundColor })}
       aria-hidden="true"
     >
-      <SpacerLayoutShell layoutWidth={layoutWidth}>
+      <SpacerLayoutShell layoutWidth={layoutWidth} layoutWidthMobile={layoutWidthMobile}>
         <div className="spacer-fade-band h-14 w-full sm:h-16" />
       </SpacerLayoutShell>
     </section>

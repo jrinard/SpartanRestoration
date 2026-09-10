@@ -9,8 +9,8 @@ import {
 } from "@/components/sections/Spacer";
 import { previewGradientDirections } from "@/lib/preview-gradient";
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
-import { siteLayoutWidthOptions } from "@/lib/site-layout";
-import type { SiteLayoutWidth } from "@/lib/site-layout";
+import { LayoutWidthControl } from "@/components/dev/LayoutWidthModal";
+import { layoutUsesContainedWidth, type SiteLayoutWidth } from "@/lib/site-layout";
 import { getDefaultSpacerStripeStyleForVariant } from "@/lib/spacer-defaults";
 import type { SpacerInstanceSettings } from "@/lib/spacer-instance-storage";
 import {
@@ -28,6 +28,8 @@ import {
 } from "@/lib/spacer-preview-storage";
 import {
   defaultSpacerLayoutWidth,
+  loadSpacerInstanceSettings,
+  saveSpacerInstanceSettings,
 } from "@/lib/spacer-instance-storage";
 
 type SpacerPreviewContextValue = {
@@ -36,7 +38,11 @@ type SpacerPreviewContextValue = {
   gradient: SpacerGradientStyle;
   setGradient: (gradient: SpacerGradientStyle) => void;
   layoutWidth: SiteLayoutWidth;
-  setLayoutWidth: (layoutWidth: SiteLayoutWidth) => void;
+  layoutWidthMobile?: SiteLayoutWidth;
+  setLayoutWidths: (next: {
+    layoutWidth: SiteLayoutWidth;
+    layoutWidthMobile?: SiteLayoutWidth;
+  }) => void;
   outerBackgroundColor: string;
   setOuterBackgroundColor: (color: string) => void;
   ready: boolean;
@@ -72,6 +78,9 @@ export function SpacerStripePreviewProvider({
       ? normalizeSpacerLayoutWidth(initialSettings)
       : defaultSpacerLayoutWidth,
   );
+  const [layoutWidthMobile, setLayoutWidthMobileState] = useState<
+    SiteLayoutWidth | undefined
+  >(() => initialSettings?.layoutWidthMobile);
   const [outerBackgroundColor, setOuterBackgroundColorState] = useState<string>(() =>
     normalizeSpacerOuterBackgroundColor(initialSettings?.outerBackgroundColor),
   );
@@ -79,6 +88,8 @@ export function SpacerStripePreviewProvider({
 
   useEffect(() => {
     if (lockedToPublished) {
+      setLayoutWidthState(normalizeSpacerLayoutWidth(initialSettings ?? {}));
+      setLayoutWidthMobileState(initialSettings?.layoutWidthMobile);
       setReady(true);
       return;
     }
@@ -93,6 +104,9 @@ export function SpacerStripePreviewProvider({
     setStripeState(stripe);
     setGradientState(gradient);
     setLayoutWidthState(layoutWidth);
+    setLayoutWidthMobileState(
+      instanceId ? loadSpacerInstanceSettings(instanceId)?.layoutWidthMobile : undefined,
+    );
     setOuterBackgroundColorState(outerBackground);
     setReady(true);
   }, [colorThemeId, instanceId, lockedToPublished, variantId]);
@@ -113,10 +127,20 @@ export function SpacerStripePreviewProvider({
     [instanceId],
   );
 
-  const setLayoutWidth = useCallback(
-    (next: SiteLayoutWidth) => {
-      setLayoutWidthState(next);
-      saveSpacerLayoutWidth(next, instanceId);
+  const setLayoutWidths = useCallback(
+    (next: { layoutWidth: SiteLayoutWidth; layoutWidthMobile?: SiteLayoutWidth }) => {
+      setLayoutWidthState(next.layoutWidth);
+      setLayoutWidthMobileState(next.layoutWidthMobile);
+      if (instanceId) {
+        const current = loadSpacerInstanceSettings(instanceId) ?? {};
+        saveSpacerInstanceSettings(instanceId, {
+          ...current,
+          layoutWidth: next.layoutWidth,
+          layoutWidthMobile: next.layoutWidthMobile,
+        });
+      } else {
+        saveSpacerLayoutWidth(next.layoutWidth);
+      }
     },
     [instanceId],
   );
@@ -137,7 +161,8 @@ export function SpacerStripePreviewProvider({
         gradient,
         setGradient,
         layoutWidth,
-        setLayoutWidth,
+        layoutWidthMobile,
+        setLayoutWidths,
         outerBackgroundColor,
         setOuterBackgroundColor,
         ready,
@@ -175,26 +200,20 @@ export function SpacerLayoutWidthControl() {
   if (!context) return null;
 
   return (
-    <select
-      value={context.layoutWidth}
-      onChange={(event) =>
-        context.setLayoutWidth(event.target.value as SiteLayoutWidth)
-      }
-      className={selectClassName}
-      aria-label="Spacer layout width"
-    >
-      {siteLayoutWidthOptions.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </select>
+    <LayoutWidthControl
+      layoutWidth={context.layoutWidth}
+      layoutWidthMobile={context.layoutWidthMobile}
+      onChange={context.setLayoutWidths}
+      ariaLabel="Spacer layout width"
+    />
   );
 }
 
 export function SpacerOuterBackgroundControl() {
   const context = useSpacerPreview();
-  if (!context || context.layoutWidth !== "contained") return null;
+  if (!context || !layoutUsesContainedWidth(context.layoutWidth, context.layoutWidthMobile)) {
+    return null;
+  }
 
   return (
     <label className="flex items-center gap-1.5">

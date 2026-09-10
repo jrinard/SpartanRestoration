@@ -12,6 +12,7 @@ export function SpacerGradientWithPreview() {
     <SpacerGradient
       style={context.gradient}
       layoutWidth={context.layoutWidth}
+      layoutWidthMobile={context.layoutWidthMobile}
       outerBackgroundColor={context.outerBackgroundColor}
     />
   );

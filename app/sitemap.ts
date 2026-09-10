@@ -1,11 +1,13 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/config/site";
 import { readHomepageConfig } from "@/lib/homepage-config.server";
-import { readLaunchMode, isUnderConstruction } from "@/lib/launch-mode.server";
+import { isUnderConstruction } from "@/lib/launch-mode.server";
 import { readCurrentOrgId, readOrgPolicies, readOrgSeo, readOrgSite } from "@/lib/org/read-org.server";
 import { findOrgSeoRouteBySlug } from "@/lib/org/seo-route";
 import { setRuntimeSite } from "@/lib/org/runtime-site";
 import { isOrgPolicyPublished } from "@/lib/org/policies";
+
+/** Vision reads `site/` at request time — do not bake a stale static sitemap at build. */
+export const dynamic = "force-dynamic";
 
 function getSitemapPriority(route: string): number {
   if (route === "") return 1;
@@ -16,19 +18,21 @@ function getSitemapPriority(route: string): number {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const orgId = await readCurrentOrgId();
-  const [config, launchMode, seo, site, policies] = await Promise.all([
+  const [config, seo, site, policies] = await Promise.all([
     readHomepageConfig(),
-    readLaunchMode(),
     readOrgSeo(orgId),
     readOrgSite(orgId),
     readOrgPolicies(orgId),
   ]);
   setRuntimeSite(site);
 
+  const baseUrl = (site.url || "https://example.com").replace(/\/$/, "");
+  const launchMode = site.launch?.mode ?? "live";
+
   if (isUnderConstruction(launchMode) || seo.routes.home?.noIndex) {
     return [
       {
-        url: siteConfig.url,
+        url: baseUrl,
         lastModified: new Date(),
         changeFrequency: "weekly",
         priority: 1,
@@ -46,7 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   return routes.map((route) => ({
-    url: `${siteConfig.url}${route}`,
+    url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: route === "" ? "weekly" : "monthly",
     priority: getSitemapPriority(route),

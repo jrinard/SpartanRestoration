@@ -9,6 +9,7 @@ export function HeroV4LinksControls(_props: {
   onChange: (links: NavBarLink[]) => void;
   allowCurrentPage?: boolean;
   addLabel?: string;
+  onClose?: () => void;
 }): null {
   return null;
 }

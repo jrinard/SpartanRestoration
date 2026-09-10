@@ -14,7 +14,8 @@ function resolveServiceAreaOrgId(): string {
       // ignore
     }
   }
-  if (siteConfig.assets.themeFolder === "spartan") return "spartan";
+  const themeFolder = siteConfig.assets.themeFolder;
+  if (themeFolder === "spartan" || themeFolder === "stonepillar") return themeFolder;
   return getClientOrgId();
 }
 

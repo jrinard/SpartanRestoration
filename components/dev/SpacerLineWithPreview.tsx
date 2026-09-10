@@ -11,6 +11,7 @@ export function SpacerLineWithPreview() {
   return (
     <SpacerLine
       layoutWidth={context.layoutWidth}
+      layoutWidthMobile={context.layoutWidthMobile}
       outerBackgroundColor={context.outerBackgroundColor}
     />
   );

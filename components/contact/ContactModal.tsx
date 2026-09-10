@@ -52,35 +52,40 @@ export function ContactModal() {
   if (!modal?.isOpen) return null;
 
   return (
-    <div className="contact-modal fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+    <div className="contact-modal fixed inset-0 z-[100]">
       <button
         type="button"
-        className="contact-modal-backdrop absolute inset-0 bg-black/65 backdrop-blur-sm"
+        className="contact-modal-backdrop fixed inset-0 z-0 bg-black/65 backdrop-blur-sm"
         aria-label="Close contact form"
         onClick={modal.closeContact}
       />
 
-      <div
-        ref={panelRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="contact-modal-title"
-        tabIndex={-1}
-        className="contact-modal-panel relative z-10 w-full max-w-lg outline-none"
-      >
-        <ContactCard
-          title={content.title}
-          subtext={content.subtext}
-          phonePrefix={content.phonePrefix}
-          phone={content.phoneLabel}
-          formDivider={contactContent.formDivider}
-          formIntro={contactContent.formIntro}
-          settings={settings}
-          titleId="contact-modal-title"
-          formKey={modal.formKey}
-          initialFormValues={modal.initialFormValues ?? undefined}
-          onClose={modal.closeContact}
-        />
+      <div className="contact-modal-viewport fixed inset-0 z-10 overflow-y-auto overscroll-contain p-4 sm:p-6">
+        <div className="contact-modal-align flex min-h-full items-center justify-center">
+          <div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="contact-modal-title"
+            tabIndex={-1}
+            className="contact-modal-panel relative z-10 w-full max-w-lg shrink-0 outline-none"
+          >
+            <ContactCard
+              title={content.title}
+              subtext={content.subtext}
+              phonePrefix={content.phonePrefix}
+              phone={content.phoneLabel}
+              formDivider={contactContent.formDivider}
+              formIntro={contactContent.formIntro}
+              settings={settings}
+              className="contact-card--in-modal"
+              titleId="contact-modal-title"
+              formKey={modal.formKey}
+              initialFormValues={modal.initialFormValues ?? undefined}
+              onClose={modal.closeContact}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

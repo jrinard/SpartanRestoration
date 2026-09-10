@@ -4,7 +4,12 @@ import {
   type PreviewGradientDirection,
 } from "@/lib/preview-gradient";
 import type { CSSProperties } from "react";
-import type { SiteLayoutWidth } from "@/lib/site-layout";
+import {
+  getResponsiveSiteLayoutWidthClassName,
+  getSiteContainedShellClassName,
+  resolveLayoutWidthMobile,
+  type SiteLayoutWidth,
+} from "@/lib/site-layout";
 import type { SiteIconName } from "@/lib/site-icons";
 import {
   defaultIconFrameShape,
@@ -26,6 +31,8 @@ export type TextIconsV3PreviewSettings = IconFramePreviewSettings & {
   /** Optional library image layered over the gradient background. */
   backgroundImageSrc?: string;
   layoutWidth: SiteLayoutWidth;
+  /** When unset, mobile matches `layoutWidth` (legacy org JSON). */
+  layoutWidthMobile?: SiteLayoutWidth;
   /** Full-width background behind the section (visible in contained mode). */
   outerBackgroundColor: string;
   headingColor: string;
@@ -75,6 +82,20 @@ export const defaultTextIconsV3PreviewSettings: TextIconsV3PreviewSettings = {
 };
 
 export { previewGradientDirections as textIconsV3GradientDirections };
+
+/** Shell width for the section — inner content carries horizontal padding. */
+export function getTextIconsV3ShellClassName(
+  layoutWidth: SiteLayoutWidth,
+  layoutWidthMobile?: SiteLayoutWidth,
+): string {
+  const mobile = resolveLayoutWidthMobile(layoutWidth, layoutWidthMobile);
+
+  if (layoutWidth === "contained" && mobile === "contained") {
+    return getSiteContainedShellClassName();
+  }
+
+  return getResponsiveSiteLayoutWidthClassName(layoutWidth, layoutWidthMobile);
+}
 
 export function getTextIconsV3BackgroundStyle(
   settings: TextIconsV3PreviewSettings,

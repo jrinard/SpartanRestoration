@@ -201,7 +201,11 @@ export function TopBarV1() {
       style={{ ...barStyle, backgroundColor: settings.outerBackgroundColor }}
       aria-label="Site announcement bar"
     >
-      <div className={cn(getTopBarLayoutWidthClassName(settings.layoutWidth))}>
+      <div
+        className={cn(
+          getTopBarLayoutWidthClassName(settings.layoutWidth, settings.layoutWidthMobile),
+        )}
+      >
         <div className={cn("top-bar-split", settings.inverted && "top-bar-split--inverted")}>
           <div
             className={cn(

@@ -93,6 +93,7 @@
         "headlineBold": false,
         "headlineFirstLineItalic": false,
         "headlineUppercase": false,
+        "headlineLevel": "h1",
         "showContactInfo": false,
         "contactInfoItems": []
       }
@@ -174,6 +175,7 @@
         "headlineBold": false,
         "headlineFirstLineItalic": false,
         "headlineUppercase": false,
+        "headlineLevel": "h1",
         "button": {
           "navBackground": "#ffc233",
           "navTextColor": "#000000",
@@ -259,6 +261,7 @@
         "headlineBold": false,
         "headlineFirstLineItalic": false,
         "headlineUppercase": false,
+        "headlineLevel": "h1",
         "button": {
           "navBackground": "#ffc233",
           "navTextColor": "#000000",
@@ -278,6 +281,147 @@
         "buttonSize": "xlarge",
         "buttonRadiusPx": 0,
         "backgroundColor": "#ffffff",
+        "showContactInfo": false,
+        "contactInfoItems": [],
+        "formSubmitText": "Send Message",
+        "formButtonBackground": "#2c74b5",
+        "formButtonTextColor": "#ffffff",
+        "formButtonRadiusPx": 4,
+        "formFields": [
+          {
+            "id": "legacy-name",
+            "name": "name",
+            "label": "Full Name",
+            "placeholder": "Your name",
+            "type": "text",
+            "required": true
+          },
+          {
+            "id": "legacy-businessName",
+            "name": "businessName",
+            "label": "City",
+            "placeholder": "City",
+            "type": "text",
+            "required": false
+          },
+          {
+            "id": "legacy-email",
+            "name": "email",
+            "label": "Email",
+            "placeholder": "you@example.com",
+            "type": "email",
+            "required": true
+          },
+          {
+            "id": "legacy-phone",
+            "name": "phone",
+            "label": "Phone",
+            "placeholder": "(optional)",
+            "type": "tel",
+            "required": false
+          },
+          {
+            "id": "legacy-message",
+            "name": "message",
+            "label": "What happened?",
+            "placeholder": "",
+            "type": "textarea",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "stonepillar",
+      "label": "StonePillar",
+      "settings": {
+        "showForm": false,
+        "showCta": false,
+        "showBreadcrumbs": false,
+        "showBullets": false,
+        "showPhoneCta": true,
+        "eyebrow": "Stone Pillar Contractors · Vancouver, WA",
+        "headline": "Built on Integrity,\nStrong in Every Detail",
+        "body": "Stone Pillar Contractors is a locally trusted general contractor serving Vancouver, Portland, and the Pacific Northwest. We bring clear communication, steady leadership, and hands-on craftsmanship to commercial, residential, remodeling, and reconstruction work. From the first estimate through final walkthrough, we keep your goals at the center of every decision.",
+        "bullets": [],
+        "primaryCtaLabel": "CALL (503) 975-9082",
+        "primaryCtaHref": "tel:+15039759082",
+        "phoneLabel": "503-975-9082",
+        "phoneHref": "tel:+15039759082",
+        "formTitle": "REQUEST HELP",
+        "formSubtext": "Water, mold, or storm damage in your area.",
+        "formTrustNotes": [],
+        "formLeadSource": "website-review",
+        "showServicePills": true,
+        "servicePills": [
+          {
+            "label": "Water Build-Back",
+            "href": "/water-damage-rebuild",
+            "title": "Water damage restoration in Clark County, WA",
+            "description": "Emergency extraction, structural drying, and documentation for Vancouver, Camas, Washougal, and Clark County properties."
+          },
+          {
+            "label": "Kitchen & Bath",
+            "href": "/kitchen-bathroom-remodeling",
+            "title": "Mold removal and remediation in Clark County, WA",
+            "description": "Containment, HEPA filtration, and IICRC-informed mold remediation across Southwest Washington."
+          },
+          {
+            "label": "Commercial TI",
+            "href": "/commercial-tenant-improvements",
+            "title": "Storm and sewage cleanup in Clark County, WA",
+            "description": "Storm damage, sewage backups, and Category 3 water cleanup for Clark County and the Portland metro."
+          }
+        ],
+        "breadcrumbs": [
+          {
+            "label": "Home",
+            "href": "/"
+          },
+          {
+            "label": "Service Area"
+          }
+        ],
+        "showGallery": true,
+        "gallerySlides": [
+          {
+            "type": "image",
+            "value": "/org-assets/stonepillar/library/justin-curt.jpg"
+          }
+        ],
+        "galleryIntervalMs": 5000,
+        "galleryTransition": "fade",
+        "galleryHeightPx": 300,
+        "galleryBackground": "#000000",
+        "galleryRadiusPx": 8,
+        "galleryBorderWidthPx": 1,
+        "galleryBorderColor": "#ffffff",
+        "labelFontStyle": "normal",
+        "headlineBold": true,
+        "headlineFirstLineItalic": true,
+        "headlineUppercase": false,
+        "headlineLevel": "h1",
+        "button": {
+          "navBackground": "#ffc233",
+          "navTextColor": "#000000",
+          "navTextHoverColor": "#000000",
+          "navHoverBackground": "#f8ad0d",
+          "navButtonSize": "large",
+          "navButtonRadiusPx": 4
+        },
+        "phoneButton": {
+          "navBackground": "#e98e3c",
+          "navTextColor": "#ffffff",
+          "navTextHoverColor": "#ffffff",
+          "navHoverBackground": "#4f4f4f",
+          "navButtonSize": "large",
+          "navButtonRadiusPx": 8
+        },
+        "buttonSize": "xlarge",
+        "buttonRadiusPx": 0,
+        "backgroundColor": "#ffffff",
+        "eyebrowColor": "#dea58a",
+        "headlineColor": "#000000",
         "showContactInfo": false,
         "contactInfoItems": [],
         "formSubmitText": "Send Message",

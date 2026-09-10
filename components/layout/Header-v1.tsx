@@ -48,6 +48,7 @@ export function HeaderV1({ className }: HeaderV1Props) {
   const preview = useHeaderV3Preview();
   const settings = preview?.settings ?? defaultHeaderV3PreviewSettings;
   const layoutWidth = settings.layoutWidth;
+  const layoutWidthMobile = settings.layoutWidthMobile;
   const isCustom = Boolean(preview);
   const includeMobileNav = headerV1MobileNavIsOn(settings);
   const logoOverflow = headerLogoOverflows(settings, "header-v1");
@@ -105,7 +106,7 @@ export function HeaderV1({ className }: HeaderV1Props) {
       )}
       <div
         className={cn(
-          getHeaderLayoutWidthClassName(layoutWidth),
+          getHeaderLayoutWidthClassName(layoutWidth, layoutWidthMobile),
           "relative z-10 flex items-center overflow-visible",
           includeMobileNav ? "justify-between" : "justify-center md:justify-between",
         )}

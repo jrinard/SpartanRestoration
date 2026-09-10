@@ -68,11 +68,16 @@ function normalizeServiceItem(value: unknown, index: number): ServicesIconsV2Ser
   const description =
     typeof record.description === "string" ? record.description : undefined;
   const icon = isSiteIconName(record.icon) ? record.icon : undefined;
+  const href =
+    typeof record.href === "string" && record.href.trim().startsWith("/")
+      ? record.href.trim()
+      : undefined;
   return {
     id,
     title,
     ...(description !== undefined ? { description } : {}),
     ...(icon ? { icon } : {}),
+    ...(href ? { href } : {}),
   };
 }
 
@@ -113,6 +118,9 @@ export function normalizeServicesIconsV2PreviewSettings(
     cardBackgroundColor: isHexColor(value.cardBackgroundColor)
       ? value.cardBackgroundColor
       : defaults.cardBackgroundColor,
+    cardHoverBackgroundColor: isHexColor(value.cardHoverBackgroundColor)
+      ? value.cardHoverBackgroundColor
+      : defaults.cardHoverBackgroundColor,
     circleColor: isHexColor(value.circleColor) ? value.circleColor : defaults.circleColor,
     iconShape: isServicesIconsV2IconShape(value.iconShape) ? value.iconShape : defaults.iconShape,
     iconColor: isHexColor(value.iconColor) ? value.iconColor : defaults.iconColor,

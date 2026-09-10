@@ -124,6 +124,9 @@ export function NavV1() {
   } as CSSProperties;
 
   const isContained = settings.layoutWidth === "contained";
+  const mobileWidth = settings.layoutWidthMobile ?? settings.layoutWidth;
+  const mobileFullDesktopContained =
+    mobileWidth === "full" && settings.layoutWidth === "contained";
   const innerBackgroundColor = isContained ? settings.backgroundColor : undefined;
 
   useEffect(() => {
@@ -154,14 +157,30 @@ export function NavV1() {
 
   return (
     <section
-      className="nav-bar-v1"
+      className={cn(
+        "nav-bar-v1",
+        mobileFullDesktopContained && "lg:!bg-[var(--nav-outer-bg)]",
+      )}
       style={{
         ...barStyle,
-        backgroundColor: isContained ? settings.outerBackgroundColor : settings.backgroundColor,
+        ...(mobileFullDesktopContained
+          ? ({
+              backgroundColor: settings.backgroundColor,
+              ["--nav-outer-bg" as string]: settings.outerBackgroundColor,
+            } as CSSProperties)
+          : {
+              backgroundColor: isContained
+                ? settings.outerBackgroundColor
+                : settings.backgroundColor,
+            }),
       }}
       aria-label="Secondary navigation"
     >
-      <div className={cn(getNavBarLayoutWidthClassName(settings.layoutWidth))}>
+      <div
+        className={cn(
+          getNavBarLayoutWidthClassName(settings.layoutWidth, settings.layoutWidthMobile),
+        )}
+      >
         <nav
           className="nav-bar-v1-inner"
           style={innerBackgroundColor ? { backgroundColor: innerBackgroundColor } : undefined}

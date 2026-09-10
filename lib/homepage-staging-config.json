@@ -388,7 +388,8 @@
         }
       ],
       "socialIconColor": "#ffffff",
-      "socialLinksInsetPx": 20
+      "socialLinksInsetPx": 20,
+      "layoutWidthMobile": "full"
     },
     "navBar": {
       "layoutWidth": "contained",
@@ -436,7 +437,8 @@
           "visibleDesktop": true,
           "visibleMobile": true
         }
-      ]
+      ],
+      "layoutWidthMobile": "full"
     },
     "heroV21": {
       "button": {
@@ -482,26 +484,42 @@
       "headerV1NavIconColor": "#000000",
       "headerV1NavIconBorderColor": "#ffffff",
       "headerV1NavIconBackgroundColor": "#f3c35d",
+      "headerV1ShowNavIcons": true,
+      "headerV1NavTilt": false,
+      "headerV1IncludeMobileNav": false,
+      "headerV1NavFontStyle": "normal",
       "headerV1NavLinks": [
         {
           "id": "water-damage-restoration",
           "label": "Water Damage\nRestoration",
           "pageHref": "/water-damage-restoration",
-          "icon": "droplets"
+          "anchorId": "",
+          "icon": "hammer",
+          "side": "left"
         },
         {
           "id": "mold-removal",
           "label": "Mold Removal",
           "pageHref": "/mold-removal",
-          "icon": "biohazard"
+          "anchorId": "",
+          "icon": "biohazard",
+          "side": "left"
         },
         {
           "id": "nav-link-ab4ebe3b",
           "label": "Storm & Sewage",
           "pageHref": "/storm-sewage",
-          "icon": "droplets"
+          "anchorId": "",
+          "icon": "droplets",
+          "side": "right"
         }
-      ]
+      ],
+      "headerV2NavVisible": true,
+      "headerV2UseGradientBackground": false,
+      "headerV2BackgroundColor": "#faf0e0",
+      "headerV2BackgroundImageSrc": "",
+      "headerV2MobileLogoAlign": "center",
+      "layoutWidthMobile": "full"
     },
     "reviewbox": {
       "background": {
@@ -543,13 +561,51 @@
       "mainBackgroundDirection": "none",
       "bottomBarBackgroundColor": "#2c73b5",
       "bottomBarTextColor": "#ffffff",
-      "contactTextSizeEm": 1.2,
+      "contactTextSizeEm": 1,
       "layoutWidth": "contained",
-      "contentInsetPx": 32,
+      "contentInsetPx": 24,
       "outerBackgroundColor": "#ffffff",
+      "contentBrandName": "Spartan Restoration",
+      "contentTagline": "The best defense in water damage.",
       "contentServiceArea": "Based in Vancouver, WA · Serving Clark County, Longview, Kelso & the Portland Metro Area",
-      "logoSizePx": 56,
-      "useGlobalNav": true
+      "contentCopyright": "© 2026 Spartan Restoration. All rights reserved.",
+      "contentContacts": [
+        {
+          "name": "Justin Dauven",
+          "phone": "503-975-9082",
+          "email": "Stonepillarcontractors@gmail.com"
+        },
+        {
+          "name": "Curt Farber",
+          "phone": "360-608-6640",
+          "email": "charlesfarber7111@gmail.com"
+        }
+      ],
+      "logoSizePx": 80,
+      "useGlobalNav": false,
+      "navItems": [
+        {
+          "id": "footer-nav-services",
+          "label": "Our Services",
+          "href": "/our-services",
+          "visibleDesktop": true,
+          "visibleMobile": true
+        },
+        {
+          "id": "footer-nav-service-area",
+          "label": "Service Area",
+          "href": "/service-area",
+          "visibleDesktop": true,
+          "visibleMobile": true
+        },
+        {
+          "id": "footer-nav-contact",
+          "label": "Contact",
+          "href": "/contact",
+          "visibleDesktop": true,
+          "visibleMobile": true
+        }
+      ]
     },
     "portfolio": {
       "theme": "light"
@@ -572,7 +628,8 @@
           "heightPx": 16,
           "overlap": false
         },
-        "layoutWidth": "contained"
+        "layoutWidth": "contained",
+        "layoutWidthMobile": "full"
       },
       "spacer-6288a5c6": {
         "stripe": {
@@ -857,7 +914,8 @@
               "description": "Fully insured crews trained to IICRC industry standards, so your property is in qualified hands from start to finish.",
               "icon": "shield-check"
             }
-          ]
+          ],
+          "layoutWidthMobile": "full"
         },
         "textImage": {
           "theme": "light",
@@ -1028,7 +1086,8 @@
             }
           ],
           "socialIconColor": "#ffffff",
-          "socialLinksInsetPx": 20
+          "socialLinksInsetPx": 20,
+          "layoutWidthMobile": "full"
         }
       },
       "header-65d014ce": {
@@ -1062,29 +1121,95 @@
           "headerV1NavIconColor": "#000000",
           "headerV1NavIconBorderColor": "#ffffff",
           "headerV1NavIconBackgroundColor": "#f3c35d",
+          "headerV1ShowNavIcons": true,
+          "headerV1NavTilt": false,
+          "headerV1IncludeMobileNav": false,
+          "headerV1NavFontStyle": "normal",
           "headerV1NavLinks": [
             {
               "id": "water-damage-restoration",
               "label": "Water Damage\nRestoration",
               "pageHref": "/water-damage-restoration",
-              "icon": "droplets"
+              "anchorId": "",
+              "icon": "hammer",
+              "side": "left"
             },
             {
               "id": "mold-removal",
               "label": "Mold Removal",
               "pageHref": "/mold-removal",
-              "icon": "biohazard"
+              "anchorId": "",
+              "icon": "biohazard",
+              "side": "left"
             },
             {
               "id": "nav-link-ab4ebe3b",
               "label": "Storm & Sewage",
               "pageHref": "/storm-sewage",
-              "icon": "droplets"
+              "anchorId": "",
+              "icon": "droplets",
+              "side": "right"
             }
-          ]
+          ],
+          "headerV2NavVisible": true,
+          "headerV2UseGradientBackground": false,
+          "headerV2BackgroundColor": "#faf0e0",
+          "headerV2BackgroundImageSrc": "",
+          "headerV2MobileLogoAlign": "center",
+          "layoutWidthMobile": "full"
         }
       },
-      "nav-5de3a6fd": {},
+      "nav-5de3a6fd": {
+        "navBar": {
+          "layoutWidth": "contained",
+          "heightPx": 70,
+          "backgroundColor": "#000000",
+          "outerBackgroundColor": "#ffffff",
+          "linkColor": "#ffffff",
+          "linkHoverColor": "#F3C35D",
+          "mobileToggleAlign": "center",
+          "items": [
+            {
+              "id": "nav-home",
+              "label": "Home",
+              "href": "/",
+              "visibleDesktop": true,
+              "visibleMobile": true
+            },
+            {
+              "id": "nav-services",
+              "label": "Our Services",
+              "href": "/our-services",
+              "visibleDesktop": true,
+              "visibleMobile": true
+            },
+            {
+              "id": "nav-service-area",
+              "label": "Service Area",
+              "href": "/service-area",
+              "visibleDesktop": true,
+              "visibleMobile": true
+            },
+            {
+              "id": "nav-link-d51ec8a5",
+              "label": "Contact",
+              "href": "/contact",
+              "visibleDesktop": true,
+              "visibleMobile": true,
+              "openContactModal": false
+            },
+            {
+              "id": "nav-link-5ffc835c",
+              "label": "Stone Pillar Contractors",
+              "href": "https://www.stonepillarcontractors.com/",
+              "target": "_blank",
+              "visibleDesktop": true,
+              "visibleMobile": true
+            }
+          ],
+          "layoutWidthMobile": "full"
+        }
+      },
       "spacer-b49ee9b9": {
         "spacer": {
           "stripe": {
@@ -1095,7 +1220,8 @@
             "heightPx": 16,
             "overlap": false
           },
-          "layoutWidth": "contained"
+          "layoutWidth": "contained",
+          "layoutWidthMobile": "full"
         }
       },
       "content-451c0bf5": {
@@ -1284,7 +1410,8 @@
               "description": "Fully insured crews trained to IICRC industry standards, so your property is in qualified hands from start to finish.",
               "icon": "shield-check"
             }
-          ]
+          ],
+          "layoutWidthMobile": "full"
         },
         "textImage": {
           "theme": "light",
@@ -1318,13 +1445,51 @@
           "mainBackgroundDirection": "none",
           "bottomBarBackgroundColor": "#2c73b5",
           "bottomBarTextColor": "#ffffff",
-          "contactTextSizeEm": 1.2,
+          "contactTextSizeEm": 1,
           "layoutWidth": "contained",
-          "contentInsetPx": 32,
+          "contentInsetPx": 24,
           "outerBackgroundColor": "#ffffff",
+          "contentBrandName": "Spartan Restoration",
+          "contentTagline": "The best defense in water damage.",
           "contentServiceArea": "Based in Vancouver, WA · Serving Clark County, Longview, Kelso & the Portland Metro Area",
-          "logoSizePx": 56,
-          "useGlobalNav": true
+          "contentCopyright": "© 2026 Spartan Restoration. All rights reserved.",
+          "contentContacts": [
+            {
+              "name": "Justin Dauven",
+              "phone": "503-975-9082",
+              "email": "Stonepillarcontractors@gmail.com"
+            },
+            {
+              "name": "Curt Farber",
+              "phone": "360-608-6640",
+              "email": "charlesfarber7111@gmail.com"
+            }
+          ],
+          "logoSizePx": 80,
+          "useGlobalNav": false,
+          "navItems": [
+            {
+              "id": "footer-nav-services",
+              "label": "Our Services",
+              "href": "/our-services",
+              "visibleDesktop": true,
+              "visibleMobile": true
+            },
+            {
+              "id": "footer-nav-service-area",
+              "label": "Service Area",
+              "href": "/service-area",
+              "visibleDesktop": true,
+              "visibleMobile": true
+            },
+            {
+              "id": "footer-nav-contact",
+              "label": "Contact",
+              "href": "/contact",
+              "visibleDesktop": true,
+              "visibleMobile": true
+            }
+          ]
         }
       },
       "spacer-ccwa0001": {
@@ -1534,12 +1699,7 @@
           "eyebrow": "We are Here to Help",
           "headline": "Let’s Get Your Property Back \nto Normal.",
           "body": "Dealing with water damage, mold, or other property damage can be stressful. Spartan Restoration is here to help you understand what needs to be done and get your property back to normal. Tell us a little about what happened, and we'll get back to you. Prefer to talk it through? Give us a call or text.",
-          "bullets": [
-            "Quality workmanship",
-            "Professional service",
-            "Premium materials",
-            "5-year workmanship warranty"
-          ],
+          "bullets": [],
           "primaryCtaLabel": "REQUEST A QUOTE",
           "primaryCtaHref": "/contact",
           "phoneLabel": "503-975-9082",
@@ -1549,26 +1709,7 @@
           "formTrustNotes": [],
           "formLeadSource": "contact-form",
           "showServicePills": false,
-          "servicePills": [
-            {
-              "label": "Siding",
-              "href": "#services",
-              "title": "Siding built for the Northwest — Langham Construction",
-              "description": "James Hardie, LP SmartSide, and wood siding installed for Washington weather. New homes and replacements in Vancouver, WA and Southwest Washington."
-            },
-            {
-              "label": "Windows",
-              "href": "#services",
-              "title": "Window installation — Langham Construction",
-              "description": "Window installation for new construction and remodels in Vancouver, WA, Clark County, and Southwest Washington."
-            },
-            {
-              "label": "Doors",
-              "href": "#services",
-              "title": "Door installation — Langham Construction",
-              "description": "Entry and exterior door installation for homes and remodels in Vancouver, WA and surrounding cities."
-            }
-          ],
+          "servicePills": [],
           "breadcrumbs": [
             {
               "label": "Home",
@@ -1576,16 +1717,7 @@
             }
           ],
           "showGallery": false,
-          "gallerySlides": [
-            {
-              "type": "image",
-              "value": "/org-assets/langham/library/Gallery-Siding-1.png"
-            },
-            {
-              "type": "image",
-              "value": "/org-assets/langham/library/Gallery-Siding-2.png"
-            }
-          ],
+          "gallerySlides": [],
           "galleryIntervalMs": 5000,
           "galleryTransition": "fade",
           "galleryHeightPx": 300,

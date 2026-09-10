@@ -13,6 +13,7 @@ import { Images, X } from "lucide-react";
 import { useOptionalOrg } from "@/components/dev/OrgProvider";
 import { ImageLibraryPicker } from "@/components/dev/ImageLibraryPicker";
 import { IconFramePreviewControls } from "@/components/dev/IconFramePreviewControls";
+import { LayoutWidthControl } from "@/components/dev/LayoutWidthModal";
 import {
   defaultHeaderV3PreviewSettings,
   getDefaultHeaderV3PreviewSettingsForVariant,
@@ -29,13 +30,11 @@ import {
   headerV1MobileNavIsOn,
   headerV1NavTiltIsOn,
   isHeaderV1NavFontStyle,
-  headerV3LayoutWidths,
   headerV3LogoVariants,
   headerVariantUsesCustomBackground,
   headerV2MobileLogoAlignOptions,
   stepHeaderLogoSizePx,
   type HeaderV2MobileLogoAlign,
-  type HeaderV3LayoutWidth,
   type HeaderV3LogoVariant,
   type HeaderLogoVerticalAlign,
   type HeaderV3PreviewSettings,
@@ -855,23 +854,12 @@ export function HeaderV3PreviewControls({ variantId }: { variantId?: string }) {
           ))}
         </select>
       </label>
-      <label className="flex items-center gap-2">
-        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Width</span>
-        <select
-          value={context.settings.layoutWidth}
-          onChange={(event) =>
-            update({ layoutWidth: event.target.value as HeaderV3LayoutWidth })
-          }
-          className={selectClassName}
-          aria-label="Header layout width"
-        >
-          {headerV3LayoutWidths.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </label>
+      <LayoutWidthControl
+        layoutWidth={context.settings.layoutWidth}
+        layoutWidthMobile={context.settings.layoutWidthMobile}
+        onChange={(next) => update(next)}
+        ariaLabel="Header layout width"
+      />
       <button
         type="button"
         onClick={() =>

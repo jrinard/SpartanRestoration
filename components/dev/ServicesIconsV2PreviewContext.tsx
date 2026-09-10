@@ -54,7 +54,7 @@ type ServicesIconsV2PreviewContextValue = {
   setServiceDescription: (serviceId: string, description: string) => void;
   setServiceCardContent: (
     serviceId: string,
-    patch: { label?: string; description?: string },
+    patch: { label?: string; description?: string; href?: string },
   ) => void;
   getCta: (fallback: { label: string; href: string }) => { label: string; href: string };
   setCta: (label: string, href: string) => void;
@@ -154,7 +154,7 @@ export function ServicesIconsV2PreviewProvider({
   );
 
   const setServiceCardContent = useCallback(
-    (serviceId: string, patch: { label?: string; description?: string }) => {
+    (serviceId: string, patch: { label?: string; description?: string; href?: string }) => {
       if (!enableContentEditing) return;
       if (patch.label !== undefined && !patch.label.trim()) return;
       setSettings(patchServicesIconsV2ServiceCard(settings, serviceId, patch));
@@ -443,6 +443,20 @@ export function ServicesIconsV2PreviewControls() {
           onChange={(event) => update({ cardBackgroundColor: event.target.value })}
           className={colorInputClassName}
           aria-label="Services icons v2 service card background color"
+        />
+      </label>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Card hover</span>
+        <input
+          type="color"
+          value={
+            context.settings.cardHoverBackgroundColor ??
+            defaultServicesIconsV2PreviewSettings.cardHoverBackgroundColor ??
+            "#333333"
+          }
+          onChange={(event) => update({ cardHoverBackgroundColor: event.target.value })}
+          className={colorInputClassName}
+          aria-label="Services icons v2 linked card hover background color"
         />
       </label>
       <label className="flex items-center gap-2">

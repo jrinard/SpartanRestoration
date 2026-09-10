@@ -101,6 +101,8 @@ export function normalizeServiceAreaV2PreviewSettings(
       typeof value.cardTextColor === "string" ? value.cardTextColor : themeDefaults.cardTextColor,
     cardMutedColor:
       typeof value.cardMutedColor === "string" ? value.cardMutedColor : themeDefaults.cardMutedColor,
+    cardBodyColor:
+      typeof value.cardBodyColor === "string" ? value.cardBodyColor : undefined,
     linkColor: typeof value.linkColor === "string" ? value.linkColor : themeDefaults.linkColor,
     cardBorderRadiusPx: normalizeCardBorderRadiusPx(
       value.cardBorderRadiusPx,

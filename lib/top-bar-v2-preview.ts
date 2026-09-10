@@ -1,6 +1,6 @@
 import { siteConfig } from "@/config/site";
 import { phoneTelHref } from "@/lib/phone";
-import { getSiteLayoutWidthClassName } from "@/lib/site-layout";
+import { getResponsiveSiteLayoutWidthClassName } from "@/lib/site-layout";
 import {
   defaultTopBarHeightPx,
   defaultTopBarTextSizePx,
@@ -9,6 +9,7 @@ import {
 
 export type TopBarV2PreviewSettings = {
   layoutWidth: TopBarLayoutWidth;
+  layoutWidthMobile?: TopBarLayoutWidth;
   heightPx: number;
   /** Single bar fill. */
   backgroundColor: string;
@@ -39,6 +40,9 @@ export const defaultTopBarV2PreviewSettings: TopBarV2PreviewSettings = {
   textSizePx: defaultTopBarTextSizePx,
 };
 
-export function getTopBarV2LayoutWidthClassName(layoutWidth: TopBarLayoutWidth): string {
-  return getSiteLayoutWidthClassName(layoutWidth);
+export function getTopBarV2LayoutWidthClassName(
+  layoutWidth: TopBarLayoutWidth,
+  layoutWidthMobile?: TopBarLayoutWidth,
+): string {
+  return getResponsiveSiteLayoutWidthClassName(layoutWidth, layoutWidthMobile);
 }

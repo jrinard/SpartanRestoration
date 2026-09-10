@@ -34,6 +34,7 @@ export function HeaderV2({ className }: HeaderV2Props) {
   const preview = useHeaderV3Preview();
   const settings = preview?.settings ?? defaultHeaderV3PreviewSettings;
   const layoutWidth = settings.layoutWidth;
+  const layoutWidthMobile = settings.layoutWidthMobile;
   const isCustom = Boolean(preview);
   const logoOverflow = headerLogoOverflows(settings, "header-v2");
   const logoImageHeightPx = getHeaderLogoImageHeightPx(settings, "header-v2");
@@ -66,7 +67,7 @@ export function HeaderV2({ className }: HeaderV2Props) {
     >
       {isCustom && (
         <div
-          className="header-custom-bg pointer-events-none absolute inset-x-0 top-0 z-0"
+          className="header-custom-bg pointer-events-none absolute inset-x-0 bottom-0 z-0"
           style={{
             height: `${backgroundLayerHeightPx}px`,
             backgroundColor: getHeaderV2BarColor(settings),
@@ -74,11 +75,11 @@ export function HeaderV2({ className }: HeaderV2Props) {
           aria-hidden="true"
         />
       )}
-      <div className={cn(getHeaderLayoutWidthClassName(layoutWidth))}>
+      <div className={cn(getHeaderLayoutWidthClassName(layoutWidth, layoutWidthMobile))}>
         <div className="relative w-full">
           {isCustom && (
             <div
-              className="header-custom-bg pointer-events-none absolute inset-x-0 top-0 z-0"
+              className="header-custom-bg pointer-events-none absolute inset-x-0 bottom-0 z-0"
               style={{
                 height: `${backgroundLayerHeightPx}px`,
                 ...getHeaderV2BarInnerBackgroundStyle(settings),

@@ -1,11 +1,13 @@
 import { siteConfig } from "@/config/site";
-import { getSiteLayoutWidthClassName } from "@/lib/site-layout";
+import { getResponsiveSiteLayoutWidthClassName } from "@/lib/site-layout";
 import type { TopBarSocialLink } from "@/lib/top-bar-social";
 
 export type TopBarLayoutWidth = "contained" | "full";
 
 export type TopBarPreviewSettings = {
   layoutWidth: TopBarLayoutWidth;
+  /** When unset, mobile matches `layoutWidth` (legacy org JSON). */
+  layoutWidthMobile?: TopBarLayoutWidth;
   heightPx: number;
   /** Left segment width as a percentage of the bar (remainder is right). */
   leftWidthPercent: number;
@@ -71,6 +73,9 @@ export const defaultTopBarPreviewSettings: TopBarPreviewSettings = {
   socialLinksInsetPx: defaultTopBarSocialLinksInsetPx,
 };
 
-export function getTopBarLayoutWidthClassName(layoutWidth: TopBarLayoutWidth): string {
-  return getSiteLayoutWidthClassName(layoutWidth);
+export function getTopBarLayoutWidthClassName(
+  layoutWidth: TopBarLayoutWidth,
+  layoutWidthMobile?: TopBarLayoutWidth,
+): string {
+  return getResponsiveSiteLayoutWidthClassName(layoutWidth, layoutWidthMobile);
 }

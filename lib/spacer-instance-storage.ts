@@ -24,6 +24,7 @@ export type SpacerInstanceSettings = {
   stripe?: SpacerStripeStyle;
   gradient?: SpacerGradientStyle;
   layoutWidth?: SiteLayoutWidth;
+  layoutWidthMobile?: SiteLayoutWidth;
   /** Full-width background behind the spacer (visible in contained mode). */
   outerBackgroundColor?: string;
 };

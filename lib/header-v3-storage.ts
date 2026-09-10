@@ -20,6 +20,7 @@ import {
   type HeaderV3NavButtonSize,
   type HeaderV3PreviewSettings,
 } from "@/lib/header-v3-gradient";
+import { normalizeOptionalLayoutWidthMobile } from "@/lib/site-layout";
 
 import { orgStorageGet, orgStorageSet } from "@/lib/org/browser-storage";
 
@@ -128,6 +129,9 @@ export function normalizeHeaderV3PreviewSettings(
     layoutWidth: isHeaderV3LayoutWidth(value.layoutWidth)
       ? value.layoutWidth
       : defaultHeaderV3PreviewSettings.layoutWidth,
+    ...(normalizeOptionalLayoutWidthMobile(value.layoutWidthMobile)
+      ? { layoutWidthMobile: normalizeOptionalLayoutWidthMobile(value.layoutWidthMobile) }
+      : {}),
     headerHeightPx:
       typeof value.headerHeightPx === "number" &&
       headerHeightOptions.includes(

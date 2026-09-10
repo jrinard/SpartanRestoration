@@ -48,6 +48,9 @@ export function HeroV4WithPreview() {
       buttonSize={settings.buttonSize}
       buttonRadiusPx={settings.buttonRadiusPx}
       backgroundColor={settings.backgroundColor}
+      eyebrowColor={settings.eyebrowColor}
+      headlineColor={settings.headlineColor}
+      bodyColor={settings.bodyColor}
       showContactInfo={settings.showContactInfo}
       contactInfoItems={settings.contactInfoItems}
       contactInfoIconColor={settings.contactInfoIconColor}

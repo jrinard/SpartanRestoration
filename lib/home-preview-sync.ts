@@ -2,6 +2,7 @@ import type { HomepageConfig } from "@/lib/homepage-config";
 import { getHomepageSections } from "@/lib/homepage-config";
 import type { HomepagePreviewSettings } from "@/lib/homepage-settings";
 import { isPlaygroundChromeSectionGroup } from "@/lib/playground-section-scope";
+import { sanitizeHomepageConfigForPublish } from "@/lib/publish-sanitize";
 import type { SectionGroupId } from "@/lib/section-registry";
 import { resolveSectionVariantId } from "@/lib/section-registry";
 import type { SectionInstanceSettings } from "@/lib/section-instance-storage";
@@ -71,7 +72,9 @@ export function resolveHomeGlobalPreviewField<T>(
 
 /** Forge export + disk write — instance edits on home promote up, then slots align. */
 export function normalizeHomepageConfigForSave(config: HomepageConfig): HomepageConfig {
-  return reconcileHomePageGlobalPreviewSettings(promoteHomePageInstanceSettingsToGlobal(config));
+  return sanitizeHomepageConfigForPublish(
+    reconcileHomePageGlobalPreviewSettings(promoteHomePageInstanceSettingsToGlobal(config)),
+  );
 }
 
 /** Resolve preview field for render — home site-wide slots use saved global settings. */

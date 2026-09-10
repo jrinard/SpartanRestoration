@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { CSSProperties } from "react";
+import Link from "next/link";
 import { FileText, Pencil, Shuffle } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { useServicesIconsV2Preview } from "@/components/dev/ServicesIconsV2PreviewContext";
@@ -28,6 +29,8 @@ export type ServicesIconsV2Service = {
   id: string;
   title: string;
   icon?: SiteIconName;
+  /** Optional internal route — card becomes a link when set. */
+  href?: string;
   /** Used for JSON-LD and screen-reader context — not shown on the card face. */
   description?: string;
 };
@@ -91,6 +94,7 @@ function ServiceCard({
   iconName,
   label,
   description,
+  href,
   iconEditingEnabled,
   onIconChange,
   onLabelChange,
@@ -102,25 +106,37 @@ function ServiceCard({
   iconName: SiteIconName;
   label: string;
   description?: string;
+  href?: string;
   iconEditingEnabled: boolean;
   onIconChange?: (iconName: SiteIconName) => void;
   onLabelChange?: (label: string) => void;
   onDescriptionChange?: (description: string) => void;
-  onCardContentSave?: (label: string, description: string) => void;
+  onCardContentSave?: (label: string, description: string, href?: string) => void;
 }) {
   const [iconPickerOpen, setIconPickerOpen] = useState(false);
   const [labelEditorOpen, setLabelEditorOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
+
+  const hoverBackgroundColor =
+    settings.cardHoverBackgroundColor ??
+    defaultServicesIconsV2PreviewSettings.cardHoverBackgroundColor;
+  const isLinked = Boolean(href && !iconEditingEnabled);
+  const cardBackgroundColor =
+    isLinked && hovered && hoverBackgroundColor
+      ? hoverBackgroundColor
+      : settings.cardBackgroundColor;
 
   const cardStyle: CSSProperties = {
-    backgroundColor: settings.cardBackgroundColor,
+    backgroundColor: cardBackgroundColor,
     borderRadius: `${settings.cardBorderRadiusPx}px`,
     padding: `${settings.cardPaddingPx}px`,
     minHeight: `${settings.cardMinHeightPx}px`,
     color: settings.cardTextColor,
     fontSize: `${settings.cardFontSizePx}px`,
+    transition: isLinked && hoverBackgroundColor ? "background-color 0.2s ease" : undefined,
   };
 
-  return (
+  const card = (
     <article
       className="services-icons-v2-card relative flex w-full max-w-[480px] items-center gap-5"
       style={cardStyle}
@@ -190,12 +206,15 @@ function ServiceCard({
                   onChange={onLabelChange}
                   seoValue={description ?? ""}
                   onSeoChange={onDescriptionChange}
+                  linkValue={href ?? ""}
+                  onLinkChange={() => undefined}
                   onSaveCombined={onCardContentSave}
                   onClose={() => setLabelEditorOpen(false)}
                   dialogTitle="Edit card"
-                  dialogAriaLabel={`Edit label and SEO description for ${label}`}
+                  dialogAriaLabel={`Edit label, link, and SEO description for ${label}`}
                   inputAriaLabel="Card label"
                   seoInputAriaLabel="SEO description for this service"
+                  linkInputAriaLabel={`Link URL for ${label}`}
                 />
               ) : (
                 <div className="absolute top-7 right-0 z-30">
@@ -211,6 +230,24 @@ function ServiceCard({
       </div>
     </article>
   );
+
+  if (href && !iconEditingEnabled) {
+    return (
+      <Link
+        href={href}
+        className="block w-full max-w-[480px] no-underline"
+        aria-label={`Learn more about ${label}`}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onFocus={() => setHovered(true)}
+        onBlur={() => setHovered(false)}
+      >
+        {card}
+      </Link>
+    );
+  }
+
+  return card;
 }
 
 function CtaCard({
@@ -421,6 +458,7 @@ export function ServicesIconsV2({
                 iconName={iconName}
                 label={label}
                 description={description}
+                href={service.href}
                 iconEditingEnabled={editingEnabled}
                 onIconChange={
                   preview
@@ -440,10 +478,11 @@ export function ServicesIconsV2({
                 }
                 onCardContentSave={
                   preview
-                    ? (nextLabel, nextDescription) =>
+                    ? (nextLabel, nextDescription, nextHref) =>
                         preview.setServiceCardContent(service.id, {
                           label: nextLabel,
                           description: nextDescription,
+                          href: nextHref,
                         })
                     : undefined
                 }

@@ -7,7 +7,10 @@ import {
 
 export type { TextIconsV3PreviewSettings };
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
-import type { SiteLayoutWidth } from "@/lib/site-layout";
+import {
+  normalizeOptionalLayoutWidthMobile,
+  type SiteLayoutWidth,
+} from "@/lib/site-layout";
 import {
   isSiteIconName,
   normalizeServiceIconsMap,
@@ -89,6 +92,9 @@ export function normalizeTextIconsV3PreviewSettings(
     layoutWidth: isSiteLayoutWidth(value.layoutWidth)
       ? value.layoutWidth
       : defaultTextIconsV3PreviewSettings.layoutWidth,
+    ...(normalizeOptionalLayoutWidthMobile(value.layoutWidthMobile)
+      ? { layoutWidthMobile: normalizeOptionalLayoutWidthMobile(value.layoutWidthMobile) }
+      : {}),
     outerBackgroundColor: isHexColor(value.outerBackgroundColor)
       ? value.outerBackgroundColor
       : defaultTextIconsV3PreviewSettings.outerBackgroundColor,

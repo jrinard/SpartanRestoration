@@ -145,6 +145,12 @@ export type HeroV4PreviewSettings = {
   buttonRadiusPx?: number;
   /** Section fill. Missing keeps today’s theme gradient (.hero-v3-bg). */
   backgroundColor?: string;
+  /** Eyebrow color. Missing keeps theme `text-accent-blue`. */
+  eyebrowColor?: string;
+  /** Headline / H1 line color. Missing keeps theme `text-foreground`. */
+  headlineColor?: string;
+  /** Body copy color. Missing keeps theme `text-muted`. */
+  bodyColor?: string;
   /** Icon + text rows below the CTA / phone row. Missing/false keeps today’s layout. */
   showContactInfo?: boolean;
   contactInfoItems?: HeroV4ContactInfoItem[];
@@ -308,6 +314,12 @@ export const heroV4GalleryHeightOptions = [240, 280, 300, 320, 360, 400, 440, 48
 export const defaultHeroV4GalleryBackground = "#000000";
 /** Picker-only when no saved hero background — live fill stays theme gradient until set. */
 export const heroV4BackgroundColorPickerFallback = "#06060e";
+/** Picker-only when eyebrow color unset — live copy keeps theme accent blue. */
+export const heroV4EyebrowColorPickerFallback = "#3a8bd0";
+/** Picker-only when headline color unset — live copy keeps theme foreground. */
+export const heroV4HeadlineColorPickerFallback = "#ffffff";
+/** Picker-only when body color unset — live copy keeps theme muted. */
+export const heroV4BodyColorPickerFallback = "#8888a0";
 export const defaultHeroV4GalleryBorderWidthPx = 1;
 export const defaultHeroV4GalleryBorderColor = "";
 
@@ -769,6 +781,9 @@ export function normalizeHeroV4PreviewSettings(
         ? normalizeButtonBorderRadiusPx(Math.round(value.buttonRadiusPx))
         : undefined,
     backgroundColor: normalizeHeroV4BackgroundColor(value.backgroundColor),
+    eyebrowColor: normalizeHeroV4BackgroundColor(value.eyebrowColor),
+    headlineColor: normalizeHeroV4BackgroundColor(value.headlineColor),
+    bodyColor: normalizeHeroV4BackgroundColor(value.bodyColor),
     showContactInfo: value.showContactInfo === true,
     contactInfoItems: normalizeHeroV4ContactInfoItems(value.contactInfoItems),
     contactInfoIconColor: normalizeHeroV4ContactInfoColor(value.contactInfoIconColor),

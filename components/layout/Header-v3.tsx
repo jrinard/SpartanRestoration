@@ -116,12 +116,13 @@ export function HeaderV3({ className }: HeaderV3Props) {
   const headerV3Nav = siteConfig.primaryNav;
   const layoutWidth =
     preview?.settings.layoutWidth ?? defaultHeaderV3PreviewSettings.layoutWidth;
+  const layoutWidthMobile = preview?.settings.layoutWidthMobile;
 
   const closeMobileMenu = () => setMobileOpen(false);
 
   return (
     <header className={cn("border-b border-border bg-background/80 backdrop-blur-sm", className)}>
-      <div className={getHeaderV3InnerClassName(layoutWidth)}>
+      <div className={getHeaderV3InnerClassName(layoutWidth, layoutWidthMobile)}>
         <div className="md:hidden">
           <div className="flex flex-col items-center">
             <HeaderBrandLink className="my-2.5 shrink-0">

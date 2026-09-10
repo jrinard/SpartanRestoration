@@ -204,10 +204,17 @@ export function ContactCard({
   );
 
   const content = preview?.getContent(defaultContent) ?? defaultContent;
+  const isModalCard = className?.includes("contact-card--in-modal");
 
   return (
     <div
-      className={cn("contact-card relative overflow-hidden p-8 sm:p-10", className)}
+      className={cn(
+        "contact-card relative overflow-hidden",
+        isModalCard
+          ? "contact-card--in-modal px-6 py-6 sm:px-8 sm:py-8"
+          : "p-8 sm:p-10",
+        className,
+      )}
       style={cardStyle}
     >
       <div className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/10" />
@@ -223,7 +230,10 @@ export function ContactCard({
           >
             <h2
               id={titleId}
-              className="contact-card-title font-serif text-2xl font-light tracking-tight sm:text-3xl"
+              className={cn(
+                "contact-card-title font-serif font-light tracking-tight",
+                isModalCard ? "text-[clamp(1.375rem,4vw,1.875rem)] leading-[1.15]" : "text-2xl sm:text-3xl",
+              )}
             >
               {content.title}
             </h2>

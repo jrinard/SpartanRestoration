@@ -76,7 +76,13 @@ function EditableTextBlock({
   const [editorOpen, setEditorOpen] = useState(false);
 
   return (
-    <div className={cn("relative max-w-full pr-8", className)}>
+    <div
+      className={cn(
+        "relative max-w-full",
+        editingEnabled && onSave && "pr-8",
+        className,
+      )}
+    >
       {children}
       {editingEnabled && onSave && (
         <>
@@ -164,7 +170,7 @@ export function FooterV1({ description }: FooterV1Props) {
     >
       <div className="footer-v1-main text-foreground" style={mainOuterStyle}>
         <div className={cn(getFooterV1LayoutWidthClassName(settings.layoutWidth))}>
-          <div className="footer-v1-content py-14 lg:py-16" style={mainInnerStyle}>
+          <div className="footer-v1-content py-10 lg:py-16" style={mainInnerStyle}>
             <div className="footer-v1-columns">
               <div className="footer-v1-brand">
                 <div className="footer-v1-logo-wrap relative inline-flex max-w-full">
@@ -211,11 +217,11 @@ export function FooterV1({ description }: FooterV1Props) {
                   ariaLabel="Edit business name"
                   editorTitle="Edit business name"
                   value={content.brandName}
-                  className="footer-v1-brand-name-wrap mt-3 w-full max-w-sm"
+                  className="footer-v1-brand-name-wrap mt-3 mx-auto w-auto max-w-sm text-center lg:mx-0 lg:w-full lg:text-left"
                   onSave={canEditContent ? preview!.setContentBrandName : undefined}
                 >
                   {(content.brandName || canEditContent) && (
-                    <span className="footer-v1-brand-name block text-left font-serif text-xl font-semibold tracking-wide">
+                    <span className="footer-v1-brand-name block text-center font-serif text-xl font-semibold tracking-wide lg:text-left">
                       {content.brandName}
                     </span>
                   )}
@@ -227,30 +233,18 @@ export function FooterV1({ description }: FooterV1Props) {
                   value={content.tagline}
                   multiline
                   rows={4}
-                  className="footer-v1-tagline-wrap mt-4 w-full max-w-sm"
+                  className="footer-v1-tagline-wrap mt-1 mx-auto w-auto max-w-sm text-center lg:mx-0 lg:w-full lg:text-left"
                   onSave={canEditContent ? preview!.setContentTagline : undefined}
                 >
                   {(content.tagline || canEditContent) && (
-                    <p className="footer-v1-tagline text-left text-sm leading-relaxed">{content.tagline}</p>
+                    <p className="footer-v1-tagline text-center text-sm leading-relaxed lg:text-left">
+                      {content.tagline}
+                    </p>
                   )}
                 </EditableTextBlock>
-                {siteConfig.footerTaglineLink?.label?.trim() &&
-                  siteConfig.footerTaglineLink?.href?.trim() && (
-                    <a
-                      href={siteConfig.footerTaglineLink.href.trim()}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="footer-v1-tagline-link mt-3 inline-block text-sm font-semibold tracking-wide uppercase transition-colors"
-                    >
-                      {siteConfig.footerTaglineLink.label.trim()}
-                    </a>
-                  )}
               </div>
 
               <div className="footer-v1-nav-column flex flex-col items-center justify-center gap-4">
-                <ContactTrigger className="footer-v1-contact-btn inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold tracking-wide uppercase transition-colors">
-                  Contact Us
-                </ContactTrigger>
                 <nav className="footer-v1-nav w-full" aria-label="Footer navigation">
                   <h2 className="sr-only">Site navigation</h2>
                   <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
@@ -317,32 +311,47 @@ export function FooterV1({ description }: FooterV1Props) {
                     </p>
                   )}
                 </EditableTextBlock>
+                {siteConfig.footerTaglineLink?.label?.trim() &&
+                  siteConfig.footerTaglineLink?.href?.trim() && (
+                    <a
+                      href={siteConfig.footerTaglineLink.href.trim()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="footer-v1-tagline-link"
+                    >
+                      {siteConfig.footerTaglineLink.label.trim()}
+                    </a>
+                  )}
               </div>
 
               <section
                 className="footer-v1-contact lg:text-right"
-                aria-labelledby="footer-v1-contact-heading"
+                aria-label="Contact"
               >
                 <div className="footer-v1-contact-details">
-                  <h2
-                    id="footer-v1-contact-heading"
-                    className="footer-v1-contact-heading font-semibold tracking-wide uppercase"
-                  >
-                    Contact
-                  </h2>
+                  <div className="footer-v1-contact-actions flex justify-center lg:justify-end">
+                    <ContactTrigger className="footer-v1-contact-btn inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold tracking-wide uppercase transition-colors">
+                      Contact Us
+                    </ContactTrigger>
+                  </div>
+                  {siteConfig.address?.trim() ? (
+                    <p className="footer-v1-address-line mt-4 text-sm leading-relaxed lg:text-right">
+                      {siteConfig.address.trim()}
+                    </p>
+                  ) : null}
                   <address className="footer-v1-address mt-4 not-italic">
-                    <div className="footer-v1-contact-list flex flex-col gap-4 lg:items-end">
+                    <div className="footer-v1-contact-list">
                       {content.contacts.map((contact, index) => (
                         <div
                           key={`${contact.name}-${index}`}
-                          className="footer-v1-team-contact flex w-full max-w-full flex-col items-start lg:items-end"
+                          className="footer-v1-team-contact"
                         >
                           <EditableTextBlock
                             editingEnabled={canEditContent}
                             ariaLabel={`Edit contact ${index + 1} name`}
                             editorTitle={`Edit contact ${index + 1} name`}
                             value={contact.name}
-                            className="w-full max-w-full pr-8 lg:pr-0 lg:pl-9"
+                            className="footer-v1-team-field mx-auto w-auto max-w-full text-center lg:mx-0 lg:w-full lg:pl-9 lg:text-right"
                             editButtonClassName="lg:-left-9 lg:right-auto"
                             onSave={
                               canEditContent
@@ -361,7 +370,7 @@ export function FooterV1({ description }: FooterV1Props) {
                             ariaLabel={`Edit contact ${index + 1} phone`}
                             editorTitle={`Edit contact ${index + 1} phone`}
                             value={contact.phone}
-                            className="mt-1 w-full max-w-full pr-8 lg:pr-0 lg:pl-9"
+                            className="footer-v1-team-field mx-auto mt-1 w-auto max-w-full text-center lg:mx-0 lg:w-full lg:pl-9 lg:text-right"
                             editButtonClassName="lg:-left-9 lg:right-auto"
                             onSave={
                               canEditContent

@@ -20,8 +20,8 @@ import {
   type TextIconsV3PreviewSettings,
 } from "@/lib/text-icons-v3-preview";
 import type { PreviewGradientDirection } from "@/lib/preview-gradient";
-import { siteLayoutWidthOptions } from "@/lib/site-layout";
-import type { SiteLayoutWidth } from "@/lib/site-layout";
+import { LayoutWidthControl } from "@/components/dev/LayoutWidthModal";
+import { layoutUsesContainedWidth } from "@/lib/site-layout";
 import type { SiteIconName } from "@/lib/site-icons";
 import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
@@ -326,23 +326,12 @@ export function TextIconsV3BackgroundControls() {
         }}
         onSave={(input) => void savePreset(input)}
       />
-      <label className="flex items-center gap-2">
-        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Width</span>
-        <select
-          value={context.settings.layoutWidth}
-          onChange={(event) =>
-            update({ layoutWidth: event.target.value as SiteLayoutWidth })
-          }
-          className={selectClassName}
-          aria-label="Text-icons v3 layout width"
-        >
-          {siteLayoutWidthOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </label>
+      <LayoutWidthControl
+        layoutWidth={context.settings.layoutWidth}
+        layoutWidthMobile={context.settings.layoutWidthMobile}
+        onChange={(next) => update(next)}
+        ariaLabel="Text-icons v3 layout width"
+      />
       <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
           Anchor
@@ -358,7 +347,10 @@ export function TextIconsV3BackgroundControls() {
           placeholder="warranty"
         />
       </label>
-      {context.settings.layoutWidth === "contained" && (
+      {layoutUsesContainedWidth(
+        context.settings.layoutWidth,
+        context.settings.layoutWidthMobile,
+      ) && (
         <label className="flex items-center gap-2">
           <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
             Outer BG

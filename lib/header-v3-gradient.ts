@@ -11,7 +11,7 @@ import {
   type PreviewGradientDirection,
   type PreviewGradientMode,
 } from "@/lib/preview-gradient";
-import { getSiteLayoutWidthClassName } from "@/lib/site-layout";
+import { getResponsiveSiteLayoutWidthClassName } from "@/lib/site-layout";
 import type { HeaderV1NavLink } from "@/lib/header-v1-nav";
 import { defaultHeaderV1NavLinks } from "@/lib/header-v1-nav";
 import type { SiteIconName } from "@/lib/site-icons";
@@ -46,6 +46,7 @@ export type HeaderV3PreviewSettings = {
   navButtonRadiusPx: number;
   logoVariant: HeaderV3LogoVariant;
   layoutWidth: HeaderV3LayoutWidth;
+  layoutWidthMobile?: HeaderV3LayoutWidth;
   /** Inner bar height for header v1 / v2 (px). */
   headerHeightPx: number;
   /** Rendered logo image height (px). 0 = theme default size. */
@@ -356,12 +357,18 @@ export function getHeaderV2MobileLogoAlignClassName(
   return "header-v2-mobile-logo--center";
 }
 
-export function getHeaderLayoutWidthClassName(layoutWidth: HeaderV3LayoutWidth): string {
-  return getSiteLayoutWidthClassName(layoutWidth);
+export function getHeaderLayoutWidthClassName(
+  layoutWidth: HeaderV3LayoutWidth,
+  layoutWidthMobile?: HeaderV3LayoutWidth,
+): string {
+  return getResponsiveSiteLayoutWidthClassName(layoutWidth, layoutWidthMobile);
 }
 
-export function getHeaderV3InnerClassName(layoutWidth: HeaderV3LayoutWidth): string {
-  return `${getHeaderLayoutWidthClassName(layoutWidth)} pt-5 pb-2.5 lg:pt-6 lg:pb-3`;
+export function getHeaderV3InnerClassName(
+  layoutWidth: HeaderV3LayoutWidth,
+  layoutWidthMobile?: HeaderV3LayoutWidth,
+): string {
+  return `${getHeaderLayoutWidthClassName(layoutWidth, layoutWidthMobile)} pt-5 pb-2.5 lg:pt-6 lg:pb-3`;
 }
 
 export function headerVariantUsesPreviewControls(variantId: string): boolean {
@@ -409,7 +416,7 @@ export function getHeaderV2BarInnerBackgroundStyle(
         backgroundColor: color,
         backgroundImage: `url("${imageSrc}"), ${gradient}`,
         backgroundSize: "cover, auto",
-        backgroundPosition: "center, center",
+        backgroundPosition: "center bottom, center",
         backgroundRepeat: "no-repeat, no-repeat",
       };
     }
@@ -422,7 +429,7 @@ export function getHeaderV2BarInnerBackgroundStyle(
       backgroundColor: color,
       backgroundImage: `url("${imageSrc}")`,
       backgroundSize: "cover",
-      backgroundPosition: "center",
+      backgroundPosition: "center bottom",
       backgroundRepeat: "no-repeat",
     };
   }

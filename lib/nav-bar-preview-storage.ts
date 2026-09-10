@@ -9,6 +9,7 @@ import {
   type NavBarLink,
   type NavBarPreviewSettings,
 } from "@/lib/nav-bar-preview";
+import { normalizeOptionalLayoutWidthMobile } from "@/lib/site-layout";
 
 import { orgStorageGet, orgStorageSet } from "@/lib/org/browser-storage";
 
@@ -75,6 +76,9 @@ export function normalizeNavBarPreviewSettings(
     layoutWidth: isNavBarLayoutWidth(value.layoutWidth)
       ? value.layoutWidth
       : defaultNavBarPreviewSettings.layoutWidth,
+    ...(normalizeOptionalLayoutWidthMobile(value.layoutWidthMobile)
+      ? { layoutWidthMobile: normalizeOptionalLayoutWidthMobile(value.layoutWidthMobile) }
+      : {}),
     heightPx:
       typeof value.heightPx === "number" &&
       navBarHeightOptions.includes(

@@ -1589,6 +1589,7 @@ body {
     justify-self: stretch;
     width: 100%;
     max-width: none;
+    padding-top: 1.75rem;
   }
 
   .footer-v1-contact {
@@ -1618,6 +1619,37 @@ body {
   .footer-v1-columns {
     justify-items: center;
     text-align: center;
+    gap: 1.75rem;
+  }
+
+  .footer-v1-nav-column {
+    padding-top: 0.75rem;
+  }
+
+  .footer-v1-nav ul {
+    gap: 0.625rem 1.25rem;
+  }
+
+  .footer-v1-contact-details {
+    margin-top: 0;
+  }
+
+  .footer-v1-contact .footer-v1-contact-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .footer-v1-contact .footer-v1-team-contact {
+    width: 100%;
+    max-width: 16rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-v1-contact .footer-v1-team-field {
+    margin-inline: auto;
   }
 
   .footer-v1-brand {
@@ -1632,6 +1664,10 @@ body {
   .footer-v1-brand-name-wrap,
   .footer-v1-tagline-wrap {
     align-self: center;
+    width: auto;
+    max-width: 100%;
+    margin-inline: auto;
+    text-align: center;
   }
 
   .footer-v1-brand .footer-v1-logo {
@@ -1664,6 +1700,31 @@ body {
 .footer-v1-tagline {
   color: var(--footer-v1-tagline-color);
   white-space: pre-line;
+}
+
+.footer-v1-nav {
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 1024px) {
+  .footer-v1-nav {
+    margin-top: 0.75rem;
+  }
+}
+
+.footer-v1-tagline-link {
+  margin-top: 1.5rem;
+  color: #b0b8c2;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.15s ease;
+}
+
+.footer-v1-tagline-link:hover {
+  color: #949aa3;
 }
 
 .footer-v1-nav-link {
@@ -1700,9 +1761,27 @@ body {
   align-items: flex-start;
 }
 
+.footer-v1-contact-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
 @media (min-width: 1024px) {
+  .footer-v1-contact .footer-v1-contact-list {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    justify-content: end;
+    justify-items: end;
+    column-gap: 2.5rem;
+    row-gap: 1rem;
+  }
+
   .footer-v1-contact .footer-v1-team-contact {
     align-items: flex-end;
+    width: auto;
+    max-width: none;
   }
 }
 
@@ -2168,6 +2247,11 @@ body {
   position: sticky;
   top: 0;
   z-index: 40;
+}
+
+/* Preview, live, Vision — top bar above header-v2 background (Forge keeps z-40) */
+main:not(.playground-sections) .top-bar {
+  z-index: 50;
 }
 
 .top-bar-split {
@@ -2808,6 +2892,10 @@ body {
   overflow: visible;
 }
 
+main:not(.playground-sections) .header-custom.header-logo-overflow {
+  z-index: 30;
+}
+
 .header-brand-link--overflow,
 .header-brand-link--offset {
   position: relative;
@@ -2839,6 +2927,11 @@ body {
 .playground-sections > .playground-section-slot:has(.header-logo-overflow) {
   position: relative;
   z-index: 45;
+}
+
+.header-v2 .header-custom-bg {
+  z-index: 0;
+  background-position: center bottom;
 }
 
 /* Custom header settings beat per-theme nav defaults in playground/preview */
@@ -5127,7 +5220,54 @@ body {
 }
 
 .contact-modal-panel {
+  max-height: calc(100dvh - 2rem);
+  max-height: calc(100svh - 2rem);
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   animation: contact-modal-in 0.22s ease-out;
+}
+
+.contact-card--in-modal .contact-card-title {
+  font-size: clamp(1.375rem, 4vw, 1.875rem);
+  line-height: 1.15;
+}
+
+.contact-card--in-modal .contact-card-form {
+  margin-top: clamp(1rem, 3vw, 1.5rem);
+}
+
+.contact-card--in-modal .contact-card-form .grid {
+  gap: clamp(1rem, 2.5vh, 1.25rem);
+}
+
+.contact-card--in-modal .contact-card-form input,
+.contact-card--in-modal .contact-card-form textarea {
+  padding-block: clamp(0.5rem, 1.5vh, 0.625rem);
+  padding-inline: clamp(0.875rem, 2.5vw, 1rem);
+  /* 16px floor — avoids iOS input zoom and keeps tap targets readable */
+  font-size: max(1rem, clamp(0.875rem, 2.5vw, 1rem));
+}
+
+.contact-card--in-modal .contact-card-form textarea {
+  min-height: clamp(5rem, 14vh, 7.5rem);
+}
+
+/* Short viewports — tighten vertical rhythm; panel scrolls instead of zoom (zoom ate padding) */
+@media (max-height: 720px) {
+  .contact-card--in-modal .contact-card-form .grid {
+    gap: 0.875rem;
+  }
+
+  .contact-card--in-modal .contact-card-form {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-height: 620px) {
+  .contact-card--in-modal .contact-card-form textarea {
+    min-height: clamp(4rem, 12vh, 5.5rem);
+  }
 }
 
 @keyframes contact-modal-in {

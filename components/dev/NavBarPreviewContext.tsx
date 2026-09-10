@@ -7,15 +7,15 @@ import {
   useEffect,
   type ReactNode,
 } from "react";
+import { LayoutWidthControl } from "@/components/dev/LayoutWidthModal";
 import {
   defaultNavBarPreviewSettings,
   navBarHeightOptions,
-  navBarLayoutWidths,
   navBarMobileToggleAlignOptions,
-  type NavBarLayoutWidth,
   type NavBarMobileToggleAlign,
   type NavBarPreviewSettings,
 } from "@/lib/nav-bar-preview";
+import { layoutUsesContainedWidth } from "@/lib/site-layout";
 import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import { playgroundNavSyncEvent } from "@/lib/playground-nav-sync";
 import {
@@ -112,23 +112,12 @@ export function NavBarPreviewControls() {
 
   return (
     <div className="contents">
-      <label className="flex items-center gap-2">
-        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Width</span>
-        <select
-          value={context.settings.layoutWidth}
-          onChange={(event) =>
-            update({ layoutWidth: event.target.value as NavBarLayoutWidth })
-          }
-          className={selectClassName}
-          aria-label="Nav bar layout width"
-        >
-          {navBarLayoutWidths.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </label>
+      <LayoutWidthControl
+        layoutWidth={context.settings.layoutWidth}
+        layoutWidthMobile={context.settings.layoutWidthMobile}
+        onChange={(next) => update(next)}
+        ariaLabel="Nav bar layout width"
+      />
       <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Height</span>
         <select
@@ -171,7 +160,10 @@ export function NavBarPreviewControls() {
           aria-label="Nav bar background color"
         />
       </label>
-      {context.settings.layoutWidth === "contained" && (
+      {layoutUsesContainedWidth(
+        context.settings.layoutWidth,
+        context.settings.layoutWidthMobile,
+      ) && (
         <label className="flex items-center gap-2">
           <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
             Outer BG
