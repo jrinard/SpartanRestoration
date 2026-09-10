@@ -92,6 +92,11 @@
           "id": "content-ccwa0001"
         },
         {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-5759ba73"
+        },
+        {
           "group": "footer",
           "variant": "footer-v1",
           "id": "footer-ace2b804"
@@ -649,31 +654,48 @@
         "gradient": {
           "heightPx": 24
         },
-        "layoutWidth": "full",
+        "layoutWidth": "contained",
         "outerBackgroundColor": "#ffffff",
         "stripe": {
-          "from": "#748B9F",
+          "from": "#2c74b5",
           "to": "#000000",
           "direction": "to right",
           "mode": "linear",
-          "heightPx": 40,
+          "heightPx": 16,
           "overlap": false
-        }
+        },
+        "layoutWidthMobile": "full"
       },
       "spacer-ccwa0002": {
         "gradient": {
           "heightPx": 32
         },
-        "layoutWidth": "full",
+        "layoutWidth": "contained",
         "outerBackgroundColor": "#ffffff",
         "stripe": {
-          "from": "#748B9F",
+          "from": "#2c74b5",
           "to": "#000000",
           "direction": "to right",
           "mode": "linear",
-          "heightPx": 40,
+          "heightPx": 32,
           "overlap": false
-        }
+        },
+        "layoutWidthMobile": "full"
+      },
+      "spacer-5759ba73": {
+        "stripe": {
+          "from": "#2c74b5",
+          "to": "#000000",
+          "direction": "to right",
+          "mode": "linear",
+          "heightPx": 32,
+          "overlap": false
+        },
+        "gradient": {
+          "heightPx": 32
+        },
+        "layoutWidth": "contained",
+        "outerBackgroundColor": "#ffffff"
       },
       "spacer-e86ff962": {
         "stripe": {
@@ -688,7 +710,8 @@
           "heightPx": 40
         },
         "layoutWidth": "contained",
-        "outerBackgroundColor": "#ffffff"
+        "outerBackgroundColor": "#ffffff",
+        "layoutWidthMobile": "full"
       },
       "spacer-b5b69b23": {
         "stripe": {
@@ -718,7 +741,8 @@
           "heightPx": 40
         },
         "layoutWidth": "contained",
-        "outerBackgroundColor": "#ffffff"
+        "outerBackgroundColor": "#ffffff",
+        "layoutWidthMobile": "full"
       },
       "spacer-6bfe6a85": {
         "stripe": {
@@ -733,7 +757,8 @@
           "heightPx": 40
         },
         "layoutWidth": "contained",
-        "outerBackgroundColor": "#ffffff"
+        "outerBackgroundColor": "#ffffff",
+        "layoutWidthMobile": "full"
       },
       "spacer-56a01881": {
         "stripe": {
@@ -748,7 +773,8 @@
           "heightPx": 40
         },
         "layoutWidth": "contained",
-        "outerBackgroundColor": "#ffffff"
+        "outerBackgroundColor": "#ffffff",
+        "layoutWidthMobile": "full"
       },
       "spacer-67a8acd5": {
         "stripe": {
@@ -1497,16 +1523,17 @@
           "gradient": {
             "heightPx": 24
           },
-          "layoutWidth": "full",
+          "layoutWidth": "contained",
           "outerBackgroundColor": "#ffffff",
           "stripe": {
-            "from": "#748B9F",
+            "from": "#2c74b5",
             "to": "#000000",
             "direction": "to right",
             "mode": "linear",
-            "heightPx": 40,
+            "heightPx": 16,
             "overlap": false
-          }
+          },
+          "layoutWidthMobile": "full"
         }
       },
       "hero-ccwa0001": {
@@ -1629,16 +1656,17 @@
           "gradient": {
             "heightPx": 32
           },
-          "layoutWidth": "full",
+          "layoutWidth": "contained",
           "outerBackgroundColor": "#ffffff",
           "stripe": {
-            "from": "#748B9F",
+            "from": "#2c74b5",
             "to": "#000000",
             "direction": "to right",
             "mode": "linear",
-            "heightPx": 40,
+            "heightPx": 32,
             "overlap": false
-          }
+          },
+          "layoutWidthMobile": "full"
         }
       },
       "content-ccwa0001": {
@@ -1673,6 +1701,23 @@
           "contentPhoneHref": "tel:+15039759082"
         }
       },
+      "spacer-5759ba73": {
+        "spacer": {
+          "stripe": {
+            "from": "#2c74b5",
+            "to": "#000000",
+            "direction": "to right",
+            "mode": "linear",
+            "heightPx": 32,
+            "overlap": false
+          },
+          "gradient": {
+            "heightPx": 32
+          },
+          "layoutWidth": "contained",
+          "outerBackgroundColor": "#ffffff"
+        }
+      },
       "spacer-e86ff962": {
         "spacer": {
           "stripe": {
@@ -1687,7 +1732,8 @@
             "heightPx": 40
           },
           "layoutWidth": "contained",
-          "outerBackgroundColor": "#ffffff"
+          "outerBackgroundColor": "#ffffff",
+          "layoutWidthMobile": "full"
         }
       },
       "hero-84814b5e": {
@@ -1963,7 +2009,8 @@
             "heightPx": 40
           },
           "layoutWidth": "contained",
-          "outerBackgroundColor": "#ffffff"
+          "outerBackgroundColor": "#ffffff",
+          "layoutWidthMobile": "full"
         }
       },
       "content-b299de6e": {
@@ -2167,7 +2214,8 @@
             "heightPx": 40
           },
           "layoutWidth": "contained",
-          "outerBackgroundColor": "#ffffff"
+          "outerBackgroundColor": "#ffffff",
+          "layoutWidthMobile": "full"
         }
       },
       "content-127f9a95": {
@@ -2247,7 +2295,8 @@
             "heightPx": 40
           },
           "layoutWidth": "contained",
-          "outerBackgroundColor": "#ffffff"
+          "outerBackgroundColor": "#ffffff",
+          "layoutWidthMobile": "full"
         }
       },
       "hero-sa-hub": {
