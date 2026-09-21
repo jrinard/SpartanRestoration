@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
   "colorThemeId": "spartan",
-  "fontThemeId": "poppins"
+  "fontThemeId": "poppins",
+  "pageBackgroundColor": "#000000"
 }

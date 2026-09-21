@@ -10,7 +10,11 @@ import type { FaviconPreviewSettings } from "@/lib/favicon-preview";
 import { normalizeFaviconPreviewSettings } from "@/lib/favicon-preview";
 import { fillMissingSectionCopy } from "@/lib/org/migrate-section-copy";
 import { normalizeHomepageConfigForSave, reconcileHomePageGlobalPreviewSettings } from "@/lib/home-preview-sync";
-import { augmentHomepageConfigWithServiceAreaLocations } from "@/lib/service-area-location-pages";
+import {
+  augmentHomepageConfigWithContractorServiceAreaLocations,
+  augmentHomepageConfigWithServiceAreaLocations,
+} from "@/lib/service-area-location-pages";
+import { isContractorServiceAreaOrg } from "@/lib/contractor-service-area-locations";
 import { ensureSeoRoutesForPages, rewriteLegacyAssetPathsInJson } from "@/lib/org/migrate-pillar";
 import { isVisionRuntime } from "@/lib/org/vision-runtime";
 import {
@@ -280,6 +284,17 @@ export async function readOrgTheme(orgId: string): Promise<OrgThemeFile> {
   return stored ?? defaultTheme();
 }
 
+function augmentOrgHomepageServiceAreaPages(
+  orgId: string,
+  config: HomepageConfig,
+): HomepageConfig {
+  if (orgId === "lsd") return augmentHomepageConfigWithServiceAreaLocations(config);
+  if (isContractorServiceAreaOrg(orgId)) {
+    return augmentHomepageConfigWithContractorServiceAreaLocations(config, orgId);
+  }
+  return config;
+}
+
 export async function readOrgHomepageConfig(orgId: string): Promise<HomepageConfig> {
   const [stored, site] = await Promise.all([
     readJsonFile<unknown>(orgFile(orgId, "homepage-config.json")),
@@ -290,8 +305,7 @@ export async function readOrgHomepageConfig(orgId: string): Promise<HomepageConf
   const { config: filled, changed } = fillMissingSectionCopy(normalized, orgId, {
     sitePhone: site.phone,
   });
-  const augmented =
-    orgId === "lsd" ? augmentHomepageConfigWithServiceAreaLocations(filled) : filled;
+  const augmented = augmentOrgHomepageServiceAreaPages(orgId, filled);
   const config = reconcileHomePageGlobalPreviewSettings(augmented);
   const pathChanged = JSON.stringify(stored ?? null) !== JSON.stringify(rewritten ?? null);
   const reconciled = JSON.stringify(augmented) !== JSON.stringify(config);
@@ -313,8 +327,7 @@ export async function readOrgStagingConfig(orgId: string): Promise<HomepageConfi
   const { config: filled, changed } = fillMissingSectionCopy(normalized, orgId, {
     sitePhone: site.phone,
   });
-  const augmented =
-    orgId === "lsd" ? augmentHomepageConfigWithServiceAreaLocations(filled) : filled;
+  const augmented = augmentOrgHomepageServiceAreaPages(orgId, filled);
   const config = reconcileHomePageGlobalPreviewSettings(augmented);
   const pathChanged = JSON.stringify(stored) !== JSON.stringify(rewritten);
   const reconciled = JSON.stringify(augmented) !== JSON.stringify(config);

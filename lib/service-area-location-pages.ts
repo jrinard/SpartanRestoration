@@ -8,6 +8,14 @@ import type { HomepagePreviewSettings } from "@/lib/homepage-settings";
 import type { HeroV4PreviewSettings } from "@/lib/hero-v4-preview";
 import { normalizeHeroV4PreviewSettings } from "@/lib/hero-v4-preview";
 import {
+  buildContractorServiceAreaLocationHeroV4,
+  contractorServiceAreaLocationSlugs,
+  getContractorServiceAreaLocationDefinition,
+  isContractorServiceAreaLocationSlug,
+  isContractorServiceAreaOrg,
+  type ContractorServiceAreaOrgId,
+} from "@/lib/contractor-service-area-locations";
+import {
   buildServiceAreaLocationHeroV4,
   getServiceAreaLocationDefinition,
 } from "@/lib/service-area-location-content";
@@ -97,6 +105,113 @@ function buildLocationPageFromClarkTemplate(
   return {
     page: { slug: getServiceAreaLocationConfigSlug(citySlug), name, sections },
     sectionSettings,
+  };
+}
+
+function buildContractorLocationPageFromClarkTemplate(
+  orgId: ContractorServiceAreaOrgId,
+  clarkPage: HomepagePageSnapshot,
+  clarkSectionSettings: Record<string, SectionInstanceSettings>,
+  citySlug: string,
+  name: string,
+): { page: HomepagePageSnapshot; sectionSettings: Record<string, SectionInstanceSettings> } {
+  const location = getContractorServiceAreaLocationDefinition(orgId, citySlug);
+  if (!location) {
+    throw new Error(`Unknown contractor service area location slug: ${citySlug}`);
+  }
+
+  const sections = cloneHomepageSections(clarkPage.sections);
+  const sectionSettings = cloneClarkSectionSettings(
+    clarkPage.sections,
+    sections,
+    clarkSectionSettings,
+  );
+
+  const heroSection = findHeroV4Section(sections);
+  const clarkHeroSection = findHeroV4Section(clarkPage.sections);
+  const clarkHeroBase =
+    clarkHeroSection?.id && clarkSectionSettings[clarkHeroSection.id]?.heroV4
+      ? normalizeHeroV4PreviewSettings(clarkSectionSettings[clarkHeroSection.id]!.heroV4!)
+      : undefined;
+
+  const heroV4 = buildContractorServiceAreaLocationHeroV4(orgId, location, clarkHeroBase);
+  applyHeroToSectionSettings(sectionSettings, heroSection?.id, heroV4);
+
+  return {
+    page: { slug: getServiceAreaLocationConfigSlug(citySlug), name, sections },
+    sectionSettings,
+  };
+}
+
+/**
+ * Spartan / Stone Pillar: location pages clone the Clark County template with local hero copy.
+ */
+export function augmentHomepageConfigWithContractorServiceAreaLocations(
+  config: HomepageConfig,
+  orgId: ContractorServiceAreaOrgId,
+): HomepageConfig {
+  const clarkPage = getClarkCountyTemplatePage(config);
+  if (!clarkPage) return config;
+
+  const clarkSectionSettings = getSectionInstanceMap(config.previewSettings);
+  const existingPages = [...(config.pages ?? [])];
+  const existingCitySlugs = new Set(
+    existingPages
+      .map((page) => {
+        const city = page.slug.replace(/^service-areas\//, "");
+        return isContractorServiceAreaLocationSlug(city) ? city : null;
+      })
+      .filter(Boolean),
+  );
+  const mergedSectionSettings = { ...clarkSectionSettings };
+
+  for (const citySlug of contractorServiceAreaLocationSlugs) {
+    const location = getContractorServiceAreaLocationDefinition(orgId, citySlug);
+    if (!location) continue;
+
+    const existingPage = findHomepagePageByLocationSlug(
+      { ...config, pages: existingPages },
+      citySlug,
+    );
+
+    if (existingPage) {
+      const heroSection = findHeroV4Section(existingPage.sections);
+      if (heroSection?.id && citySlug !== CLARK_COUNTY_WA_PAGE_SLUG) {
+        const clarkHeroSection = findHeroV4Section(clarkPage.sections);
+        const clarkHeroBase =
+          clarkHeroSection?.id && clarkSectionSettings[clarkHeroSection.id]?.heroV4
+            ? normalizeHeroV4PreviewSettings(clarkSectionSettings[clarkHeroSection.id]!.heroV4!)
+            : undefined;
+        applyHeroToSectionSettings(
+          mergedSectionSettings,
+          heroSection.id,
+          buildContractorServiceAreaLocationHeroV4(orgId, location, clarkHeroBase),
+        );
+      }
+      continue;
+    }
+
+    if (existingCitySlugs.has(citySlug)) continue;
+
+    const built = buildContractorLocationPageFromClarkTemplate(
+      orgId,
+      clarkPage,
+      clarkSectionSettings,
+      citySlug,
+      location.name,
+    );
+    existingPages.push(built.page);
+    existingCitySlugs.add(citySlug);
+    Object.assign(mergedSectionSettings, built.sectionSettings);
+  }
+
+  return {
+    ...config,
+    pages: sortHomepagePageSnapshots(existingPages),
+    previewSettings: {
+      ...config.previewSettings,
+      sections: mergedSectionSettings,
+    },
   };
 }
 
@@ -217,11 +332,60 @@ export function getServiceAreaLocationPreviewSettings(
   };
 }
 
+export function getContractorServiceAreaLocationPreviewSettings(
+  config: HomepageConfig,
+  orgId: ContractorServiceAreaOrgId,
+  slug: string,
+  sections: HomepageSectionEntry[],
+): HomepagePreviewSettings | undefined {
+  const heroSection = findHeroV4Section(sections);
+  const location = getContractorServiceAreaLocationDefinition(orgId, slug);
+  if (!heroSection?.id || !location) return config.previewSettings;
+  if (location.slug === CLARK_COUNTY_WA_PAGE_SLUG) return config.previewSettings;
+
+  const clarkPage = getClarkCountyTemplatePage(config);
+  const clarkSectionSettings = getSectionInstanceMap(config.previewSettings);
+  const clarkHeroSection = clarkPage ? findHeroV4Section(clarkPage.sections) : undefined;
+  const clarkHeroBase =
+    clarkHeroSection?.id && clarkSectionSettings[clarkHeroSection.id]?.heroV4
+      ? normalizeHeroV4PreviewSettings(clarkSectionSettings[clarkHeroSection.id]!.heroV4!)
+      : undefined;
+
+  const heroV4 = buildContractorServiceAreaLocationHeroV4(orgId, location, clarkHeroBase);
+
+  return {
+    ...config.previewSettings,
+    sections: {
+      ...config.previewSettings?.sections,
+      [heroSection.id]: {
+        ...config.previewSettings?.sections?.[heroSection.id],
+        heroV4,
+      },
+    },
+  };
+}
+
 export function withServiceAreaLocationPageConfig(
   config: HomepageConfig,
   slug: string,
   orgId?: string,
 ): HomepageConfig | null {
+  if (isContractorServiceAreaOrg(orgId)) {
+    if (!isContractorServiceAreaLocationSlug(slug)) return null;
+
+    const sections = getServiceAreaLocationPageSections(config, slug);
+    if (sections.length === 0) return null;
+
+    const previewSettings = getContractorServiceAreaLocationPreviewSettings(
+      config,
+      orgId,
+      slug,
+      sections,
+    );
+
+    return { ...config, sections, previewSettings };
+  }
+
   if (orgId !== "lsd") {
     return null;
   }

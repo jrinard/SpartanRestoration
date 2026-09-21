@@ -3,8 +3,11 @@
 import { useState, type CSSProperties, type ReactNode } from "react";
 import { Pencil } from "lucide-react";
 import { useTopBarPreview } from "@/components/dev/TopBarPreviewContext";
+import { ContactTrigger } from "@/components/contact/ContactTrigger";
 import {
   defaultTopBarPreviewSettings,
+  getTopBarContactButtonCssProperties,
+  getTopBarContactButtonLabel,
   getTopBarLayoutWidthClassName,
   type TopBarPreviewSettings,
 } from "@/lib/top-bar-preview";
@@ -178,6 +181,7 @@ export function TopBarV1() {
   const editingEnabled = preview?.contentEditingEnabled ?? false;
   const rightWidthPercent = 100 - settings.leftWidthPercent;
   const socialLinkCount = settings.socialLinks.length;
+  const showContactButton = settings.showContactButton === true;
   const [leftEditorOpen, setLeftEditorOpen] = useState(false);
   const [rightEditorOpen, setRightEditorOpen] = useState(false);
 
@@ -262,9 +266,19 @@ export function TopBarV1() {
             }}
           >
             <div className="top-bar-right-inner">
-              <a href={settings.phoneHref} className="top-bar-call">
-                {settings.rightText}
-              </a>
+              <div className="top-bar-call-group">
+                <a href={settings.phoneHref} className="top-bar-call">
+                  {settings.rightText}
+                </a>
+                {showContactButton ? (
+                  <ContactTrigger
+                    className="top-bar-contact-btn inline-flex shrink-0 items-center justify-center px-5 py-2.5 font-semibold tracking-wide uppercase"
+                    style={getTopBarContactButtonCssProperties(settings)}
+                  >
+                    {getTopBarContactButtonLabel(settings)}
+                  </ContactTrigger>
+                ) : null}
+              </div>
               {socialLinkCount > 0 && (
                 <div className="top-bar-social">
                   {settings.socialLinks.map((link) => (

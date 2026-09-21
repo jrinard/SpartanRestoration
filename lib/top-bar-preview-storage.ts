@@ -1,6 +1,8 @@
 import { getCommittedHomepagePreviewSettings } from "@/lib/homepage-settings";
 import {
   defaultTopBarPreviewSettings,
+  snapTopBarContactButtonRadiusPx,
+  snapTopBarContactButtonTextSizePx,
   topBarTextSizeOptions,
   type TopBarLayoutWidth,
   type TopBarPreviewSettings,
@@ -90,6 +92,31 @@ export function normalizeTopBarPreviewSettings(
       typeof value.socialLinksInsetPx === "number"
         ? Math.min(80, Math.max(0, Math.round(value.socialLinksInsetPx)))
         : defaultTopBarPreviewSettings.socialLinksInsetPx,
+    showContactButton: value.showContactButton === true,
+    contactButtonLabel:
+      typeof value.contactButtonLabel === "string"
+        ? value.contactButtonLabel
+        : defaultTopBarPreviewSettings.contactButtonLabel,
+    contactButtonBgColor: isHexColor(value.contactButtonBgColor)
+      ? value.contactButtonBgColor
+      : defaultTopBarPreviewSettings.contactButtonBgColor,
+    contactButtonHoverBgColor: isHexColor(value.contactButtonHoverBgColor)
+      ? value.contactButtonHoverBgColor
+      : defaultTopBarPreviewSettings.contactButtonHoverBgColor,
+    contactButtonTextColor: isHexColor(value.contactButtonTextColor)
+      ? value.contactButtonTextColor
+      : defaultTopBarPreviewSettings.contactButtonTextColor,
+    contactButtonTextHoverColor: isHexColor(value.contactButtonTextHoverColor)
+      ? value.contactButtonTextHoverColor
+      : defaultTopBarPreviewSettings.contactButtonTextHoverColor,
+    contactButtonRadiusPx:
+      typeof value.contactButtonRadiusPx === "number"
+        ? snapTopBarContactButtonRadiusPx(Math.round(value.contactButtonRadiusPx))
+        : defaultTopBarPreviewSettings.contactButtonRadiusPx,
+    contactButtonTextSizePx:
+      typeof value.contactButtonTextSizePx === "number"
+        ? snapTopBarContactButtonTextSizePx(Math.round(value.contactButtonTextSizePx))
+        : defaultTopBarPreviewSettings.contactButtonTextSizePx,
   };
 }
 

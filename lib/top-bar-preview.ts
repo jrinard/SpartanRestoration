@@ -1,4 +1,6 @@
+import type { CSSProperties } from "react";
 import { siteConfig } from "@/config/site";
+import { contactButtonBorderRadiusOptions } from "@/lib/contact-preview";
 import { getResponsiveSiteLayoutWidthClassName } from "@/lib/site-layout";
 import type { TopBarSocialLink } from "@/lib/top-bar-social";
 
@@ -31,6 +33,15 @@ export type TopBarPreviewSettings = {
   socialIconColor: string;
   /** Distance from the right viewport edge (px). */
   socialLinksInsetPx: number;
+  /** When true, show a contact button beside the call link (opens contact modal). */
+  showContactButton?: boolean;
+  contactButtonLabel?: string;
+  contactButtonBgColor?: string;
+  contactButtonHoverBgColor?: string;
+  contactButtonTextColor?: string;
+  contactButtonTextHoverColor?: string;
+  contactButtonRadiusPx?: number;
+  contactButtonTextSizePx?: number;
 };
 
 export const defaultTopBarHeightPx = 61;
@@ -41,6 +52,10 @@ export const defaultTopBarSocialLinksInsetPx = 20;
 export const topBarHeightOptions = [32, 40, 48, 56, 61, 64, 72, 80, 88, 96, 104, 112, 120] as const;
 
 export const topBarTextSizeOptions = [14, 16, 18, 20, 22, 24] as const;
+
+export const topBarContactButtonTextSizeOptions = [12, 14, 16, 18, 20] as const;
+
+export const defaultTopBarContactButtonLabel = "Contact Us";
 
 export const topBarLayoutWidths: { value: TopBarLayoutWidth; label: string }[] = [
   { value: "contained", label: "Contained" },
@@ -71,7 +86,63 @@ export const defaultTopBarPreviewSettings: TopBarPreviewSettings = {
   socialLinks: [],
   socialIconColor: "#ffffff",
   socialLinksInsetPx: defaultTopBarSocialLinksInsetPx,
+  contactButtonLabel: defaultTopBarContactButtonLabel,
+  contactButtonBgColor: "#f3c35d",
+  contactButtonHoverBgColor: "#efc25b",
+  contactButtonTextColor: "#243348",
+  contactButtonTextHoverColor: "#243348",
+  contactButtonRadiusPx: 4,
+  contactButtonTextSizePx: 14,
 };
+
+export function getTopBarContactButtonLabel(settings: TopBarPreviewSettings): string {
+  const label = settings.contactButtonLabel?.trim();
+  return label || defaultTopBarContactButtonLabel;
+}
+
+export function getTopBarContactButtonCssProperties(
+  settings: TopBarPreviewSettings,
+): CSSProperties {
+  return {
+    "--top-bar-contact-btn-bg": settings.contactButtonBgColor ?? defaultTopBarPreviewSettings.contactButtonBgColor,
+    "--top-bar-contact-btn-hover-bg":
+      settings.contactButtonHoverBgColor ?? defaultTopBarPreviewSettings.contactButtonHoverBgColor,
+    "--top-bar-contact-btn-color":
+      settings.contactButtonTextColor ?? defaultTopBarPreviewSettings.contactButtonTextColor,
+    "--top-bar-contact-btn-hover-color":
+      settings.contactButtonTextHoverColor ?? defaultTopBarPreviewSettings.contactButtonTextHoverColor,
+    "--top-bar-contact-btn-radius": `${settings.contactButtonRadiusPx ?? defaultTopBarPreviewSettings.contactButtonRadiusPx}px`,
+    "--top-bar-contact-btn-text-size": `${settings.contactButtonTextSizePx ?? defaultTopBarPreviewSettings.contactButtonTextSizePx}px`,
+  } as CSSProperties;
+}
+
+export function snapTopBarContactButtonRadiusPx(value: number): number {
+  if (
+    contactButtonBorderRadiusOptions.includes(
+      value as (typeof contactButtonBorderRadiusOptions)[number],
+    )
+  ) {
+    return value;
+  }
+
+  return contactButtonBorderRadiusOptions.reduce((closest, option) =>
+    Math.abs(option - value) < Math.abs(closest - value) ? option : closest,
+  );
+}
+
+export function snapTopBarContactButtonTextSizePx(value: number): number {
+  if (
+    topBarContactButtonTextSizeOptions.includes(
+      value as (typeof topBarContactButtonTextSizeOptions)[number],
+    )
+  ) {
+    return value;
+  }
+
+  return topBarContactButtonTextSizeOptions.reduce((closest, option) =>
+    Math.abs(option - value) < Math.abs(closest - value) ? option : closest,
+  );
+}
 
 export function getTopBarLayoutWidthClassName(
   layoutWidth: TopBarLayoutWidth,

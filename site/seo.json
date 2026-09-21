@@ -105,6 +105,71 @@
         "Spartan Restoration Clark County"
       ]
     },
+    "service-areas/portland-metro-or": {
+      "title": "Water & Mold Restoration Portland Metro | Spartan Restoration",
+      "description": "Emergency water damage and mold remediation in Portland, Gresham, Troutdale, and the Oregon metro. Vancouver-based Spartan Restoration — licensed, insured, IICRC-certified.",
+      "path": "/service-areas/portland-metro-or",
+      "ogImageAlt": "Spartan Restoration serving the Portland metro area",
+      "keywords": [
+        "water damage restoration Portland OR",
+        "mold remediation Gresham OR",
+        "storm cleanup Portland metro",
+        "sewage cleanup Troutdale OR",
+        "Spartan Restoration Portland"
+      ]
+    },
+    "service-areas/longview-kelso-wa": {
+      "title": "Restoration Services Longview & Kelso, WA | Spartan Restoration",
+      "description": "Water damage restoration and mold remediation in Longview, Kelso, and Cowlitz County, WA. Insurance documentation from licensed Vancouver-based crews.",
+      "path": "/service-areas/longview-kelso-wa",
+      "ogImageAlt": "Spartan Restoration serving Longview and Kelso, Washington",
+      "keywords": [
+        "water damage restoration Longview WA",
+        "mold remediation Kelso WA",
+        "storm cleanup Cowlitz County",
+        "emergency restoration I-5 corridor WA",
+        "Spartan Restoration Longview"
+      ]
+    },
+    "service-areas/battle-ground-wa": {
+      "title": "Water Damage Restoration Battle Ground, WA | Spartan Restoration",
+      "description": "Emergency water mitigation and mold remediation in Battle Ground, WA and north Clark County. Licensed, insured restoration from Spartan Restoration in Vancouver.",
+      "path": "/service-areas/battle-ground-wa",
+      "ogImageAlt": "Spartan Restoration serving Battle Ground, Washington",
+      "keywords": [
+        "water damage restoration Battle Ground WA",
+        "mold remediation Battle Ground",
+        "storm cleanup north Clark County",
+        "emergency water extraction Battle Ground",
+        "Spartan Restoration Battle Ground"
+      ]
+    },
+    "service-areas/ridgefield-wa": {
+      "title": "Water & Mold Restoration Ridgefield, WA | Spartan Restoration",
+      "description": "Water damage and mold remediation in Ridgefield, WA. Emergency drying and storm cleanup from licensed Spartan Restoration crews based in Vancouver.",
+      "path": "/service-areas/ridgefield-wa",
+      "ogImageAlt": "Spartan Restoration serving Ridgefield, Washington",
+      "keywords": [
+        "water damage restoration Ridgefield WA",
+        "mold remediation Ridgefield",
+        "storm cleanup Ridgefield WA",
+        "emergency restoration north Clark County",
+        "Spartan Restoration Ridgefield"
+      ]
+    },
+    "service-areas/camas-washougal-wa": {
+      "title": "Restoration Camas & Washougal, WA | Spartan Restoration",
+      "description": "Water damage, mold, and storm cleanup in Camas and Washougal, WA. Local Vancouver-based Spartan Restoration — licensed, insured, IICRC-certified.",
+      "path": "/service-areas/camas-washougal-wa",
+      "ogImageAlt": "Spartan Restoration serving Camas and Washougal, Washington",
+      "keywords": [
+        "water damage restoration Camas WA",
+        "mold remediation Washougal WA",
+        "storm cleanup east Clark County",
+        "emergency restoration Columbia River Gorge",
+        "Spartan Restoration Camas Washougal"
+      ]
+    },
     "storm-sewage": {
       "title": "Storm & Sewage Cleanup in Vancouver, WA | Spartan Restoration",
       "description": "Storm damage and sewage cleanup in Vancouver, WA and Clark County—extraction, sanitization, and stabilization. Licensed, insured restoration crews. Mon–Fri 8 AM–5 PM.",

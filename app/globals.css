@@ -2292,6 +2292,17 @@ main:not(.playground-sections) .top-bar {
   min-width: 0;
 }
 
+.top-bar-call-group {
+  display: flex;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  min-width: 0;
+}
+
 .top-bar-text,
 .top-bar-call {
   font-family: var(--font-serif), ui-sans-serif, system-ui, sans-serif;
@@ -2310,9 +2321,6 @@ main:not(.playground-sections) .top-bar {
 }
 
 .top-bar-call {
-  grid-column: 1 / -1;
-  grid-row: 1;
-  justify-self: center;
   text-align: center;
   font-size: var(--top-bar-text-size, 18px);
   font-weight: 600;
@@ -2324,6 +2332,28 @@ main:not(.playground-sections) .top-bar {
 
 .top-bar-call:hover {
   text-decoration: underline;
+}
+
+.top-bar-segment--right a.top-bar-contact-btn,
+.top-bar-contact-btn {
+  background-color: var(--top-bar-contact-btn-bg, #f3c35d);
+  color: var(--top-bar-contact-btn-color, #243348);
+  font-size: var(--top-bar-contact-btn-text-size, 14px);
+  line-height: 1.25;
+  text-decoration: none;
+  border-radius: var(--top-bar-contact-btn-radius, 4px);
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.top-bar-segment--right a.top-bar-contact-btn:hover,
+.top-bar-segment--right a.top-bar-contact-btn:focus-visible,
+.top-bar-contact-btn:hover,
+.top-bar-contact-btn:focus-visible {
+  background-color: var(--top-bar-contact-btn-hover-bg, #efc25b);
+  color: var(--top-bar-contact-btn-hover-color, #243348);
+  text-decoration: none;
 }
 
 .top-bar-social {
@@ -2369,6 +2399,10 @@ main:not(.playground-sections) .top-bar {
   .top-bar-text,
   .top-bar-call {
     font-size: calc(var(--top-bar-text-size, 18px) * 0.82);
+  }
+
+  .top-bar-contact-btn {
+    font-size: calc(var(--top-bar-contact-btn-text-size, 14px) * 0.82);
   }
 }
 

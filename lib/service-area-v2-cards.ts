@@ -10,3 +10,11 @@ export function getServiceAreaV2CardsForOrg(orgId: string): ServiceAreaV2Card[] 
   if (orgId === "stonepillar") return stonepillarServiceAreaV2Cards;
   return serviceAreaV2Cards;
 }
+
+export function getServiceAreaV2CardBySlugForOrg(
+  orgId: string,
+  slug: string,
+): ServiceAreaV2Card | undefined {
+  const city = slug.replace(/^service-areas\//, "");
+  return getServiceAreaV2CardsForOrg(orgId).find((card) => card.slug === city);
+}

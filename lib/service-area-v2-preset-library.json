@@ -148,17 +148,17 @@
             "id": "clark-county",
             "slug": "clark-county-wa",
             "title": "Clark County, WA",
-            "description": "Based in Vancouver, Spartan Restoration serves all of Clark County, including Vancouver, Camas, Washougal, Battle Ground, Ridgefield, and nearby neighborhoods. Water damage mitigation, mold remediation, and storm or sewage cleanup.",
+            "description": "Based in Vancouver, Spartan Restoration serves all of Clark County, including Vancouver, Camas, Washougal, Battle Ground, Ridgefield, and nearby neighborhoods. Water damage mitigation, mold remediation, and storm or sewage cleanup with licensed, insured, IICRC-certified crews.",
             "ctaLabel": "Clark County coverage",
             "href": "/service-areas/clark-county-wa"
           },
           {
             "id": "portland-metro",
             "slug": "portland-metro-or",
-            "title": "Portland Metro",
+            "title": "Portland Metro, OR",
             "description": "Properties on the Oregon side of the Columbia River, including Portland, Gresham, Troutdale, and surrounding communities, can call the same Vancouver team for emergency water extraction, structural drying, mold remediation, and storm cleanup.",
-            "ctaLabel": "Portland help",
-            "href": "/contact"
+            "ctaLabel": "Portland metro help",
+            "href": "/service-areas/portland-metro-or"
           },
           {
             "id": "longview-kelso",
@@ -166,7 +166,31 @@
             "title": "Longview & Kelso, WA",
             "description": "Spartan Restoration supports homeowners and businesses in Cowlitz County and along the I-5 corridor with water damage restoration, mold removal, and storm or sewage cleanup, with documentation suited for insurance claims.",
             "ctaLabel": "Longview area help",
-            "href": "/contact"
+            "href": "/service-areas/longview-kelso-wa"
+          },
+          {
+            "id": "battle-ground",
+            "slug": "battle-ground-wa",
+            "title": "Battle Ground, WA",
+            "description": "North Clark County homes and businesses in Battle Ground rely on Spartan Restoration for burst pipes, crawlspace moisture, mold remediation, and storm damage. Emergency mitigation and drying from a Vancouver-based team.",
+            "ctaLabel": "Battle Ground help",
+            "href": "/service-areas/battle-ground-wa"
+          },
+          {
+            "id": "ridgefield",
+            "slug": "ridgefield-wa",
+            "title": "Ridgefield, WA",
+            "description": "Ridgefield's growing neighborhoods and commercial sites get the same Spartan Restoration response as the rest of Clark County — water extraction, structural drying, mold treatment, and storm or sewage cleanup.",
+            "ctaLabel": "Ridgefield help",
+            "href": "/service-areas/ridgefield-wa"
+          },
+          {
+            "id": "camas-washougal",
+            "slug": "camas-washougal-wa",
+            "title": "Camas & Washougal, WA",
+            "description": "East Clark County properties in Camas and Washougal — from river-adjacent commercial sites to hillside homes — receive water damage mitigation, mold remediation, and storm cleanup from Spartan Restoration in Vancouver.",
+            "ctaLabel": "Camas & Washougal help",
+            "href": "/service-areas/camas-washougal-wa"
           }
         ]
       }
@@ -207,10 +231,10 @@
           {
             "id": "portland-metro",
             "slug": "portland-metro-or",
-            "title": "Portland Metro",
+            "title": "Portland Metro, OR",
             "description": "Properties on the Oregon side of the Columbia River, including Portland, Gresham, Troutdale, and surrounding communities, can call the same Vancouver team for remodeling, water damage build-back, and commercial tenant improvements.",
             "ctaLabel": "Portland help",
-            "href": "/contact"
+            "href": "/service-areas/portland-metro-or"
           },
           {
             "id": "longview-kelso",
@@ -218,7 +242,31 @@
             "title": "Longview & Kelso, WA",
             "description": "Stone Pillar Contractors supports homeowners and businesses in Cowlitz County and along the I-5 corridor with remodeling, reconstruction, and commercial construction, with documentation suited for insurance-related rebuild work.",
             "ctaLabel": "Longview area help",
-            "href": "/contact"
+            "href": "/service-areas/longview-kelso-wa"
+          },
+          {
+            "id": "battle-ground",
+            "slug": "battle-ground-wa",
+            "title": "Battle Ground, WA",
+            "description": "Battle Ground homeowners and businesses choose Stone Pillar Contractors for kitchen and bath remodels, additions, and rebuilds after water or storm damage — local Vancouver general contracting with clear scopes.",
+            "ctaLabel": "Battle Ground help",
+            "href": "/service-areas/battle-ground-wa"
+          },
+          {
+            "id": "ridgefield",
+            "slug": "ridgefield-wa",
+            "title": "Ridgefield, WA",
+            "description": "Ridgefield remodeling, tenant improvements, and insurance-related reconstruction from Stone Pillar Contractors. One Clark County team for north county growth and commercial build-out.",
+            "ctaLabel": "Ridgefield help",
+            "href": "/service-areas/ridgefield-wa"
+          },
+          {
+            "id": "camas-washougal",
+            "slug": "camas-washougal-wa",
+            "title": "Camas & Washougal, WA",
+            "description": "Camas and Washougal projects — kitchen and bath upgrades, commercial tenant work, and water damage build-back — managed by Stone Pillar Contractors from Vancouver with east Clark County experience.",
+            "ctaLabel": "Camas & Washougal help",
+            "href": "/service-areas/camas-washougal-wa"
           }
         ]
       }
