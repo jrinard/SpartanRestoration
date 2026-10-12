@@ -638,7 +638,7 @@
       "leftAccent": "24/7 EMERGENCY SERVICE",
       "rightText": "CALL NOW 360-608-6640",
       "phoneHref": "tel:+13606086640",
-      "textSizePx": 18,
+      "textSizePx": 20,
       "inverted": false,
       "socialLinks": [
         {
@@ -1768,7 +1768,7 @@
           "leftAccent": "24/7 EMERGENCY SERVICE",
           "rightText": "CALL NOW 360-608-6640",
           "phoneHref": "tel:+13606086640",
-          "textSizePx": 18,
+          "textSizePx": 20,
           "inverted": false,
           "socialLinks": [
             {
