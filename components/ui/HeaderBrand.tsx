@@ -6,10 +6,10 @@ import { useHeaderV3Preview } from "@/components/dev/HeaderV3PreviewContext";
 import { useCreativeThemeOptional } from "@/components/dev/CreativeProvider";
 import { defaultColorThemeId } from "@/lib/color-themes";
 import { getBrandLogoSrc, usesLifeSpringLogo } from "@/lib/brand-logo";
-import { getLibraryLogoMainSrc } from "@/lib/image-library-folder";
 import {
   defaultHeaderV3PreviewSettings,
   getHeaderLogoImageHeightPx,
+  resolveHeaderLibraryLogoSrc,
 } from "@/lib/header-v3-gradient";
 import { usePlaygroundImageLibraryFolder } from "@/lib/use-playground-image-library-folder";
 import { siteConfig } from "@/config/site";
@@ -60,9 +60,8 @@ export function HeaderBrand({
   }
 
   const logoVariant = settings.logoVariant;
-  const orgLogo = siteConfig.assets.logo?.trim();
   const logoSrc = usesLibraryLogo
-    ? orgLogo || getLibraryLogoMainSrc(libraryFolder)
+    ? resolveHeaderLibraryLogoSrc(settings, libraryFolder)
     : getBrandLogoSrc(colorThemeId, logoVariant);
 
   const imageStyle: CSSProperties | undefined = usesCustomLogoHeight

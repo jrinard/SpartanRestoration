@@ -43,6 +43,7 @@ const legacyGlobalPlaygroundKeys = [
   "lifespring-text-image-preview",
   "lifespring-analytics-preview",
   "lifespring-footer-v1-preview",
+  "lifespring-footer-v4-preview",
   "lifespring-hero-v4-preview",
   "lifespring-text-images-preview",
   "lifespring-spacer-stripe-style",

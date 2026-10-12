@@ -23,6 +23,7 @@ import {
   type ContactContent,
   type ContactPreviewSettings,
 } from "@/lib/contact-preview";
+import { isRecaptchaEnabled } from "@/lib/recaptcha-config";
 import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadContactPreviewSettings,
@@ -467,6 +468,23 @@ export function ContactV1PreviewControls() {
           ))}
         </select>
       </label>
+
+      {isRecaptchaEnabled() ? (
+        <label className="flex items-center gap-2">
+          <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+            Recaptcha
+          </span>
+          <input
+            type="checkbox"
+            checked={settings.requireRecaptcha !== false}
+            onChange={(event) =>
+              update({ requireRecaptcha: event.target.checked ? undefined : false })
+            }
+            className="accent-accent-purple"
+            aria-label="Require reCAPTCHA on contact form submit"
+          />
+        </label>
+      ) : null}
 
       <ContactFormFieldsControls />
 

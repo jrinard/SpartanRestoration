@@ -1,4 +1,4 @@
-export type FontThemeId = "open-sans" | "editorial" | "solid" | "impact" | "poppins";
+export type FontThemeId = "open-sans" | "editorial" | "solid" | "impact" | "poppins" | "inter";
 
 export type FontTheme = {
   id: FontThemeId;
@@ -39,6 +39,12 @@ export const fontThemes: FontTheme[] = [
     sans: "var(--font-poppins)",
     serif: "var(--font-poppins)",
   },
+  {
+    id: "inter",
+    label: "Inter",
+    sans: "var(--font-inter)",
+    serif: "var(--font-inter)",
+  },
 ];
 
 export const defaultFontThemeId: FontThemeId = "editorial";
@@ -47,7 +53,7 @@ const legacyThemeIds: Record<string, FontThemeId> = {
   default: "editorial",
   "clean-sans": "open-sans",
   "classic-serif": "editorial",
-  "modern-inter": "open-sans",
+  "modern-inter": "inter",
 };
 
 export function getFontTheme(id: FontThemeId | string): FontTheme {

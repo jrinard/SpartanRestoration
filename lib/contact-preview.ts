@@ -15,6 +15,7 @@ import {
   getEffectiveContactSmsOptIn,
   type ContactSmsOptInSettings,
 } from "@/lib/contact-sms-opt-in";
+import { isRecaptchaEnabled } from "@/lib/recaptcha-config";
 
 export type ContactBackgroundMode = "solid" | "gradient";
 
@@ -57,7 +58,17 @@ export type ContactPreviewSettings = {
   leadToEmail?: string;
   /** SMS consent for Foundation CRM — omitted until an org turns it on. */
   smsOptIn?: ContactSmsOptInSettings;
+  /** When false, skip reCAPTCHA on contact forms (modal + hero). Omitted = use env keys when set. */
+  requireRecaptcha?: boolean;
 };
+
+/** Whether the contact form should run reCAPTCHA (client + server). */
+export function isContactRecaptchaRequired(
+  settings?: Pick<ContactPreviewSettings, "requireRecaptcha">,
+): boolean {
+  if (settings?.requireRecaptcha === false) return false;
+  return isRecaptchaEnabled();
+}
 
 export const defaultContactButtonSettings = {
   submitText: "Submit",

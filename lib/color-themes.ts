@@ -1,6 +1,7 @@
 export type ColorThemeId =
   | "dark"
   | "lifespring"
+  | "green"
   | "light"
   | "stone"
   | "spartan"
@@ -122,7 +123,47 @@ export const colorThemes: ColorTheme[] = [
       { label: "Off white", hex: "#F8F8F6" },
     ],
   },
+  {
+    id: "green",
+    label: "Green",
+    pageBackground: "#030303",
+    colors: [
+      { label: "Base", hex: "#030303" },
+      { label: "Surface", hex: "#1B1B1B" },
+      { label: "Text", hex: "#FFFFFF" },
+      { label: "Subtext", hex: "#6E906E" },
+      { label: "Green deep", hex: "#18371C" },
+      { label: "Green mid", hex: "#416B5C" },
+      { label: "Green", hex: "#2D6500" },
+      { label: "Green light", hex: "#85A33F" },
+    ],
+  },
 ];
+
+/** Forge Theme dropdown order — Green stays last. */
+const colorThemeSelectorOrder: ColorThemeId[] = [
+  "dark",
+  "lifespring",
+  "light",
+  "stone",
+  "spartan",
+  "ocean",
+  "langham",
+  "green",
+];
+
+export function getColorThemesForSelector(): ColorTheme[] {
+  const byId = new Map(colorThemes.map((theme) => [theme.id, theme]));
+  const ordered = colorThemeSelectorOrder
+    .map((id) => byId.get(id))
+    .filter((theme): theme is ColorTheme => Boolean(theme));
+  for (const theme of colorThemes) {
+    if (!colorThemeSelectorOrder.includes(theme.id)) {
+      ordered.push(theme);
+    }
+  }
+  return ordered;
+}
 
 export const defaultColorThemeId: ColorThemeId = "spartan";
 

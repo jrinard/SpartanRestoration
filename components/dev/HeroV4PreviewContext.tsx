@@ -21,6 +21,9 @@ import {
   defaultHeroV4PreviewSettings,
   heroV4ContactInfoIconBackgroundPickerFallback,
   heroV4ContactInfoIconColorPickerFallback,
+  heroV4ContactInfoLabelColorPickerFallback,
+  heroV4ContactInfoLinkHoverColorPickerFallback,
+  heroV4ContactInfoValueColorPickerFallback,
   heroV4ContactInfoRadiusOptions,
   heroV4FormLeadSourceOptions,
   heroV4GalleryBorderWidthOptions,
@@ -398,6 +401,71 @@ export function HeroV4PreviewControls() {
               <button
                 type="button"
                 onClick={() => update({ contactInfoIconRadiusPx: undefined })}
+                className="font-mono text-xs tracking-wide text-accent-purple/80 uppercase hover:text-accent-purple"
+              >
+                Default
+              </button>
+            ) : null}
+          </label>
+          <label className="flex items-center gap-2">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+              Info label
+            </span>
+            <input
+              type="color"
+              value={settings.contactInfoLabelColor ?? heroV4ContactInfoLabelColorPickerFallback}
+              onChange={(event) => update({ contactInfoLabelColor: event.target.value })}
+              className={`${colorInputClassName}${settings.contactInfoLabelColor ? "" : " opacity-40"}`}
+              aria-label="Contact info label text color"
+            />
+            {settings.contactInfoLabelColor ? (
+              <button
+                type="button"
+                onClick={() => update({ contactInfoLabelColor: undefined })}
+                className="font-mono text-xs tracking-wide text-accent-purple/80 uppercase hover:text-accent-purple"
+              >
+                Default
+              </button>
+            ) : null}
+          </label>
+          <label className="flex items-center gap-2">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+              Info value
+            </span>
+            <input
+              type="color"
+              value={settings.contactInfoValueColor ?? heroV4ContactInfoValueColorPickerFallback}
+              onChange={(event) => update({ contactInfoValueColor: event.target.value })}
+              className={`${colorInputClassName}${settings.contactInfoValueColor ? "" : " opacity-40"}`}
+              aria-label="Contact info value text color"
+            />
+            {settings.contactInfoValueColor ? (
+              <button
+                type="button"
+                onClick={() => update({ contactInfoValueColor: undefined })}
+                className="font-mono text-xs tracking-wide text-accent-purple/80 uppercase hover:text-accent-purple"
+              >
+                Default
+              </button>
+            ) : null}
+          </label>
+          <label className="flex items-center gap-2">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+              Info link
+            </span>
+            <input
+              type="color"
+              value={
+                settings.contactInfoLinkHoverColor ?? heroV4ContactInfoLinkHoverColorPickerFallback
+              }
+              onChange={(event) => update({ contactInfoLinkHoverColor: event.target.value })}
+              className={`${colorInputClassName}${settings.contactInfoLinkHoverColor ? "" : " opacity-40"}`}
+              aria-label="Contact info link hover color"
+            />
+            {settings.contactInfoLinkHoverColor ? (
+              <button
+                type="button"
+                onClick={() => update({ contactInfoLinkHoverColor: undefined })}
                 className="font-mono text-xs tracking-wide text-accent-purple/80 uppercase hover:text-accent-purple"
               >
                 Default

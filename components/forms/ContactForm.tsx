@@ -20,6 +20,7 @@ import {
   getEffectiveContactSmsOptInSettings,
   getEffectiveLeadToEmail,
   hasCustomContactSubmitButton,
+  isContactRecaptchaRequired,
   validateContactSmsOptIn,
   type ContactPreviewSettings,
 } from "@/lib/contact-preview";
@@ -173,6 +174,8 @@ export function ContactForm({ className, settings, initialValues }: ContactFormP
     : undefined;
   const useLegacySubmit = !settings || usesLegacyPayload(fields);
   const useCardFieldStyles = className?.includes("contact-card-form") ?? false;
+  const effectiveSettings = settings ?? preview?.settings;
+  const recaptchaRequired = isContactRecaptchaRequired(effectiveSettings);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -190,7 +193,7 @@ export function ContactForm({ className, settings, initialValues }: ContactFormP
     }
 
     let recaptchaToken: string | null = null;
-    if (recaptchaEnabled) {
+    if (recaptchaEnabled && recaptchaRequired) {
       recaptchaToken = await executeRecaptcha(recaptchaAction);
       if (!recaptchaToken) {
         setStatus("error");
@@ -277,7 +280,7 @@ export function ContactForm({ className, settings, initialValues }: ContactFormP
         </div>
       </div>
 
-      {recaptchaEnabled && (
+      {recaptchaEnabled && recaptchaRequired && (
         <p className="contact-form-recaptcha mt-3 text-[0.65rem] leading-relaxed text-muted">
           This site is protected by reCAPTCHA and the Google{" "}
           <a

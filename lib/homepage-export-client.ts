@@ -25,7 +25,10 @@ import { heroBannerPreviewStorageKey } from "@/lib/hero-banner-preview-storage";
 import { heroV1PreviewStorageKey } from "@/lib/hero-v1-preview-storage";
 import { heroV21PreviewStorageKey, heroButtonPreviewStorageKey } from "@/lib/hero-v21-preview-storage";
 import { heroV4PreviewStorageKey } from "@/lib/hero-v4-preview-storage";
-import { loadAllSectionInstanceSettings } from "@/lib/section-instance-storage";
+import {
+  loadAllSectionInstanceSettings,
+  sectionInstanceHasPreviewData,
+} from "@/lib/section-instance-storage";
 import {
   getPlaygroundPageSections,
   homePlaygroundPageId,
@@ -46,6 +49,7 @@ import { textImagePreviewStorageKey } from "@/lib/text-image-preview-storage";
 import { textImagesPreviewStorageKey } from "@/lib/text-images-preview-storage";
 import { imagesV1PreviewStorageKey } from "@/lib/images-v1-preview-storage";
 import { cardsV1PreviewStorageKey } from "@/lib/cards-v1-preview-storage";
+import { flipCardsPreviewStorageKey } from "@/lib/flip-cards-preview-storage";
 import { navBarPreviewStorageKey } from "@/lib/nav-bar-preview-storage";
 import { topBarPreviewStorageKey } from "@/lib/top-bar-preview-storage";
 import { topBarV2PreviewStorageKey } from "@/lib/top-bar-v2-preview-storage";
@@ -119,6 +123,7 @@ function mapPreviewSectionsToEntries(
 
 function collectPreviewSettingsFromPages(
   pagesState: PlaygroundPagesState,
+  baseline?: HomepagePreviewSettings,
 ): HomepagePreviewSettings {
   const sectionInstances = loadAllSectionInstanceSettings();
   const publishedSections: HomepagePreviewSettings["sections"] = {};
@@ -133,27 +138,34 @@ function collectPreviewSettingsFromPages(
 
     for (const section of previewSectionSlots) {
       const settings = sectionInstances[section.id];
-      if (!settings) continue;
+      const resolvedSettings = sectionInstanceHasPreviewData(settings)
+        ? settings!
+        : sectionInstanceHasPreviewData(baseline?.sections?.[section.id])
+          ? baseline!.sections![section.id]
+          : undefined;
+      if (!resolvedSettings) continue;
 
-      publishedSections[section.id] = settings;
+      publishedSections[section.id] = resolvedSettings;
 
-      if (settings.spacer) {
-        spacers[section.id] = settings.spacer;
+      if (resolvedSettings.spacer) {
+        spacers[section.id] = resolvedSettings.spacer;
       }
 
       if (
-        settings.textIconsV3 ||
-        settings.textImage ||
-        settings.textImages ||
-        settings.imagesV1 ||
-        settings.cardsV1
+        resolvedSettings.textIconsV3 ||
+        resolvedSettings.textImage ||
+        resolvedSettings.textImages ||
+        resolvedSettings.imagesV1 ||
+        resolvedSettings.cardsV1 ||
+        resolvedSettings.flipCards
       ) {
         contents[section.id] = {
-          textIconsV3: settings.textIconsV3,
-          textImage: settings.textImage,
-          textImages: settings.textImages,
-          imagesV1: settings.imagesV1,
-          cardsV1: settings.cardsV1,
+          textIconsV3: resolvedSettings.textIconsV3,
+          textImage: resolvedSettings.textImage,
+          textImages: resolvedSettings.textImages,
+          imagesV1: resolvedSettings.imagesV1,
+          cardsV1: resolvedSettings.cardsV1,
+          flipCards: resolvedSettings.flipCards,
         };
       }
     }
@@ -190,6 +202,7 @@ function collectPreviewSettingsFromPages(
     textImages: readJson(textImagesPreviewStorageKey),
     imagesV1: readJson(imagesV1PreviewStorageKey),
     cardsV1: readJson(cardsV1PreviewStorageKey),
+    flipCards: readJson(flipCardsPreviewStorageKey),
     servicesIconsV2: readJson(servicesIconsV2PreviewStorageKey),
     serviceAreaV2: readJson(serviceAreaV2PreviewStorageKey),
     reviews: readJson(reviewsPreviewStorageKey),
@@ -213,7 +226,9 @@ function collectPreviewSettingsFromPages(
   return hasPreviewSettings ? previewSettings : {};
 }
 
-export function collectHomepageConfigFromStorage(): HomepageConfig {
+export function collectHomepageConfigFromStorage(
+  baselineConfig?: HomepageConfig,
+): HomepageConfig {
   const pagesState = loadPlaygroundPagesState();
   const homeSections = mapPreviewSectionsToEntries(
     getPreviewSections(getPlaygroundPageSections(pagesState, homePlaygroundPageId)),
@@ -238,7 +253,10 @@ export function collectHomepageConfigFromStorage(): HomepageConfig {
     ];
   });
 
-  const previewSettings = collectPreviewSettingsFromPages(pagesState);
+  const previewSettings = collectPreviewSettingsFromPages(
+    pagesState,
+    baselineConfig?.previewSettings,
+  );
   const storedColor = orgStorageGet(creativeStorageKeys.colorTheme);
   const storedFont = orgStorageGet(creativeStorageKeys.fontTheme);
   const storedPageBackground = orgStorageGet(creativeStorageKeys.pageBackground);
@@ -278,13 +296,17 @@ async function postHomepageConfigAction(
   }
 }
 
-export async function autosaveHomepageConfigFromStorage(): Promise<void> {
-  const config = collectHomepageConfigFromStorage();
+export async function autosaveHomepageConfigFromStorage(
+  baselineConfig?: HomepageConfig,
+): Promise<void> {
+  const config = collectHomepageConfigFromStorage(baselineConfig);
   await postHomepageConfigAction("autosave", config);
 }
 
-export async function stageHomepageConfigFromStorage(): Promise<void> {
-  const config = collectHomepageConfigFromStorage();
+export async function stageHomepageConfigFromStorage(
+  baselineConfig?: HomepageConfig,
+): Promise<void> {
+  const config = collectHomepageConfigFromStorage(baselineConfig);
 
   if (config.sections.length === 0) {
     throw new Error("No sections are checked for Preview in the playground.");

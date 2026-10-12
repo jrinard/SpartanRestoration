@@ -9,7 +9,8 @@ import {
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
-import { X } from "lucide-react";
+import { Images, X } from "lucide-react";
+import { ImageLibraryPicker } from "@/components/dev/ImageLibraryPicker";
 import {
   defaultFooterV4PreviewSettings,
   footerV4LogoOffsetXOptions,
@@ -18,13 +19,13 @@ import {
   resolveFooterV4LogoOffsetXPx,
   stepFooterV4LogoSizePx,
   type FooterV4Content,
+  normalizeFooterV4PreviewSettings,
   type FooterV4ContentOverrides,
   type FooterV4PreviewSettings,
 } from "@/lib/footer-v4-preview";
 import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import {
   loadFooterV4PreviewSettings,
-  normalizeFooterV4PreviewSettings,
   saveFooterV4ContentOverrides,
   saveFooterV4PreviewSettings,
 } from "@/lib/footer-v4-preview-storage";
@@ -40,6 +41,11 @@ import {
 } from "@/lib/footer-v4-presets";
 import { useOptionalOrg } from "@/components/dev/OrgProvider";
 import { siteConfig } from "@/config/site";
+import {
+  devLibraryIconSize,
+  devLibraryLabelClassName,
+} from "@/lib/dev-overlay-controls";
+import { cn } from "@/lib/utils";
 
 type FooterV4PreviewContextValue = {
   settings: FooterV4PreviewSettings;
@@ -142,6 +148,7 @@ export function FooterV4PreviewControls() {
   const [library, setLibrary] = useState(bundledFooterV4Presets);
   const [saveOpen, setSaveOpen] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [bannerImagePickerOpen, setBannerImagePickerOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -244,26 +251,72 @@ export function FooterV4PreviewControls() {
         }}
         onSave={(input) => void savePreset(input)}
       />
-      <label className="flex items-center gap-2">
-        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Banner L</span>
+      <label className="flex items-center gap-2" title="Gradient background — left / start color">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Grad L</span>
         <input
           type="color"
-          value={context.settings.bannerFrom}
+          value={settings.bannerFrom}
           onChange={(event) => update({ bannerFrom: event.target.value })}
           className={colorInputClassName}
-          aria-label="Footer banner left color"
+          aria-label="Footer gradient start color"
         />
       </label>
-      <label className="flex items-center gap-2">
-        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Banner R</span>
+      <label className="flex items-center gap-2" title="Gradient background — right / end color">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Grad R</span>
         <input
           type="color"
-          value={context.settings.bannerTo}
+          value={settings.bannerTo}
           onChange={(event) => update({ bannerTo: event.target.value })}
           className={colorInputClassName}
-          aria-label="Footer banner right color"
+          aria-label="Footer gradient end color"
         />
       </label>
+      <div className="relative flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Grad BG</span>
+        <button
+          type="button"
+          onClick={() => setBannerImagePickerOpen((open) => !open)}
+          className={cn(buttonClassName, "flex items-center gap-1.5")}
+          aria-label="Choose footer banner background image from library"
+          aria-expanded={bannerImagePickerOpen}
+        >
+          <Images size={devLibraryIconSize} strokeWidth={2} />
+          <span className={devLibraryLabelClassName}>Library</span>
+        </button>
+        {settings.bannerBackgroundImageSrc ? (
+          <>
+            <span
+              className="max-w-28 truncate font-mono text-[0.65rem] text-accent-purple/80"
+              title={settings.bannerBackgroundImageSrc}
+            >
+              {settings.bannerBackgroundImageSrc.split("/").pop()}
+            </span>
+            <button
+              type="button"
+              onClick={() => update({ bannerBackgroundImageSrc: "" })}
+              className={buttonClassName}
+              aria-label="Clear footer banner background image"
+            >
+              Clear
+            </button>
+          </>
+        ) : (
+          <span className="font-mono text-[0.65rem] text-accent-purple/60">None</span>
+        )}
+        {bannerImagePickerOpen ? (
+          <div className="absolute top-full left-0 z-50 mt-2">
+            <ImageLibraryPicker
+              value={settings.bannerBackgroundImageSrc || undefined}
+              onSelect={(entry) => {
+                update({ bannerBackgroundImageSrc: entry.src });
+                setBannerImagePickerOpen(false);
+              }}
+              onClose={() => setBannerImagePickerOpen(false)}
+              className="w-[min(92vw,52rem)]"
+            />
+          </div>
+        ) : null}
+      </div>
       <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Heading</span>
         <input

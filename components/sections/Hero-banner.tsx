@@ -1,15 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Images } from "lucide-react";
+import { ImageLibraryPicker } from "@/components/dev/ImageLibraryPicker";
 import { useHeroBannerPreview } from "@/components/dev/HeroBannerPreviewContext";
 import {
   defaultHeroBannerPreviewSettings,
   type HeroBannerSlide,
 } from "@/lib/hero-banner-preview";
+import { normalizeHeroBannerPreviewSettings } from "@/lib/hero-banner-preview-storage";
 import {
   defaultHeroV21BackgroundSettings,
   getHeroV21BackgroundStyle,
 } from "@/lib/hero-v21-background-preview";
+import {
+  devLibraryIconSize,
+  devLibraryLabelClassName,
+  devLibraryPillClassName,
+} from "@/lib/dev-overlay-controls";
 import { cn } from "@/lib/utils";
 import type { CSSProperties } from "react";
 
@@ -40,11 +48,31 @@ export function HeroBanner() {
   const { slides, intervalMs, transition } = settings;
   const backgroundSettings = settings.background ?? defaultHeroV21BackgroundSettings;
   const backgroundStyle = preview ? getHeroV21BackgroundStyle(backgroundSettings) : undefined;
+  const contentEditingEnabled = preview?.contentEditingEnabled ?? false;
   const [activeIndex, setActiveIndex] = useState(0);
+  const [libraryOpen, setLibraryOpen] = useState(false);
+  const activeSlide = slides[activeIndex];
 
   useEffect(() => {
     setActiveIndex(0);
   }, [transition, slides.length]);
+
+  function replaceActiveSlideImage(src: string) {
+    if (!preview) return;
+    const normalized = normalizeHeroBannerPreviewSettings(preview.settings);
+    const nextSlides = [...normalized.slides];
+    if (nextSlides.length === 0) {
+      nextSlides.push({ type: "image", value: src });
+    } else {
+      const index = Math.min(activeIndex, nextSlides.length - 1);
+      nextSlides[index] = { type: "image", value: src };
+    }
+    preview.setSettings(normalizeHeroBannerPreviewSettings({ ...normalized, slides: nextSlides }));
+  }
+
+  useEffect(() => {
+    setLibraryOpen(false);
+  }, [activeIndex]);
 
   useEffect(() => {
     if (slides.length <= 1) return;
@@ -127,6 +155,35 @@ export function HeroBanner() {
           ))}
         </div>
       )}
+
+      {contentEditingEnabled && activeSlide?.type === "image" ? (
+        <>
+          <div className="absolute top-2 right-2 z-20 flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => setLibraryOpen((open) => !open)}
+              className={cn(devLibraryPillClassName, "relative top-auto right-auto")}
+              aria-label="Change banner image"
+              aria-expanded={libraryOpen}
+            >
+              <Images size={devLibraryIconSize} strokeWidth={2} />
+              <span className={devLibraryLabelClassName}>Image</span>
+            </button>
+          </div>
+          {libraryOpen ? (
+            <div className="absolute top-12 right-2 z-30">
+              <ImageLibraryPicker
+                value={activeSlide.value}
+                onSelect={(entry) => {
+                  replaceActiveSlideImage(entry.src);
+                  setLibraryOpen(false);
+                }}
+                onClose={() => setLibraryOpen(false)}
+              />
+            </div>
+          ) : null}
+        </>
+      ) : null}
     </section>
   );
 }

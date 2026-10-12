@@ -76,8 +76,6 @@ import {
   serviceAreaV1Heading,
   serviceAreaV1Locations,
   washingHero,
-  washingFlipCards,
-  fourFlipCards,
   washingServiceSections,
   washingTestimonials,
   associationLogos,
@@ -248,11 +246,11 @@ export const sectionGroups = {
     variants: {
       "flipCards-v1": {
         label: "Flip Cards v1",
-        render: () => <FlipCards cards={washingFlipCards} layout="three" />,
+        render: () => <FlipCards layout="three" />,
       },
       "flipCards-v2": {
         label: "Flip Cards v2",
-        render: () => <FlipCards cards={fourFlipCards} layout="four" />,
+        render: () => <FlipCards layout="four" />,
       },
       "cards-v1": {
         label: "Cards v1",

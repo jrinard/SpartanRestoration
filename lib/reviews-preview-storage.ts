@@ -2,6 +2,7 @@ import {
   defaultReviewsBackgroundSettings,
   defaultReviewsPreviewSettings,
   defaultReviewsTopBorderSettings,
+  getReviewsThemeDefaults,
   type ReviewsBackgroundMode,
   type ReviewsBackgroundSettings,
   type ReviewsPreviewSettings,
@@ -86,8 +87,11 @@ export function normalizeReviewsPreviewSettings(
     ? value.reviews.filter(isGoogleReview)
     : defaultReviewsPreviewSettings.reviews;
 
+  const theme = isReviewsSectionTheme(value.theme) ? value.theme : defaultReviewsPreviewSettings.theme;
+  const themeDefaults = getReviewsThemeDefaults(theme);
+
   return {
-    theme: isReviewsSectionTheme(value.theme) ? value.theme : defaultReviewsPreviewSettings.theme,
+    theme,
     eyebrow:
       typeof value.eyebrow === "string" && value.eyebrow.trim()
         ? value.eyebrow
@@ -108,6 +112,9 @@ export function normalizeReviewsPreviewSettings(
     accentColor: isHexColor(value.accentColor)
       ? value.accentColor
       : defaultReviewsPreviewSettings.accentColor,
+    cardBackground: isHexColor(value.cardBackground)
+      ? value.cardBackground
+      : themeDefaults.cardBackground,
     placeId: typeof value.placeId === "string" ? value.placeId : defaultReviewsPreviewSettings.placeId,
     solidBackground: isHexColor(value.solidBackground)
       ? value.solidBackground

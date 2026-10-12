@@ -40,6 +40,8 @@ import {
   type SiteConfigData,
 } from "@/lib/org/types";
 import { defaultOrgPolicies, normalizeOrgPolicies, type OrgPoliciesFile } from "@/lib/org/policies";
+import { migrateSiteContactFields } from "@/lib/contact-person";
+import { normalizeSiteIdentity } from "@/lib/site-url";
 
 const defaultOrgId = "lsd";
 
@@ -65,6 +67,7 @@ export function defaultSiteForOrg(orgId: string, name?: string): SiteConfigData 
     description: `${trimmedName} website.`,
     phone: "",
     email: "",
+    teamContacts: [],
     assets: {
       logo: `/org-assets/${orgId}/logo.png`,
       logoWhite: `/org-assets/${orgId}/logo.png`,
@@ -260,11 +263,21 @@ export async function readOrgMeta(orgId: string): Promise<OrgMeta> {
   return normalizeOrgMeta(orgId, stored);
 }
 
+function normalizeOrgSite(site: SiteConfigData): SiteConfigData {
+  return migrateSiteContactFields(normalizeSiteIdentity(site));
+}
+
 export async function readOrgSite(orgId: string): Promise<SiteConfigData> {
   const stored = await readJsonFile<SiteConfigData>(orgFile(orgId, "site.json"));
-  if (stored) return stored;
+  if (stored) {
+    const normalized = normalizeOrgSite(stored);
+    if (!isVisionRuntime() && JSON.stringify(normalized) !== JSON.stringify(stored)) {
+      await writeJsonFile(orgFile(orgId, "site.json"), normalized);
+    }
+    return normalized;
+  }
   const meta = await readJsonFile<OrgMeta>(orgFile(orgId, "org.json"));
-  return defaultSiteForOrg(orgId, meta?.name);
+  return normalizeOrgSite(defaultSiteForOrg(orgId, meta?.name));
 }
 
 export async function readOrgSeo(orgId: string): Promise<OrgSeoFile> {
@@ -373,7 +386,7 @@ export async function writeOrgMeta(orgId: string, org: OrgMeta): Promise<void> {
 }
 
 export async function writeOrgSite(orgId: string, site: SiteConfigData): Promise<void> {
-  await writeJsonFile(orgFile(orgId, "site.json"), site);
+  await writeJsonFile(orgFile(orgId, "site.json"), normalizeOrgSite(site));
 }
 
 export async function writeOrgSeo(orgId: string, seo: OrgSeoFile): Promise<void> {

@@ -97,6 +97,7 @@ export function normalizeContactPreviewSettings(
         ? value.leadToEmail.trim()
         : undefined,
     smsOptIn: value.smsOptIn ? normalizeContactSmsOptInSettings(value.smsOptIn) : undefined,
+    requireRecaptcha: value.requireRecaptcha === false ? false : undefined,
   };
 }
 

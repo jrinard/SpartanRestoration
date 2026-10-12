@@ -33,6 +33,8 @@ export type SiteConfigData = {
   /** Legal entity on privacy/terms pages. Defaults to `${name} LLC`. */
   legalEntityName?: string;
   address: string;
+  /** Primary contact on the under-construction page (org settings → General). */
+  contactPerson?: TeamContact;
   teamContacts: TeamContact[];
   underConstruction: {
     headline: string;

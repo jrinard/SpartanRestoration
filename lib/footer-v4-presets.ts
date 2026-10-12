@@ -3,7 +3,7 @@ import bundledFooterV4PresetLibrary from "@/lib/footer-v4-preset-library.json";
 import {
   normalizeFooterV4PreviewSettings,
   type FooterV4PreviewSettings,
-} from "@/lib/footer-v4-preview-storage";
+} from "@/lib/footer-v4-preview";
 
 export type FooterV4PresetId = string;
 

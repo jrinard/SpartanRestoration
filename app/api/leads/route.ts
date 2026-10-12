@@ -1,8 +1,6 @@
 /** Contact lead submission — reCAPTCHA + Resend. @see docs/recaptcha.md @see docs/resend-setup.md */
-import {
-  isRecaptchaVerificationConfigured,
-  verifyRecaptchaToken,
-} from "@/lib/recaptcha-server";
+import { verifyRecaptchaToken } from "@/lib/recaptcha-server";
+import { resolveContactRecaptchaRequiredForOrg } from "@/lib/resolve-contact-recaptcha.server";
 import { recaptchaAction } from "@/lib/recaptcha-config";
 import { sendLeadEmail } from "@/lib/send-lead-email";
 import { sendFoundationContactWebhook } from "@/lib/send-foundation-contact-webhook.server";
@@ -52,7 +50,7 @@ export async function POST(request: Request) {
     return Response.json({ success: false, message: smsValidationError }, { status: 400 });
   }
 
-  if (isRecaptchaVerificationConfigured()) {
+  if (await resolveContactRecaptchaRequiredForOrg()) {
     const verified = await verifyRecaptchaToken(recaptchaToken ?? "", recaptchaAction);
     if (!verified) {
       return Response.json(

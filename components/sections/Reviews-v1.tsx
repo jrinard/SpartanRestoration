@@ -10,6 +10,7 @@ import {
   formatReviewsHeadline,
   formatReviewsRatingDisplay,
   getReviewsBackgroundStyle,
+  resolveReviewsCardBackground,
   resolveReviewsRating,
   reviewsMarqueeMobileSpeedMultiplier,
 } from "@/lib/reviews-preview";
@@ -229,6 +230,7 @@ export function ReviewsV1({ placeholderReviews = [] }: ReviewsV1Props) {
 
   const sectionStyle = {
     "--reviews-accent": settings.accentColor,
+    "--reviews-card-bg": resolveReviewsCardBackground(settings),
     "--reviews-solid-bg": settings.solidBackground,
     backgroundColor: settings.solidBackground,
     borderTop:

@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState, type CSSProperties } from "react";
+import { Images } from "lucide-react";
+import { ImageLibraryPicker } from "@/components/dev/ImageLibraryPicker";
 import { useHeaderV3Preview } from "@/components/dev/HeaderV3PreviewContext";
 import { HeaderBrand } from "@/components/ui/HeaderBrand";
 import { HeaderBrandLink } from "@/components/ui/HeaderBrandLink";
@@ -17,7 +19,14 @@ import {
   getHeaderLogoVerticalAlignClassName,
   headerLogoOverflows,
   headerV1MobileNavIsOn,
+  resolveHeaderLibraryLogoSrc,
 } from "@/lib/header-v3-gradient";
+import {
+  devLibraryIconSize,
+  devLibraryLabelClassName,
+  devLibraryPillClassName,
+} from "@/lib/dev-overlay-controls";
+import { usePlaygroundImageLibraryFolder } from "@/lib/use-playground-image-library-folder";
 import { cn } from "@/lib/utils";
 
 type HeaderV1Props = {
@@ -47,6 +56,10 @@ function HeaderV1MenuIcon({ open }: { open: boolean }) {
 export function HeaderV1({ className }: HeaderV1Props) {
   const preview = useHeaderV3Preview();
   const settings = preview?.settings ?? defaultHeaderV3PreviewSettings;
+  const canEditLogo = preview?.contentEditingEnabled ?? false;
+  const { folder: libraryFolder } = usePlaygroundImageLibraryFolder();
+  const logoSrc = resolveHeaderLibraryLogoSrc(settings, libraryFolder);
+  const [logoLibraryOpen, setLogoLibraryOpen] = useState(false);
   const layoutWidth = settings.layoutWidth;
   const layoutWidthMobile = settings.layoutWidthMobile;
   const isCustom = Boolean(preview);
@@ -114,7 +127,7 @@ export function HeaderV1({ className }: HeaderV1Props) {
       >
         <HeaderBrandLink
           className={cn(
-            "header-brand-link flex shrink-0 items-center max-md:px-4",
+            "header-brand-link relative flex shrink-0 items-center max-md:px-4",
             includeMobileNav
               ? "max-md:min-w-0"
               : "max-md:mx-auto max-md:w-full max-md:justify-center",
@@ -134,6 +147,32 @@ export function HeaderV1({ className }: HeaderV1Props) {
               includeMobileNav ? "max-md:object-left" : "max-md:mx-auto max-md:object-center"
             }
           />
+          {canEditLogo && preview ? (
+            <>
+              <button
+                type="button"
+                onClick={() => setLogoLibraryOpen((open) => !open)}
+                className={cn(devLibraryPillClassName, "absolute -bottom-1 left-0 z-20")}
+                aria-label="Choose header logo from library"
+                aria-expanded={logoLibraryOpen}
+              >
+                <Images size={devLibraryIconSize} strokeWidth={2} />
+                <span className={devLibraryLabelClassName}>Library</span>
+              </button>
+              {logoLibraryOpen ? (
+                <div className="absolute top-full left-0 z-40 mt-2">
+                  <ImageLibraryPicker
+                    value={logoSrc}
+                    onSelect={(entry) => {
+                      preview.setSettings({ ...settings, headerLogoSrc: entry.src });
+                      setLogoLibraryOpen(false);
+                    }}
+                    onClose={() => setLogoLibraryOpen(false)}
+                  />
+                </div>
+              ) : null}
+            </>
+          ) : null}
         </HeaderBrandLink>
         <HeaderV1Nav
           ariaLabel="Service navigation"

@@ -14,12 +14,19 @@ import {
   savePlaygroundImageLibraryFolderOverride,
 } from "@/lib/image-library-folder";
 import { isForgePathname } from "@/lib/forge";
+import { getClientOrgId, orgOpenedEvent } from "@/lib/org/browser-storage";
+
+function resolveOrgAssetFolder(): string | null {
+  return normalizeImageLibraryFolder(getClientOrgId());
+}
 
 export function usePlaygroundImageLibraryFolder() {
   const pathname = usePathname();
   const isPlayground = isForgePathname(pathname);
+  const [orgFolder, setOrgFolder] = useState<string | null>(() => resolveOrgAssetFolder());
   const themeFolder =
     normalizeImageLibraryFolder(siteConfig.assets.themeFolder) ??
+    orgFolder ??
     defaultColorThemeId;
   const [override, setOverrideState] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
@@ -27,26 +34,35 @@ export function usePlaygroundImageLibraryFolder() {
   useEffect(() => {
     if (!isPlayground) {
       setOverrideState(null);
+      setOrgFolder(resolveOrgAssetFolder());
       setReady(true);
       return;
     }
 
     setOverrideState(loadPlaygroundImageLibraryFolderOverride());
+    setOrgFolder(resolveOrgAssetFolder());
     setReady(true);
   }, [isPlayground]);
 
   useEffect(() => {
     if (!ready || !isPlayground) return;
 
-    const handler = () => {
+    const syncOverride = () => {
       setOverrideState(loadPlaygroundImageLibraryFolderOverride());
     };
+    const syncOrgFolder = () => {
+      setOrgFolder(resolveOrgAssetFolder());
+    };
 
-    window.addEventListener(imageLibraryFolderUpdatedEvent, handler);
-    return () => window.removeEventListener(imageLibraryFolderUpdatedEvent, handler);
+    window.addEventListener(imageLibraryFolderUpdatedEvent, syncOverride);
+    window.addEventListener(orgOpenedEvent, syncOrgFolder);
+    return () => {
+      window.removeEventListener(imageLibraryFolderUpdatedEvent, syncOverride);
+      window.removeEventListener(orgOpenedEvent, syncOrgFolder);
+    };
   }, [ready, isPlayground]);
 
-  const folder = (isPlayground ? override : null) ?? themeFolder;
+  const folder = (isPlayground ? override : null) ?? orgFolder ?? themeFolder;
   const isThemeDefault = !isPlayground || override === null;
 
   const setFolderOverride = useCallback((value: string) => {

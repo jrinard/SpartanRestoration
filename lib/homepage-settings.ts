@@ -16,6 +16,7 @@ import type { PortfolioPreviewSettings } from "@/lib/portfolio-preview";
 import type { PortfolioV2PreviewSettings } from "@/lib/portfolio-v2-preview";
 import type { ImagesV1PreviewSettings } from "@/lib/images-v1-preview";
 import type { CardsV1PreviewSettings } from "@/lib/cards-v1-preview";
+import type { FlipCardsPreviewSettings } from "@/lib/flip-cards-preview-storage";
 import type { ReviewboxPreviewSettings } from "@/lib/reviewbox-preview";
 import type { TextIconsV3PreviewSettings } from "@/lib/text-icons-v3-preview";
 import type { TextImagePreviewSettings } from "@/lib/text-image-preview";
@@ -64,6 +65,7 @@ export type HomepagePreviewSettings = {
   textImages?: TextImagesPreviewSettings;
   imagesV1?: ImagesV1PreviewSettings;
   cardsV1?: CardsV1PreviewSettings;
+  flipCards?: FlipCardsPreviewSettings;
   servicesIconsV2?: ServicesIconsV2PreviewSettings;
   serviceAreaV1?: ServiceAreaV1PreviewSettings;
   serviceAreaV2?: ServiceAreaV2PreviewSettings;

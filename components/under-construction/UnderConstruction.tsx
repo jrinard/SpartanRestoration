@@ -1,32 +1,14 @@
 import Image from "next/image";
 import { siteConfig } from "@/config/site";
-import type { TeamContact } from "@/config/site";
 import { assetExists, getAssetUrl } from "@/lib/assets.server";
-
-function getDisplayContacts(): TeamContact[] {
-  if (siteConfig.teamContacts.length > 0) {
-    return siteConfig.teamContacts;
-  }
-
-  if (!siteConfig.phone && !siteConfig.email) {
-    return [];
-  }
-
-  return [
-    {
-      name: siteConfig.name,
-      phone: siteConfig.phone,
-      email: siteConfig.email,
-    },
-  ];
-}
+import { getUnderConstructionContacts } from "@/lib/contact-person";
 
 export function UnderConstruction() {
   const logoPath = siteConfig.underConstruction.logo ?? siteConfig.assets.logo;
   const hasLogo = assetExists(logoPath);
   const brandTitleLines =
     siteConfig.underConstruction.brandTitleLines ?? [siteConfig.name];
-  const contacts = getDisplayContacts();
+  const contacts = getUnderConstructionContacts(siteConfig);
 
   return (
     <div
@@ -97,8 +79,11 @@ export function UnderConstruction() {
             <div
               className={`mt-8 grid w-full max-w-3xl gap-8 ${contacts.length > 1 ? "md:grid-cols-2" : "max-w-md"}`}
             >
-              {contacts.map((contact) => (
-                <div key={contact.name} className="under-construction-card p-8 text-left">
+              {contacts.map((contact, index) => (
+                <div
+                  key={`${contact.name}-${contact.phone}-${index}`}
+                  className="under-construction-card p-8 text-left"
+                >
                   <p className="text-xl font-medium text-white sm:text-2xl">{contact.name}</p>
                   <div className="mt-5 space-y-3">
                     {contact.phone && (

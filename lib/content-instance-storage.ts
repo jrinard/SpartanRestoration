@@ -18,11 +18,16 @@ import {
   loadCardsV1PreviewSettings,
   normalizeCardsV1PreviewSettings,
 } from "@/lib/cards-v1-preview-storage";
+import {
+  loadFlipCardsPreviewSettings,
+  normalizeFlipCardsPreviewSettings,
+} from "@/lib/flip-cards-preview-storage";
 import type { TextIconsV3PreviewSettings } from "@/lib/text-icons-v3-preview";
 import type { TextImagePreviewSettings } from "@/lib/text-image-preview";
 import type { TextImagesPreviewSettings } from "@/lib/text-images-preview";
 import type { ImagesV1PreviewSettings } from "@/lib/images-v1-preview";
 import type { CardsV1PreviewSettings } from "@/lib/cards-v1-preview";
+import type { FlipCardsPreviewSettings } from "@/lib/flip-cards-preview-storage";
 import type { ColorThemeId } from "@/lib/color-themes";
 import { copyEffectiveSectionInstanceSettings } from "@/lib/section-instance-copy";
 import type { SectionGroupId } from "@/lib/section-registry";
@@ -35,7 +40,7 @@ import {
 
 export type ContentInstanceSettings = Pick<
   SectionInstanceSettings,
-  "textIconsV3" | "textImage" | "textImages" | "imagesV1" | "cardsV1"
+  "textIconsV3" | "textImage" | "textImages" | "imagesV1" | "cardsV1" | "flipCards"
 >;
 
 /** @deprecated Use sectionInstancesStorageKey */
@@ -49,10 +54,13 @@ export function loadContentInstanceSettings(
   const textImages = loadSectionInstanceField(instanceId, "textImages");
   const imagesV1 = loadSectionInstanceField(instanceId, "imagesV1");
   const cardsV1 = loadSectionInstanceField(instanceId, "cardsV1");
+  const flipCards = loadSectionInstanceField(instanceId, "flipCards");
 
-  if (!textIconsV3 && !textImage && !textImages && !imagesV1 && !cardsV1) return undefined;
+  if (!textIconsV3 && !textImage && !textImages && !imagesV1 && !cardsV1 && !flipCards) {
+    return undefined;
+  }
 
-  return { textIconsV3, textImage, textImages, imagesV1, cardsV1 };
+  return { textIconsV3, textImage, textImages, imagesV1, cardsV1, flipCards };
 }
 
 export function saveContentInstanceSettings(
@@ -72,7 +80,8 @@ export function loadAllContentInstanceSettings(): Record<string, ContentInstance
       settings.textImage ||
       settings.textImages ||
       settings.imagesV1 ||
-      settings.cardsV1
+      settings.cardsV1 ||
+      settings.flipCards
     ) {
       contents[id] = {
         textIconsV3: settings.textIconsV3,
@@ -80,6 +89,7 @@ export function loadAllContentInstanceSettings(): Record<string, ContentInstance
         textImages: settings.textImages,
         imagesV1: settings.imagesV1,
         cardsV1: settings.cardsV1,
+        flipCards: settings.flipCards,
       };
     }
   }
@@ -201,6 +211,28 @@ export function loadEffectiveCardsV1InstanceSettings(
   return loadCardsV1InstanceSettings(instanceId) ?? loadCardsV1PreviewSettings();
 }
 
+export function loadFlipCardsInstanceSettings(
+  instanceId: string,
+): FlipCardsPreviewSettings | undefined {
+  const stored = loadSectionInstanceField(instanceId, "flipCards");
+  return stored ? normalizeFlipCardsPreviewSettings(stored) : undefined;
+}
+
+export function saveFlipCardsInstanceSettings(
+  instanceId: string,
+  settings: FlipCardsPreviewSettings,
+): void {
+  patchSectionInstanceSettings(instanceId, {
+    flipCards: normalizeFlipCardsPreviewSettings(settings),
+  });
+}
+
+export function loadEffectiveFlipCardsInstanceSettings(
+  instanceId: string,
+): FlipCardsPreviewSettings {
+  return loadFlipCardsInstanceSettings(instanceId) ?? loadFlipCardsPreviewSettings();
+}
+
 export function copyEffectiveContentInstanceSettings(
   fromId: string,
   toId: string,
@@ -238,6 +270,14 @@ export function copyEffectiveContentInstanceSettings(
     patchSectionInstanceSettings(toId, {
       ...current,
       cardsV1: structuredClone(loadEffectiveCardsV1InstanceSettings(fromId)),
+    });
+    return;
+  }
+
+  if (variant === "flipCards-v1" || variant === "flipCards-v2") {
+    patchSectionInstanceSettings(toId, {
+      ...current,
+      flipCards: structuredClone(loadEffectiveFlipCardsInstanceSettings(fromId)),
     });
     return;
   }

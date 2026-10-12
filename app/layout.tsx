@@ -8,6 +8,7 @@ import {
   Source_Sans_3,
   Source_Serif_4,
   Poppins,
+  Inter,
 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalyticsRuntime } from "@/components/analytics/GoogleAnalyticsRuntime";
@@ -68,6 +69,12 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
 });
 
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 export async function generateMetadata(): Promise<Metadata> {
   const orgId = await readCurrentOrgId();
   const [site, seo, favicon] = await Promise.all([
@@ -111,7 +118,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${openSans.variable} ${playfair.variable} ${lora.variable} ${sourceSans.variable} ${sourceSerif.variable} ${poppins.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${openSans.variable} ${playfair.variable} ${lora.variable} ${sourceSans.variable} ${sourceSerif.variable} ${poppins.variable} ${inter.variable} h-full antialiased`}
     >
       <body
         className="min-h-full bg-background text-foreground"

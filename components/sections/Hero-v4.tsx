@@ -214,6 +214,9 @@ type HeroV4Props = {
   contactInfoIconColor?: string;
   contactInfoIconBackground?: string;
   contactInfoIconRadiusPx?: number;
+  contactInfoLabelColor?: string;
+  contactInfoValueColor?: string;
+  contactInfoLinkHoverColor?: string;
   className?: string;
 };
 
@@ -268,6 +271,9 @@ export function HeroV4({
   contactInfoIconColor,
   contactInfoIconBackground,
   contactInfoIconRadiusPx,
+  contactInfoLabelColor,
+  contactInfoValueColor,
+  contactInfoLinkHoverColor,
   className,
 }: HeroV4Props) {
   const pathname = usePathname();
@@ -704,6 +710,9 @@ export function HeroV4({
                 iconColor={contactInfoIconColor}
                 iconBackground={contactInfoIconBackground}
                 iconRadiusPx={contactInfoIconRadiusPx}
+                labelColor={contactInfoLabelColor}
+                valueColor={contactInfoValueColor}
+                linkHoverColor={contactInfoLinkHoverColor}
                 className="mt-8"
               />
             ) : null}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { SiteConfigData } from "@/config/site-data";
 import { buildFaviconMetadataIcons, type FaviconPreviewSettings } from "@/lib/favicon-preview";
 import { getRuntimeSite } from "@/lib/org/runtime-site";
+import { normalizeSiteUrl, resolveMetadataBaseUrl } from "@/lib/site-url";
 
 type PageSEO = {
   title?: string;
@@ -45,10 +46,11 @@ export function createMetadata({
   site: siteOverride,
 }: PageSEO = {}): Metadata {
   const site = siteOverride ?? getRuntimeSite();
+  const siteBase = normalizeSiteUrl(site.url, site.domain);
   const socialTitle = title?.trim() || browserTitle?.trim() || site.name;
   const pageTitle = browserTitle?.trim() || socialTitle;
   const pageDescription = description ?? site.description;
-  const url = `${site.url}${path}`;
+  const url = `${siteBase}${path}`;
   const imageAlt = ogImageAlt ?? `${site.name} — ${site.tagline}`;
   const image = ogImage || site.assets.ogImage || site.assets.logo;
 
@@ -56,7 +58,7 @@ export function createMetadata({
     title: pageTitle,
     description: pageDescription,
     ...(keywords && keywords.length > 0 && { keywords }),
-    metadataBase: new URL(site.url),
+    metadataBase: resolveMetadataBaseUrl(site.url, site.domain),
     alternates: { canonical: url },
     icons: buildFaviconMetadataIcons(favicon ?? undefined),
     openGraph: {

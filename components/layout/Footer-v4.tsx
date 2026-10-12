@@ -13,6 +13,7 @@ import { siteConfig } from "@/config/site";
 import {
   buildFooterV4DefaultContent,
   defaultFooterV4PreviewSettings,
+  getFooterV4BannerBackgroundStyle,
   getFooterV4Style,
   resolveFooterV4LogoSrc,
   splitFooterV4CopyrightLines,
@@ -127,6 +128,7 @@ export function FooterV4({ hours, serviceLinks, licenses }: FooterV4Props) {
   const content = preview?.getContent(defaultContent) ?? defaultContent;
   const logoSrc = resolveFooterV4LogoSrc(settings, libraryFolder);
   const footerStyle = getFooterV4Style(settings) as CSSProperties;
+  const bannerBackgroundStyle = getFooterV4BannerBackgroundStyle(settings);
   const canEditContent = editingEnabled && Boolean(preview);
 
   const socialLinks: { label: string; href: string; icon: ReactNode }[] = [];
@@ -161,7 +163,11 @@ export function FooterV4({ hours, serviceLinks, licenses }: FooterV4Props) {
 
   return (
     <footer className="footer-washing" style={footerStyle}>
-      <aside className="footer-washing-banner" role="complementary">
+      <aside
+        className="footer-washing-banner"
+        style={bannerBackgroundStyle}
+        role="complementary"
+      >
         <div className="footer-washing-grid">
           <div className="footer-washing-company">
             <div className="footer-washing-logo-wrap relative inline-flex max-w-full">

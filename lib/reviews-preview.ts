@@ -27,6 +27,8 @@ export type ReviewsPreviewSettings = {
   headline: string;
   subtext: string;
   accentColor: string;
+  /** Marquee review card fill — defaults follow dark/light theme when omitted on disk. */
+  cardBackground: string;
   placeId: string;
   solidBackground: string;
   backgroundMode: ReviewsBackgroundMode;
@@ -55,15 +57,25 @@ export const defaultReviewsTopBorderSettings: ReviewsTopBorderSettings = {
 export const reviewsDarkThemeDefaults = {
   solidBackground: "#111111",
   topBorderColor: "#ffffff",
+  cardBackground: "#f5f5f7",
 };
 
 export const reviewsLightThemeDefaults = {
   solidBackground: "#f6f5fa",
   topBorderColor: "#12121c",
+  cardBackground: "#111111",
 };
 
 export function getReviewsThemeDefaults(theme: ReviewsSectionTheme) {
   return theme === "light" ? reviewsLightThemeDefaults : reviewsDarkThemeDefaults;
+}
+
+export function resolveReviewsCardBackground(settings: ReviewsPreviewSettings): string {
+  const themeDefault = getReviewsThemeDefaults(settings.theme).cardBackground;
+  if (typeof settings.cardBackground === "string" && /^#[0-9a-fA-F]{6}$/.test(settings.cardBackground)) {
+    return settings.cardBackground;
+  }
+  return themeDefault;
 }
 
 export const defaultReviewsPreviewSettings: ReviewsPreviewSettings = {
@@ -73,6 +85,7 @@ export const defaultReviewsPreviewSettings: ReviewsPreviewSettings = {
   subtext:
     "Real, verified Google reviews from the local businesses and teams we've partnered with on websites, software, and branding across Clark County and the Pacific Northwest.",
   accentColor: "#4d82b8",
+  cardBackground: reviewsDarkThemeDefaults.cardBackground,
   placeId: "",
   solidBackground: "#111111",
   backgroundMode: "solid",

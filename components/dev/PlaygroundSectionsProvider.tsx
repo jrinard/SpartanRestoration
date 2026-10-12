@@ -52,6 +52,7 @@ import {
 import { getPlaygroundModalOnlySections } from "@/lib/playground-modal-sections";
 import { HashScrollOnNavigate } from "@/components/dev/HashScrollOnNavigate";
 import { orgStorageGet } from "@/lib/org/browser-storage";
+import { seedPageSectionInstancesFromConfig } from "@/lib/seed-page-section-instances";
 import { seedSectionCopyIfMissing } from "@/lib/seed-section-copy";
 import { seedServiceAreaLocationHeroes } from "@/lib/service-area-location-hero-seed";
 import { autosaveHomepageConfigFromStorage, collectHomepageConfigFromStorage } from "@/lib/homepage-export-client";
@@ -119,6 +120,7 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
       }
     }
     seedServiceAreaLocationHeroes(state, workshopConfig);
+    seedPageSectionInstancesFromConfig(workshopConfig);
     skipNextSaveRef.current = true;
     setPagesState(state);
     setReady(true);
@@ -153,12 +155,14 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
 
     const timer = window.setTimeout(() => {
       if (!dirtyRef.current) return;
-      const config = JSON.stringify(collectHomepageConfigFromStorage());
+      const config = JSON.stringify(
+        collectHomepageConfigFromStorage(org?.pillar.workshopConfig),
+      );
       if (config === lastAutosaveRef.current) {
         dirtyRef.current = false;
         return;
       }
-      void autosaveHomepageConfigFromStorage()
+      void autosaveHomepageConfigFromStorage(org?.pillar.workshopConfig)
         .then(() => {
           lastAutosaveRef.current = config;
           dirtyRef.current = false;
@@ -169,7 +173,7 @@ export function PlaygroundSectionsProvider({ children }: { children: ReactNode }
     }, 8000);
 
     return () => window.clearTimeout(timer);
-  }, [pagesState, ready]);
+  }, [org?.pillar.workshopConfig, pagesState, ready]);
 
   const activePage = getActivePlaygroundPage(pagesState);
   const sections = getPlaygroundPageSections(pagesState, pagesState.activePageId);

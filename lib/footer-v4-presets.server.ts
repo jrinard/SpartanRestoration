@@ -9,7 +9,7 @@ import {
 import {
   normalizeFooterV4PreviewSettings,
   type FooterV4PreviewSettings,
-} from "@/lib/footer-v4-preview-storage";
+} from "@/lib/footer-v4-preview";
 
 const libraryPath = () => path.join(process.cwd(), "lib", "footer-v4-preset-library.json");
 

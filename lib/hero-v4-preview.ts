@@ -160,6 +160,12 @@ export type HeroV4PreviewSettings = {
   contactInfoIconBackground?: string;
   /** Missing keeps today’s pill/circle radius. */
   contactInfoIconRadiusPx?: number;
+  /** “Call us” / “Email us” row labels. Missing keeps theme muted label color. */
+  contactInfoLabelColor?: string;
+  /** Phone, email, hours, serving lines. Missing keeps theme foreground. */
+  contactInfoValueColor?: string;
+  /** Link hover on value lines (tel/mail). Missing keeps accent blue. */
+  contactInfoLinkHoverColor?: string;
   /** Inline form submit — missing keeps site contact / theme defaults. */
   formSubmitText?: string;
   formButtonBackground?: string;
@@ -351,6 +357,12 @@ export const heroV4ContactInfoRadiusOptions = heroV4GalleryRadiusOptions;
 export const heroV4ContactInfoIconColorPickerFallback = "#2c73b5";
 /** Picker-only — live icon fill stays theme mix until saved. */
 export const heroV4ContactInfoIconBackgroundPickerFallback = "#e6eef6";
+
+export const heroV4ContactInfoLabelColorPickerFallback = "#64748b";
+
+export const heroV4ContactInfoValueColorPickerFallback = "#171718";
+
+export const heroV4ContactInfoLinkHoverColorPickerFallback = "#3a8bd0";
 export const defaultHeroV4ContactInfoIconRadiusPx = 999;
 
 function isHeroV4ContactInfoItem(value: unknown): value is HeroV4ContactInfoItem {
@@ -405,7 +417,12 @@ function normalizeHeroV4ContactInfoIconRadiusPx(value: unknown): number | undefi
 export function getHeroV4ContactInfoStyle(
   settings: Pick<
     HeroV4PreviewSettings,
-    "contactInfoIconColor" | "contactInfoIconBackground" | "contactInfoIconRadiusPx"
+    | "contactInfoIconColor"
+    | "contactInfoIconBackground"
+    | "contactInfoIconRadiusPx"
+    | "contactInfoLabelColor"
+    | "contactInfoValueColor"
+    | "contactInfoLinkHoverColor"
   >,
 ): CSSProperties {
   const style: Record<string, string> = {};
@@ -420,6 +437,15 @@ export function getHeroV4ContactInfoStyle(
       settings.contactInfoIconRadiusPx >= 999
         ? "9999px"
         : `${settings.contactInfoIconRadiusPx}px`;
+  }
+  if (settings.contactInfoLabelColor) {
+    style["--hero-v4-contact-info-label-color"] = settings.contactInfoLabelColor;
+  }
+  if (settings.contactInfoValueColor) {
+    style["--hero-v4-contact-info-value-color"] = settings.contactInfoValueColor;
+  }
+  if (settings.contactInfoLinkHoverColor) {
+    style["--hero-v4-contact-info-link-hover-color"] = settings.contactInfoLinkHoverColor;
   }
   return style as CSSProperties;
 }
@@ -789,6 +815,9 @@ export function normalizeHeroV4PreviewSettings(
     contactInfoIconColor: normalizeHeroV4ContactInfoColor(value.contactInfoIconColor),
     contactInfoIconBackground: normalizeHeroV4ContactInfoColor(value.contactInfoIconBackground),
     contactInfoIconRadiusPx: normalizeHeroV4ContactInfoIconRadiusPx(value.contactInfoIconRadiusPx),
+    contactInfoLabelColor: normalizeHeroV4ContactInfoColor(value.contactInfoLabelColor),
+    contactInfoValueColor: normalizeHeroV4ContactInfoColor(value.contactInfoValueColor),
+    contactInfoLinkHoverColor: normalizeHeroV4ContactInfoColor(value.contactInfoLinkHoverColor),
     formSubmitText:
       typeof value.formSubmitText === "string" && value.formSubmitText.trim()
         ? value.formSubmitText.trim()

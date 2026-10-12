@@ -6,6 +6,7 @@
       "settings": {
         "bannerFrom": "#1e5799",
         "bannerTo": "#78e7fd",
+        "bannerBackgroundImageSrc": "",
         "headingColor": "#ffffff",
         "textColor": "#ffffff",
         "linkColor": "#ffffff",
@@ -15,6 +16,7 @@
         "bottomBarBackgroundColor": "#000000",
         "bottomBarTextColor": "#ffffff",
         "logoSizePx": 96,
+        "logoOffsetXPx": 0,
         "showFacebook": true,
         "showInstagram": true,
         "contentHours": [
@@ -76,6 +78,7 @@
       "settings": {
         "bannerFrom": "#0a0a0a",
         "bannerTo": "#707070",
+        "bannerBackgroundImageSrc": "",
         "headingColor": "#ffffff",
         "textColor": "#ffffff",
         "linkColor": "#ffffff",
@@ -85,6 +88,7 @@
         "bottomBarBackgroundColor": "#000000",
         "bottomBarTextColor": "#ffffff",
         "logoSizePx": 96,
+        "logoOffsetXPx": 0,
         "showFacebook": true,
         "showInstagram": false,
         "contentAddress": "Proudly located in Vancouver, WA",
@@ -117,6 +121,67 @@
             "id": "footer-v4-warranty",
             "label": "Warranty",
             "href": "/about#warranty"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pro-turf",
+      "label": "Pro Turf",
+      "settings": {
+        "bannerFrom": "#ffffff",
+        "bannerTo": "#ffffff",
+        "bannerBackgroundImageSrc": "",
+        "headingColor": "#000000",
+        "textColor": "#000000",
+        "linkColor": "#000000",
+        "linkHoverColor": "#000000",
+        "socialColor": "#000000",
+        "socialHoverColor": "#000000",
+        "bottomBarBackgroundColor": "#000000",
+        "bottomBarTextColor": "#ffffff",
+        "logoSizePx": 96,
+        "logoOffsetXPx": 0,
+        "showFacebook": true,
+        "showInstagram": false,
+        "contentAddress": "Proudly located in Battle Ground",
+        "contentPhone": "(360)723-6281",
+        "contentEmail": "donald.cendana@gmail.com",
+        "contentCopyright": "© 2026 Professional Turf & Landscape. All rights reserved.",
+        "contentHours": [
+          "Monday – Friday 8:00 AM to 5:00 PM"
+        ],
+        "contentLicenses": [],
+        "contentLogoSrc": "/org-assets/professional-turf-landscape/images/logo-green.png",
+        "contentFacebookUrl": "https://www.facebook.com/proturflandscape",
+        "serviceLinks": [
+          {
+            "id": "footer-v4-siding",
+            "label": "PLANNING & DESIGN",
+            "href": "#design",
+            "pageHref": "/",
+            "anchorId": "design"
+          },
+          {
+            "id": "footer-v4-windows",
+            "label": "Lawn & Turf",
+            "href": "#lawn",
+            "pageHref": "/",
+            "anchorId": "lawn"
+          },
+          {
+            "id": "footer-v4-doors",
+            "label": "HARDSCAPING",
+            "href": "#hardscaping",
+            "pageHref": "/",
+            "anchorId": "hardscaping"
+          },
+          {
+            "id": "footer-v4-warranty",
+            "label": "OUTDOOR LIVING & WATER",
+            "href": "#outdoor",
+            "pageHref": "",
+            "anchorId": "outdoor"
           }
         ]
       }

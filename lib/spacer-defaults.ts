@@ -5,6 +5,7 @@ import type { SpacerStripeStyle } from "@/components/sections/Spacer";
 const spacerStripeColorByTheme: Record<ColorThemeId, string> = {
   dark: "#8888A0",
   lifespring: "#4a4a4a",
+  green: "#4a4a4a",
   light: "#5C5C72",
   stone: "#8F684F",
   spartan: "#748B9F",

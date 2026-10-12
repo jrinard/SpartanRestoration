@@ -54,7 +54,8 @@
           { "id": "la-center", "label": "La Center", "href": "" },
           { "id": "battle-ground", "label": "Battle Ground", "href": "" },
           { "id": "amboy-yacolt", "label": "Amboy / Yacolt", "href": "" },
-          { "id": "kelso-longview", "label": "Kelso / Longview", "href": "" }
+          { "id": "kelso-longview", "label": "Kelso / Longview", "href": "" },
+          { "id": "portland-metro", "label": "Portland Metro", "href": "" }
         ]
       }
     }

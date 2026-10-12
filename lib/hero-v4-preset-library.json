@@ -102,68 +102,37 @@
       "id": "langham",
       "label": "Langham",
       "settings": {
-        "showForm": false,
-        "showBreadcrumbs": false,
-        "showBullets": true,
-        "showPhoneCta": true,
-        "eyebrow": "Siding · Windows · Doors",
-        "headline": "Weather ready. Straight lines. No compromise.",
-        "body": "At Langham Construction, siding isn’t just a service we offer — it’s our craft. We combine industry-leading materials with expert installation to create exteriors that look sharp and perform even better. Whether you’re replacing old siding or building a brand-new home, our team of knowledgeable installers will ensure your project is completed on time and to the highest level of quality.",
-        "bullets": [
-          "Quality workmanship",
-          "Professional service",
-          "Premium materials",
-          "5-year workmanship warranty"
-        ],
+        "showForm": true,
+        "showCta": false,
+        "showBreadcrumbs": true,
+        "showBullets": false,
+        "showPhoneCta": false,
+        "eyebrow": "Contact · Vancouver, WA",
+        "headline": "Let’s Get Your Project Started.",
+        "body": "Most homeowners don't need another slick brochure they need a clear read on scope, timing, and who is actually showing up. If you're planning siding, windows, or doors in Vancouver, Clark County, or Southwest Washington, this is the direct line to Langham Construction.\n\nTell us what you're working toward: a new build, a full siding replacement, window and door upgrades, or a workmanship warranty question. Austin and Josiah review every message personally. We'll follow up to ask the right questions, not to pressure you into a decision.",
+        "bullets": [],
         "primaryCtaLabel": "REQUEST A QUOTE",
         "primaryCtaHref": "/contact",
         "phoneLabel": "360-567-8273",
         "phoneHref": "tel:+13605678273",
-        "formTitle": "Request a Quote",
-        "formSubtext": "New home siding, replacements, and warranty claims — Vancouver, WA.",
-        "formTrustNotes": [
-          "5-year transferable warranty",
-          "Family-run since 2023"
-        ],
+        "formTitle": "REQUEST A QUOTE",
+        "formSubtext": "Share your project city, timeline, and whether you need siding, windows, doors, or warranty support.",
+        "formTrustNotes": [],
         "formLeadSource": "contact-form",
-        "showServicePills": true,
-        "servicePills": [
-          {
-            "label": "Siding",
-            "href": "#services",
-            "title": "Siding built for the Northwest — Langham Construction",
-            "description": "James Hardie, LP SmartSide, and wood siding installed for Washington weather. New homes and replacements in Vancouver, WA and Southwest Washington."
-          },
-          {
-            "label": "Windows",
-            "href": "#services",
-            "title": "Window installation — Langham Construction",
-            "description": "Window installation for new construction and remodels in Vancouver, WA, Clark County, and Southwest Washington."
-          },
-          {
-            "label": "Doors",
-            "href": "#services",
-            "title": "Door installation — Langham Construction",
-            "description": "Entry and exterior door installation for homes and remodels in Vancouver, WA and surrounding cities."
-          }
-        ],
+        "showServicePills": false,
+        "servicePills": [],
         "breadcrumbs": [
           {
             "label": "Home",
             "href": "/"
-          }
-        ],
-        "showGallery": true,
-        "gallerySlides": [
-          {
-            "type": "image",
-            "value": "/org-assets/langham/library/Gallery-Siding-1.png"
           },
           {
-            "type": "image",
-            "value": "/org-assets/langham/library/Gallery-Siding-2.png"
+            "label": "Contact",
+            "href": "/contact"
           }
         ],
+        "showGallery": false,
+        "gallerySlides": [],
         "galleryIntervalMs": 5000,
         "galleryTransition": "fade",
         "galleryHeightPx": 300,
@@ -172,7 +141,7 @@
         "galleryBorderWidthPx": 12,
         "galleryBorderColor": "#000000",
         "labelFontStyle": "normal",
-        "headlineBold": false,
+        "headlineBold": true,
         "headlineFirstLineItalic": false,
         "headlineUppercase": false,
         "headlineLevel": "h1",
@@ -187,15 +156,94 @@
         "phoneButton": {
           "navBackground": "#000000",
           "navTextColor": "#ffffff",
-          "navTextHoverColor": "#ffffff",
+          "navTextHoverColor": "#ffc333",
           "navHoverBackground": "#4f4f4f",
           "navButtonSize": "large",
           "navButtonRadiusPx": 8
         },
         "buttonSize": "xlarge",
         "buttonRadiusPx": 0,
-        "showContactInfo": false,
-        "contactInfoItems": []
+        "backgroundColor": "#000000",
+        "eyebrowColor": "#f7aa0a",
+        "headlineColor": "#ffffff",
+        "bodyColor": "#ffffff",
+        "showContactInfo": true,
+        "contactInfoItems": [
+          {
+            "label": "Call us",
+            "value": "360-567-8273",
+            "icon": "phone",
+            "href": "tel:+13605678273"
+          },
+          {
+            "label": "Email us",
+            "value": "office@langhamconstruction.com",
+            "icon": "mail",
+            "href": "mailto:office@langhamconstruction.com"
+          },
+          {
+            "label": "Hours",
+            "value": "Monday – Friday 8:00 AM to 5:00 PM",
+            "icon": "clock"
+          },
+          {
+            "label": "Serving",
+            "value": "Vancouver, WA, Clark County & Southwest Washington",
+            "icon": "map-pin"
+          }
+        ],
+        "contactInfoIconColor": "#171718",
+        "contactInfoIconBackground": "#f7aa0a",
+        "contactInfoIconRadiusPx": 12,
+        "contactInfoLabelColor": "#ffffff",
+        "contactInfoValueColor": "#ffffff",
+        "contactInfoLinkHoverColor": "#f7aa0a",
+        "formSubmitText": "Reach Out!",
+        "formButtonBackground": "#f7aa0a",
+        "formButtonTextColor": "#ffffff",
+        "formButtonRadiusPx": 0,
+        "formFields": [
+          {
+            "id": "legacy-name",
+            "name": "name",
+            "label": "Full Name",
+            "placeholder": "Your name",
+            "type": "text",
+            "required": true
+          },
+          {
+            "id": "legacy-city",
+            "name": "city",
+            "label": "City",
+            "placeholder": "Vancouver, Battle Ground, Camas, etc.",
+            "type": "text",
+            "required": false
+          },
+          {
+            "id": "legacy-email",
+            "name": "email",
+            "label": "Email",
+            "placeholder": "you@example.com",
+            "type": "email",
+            "required": true
+          },
+          {
+            "id": "legacy-phone",
+            "name": "phone",
+            "label": "Phone",
+            "placeholder": "Best number to reach you",
+            "type": "tel",
+            "required": true
+          },
+          {
+            "id": "legacy-message",
+            "name": "message",
+            "label": "Tell us about your project",
+            "placeholder": "Siding, windows, doors, new build or replacement — and anything we should know.",
+            "type": "textarea",
+            "required": true
+          }
+        ]
       }
     },
     {

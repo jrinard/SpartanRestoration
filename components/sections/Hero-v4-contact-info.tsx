@@ -74,6 +74,9 @@ type HeroV4ContactInfoProps = {
   iconColor?: string;
   iconBackground?: string;
   iconRadiusPx?: number;
+  labelColor?: string;
+  valueColor?: string;
+  linkHoverColor?: string;
   className?: string;
 };
 
@@ -82,14 +85,23 @@ export function HeroV4ContactInfo({
   iconColor,
   iconBackground,
   iconRadiusPx,
+  labelColor,
+  valueColor,
+  linkHoverColor,
   className,
 }: HeroV4ContactInfoProps) {
   const preview = useHeroV4Preview();
   const editingEnabled = preview?.contentEditingEnabled ?? false;
+  const resolvedLabelColor = preview?.settings.contactInfoLabelColor ?? labelColor;
+  const resolvedValueColor = preview?.settings.contactInfoValueColor ?? valueColor;
+  const resolvedLinkHoverColor = preview?.settings.contactInfoLinkHoverColor ?? linkHoverColor;
   const iconStyle = getHeroV4ContactInfoStyle({
     contactInfoIconColor: preview?.settings.contactInfoIconColor ?? iconColor,
     contactInfoIconBackground: preview?.settings.contactInfoIconBackground ?? iconBackground,
     contactInfoIconRadiusPx: preview?.settings.contactInfoIconRadiusPx ?? iconRadiusPx,
+    contactInfoLabelColor: resolvedLabelColor,
+    contactInfoValueColor: resolvedValueColor,
+    contactInfoLinkHoverColor: resolvedLinkHoverColor,
   }) as CSSProperties;
   const visibleItems = items.filter((item) => item.label.trim() || item.value.trim());
 
@@ -121,7 +133,7 @@ export function HeroV4ContactInfo({
         {rows.map((item, index) => {
           const href = resolveHeroV4ContactInfoHref(item);
           const valueNode = href ? (
-            <a href={href} className="hero-v4-contact-info-value-link transition-colors hover:text-accent-blue">
+            <a href={href} className="hero-v4-contact-info-value-link transition-colors">
               {item.value}
             </a>
           ) : (
@@ -141,7 +153,12 @@ export function HeroV4ContactInfo({
                   value={item.label}
                   onSave={(value) => updateItem(index, { label: value })}
                 >
-                  <p className="hero-v4-contact-info-label">{item.label}</p>
+                  <p
+                    className="hero-v4-contact-info-label"
+                    style={resolvedLabelColor ? { color: resolvedLabelColor } : undefined}
+                  >
+                    {item.label}
+                  </p>
                 </EditableLine>
                 <EditableLine
                   editingEnabled={editingEnabled}
@@ -151,7 +168,12 @@ export function HeroV4ContactInfo({
                   multiline
                   onSave={(value) => updateItem(index, { value, href: undefined })}
                 >
-                  <p className="hero-v4-contact-info-value">{valueNode}</p>
+                  <p
+                    className="hero-v4-contact-info-value"
+                    style={resolvedValueColor ? { color: resolvedValueColor } : undefined}
+                  >
+                    {valueNode}
+                  </p>
                 </EditableLine>
               </div>
             </li>

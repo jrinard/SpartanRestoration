@@ -56,6 +56,9 @@ export function HeroV4WithPreview() {
       contactInfoIconColor={settings.contactInfoIconColor}
       contactInfoIconBackground={settings.contactInfoIconBackground}
       contactInfoIconRadiusPx={settings.contactInfoIconRadiusPx}
+      contactInfoLabelColor={settings.contactInfoLabelColor}
+      contactInfoValueColor={settings.contactInfoValueColor}
+      contactInfoLinkHoverColor={settings.contactInfoLinkHoverColor}
     />
   );
 }

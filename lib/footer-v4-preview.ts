@@ -32,6 +32,8 @@ export type FooterV4Content = {
 export type FooterV4PreviewSettings = {
   bannerFrom: string;
   bannerTo: string;
+  /** Cover image behind the banner gradient (Forge library path). */
+  bannerBackgroundImageSrc: string;
   headingColor: string;
   textColor: string;
   linkColor: string;
@@ -96,6 +98,7 @@ export function getFooterV4LogoMaxWidthPx(logoHeightPx: number): number {
 export const defaultFooterV4PreviewSettings: FooterV4PreviewSettings = {
   bannerFrom: "#1e5799",
   bannerTo: "#78e7fd",
+  bannerBackgroundImageSrc: "",
   headingColor: "#ffffff",
   textColor: "#ffffff",
   linkColor: "#ffffff",
@@ -217,6 +220,28 @@ export function getFooterV4Style(settings: FooterV4PreviewSettings): CSSProperti
   return getFooterV4CssVariables(settings) as CSSProperties;
 }
 
+function cssBackgroundUrl(src: string): string {
+  return src.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+}
+
+/** Gradient on top, optional cover image underneath. */
+export function getFooterV4BannerBackgroundStyle(
+  settings: FooterV4PreviewSettings,
+): CSSProperties | undefined {
+  const imageSrc = settings.bannerBackgroundImageSrc.trim();
+  const gradient = `linear-gradient(to right, ${settings.bannerFrom}, ${settings.bannerTo})`;
+
+  if (!imageSrc) return undefined;
+
+  const url = cssBackgroundUrl(imageSrc);
+  return {
+    backgroundImage: `${gradient}, url("${url}")`,
+    backgroundSize: "auto, cover",
+    backgroundPosition: "center, center",
+    backgroundRepeat: "no-repeat, no-repeat",
+  };
+}
+
 export const footerV4ContentOverrideKeys = [
   "contentAddress",
   "contentPhone",
@@ -271,5 +296,98 @@ export function buildFooterV4DefaultContent(
     serviceLinks: props.serviceLinks,
     facebookUrl: siteConfig.social.facebook,
     instagramUrl: siteConfig.social.instagram,
+  };
+}
+
+function isFooterV4HexColor(value: unknown): value is string {
+  return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
+}
+
+function isFooterV4NavBarLink(value: unknown): value is NavBarLink {
+  if (!value || typeof value !== "object") return false;
+  const link = value as NavBarLink;
+  return typeof link.id === "string" && typeof link.label === "string" && typeof link.href === "string";
+}
+
+function isFooterV4StringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((entry) => typeof entry === "string");
+}
+
+export function normalizeFooterV4PreviewSettings(
+  value: Partial<FooterV4PreviewSettings>,
+): FooterV4PreviewSettings {
+  return {
+    bannerFrom: isFooterV4HexColor(value.bannerFrom)
+      ? value.bannerFrom
+      : defaultFooterV4PreviewSettings.bannerFrom,
+    bannerTo: isFooterV4HexColor(value.bannerTo)
+      ? value.bannerTo
+      : defaultFooterV4PreviewSettings.bannerTo,
+    bannerBackgroundImageSrc:
+      typeof value.bannerBackgroundImageSrc === "string"
+        ? value.bannerBackgroundImageSrc.trim()
+        : defaultFooterV4PreviewSettings.bannerBackgroundImageSrc,
+    headingColor: isFooterV4HexColor(value.headingColor)
+      ? value.headingColor
+      : defaultFooterV4PreviewSettings.headingColor,
+    textColor: isFooterV4HexColor(value.textColor)
+      ? value.textColor
+      : defaultFooterV4PreviewSettings.textColor,
+    linkColor: isFooterV4HexColor(value.linkColor)
+      ? value.linkColor
+      : defaultFooterV4PreviewSettings.linkColor,
+    linkHoverColor: isFooterV4HexColor(value.linkHoverColor)
+      ? value.linkHoverColor
+      : defaultFooterV4PreviewSettings.linkHoverColor,
+    socialColor: isFooterV4HexColor(value.socialColor)
+      ? value.socialColor
+      : defaultFooterV4PreviewSettings.socialColor,
+    socialHoverColor: isFooterV4HexColor(value.socialHoverColor)
+      ? value.socialHoverColor
+      : defaultFooterV4PreviewSettings.socialHoverColor,
+    bottomBarBackgroundColor: isFooterV4HexColor(value.bottomBarBackgroundColor)
+      ? value.bottomBarBackgroundColor
+      : defaultFooterV4PreviewSettings.bottomBarBackgroundColor,
+    bottomBarTextColor: isFooterV4HexColor(value.bottomBarTextColor)
+      ? value.bottomBarTextColor
+      : defaultFooterV4PreviewSettings.bottomBarTextColor,
+    logoSizePx:
+      typeof value.logoSizePx === "number" && Number.isFinite(value.logoSizePx)
+        ? value.logoSizePx
+        : defaultFooterV4PreviewSettings.logoSizePx,
+    logoOffsetXPx: resolveFooterV4LogoOffsetXPx(value),
+    showFacebook:
+      typeof value.showFacebook === "boolean"
+        ? value.showFacebook
+        : defaultFooterV4PreviewSettings.showFacebook,
+    showInstagram:
+      typeof value.showInstagram === "boolean"
+        ? value.showInstagram
+        : defaultFooterV4PreviewSettings.showInstagram,
+    contentAddress:
+      typeof value.contentAddress === "string" ? value.contentAddress : value.contentAddress,
+    contentPhone: typeof value.contentPhone === "string" ? value.contentPhone : value.contentPhone,
+    contentEmail: typeof value.contentEmail === "string" ? value.contentEmail : value.contentEmail,
+    contentCopyright:
+      typeof value.contentCopyright === "string" ? value.contentCopyright : value.contentCopyright,
+    contentHours: isFooterV4StringArray(value.contentHours)
+      ? value.contentHours
+      : value.contentHours,
+    contentLicenses: isFooterV4StringArray(value.contentLicenses)
+      ? value.contentLicenses
+      : value.contentLicenses,
+    contentLogoSrc:
+      typeof value.contentLogoSrc === "string" ? value.contentLogoSrc : value.contentLogoSrc,
+    contentFacebookUrl:
+      typeof value.contentFacebookUrl === "string"
+        ? value.contentFacebookUrl
+        : value.contentFacebookUrl,
+    contentInstagramUrl:
+      typeof value.contentInstagramUrl === "string"
+        ? value.contentInstagramUrl
+        : value.contentInstagramUrl,
+    serviceLinks: Array.isArray(value.serviceLinks)
+      ? value.serviceLinks.filter(isFooterV4NavBarLink)
+      : value.serviceLinks,
   };
 }

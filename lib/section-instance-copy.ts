@@ -34,6 +34,7 @@ import { loadTextImagePreviewSettings } from "@/lib/text-image-preview-storage";
 import { loadTextImagesPreviewSettings } from "@/lib/text-images-preview-storage";
 import { loadImagesV1PreviewSettings } from "@/lib/images-v1-preview-storage";
 import { loadCardsV1PreviewSettings } from "@/lib/cards-v1-preview-storage";
+import { loadFlipCardsPreviewSettings } from "@/lib/flip-cards-preview-storage";
 import { loadTopBarPreviewSettings } from "@/lib/top-bar-preview-storage";
 import { loadTopBarV2PreviewSettings } from "@/lib/top-bar-v2-preview-storage";
 import { playgroundChromeSectionGroups } from "@/lib/playground-section-scope";
@@ -70,6 +71,7 @@ function loadGlobalSettingsForGroup(
         textImages: loadTextImagesPreviewSettings(),
         imagesV1: loadImagesV1PreviewSettings(),
         cardsV1: loadCardsV1PreviewSettings(),
+        flipCards: loadFlipCardsPreviewSettings(),
       };
     case "services":
       return {
@@ -216,7 +218,10 @@ export function resolvePublishedSectionInstanceSettings(
     spacers?: Record<string, SpacerInstanceSettings>;
     contents?: Record<
       string,
-      Pick<SectionInstanceSettings, "textIconsV3" | "textImage" | "textImages" | "imagesV1" | "cardsV1">
+      Pick<
+        SectionInstanceSettings,
+        "textIconsV3" | "textImage" | "textImages" | "imagesV1" | "cardsV1" | "flipCards"
+      >
     >;
   },
 ): SectionInstanceSettings | undefined {

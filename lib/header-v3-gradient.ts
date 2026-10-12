@@ -23,6 +23,8 @@ import {
   type IconFramePreviewSettings,
 } from "@/lib/icon-frame-preview";
 import type { CSSProperties } from "react";
+import { siteConfig } from "@/config/site";
+import { getLibraryLogoMainSrc } from "@/lib/image-library-folder";
 
 export type HeaderV3NavButtonSize = ButtonPreviewSize;
 
@@ -89,6 +91,8 @@ export type HeaderV3PreviewSettings = {
   headerV2BackgroundColor: string;
   /** Header v2 bar background image from the asset library (empty = none). */
   headerV2BackgroundImageSrc: string;
+  /** Header v1 / v2 logo image override (empty = org site logo or library main). */
+  headerLogoSrc: string;
   /** Header v2 — horizontal logo position on mobile (pair with nav Menu alignment). */
   headerV2MobileLogoAlign: HeaderV2MobileLogoAlign;
 };
@@ -224,8 +228,21 @@ export const defaultHeaderV3PreviewSettings: HeaderV3PreviewSettings = {
   headerV2UseGradientBackground: false,
   headerV2BackgroundColor: "#faf0e0",
   headerV2BackgroundImageSrc: "",
+  headerLogoSrc: "",
   headerV2MobileLogoAlign: "center",
 };
+
+/** Logo for header v1 / v2 — saved override, then org site logo, then library main. */
+export function resolveHeaderLibraryLogoSrc(
+  settings: HeaderV3PreviewSettings,
+  libraryFolder: string,
+): string {
+  const override = settings.headerLogoSrc?.trim();
+  if (override) return override;
+  const orgLogo = siteConfig.assets.logo?.trim();
+  if (orgLogo) return orgLogo;
+  return getLibraryLogoMainSrc(libraryFolder);
+}
 
 /** Missing or true = today’s header icons. Explicit false hides them. */
 export function headerV1NavIconsAreVisible(

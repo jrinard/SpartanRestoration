@@ -1,0 +1,130 @@
+{
+  "entries": [
+    {
+      "id": "ospressure",
+      "label": "OS Pressure",
+      "settings": {
+        "heading": "SERVICES",
+        "showTornDivider": true,
+        "cards": [
+          {
+            "id": "residential",
+            "frontLabel": "Residential Washing",
+            "title": "Residential Washing",
+            "variant": "dark",
+            "frontImage": "/osp/pic-pressure3.jpeg",
+            "bullets": [
+              "House Soft Washing (Siding Cleaning)",
+              "Roof Soft Washing (Moss & Algae Treatment)",
+              "Driveway & Walkway Cleaning",
+              "Gutter Cleaning & Gutter Brightening",
+              "Deck & Fence Cleaning"
+            ]
+          },
+          {
+            "id": "commercial",
+            "frontLabel": "Commercial Washing",
+            "title": "Commercial Washing",
+            "variant": "medium",
+            "frontImage": "/osp/pic-commercial3.jpeg",
+            "bullets": [
+              "Building Exteriors",
+              "Roof & High Areas",
+              "Concrete & Hard Surfaces",
+              "Gutter & Drainage Systems",
+              "Entryways & High Traffic Zones",
+              "Specialty & Safety Cleaning"
+            ]
+          },
+          {
+            "id": "organic",
+            "frontLabel": "Organic Growth Management",
+            "frontLines": ["Organic Growth", "Management"],
+            "title": "Organic Growth Management",
+            "variant": "light",
+            "frontImage": "/osp/Organic_management.jpeg",
+            "paragraph": "Organic Growth Management includes removing and preventing moss, algae, mildew, and other biological buildup on exterior surfaces. This helps protect your property from slip-and-fall hazards, reduces liability risk, and prevents costly long-term surface damage."
+          },
+          {
+            "id": "seal-coating",
+            "frontLabel": "Seal Coating",
+            "title": "Seal Coating",
+            "variant": "accent",
+            "frontImage": "/osp/pic-commercial3.jpeg",
+            "bullets": [
+              "Driveway & walkway seal coating",
+              "Concrete surface protection",
+              "Paver sealing & preservation",
+              "UV & moisture barrier treatment",
+              "Extended surface life & color retention"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "professional-turf-landscape",
+      "label": "Professional Turf & Landscape",
+      "settings": {
+        "heading": "SERVICES",
+        "showTornDivider": true,
+        "cards": [
+          {
+            "id": "landscape",
+            "frontLabel": "Landscape",
+            "frontLines": ["Landscape", "& Design"],
+            "title": "Landscape & Design",
+            "variant": "dark",
+            "frontImage": "/org-assets/professional-turf-landscape/images/ProBanner.jpg",
+            "bullets": [
+              "Landscape plans shaped around your property and how you live outside",
+              "New plantings, beds, and full-yard landscape upgrades",
+              "Design through installation — one team, clear timelines",
+              "Curb appeal and lasting value for your home"
+            ]
+          },
+          {
+            "id": "lawn-turf-care",
+            "frontLabel": "Lawn & Turf Care",
+            "frontLines": ["Lawn &", "Turf Care"],
+            "title": "Lawn & Turf Care",
+            "variant": "medium",
+            "frontImage": "/org-assets/professional-turf-landscape/images/ProBanner.jpg",
+            "bullets": [
+              "Scheduled mowing and lawn maintenance you can count on",
+              "Fertilization, aeration, and treatments for thick, healthy grass",
+              "Seasonal turf care tuned to our climate",
+              "A green, even lawn that looks great week after week"
+            ]
+          },
+          {
+            "id": "hardscaping",
+            "frontLabel": "Hardscaping",
+            "title": "Hardscaping",
+            "variant": "light",
+            "frontImage": "/org-assets/professional-turf-landscape/images/ProBanner.jpg",
+            "bullets": [
+              "Patios and walkways built for daily use and long-term durability",
+              "Retaining walls, pavers, and stonework with proper base prep",
+              "Functional outdoor surfaces that tie the yard together",
+              "Privacy and perimeter fencing installed to match your layout"
+            ]
+          },
+          {
+            "id": "outdoor-living",
+            "frontLabel": "Outdoor Living",
+            "title": "Outdoor Living",
+            "variant": "accent",
+            "frontImage": "/org-assets/professional-turf-landscape/images/ProBanner.jpg",
+            "bullets": [
+              "Outdoor kitchens and built-in areas for cooking and hosting",
+              "Fire pits, seating walls, and pergolas for gathering year-round",
+              "Fountains, ponds, and water features as backyard focal points",
+              "Backyard spaces made for family, friends, and quiet evenings outside"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

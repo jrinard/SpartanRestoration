@@ -28,6 +28,7 @@ import { TextImagePreviewProvider } from "@/components/dev/TextImagePreviewConte
 import { TextImagesPreviewProvider } from "@/components/dev/TextImagesPreviewContext";
 import { ImagesV1PreviewProvider } from "@/components/dev/ImagesV1PreviewContext";
 import { CardsV1PreviewProvider } from "@/components/dev/CardsV1PreviewContext";
+import { FlipCardsPreviewProvider } from "@/components/dev/FlipCardsPreviewContext";
 import { headerVariantUsesPreviewControls } from "@/lib/header-v3-gradient";
 import { resolveSectionPreviewField } from "@/lib/home-preview-sync";
 import type { HomepagePreviewSettings } from "@/lib/homepage-settings";
@@ -407,6 +408,18 @@ export function SectionPreview({
       >
         {content}
       </CardsV1PreviewProvider>
+    );
+  }
+
+  if (group === "content" && (variantId === "flipCards-v1" || variantId === "flipCards-v2")) {
+    return (
+      <FlipCardsPreviewProvider
+        instanceId={sectionId}
+        layout={variantId === "flipCards-v2" ? "four" : "three"}
+        initialSettings={published(slot?.flipCards, previewSettings?.flipCards)}
+      >
+        {content}
+      </FlipCardsPreviewProvider>
     );
   }
 

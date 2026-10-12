@@ -9,6 +9,8 @@ export type HeaderV1NavLink = {
   pageHref: string;
   anchorId: string;
   icon?: SiteIconName;
+  /** When pageHref is `/contact`, false navigates to the page; true/undefined opens the modal. */
+  openContactModal?: boolean;
   /** Header v2 — which side of the centered logo. Ignored on header v1. */
   side?: HeaderV1NavSide;
 };
@@ -63,7 +65,34 @@ function inferHeaderV1NavLinkIconFromLabel(label: string): SiteIconName | undefi
   if (normalized.includes("residential")) return "home";
   if (normalized.includes("restoration")) return "hammer";
 
+  if (
+    normalized.includes("planning") ||
+    (normalized.includes("landscape") && normalized.includes("design"))
+  ) {
+    return "layout-grid";
+  }
+  if (normalized.includes("lawn") || normalized.includes("turf")) return "brush";
+  if (normalized.includes("hardscap")) return "brick-wall";
+  if (normalized.includes("fenc")) return "fence";
+  if (normalized.includes("outdoor living")) {
+    return normalized.includes("water") ? "waves" : "flame";
+  }
+
   return undefined;
+}
+
+function defaultHeaderV1NavIconForId(linkId: string): SiteIconName | undefined {
+  const defaultLink = defaultHeaderV1NavLinks.find((entry) => entry.id === linkId);
+  if (!defaultLink?.icon) return undefined;
+  return resolveSiteIconName(defaultLink.icon, defaultSiteIconName);
+}
+
+/** Legacy nav item ids still carry default Spartan icons while labels were renamed in Forge. */
+function linkIconMatchesLegacyDefaultForId(link: HeaderV1NavLink): boolean {
+  if (!link.icon) return false;
+  const defaultIcon = defaultHeaderV1NavIconForId(link.id);
+  if (!defaultIcon) return false;
+  return resolveSiteIconName(link.icon, defaultSiteIconName) === defaultIcon;
 }
 
 /** Old Spartan header defaults — replaced when labels point to Stone Pillar nav. */
@@ -95,7 +124,8 @@ export function normalizeHeaderV1AnchorId(value: string): string {
 }
 
 export function headerV1NavLinkOpensContact(link: HeaderV1NavLink): boolean {
-  return link.pageHref.trim() === CONTACT_PAGE_HREF;
+  if (link.pageHref.trim() !== CONTACT_PAGE_HREF) return false;
+  return link.openContactModal !== false;
 }
 
 function isRedundantPageAnchor(pageHref: string, anchorId: string): boolean {
@@ -155,7 +185,14 @@ function normalizeHeaderV1NavLink(value: unknown, index: number): HeaderV1NavLin
   const side =
     record.side === "right" ? "right" : record.side === "left" ? "left" : undefined;
 
-  return { id, label, pageHref, anchorId, icon, side };
+  const openContactModal =
+    record.openContactModal === false
+      ? false
+      : record.openContactModal === true
+        ? true
+        : undefined;
+
+  return { id, label, pageHref, anchorId, icon, side, openContactModal };
 }
 
 export function getHeaderV1NavLinkSide(link: HeaderV1NavLink): HeaderV1NavSide {
@@ -244,6 +281,10 @@ export function resolveHeaderV1NavLinkIcon(
   legacyIcons?: Partial<Record<string, SiteIconName>>,
 ): SiteIconName {
   const inferredIcon = inferHeaderV1NavLinkIconFromLabel(link.label);
+
+  if (inferredIcon && linkIconMatchesLegacyDefaultForId(link)) {
+    return inferredIcon;
+  }
 
   if (link.icon) {
     const resolved = resolveSiteIconName(link.icon, defaultSiteIconName);

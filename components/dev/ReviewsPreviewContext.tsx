@@ -171,6 +171,7 @@ export function ReviewsPreviewControls() {
             update({
               theme,
               solidBackground: themeDefaults.solidBackground,
+              cardBackground: themeDefaults.cardBackground,
               topBorder: { ...settings.topBorder, color: themeDefaults.topBorderColor },
             });
           }}
@@ -192,6 +193,16 @@ export function ReviewsPreviewControls() {
           onChange={(event) => update({ accentColor: event.target.value })}
           className={colorInputClassName}
           aria-label="Reviews eyebrow accent color"
+        />
+      </label>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Card BG</span>
+        <input
+          type="color"
+          value={settings.cardBackground}
+          onChange={(event) => update({ cardBackground: event.target.value })}
+          className={colorInputClassName}
+          aria-label="Reviews marquee card background color"
         />
       </label>
       <label className="flex items-center gap-2">

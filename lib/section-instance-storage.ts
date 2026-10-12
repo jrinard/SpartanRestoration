@@ -18,6 +18,7 @@ import type { PortfolioPreviewSettings } from "@/lib/portfolio-preview";
 import type { PortfolioV2PreviewSettings } from "@/lib/portfolio-v2-preview";
 import type { ImagesV1PreviewSettings } from "@/lib/images-v1-preview";
 import type { CardsV1PreviewSettings } from "@/lib/cards-v1-preview";
+import type { FlipCardsPreviewSettings } from "@/lib/flip-cards-preview-storage";
 import type { ReviewboxPreviewSettings } from "@/lib/reviewbox-preview";
 import type { ReviewsPreviewSettings } from "@/lib/reviews-preview";
 import type { ServiceAreaV1PreviewSettings } from "@/lib/service-area-preview";
@@ -57,6 +58,7 @@ export type SectionInstanceSettings = {
   textImages?: TextImagesPreviewSettings;
   imagesV1?: ImagesV1PreviewSettings;
   cardsV1?: CardsV1PreviewSettings;
+  flipCards?: FlipCardsPreviewSettings;
   servicesV1?: ServicesV1InstanceSettings;
   servicesIconsV2?: ServicesIconsV2PreviewSettings;
   serviceAreaV1?: ServiceAreaV1PreviewSettings;
@@ -164,6 +166,14 @@ export function patchSectionInstanceSettings(
 
 export function loadAllSectionInstanceSettings(): Record<string, SectionInstanceSettings> {
   return readAllSectionInstancesRaw();
+}
+
+/** False for `{}` or slots with no saved preview fields — avoids wiping disk on forge export. */
+export function sectionInstanceHasPreviewData(
+  settings: SectionInstanceSettings | undefined,
+): boolean {
+  if (!settings) return false;
+  return Object.values(settings).some((value) => value !== undefined && value !== null);
 }
 
 /** Nav bar is site-wide — remove stale per-slot overrides from instance storage. */

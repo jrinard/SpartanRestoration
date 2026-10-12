@@ -206,6 +206,10 @@ export function normalizeHeaderV3PreviewSettings(
       typeof value.headerV2BackgroundImageSrc === "string"
         ? value.headerV2BackgroundImageSrc.trim()
         : defaultHeaderV3PreviewSettings.headerV2BackgroundImageSrc,
+    headerLogoSrc:
+      typeof value.headerLogoSrc === "string"
+        ? value.headerLogoSrc.trim()
+        : defaultHeaderV3PreviewSettings.headerLogoSrc,
     headerV2MobileLogoAlign: isHeaderV2MobileLogoAlign(value.headerV2MobileLogoAlign)
       ? value.headerV2MobileLogoAlign
       : defaultHeaderV3PreviewSettings.headerV2MobileLogoAlign,

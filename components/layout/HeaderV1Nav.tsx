@@ -219,7 +219,7 @@ export function HeaderV1Nav({
             <span
               className={cn(
                 "header-v1-nav-link inline-flex w-full items-start justify-center justify-self-stretch px-3 py-2 font-bold leading-tight tracking-wide",
-                isCustom ? "header-v3-nav-link radial-hover-shine" : "text-sm",
+                isCustom ? "header-v3-nav-link" : "text-sm",
                 tiltButtons && "header-v1-nav-link--tilt",
               )}
             >

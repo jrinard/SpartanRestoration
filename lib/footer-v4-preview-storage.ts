@@ -5,14 +5,14 @@ import {
 import {
   defaultFooterV4PreviewSettings,
   mergeFooterV4GlobalContent,
+  normalizeFooterV4PreviewSettings,
   pickFooterV4ContentOverrides,
-  resolveFooterV4LogoOffsetXPx,
   type FooterV4ContentOverrides,
   type FooterV4PreviewSettings,
 } from "@/lib/footer-v4-preview";
 
 export type { FooterV4PreviewSettings };
-import type { NavBarLink } from "@/lib/nav-bar-preview";
+export { normalizeFooterV4PreviewSettings };
 import {
   loadAllSectionInstanceSettings,
   saveSectionInstanceField,
@@ -20,91 +20,6 @@ import {
 import { orgStorageGet, orgStorageSet } from "@/lib/org/browser-storage";
 
 export const footerV4PreviewStorageKey = "lifespring-footer-v4-preview";
-
-function isHexColor(value: unknown): value is string {
-  return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
-}
-
-function isNavBarLink(value: unknown): value is NavBarLink {
-  if (!value || typeof value !== "object") return false;
-  const link = value as NavBarLink;
-  return typeof link.id === "string" && typeof link.label === "string" && typeof link.href === "string";
-}
-
-function isStringArray(value: unknown): value is string[] {
-  return Array.isArray(value) && value.every((entry) => typeof entry === "string");
-}
-
-export function normalizeFooterV4PreviewSettings(
-  value: Partial<FooterV4PreviewSettings>,
-): FooterV4PreviewSettings {
-  return {
-    bannerFrom: isHexColor(value.bannerFrom)
-      ? value.bannerFrom
-      : defaultFooterV4PreviewSettings.bannerFrom,
-    bannerTo: isHexColor(value.bannerTo) ? value.bannerTo : defaultFooterV4PreviewSettings.bannerTo,
-    headingColor: isHexColor(value.headingColor)
-      ? value.headingColor
-      : defaultFooterV4PreviewSettings.headingColor,
-    textColor: isHexColor(value.textColor)
-      ? value.textColor
-      : defaultFooterV4PreviewSettings.textColor,
-    linkColor: isHexColor(value.linkColor)
-      ? value.linkColor
-      : defaultFooterV4PreviewSettings.linkColor,
-    linkHoverColor: isHexColor(value.linkHoverColor)
-      ? value.linkHoverColor
-      : defaultFooterV4PreviewSettings.linkHoverColor,
-    socialColor: isHexColor(value.socialColor)
-      ? value.socialColor
-      : defaultFooterV4PreviewSettings.socialColor,
-    socialHoverColor: isHexColor(value.socialHoverColor)
-      ? value.socialHoverColor
-      : defaultFooterV4PreviewSettings.socialHoverColor,
-    bottomBarBackgroundColor: isHexColor(value.bottomBarBackgroundColor)
-      ? value.bottomBarBackgroundColor
-      : defaultFooterV4PreviewSettings.bottomBarBackgroundColor,
-    bottomBarTextColor: isHexColor(value.bottomBarTextColor)
-      ? value.bottomBarTextColor
-      : defaultFooterV4PreviewSettings.bottomBarTextColor,
-    logoSizePx:
-      typeof value.logoSizePx === "number" && Number.isFinite(value.logoSizePx)
-        ? value.logoSizePx
-        : defaultFooterV4PreviewSettings.logoSizePx,
-    logoOffsetXPx: resolveFooterV4LogoOffsetXPx(value),
-    showFacebook:
-      typeof value.showFacebook === "boolean"
-        ? value.showFacebook
-        : defaultFooterV4PreviewSettings.showFacebook,
-    showInstagram:
-      typeof value.showInstagram === "boolean"
-        ? value.showInstagram
-        : defaultFooterV4PreviewSettings.showInstagram,
-    contentAddress:
-      typeof value.contentAddress === "string" ? value.contentAddress : value.contentAddress,
-    contentPhone: typeof value.contentPhone === "string" ? value.contentPhone : value.contentPhone,
-    contentEmail: typeof value.contentEmail === "string" ? value.contentEmail : value.contentEmail,
-    contentCopyright:
-      typeof value.contentCopyright === "string" ? value.contentCopyright : value.contentCopyright,
-    contentHours: isStringArray(value.contentHours) ? value.contentHours : value.contentHours,
-    contentLicenses: isStringArray(value.contentLicenses)
-      ? value.contentLicenses
-      : value.contentLicenses,
-    contentLogoSrc:
-      typeof value.contentLogoSrc === "string" ? value.contentLogoSrc : value.contentLogoSrc,
-    contentFacebookUrl:
-      typeof value.contentFacebookUrl === "string"
-        ? value.contentFacebookUrl
-        : value.contentFacebookUrl,
-    contentInstagramUrl:
-      typeof value.contentInstagramUrl === "string"
-        ? value.contentInstagramUrl
-        : value.contentInstagramUrl,
-    serviceLinks: Array.isArray(value.serviceLinks)
-      ? value.serviceLinks.filter(isNavBarLink)
-      : value.serviceLinks,
-  };
-}
 
 export function loadFooterV4PreviewSettings(): FooterV4PreviewSettings {
   if (!shouldUsePlaygroundPreviewSettings()) {

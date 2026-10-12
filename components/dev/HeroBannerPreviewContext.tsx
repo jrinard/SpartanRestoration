@@ -29,6 +29,7 @@ import {
 type HeroBannerPreviewContextValue = {
   settings: HeroBannerPreviewSettings;
   setSettings: (settings: HeroBannerPreviewSettings) => void;
+  contentEditingEnabled: boolean;
 };
 
 const HeroBannerPreviewContext = createContext<HeroBannerPreviewContextValue | null>(null);
@@ -37,12 +38,14 @@ type HeroBannerPreviewProviderProps = {
   children: ReactNode;
   instanceId?: string;
   initialSettings?: HeroBannerPreviewSettings;
+  enableContentEditing?: boolean;
 };
 
 export function HeroBannerPreviewProvider({
   children,
   instanceId,
   initialSettings,
+  enableContentEditing = false,
 }: HeroBannerPreviewProviderProps) {
   const { settings, setSettings } = useInstancePreviewSettings({
     instanceId,
@@ -55,7 +58,9 @@ export function HeroBannerPreviewProvider({
   });
 
   return (
-    <HeroBannerPreviewContext.Provider value={{ settings, setSettings }}>
+    <HeroBannerPreviewContext.Provider
+      value={{ settings, setSettings, contentEditingEnabled: enableContentEditing }}
+    >
       {children}
     </HeroBannerPreviewContext.Provider>
   );
