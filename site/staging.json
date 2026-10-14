@@ -247,6 +247,47 @@
       ]
     },
     {
+      "slug": "portfolio",
+      "name": "Gallery",
+      "sections": [
+        {
+          "group": "topBar",
+          "variant": "top-bar-v1",
+          "id": "topBar-1563bb89"
+        },
+        {
+          "group": "header",
+          "variant": "header-v1",
+          "id": "header-65d014ce"
+        },
+        {
+          "group": "nav",
+          "variant": "nav-v1",
+          "id": "nav-5de3a6fd"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-6288a5c6"
+        },
+        {
+          "group": "portfolio",
+          "variant": "portfolio-v3",
+          "id": "portfolio-sp-gallery-v2"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-b5b69b23"
+        },
+        {
+          "group": "footer",
+          "variant": "footer-v1",
+          "id": "footer-ace2b804"
+        }
+      ]
+    },
+    {
       "slug": "service-areas/longview-kelso-wa",
       "name": "Longview & Kelso, WA",
       "sections": [
@@ -579,6 +620,47 @@
       ]
     },
     {
+      "slug": "structural-cleaning",
+      "name": "Structural Cleaning & Sanitization",
+      "sections": [
+        {
+          "group": "topBar",
+          "variant": "top-bar-v1",
+          "id": "topBar-1563bb89"
+        },
+        {
+          "group": "header",
+          "variant": "header-v1",
+          "id": "header-65d014ce"
+        },
+        {
+          "group": "nav",
+          "variant": "nav-v1",
+          "id": "nav-5de3a6fd"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-e86ff962"
+        },
+        {
+          "group": "hero",
+          "variant": "hero-v4",
+          "id": "hero-sp-structural-cleaning"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v2",
+          "id": "spacer-b5b69b23"
+        },
+        {
+          "group": "footer",
+          "variant": "footer-v1",
+          "id": "footer-ace2b804"
+        }
+      ]
+    },
+    {
       "slug": "water-damage-restoration",
       "name": "Water Damage Restoration",
       "sections": [
@@ -687,6 +769,13 @@
           "id": "nav-service-area",
           "label": "Service Area",
           "href": "/service-area",
+          "visibleDesktop": true,
+          "visibleMobile": true
+        },
+        {
+          "id": "nav-link-spartan-gallery",
+          "label": "Gallery",
+          "href": "/portfolio#portfolio",
           "visibleDesktop": true,
           "visibleMobile": true
         },
@@ -1161,8 +1250,9 @@
         "gradient": {
           "heightPx": 40
         },
-        "layoutWidth": "full",
-        "outerBackgroundColor": "#ffffff"
+        "layoutWidth": "contained",
+        "outerBackgroundColor": "#ffffff",
+        "layoutWidthMobile": "full"
       },
       "spacer-a02b6687": {
         "gradient": {
@@ -1371,14 +1461,17 @@
           "row1AnchorId": "water-damage-restoration",
           "row2AnchorId": "mold-removal",
           "row3AnchorId": "storm",
+          "imageBorderRadiusPx": 8,
           "contentRow1ImageSrc": "/org-assets/spartan/library/tub3.png",
           "contentRow1ImageAlt": "Technician extracting water from a flooded floor during emergency mitigation",
           "contentRow2ImageSrc": "/org-assets/spartan/library/tub4.jpg",
           "contentRow2ImageAlt": "Mold remediation specialist treating affected wall and ceiling materials",
-          "contentRow3ImageSrc": "/org-assets/spartan/library/Tub5.jpg",
-          "contentRow3ImageAlt": "Storm and flood damage cleanup at a Pacific Northwest property",
+          "contentRow3ImageSrc": "/org-assets/spartan/library/01-spartan-restoration-drying-documentation.webp",
+          "contentRow3ImageAlt": "Restoration worker recording notes beside an opened wall and blue drying equipment.",
           "contentRow2Body": "Mold can trigger allergies, respiratory issues, and lasting damage to building materials when it is left untreated. It spreads quickly often after leaks, floods, or hidden moisture and proper remediation requires containment and experienced handling to help prevent cross-contamination. Spartan Restoration's certified crews assess the full scope, remove affected materials safely, and work to restore healthy indoor air quality for your home or business.",
-          "contentRow3Body": "Pacific Northwest storms can overwhelm roofs, windows, and drainage systems fast and sewage backups create serious health risks that need immediate attention. Spartan Restoration responds quickly to extract water, dry affected areas, sanitize contaminated spaces, and help protect your property from further damage with clear communication every step of the way."
+          "contentRow3Body": "Pacific Northwest storms can overwhelm roofs, windows, and drainage systems fast and sewage backups create serious health risks that need immediate attention. Spartan Restoration responds quickly to extract water, dry affected areas, sanitize contaminated spaces, and help protect your property from further damage with clear communication every step of the way.",
+          "headlineLevel": "h2",
+          "row3ImageMaxHeightPx": 700
         }
       },
       "content-f0f5b202": {
@@ -1612,14 +1705,15 @@
           "phoneButtonVisible": true,
           "imageShadowIntensity": 0,
           "contentEyebrow": "Spartan Restoration · Vancouver, WA",
-          "contentImageSrc": "/org-assets/spartan/library/Store.jpg",
-          "contentImageAlt": "Water damage restoration equipment and crew on a Pacific Northwest job site",
+          "contentImageSrc": "/org-assets/spartan/library/02-spartan-restoration-moisture-check.webp",
+          "contentImageAlt": "Checking moisture at marked locations during restoration.",
           "contentHeadlineLines": [
             "The best defense in water damage"
           ],
           "contentBody": "From emergency extraction to structural drying and mold remediation, Spartan Restoration helps Vancouver and Clark County property owners recover after water and mold damage. Our crews bring clear communication and hands-on experience from the first visit through final walkthrough.",
           "contentSidebarText": "Spartan Restoration handles emergency mitigation and restoration, extraction, drying, mold, and claim documentation. Stone Pillar Contractors is our licensed general contracting partner for reconstruction, remodeling, and tenant improvements when you're ready to rebuild after mitigation.",
-          "headlineLevel": "h1"
+          "headlineLevel": "h1",
+          "imageMaxHeightPx": 600
         }
       },
       "content-127f9a95": {
@@ -1954,14 +2048,17 @@
           "row1AnchorId": "water-damage-restoration",
           "row2AnchorId": "mold-removal",
           "row3AnchorId": "storm",
+          "imageBorderRadiusPx": 8,
           "contentRow1ImageSrc": "/org-assets/spartan/library/tub3.png",
           "contentRow1ImageAlt": "Technician extracting water from a flooded floor during emergency mitigation",
           "contentRow2ImageSrc": "/org-assets/spartan/library/tub4.jpg",
           "contentRow2ImageAlt": "Mold remediation specialist treating affected wall and ceiling materials",
-          "contentRow3ImageSrc": "/org-assets/spartan/library/Tub5.jpg",
-          "contentRow3ImageAlt": "Storm and flood damage cleanup at a Pacific Northwest property",
+          "contentRow3ImageSrc": "/org-assets/spartan/library/01-spartan-restoration-drying-documentation.webp",
+          "contentRow3ImageAlt": "Restoration worker recording notes beside an opened wall and blue drying equipment.",
           "contentRow2Body": "Mold can trigger allergies, respiratory issues, and lasting damage to building materials when it is left untreated. It spreads quickly often after leaks, floods, or hidden moisture and proper remediation requires containment and experienced handling to help prevent cross-contamination. Spartan Restoration's certified crews assess the full scope, remove affected materials safely, and work to restore healthy indoor air quality for your home or business.",
-          "contentRow3Body": "Pacific Northwest storms can overwhelm roofs, windows, and drainage systems fast and sewage backups create serious health risks that need immediate attention. Spartan Restoration responds quickly to extract water, dry affected areas, sanitize contaminated spaces, and help protect your property from further damage with clear communication every step of the way."
+          "contentRow3Body": "Pacific Northwest storms can overwhelm roofs, windows, and drainage systems fast and sewage backups create serious health risks that need immediate attention. Spartan Restoration responds quickly to extract water, dry affected areas, sanitize contaminated spaces, and help protect your property from further damage with clear communication every step of the way.",
+          "headlineLevel": "h2",
+          "row3ImageMaxHeightPx": 700
         }
       },
       "spacer-6288a5c6": {
@@ -2920,6 +3017,138 @@
           "outerBackgroundColor": "#ffffff"
         }
       },
+      "portfolio-sp-gallery-v2": {
+        "portfolio": {
+          "theme": "light"
+        },
+        "portfolioV2": {
+          "theme": "dark",
+          "layoutWidth": "contained",
+          "sliceWidthPx": 101,
+          "sliceHeightPx": 290,
+          "gapPx": 14,
+          "sectionPaddingTopPx": 0,
+          "sectionPaddingBottomPx": 0,
+          "sectionHeightPx": 310,
+          "angledLabels": false,
+          "horizontalLayout": true,
+          "sliceHoverColor": "#ffffff",
+          "sliceHoverOpacity": 0.32,
+          "sliceHoverScale": 1.04,
+          "sectionDescription": "Browse in-progress restoration work: cleaning opened areas, ceiling access, and on-site documentation. Select a category below to view project photos.",
+          "tabs": [
+            {
+              "id": "portfolio-v2-tab-sp-wall-cavity",
+              "label": "Wall cavity cleaning",
+              "backgroundImageSrc": "/org-assets/spartan/library/04-spartan-restoration-wall-cavity-cleaning.webp",
+              "backgroundOverlayColor": "#000000",
+              "backgroundOverlayOpacity": 0.45,
+              "labelColor": "#ffffff",
+              "modalImages": [
+                {
+                  "id": "portfolio-v2-image-sp-04",
+                  "imageSrc": "/org-assets/spartan/library/04-spartan-restoration-wall-cavity-cleaning.webp",
+                  "imageAlt": "Worker wearing protective coveralls and gloves brushing exposed framing inside a wall opening."
+                }
+              ]
+            },
+            {
+              "id": "portfolio-v2-tab-sp-ceiling",
+              "label": "Ceiling work",
+              "backgroundImageSrc": "/org-assets/spartan/library/05-spartan-restoration-ceiling-work.webp",
+              "backgroundOverlayColor": "#000000",
+              "backgroundOverlayOpacity": 0.45,
+              "labelColor": "#ffffff",
+              "modalImages": [
+                {
+                  "id": "portfolio-v2-image-sp-05",
+                  "imageSrc": "/org-assets/spartan/library/05-spartan-restoration-ceiling-work.webp",
+                  "imageAlt": "Worker in protective coveralls reaching into an opened ceiling with a hand tool."
+                }
+              ]
+            },
+            {
+              "id": "portfolio-v2-tab-sp-overview",
+              "label": "Project overview",
+              "backgroundImageSrc": "/org-assets/spartan/library/06-spartan-restoration-project-overview.webp",
+              "backgroundOverlayColor": "#000000",
+              "backgroundOverlayOpacity": 0.45,
+              "labelColor": "#ffffff",
+              "modalImages": [
+                {
+                  "id": "portfolio-v2-image-sp-06",
+                  "imageSrc": "/org-assets/spartan/library/06-spartan-restoration-project-overview.webp",
+                  "imageAlt": "Wide view of a kitchen with exposed wood flooring, opened lower walls and a worker in protective coveralls."
+                }
+              ]
+            }
+          ]
+        },
+        "portfolioV3": {
+          "theme": "light",
+          "layoutWidth": "contained",
+          "wallStyle": "cube",
+          "cardGapPx": 10,
+          "cardBorderRadiusPx": 0,
+          "columnCount": 3,
+          "sectionPaddingTopPx": 48,
+          "sectionPaddingBottomPx": 64,
+          "cardHoverScale": 1.04,
+          "sectionHeading": "Careful work. Clear documentation.",
+          "sectionDescription": "Restoration takes attention to the details you can see—and the areas behind walls and beneath flooring. These project photos show Spartan Restoration at work: cleaning exposed surfaces, checking moisture, and recording observations alongside drying equipment. It's a hands-on look at the care that goes into the restoration process.\n\nThese photos show work in progress during restoration—not completed repairs or before-and-after results.",
+          "copyOnLeft": true,
+          "phoneBarVisible": true,
+          "phoneBarBackgroundColor": "#2c73b5",
+          "phoneBarTextColor": "#ffffff",
+          "contentPhoneLabel": "CALL (503) 975-9082",
+          "contentPhoneHref": "tel:+15039759082",
+          "captionsVisible": true,
+          "cards": [
+            {
+              "id": "portfolio-v3-card-sp-01",
+              "imageSrc": "/org-assets/spartan/library/01-spartan-restoration-drying-documentation.webp",
+              "imageAlt": "Restoration worker recording notes beside an opened wall and blue drying equipment.",
+              "title": "Drying documentation",
+              "caption": "Tracking the details throughout the drying process."
+            },
+            {
+              "id": "portfolio-v3-card-sp-02",
+              "imageSrc": "/org-assets/spartan/library/02-spartan-restoration-moisture-check.webp",
+              "imageAlt": "Worker using a handheld moisture meter on flooring beside a marked test location.",
+              "title": "Moisture check",
+              "caption": "Checking moisture at marked locations during restoration."
+            },
+            {
+              "id": "portfolio-v3-card-sp-03",
+              "imageSrc": "/org-assets/spartan/library/03-spartan-restoration-surface-cleaning.webp",
+              "imageAlt": "Worker in protective coveralls vacuuming exposed wood flooring beside an opened wall.",
+              "title": "Surface cleaning",
+              "caption": "Careful cleaning of exposed wood surfaces."
+            },
+            {
+              "id": "portfolio-v3-card-sp-04",
+              "imageSrc": "/org-assets/spartan/library/04-spartan-restoration-wall-cavity-cleaning.webp",
+              "imageAlt": "Worker wearing protective coveralls and gloves brushing exposed framing inside a wall opening.",
+              "title": "Wall cavity cleaning",
+              "caption": "Hands-on cleaning inside the opened wall cavity."
+            },
+            {
+              "id": "portfolio-v3-card-sp-05",
+              "imageSrc": "/org-assets/spartan/library/05-spartan-restoration-ceiling-work.webp",
+              "imageAlt": "Worker in protective coveralls reaching into an opened ceiling with a hand tool.",
+              "title": "Ceiling work",
+              "caption": "Attention to exposed areas above the ceiling."
+            },
+            {
+              "id": "portfolio-v3-card-sp-06",
+              "imageSrc": "/org-assets/spartan/library/06-spartan-restoration-project-overview.webp",
+              "imageAlt": "Wide view of a kitchen with exposed wood flooring, opened lower walls and a worker in protective coveralls.",
+              "title": "Project overview",
+              "caption": "A closer look at restoration work in progress."
+            }
+          ]
+        }
+      },
       "spacer-23d15538": {
         "spacer": {
           "gradient": {
@@ -3269,14 +3498,15 @@
           "phoneButtonVisible": true,
           "imageShadowIntensity": 0,
           "contentEyebrow": "Spartan Restoration · Vancouver, WA",
-          "contentImageSrc": "/org-assets/spartan/library/Store.jpg",
-          "contentImageAlt": "Water damage restoration equipment and crew on a Pacific Northwest job site",
+          "contentImageSrc": "/org-assets/spartan/library/02-spartan-restoration-moisture-check.webp",
+          "contentImageAlt": "Checking moisture at marked locations during restoration.",
           "contentHeadlineLines": [
             "The best defense in water damage"
           ],
           "contentBody": "From emergency extraction to structural drying and mold remediation, Spartan Restoration helps Vancouver and Clark County property owners recover after water and mold damage. Our crews bring clear communication and hands-on experience from the first visit through final walkthrough.",
           "contentSidebarText": "Spartan Restoration handles emergency mitigation and restoration, extraction, drying, mold, and claim documentation. Stone Pillar Contractors is our licensed general contracting partner for reconstruction, remodeling, and tenant improvements when you're ready to rebuild after mitigation.",
-          "headlineLevel": "h1"
+          "headlineLevel": "h1",
+          "imageMaxHeightPx": 600
         }
       },
       "services-03be986f": {
@@ -3395,7 +3625,8 @@
               "id": "structural-cleaning",
               "title": "Structural Cleaning & Sanitization",
               "description": "Structural cleaning and sanitization of affected surfaces and building materials.",
-              "icon": "sparkles"
+              "icon": "sparkles",
+              "href": "/structural-cleaning"
             },
             {
               "id": "flood-cleanup",
@@ -3465,8 +3696,9 @@
           "gradient": {
             "heightPx": 40
           },
-          "layoutWidth": "full",
-          "outerBackgroundColor": "#ffffff"
+          "layoutWidth": "contained",
+          "outerBackgroundColor": "#ffffff",
+          "layoutWidthMobile": "full"
         }
       },
       "content-127f9a95": {
@@ -4284,9 +4516,123 @@
           ]
         }
       },
+      "hero-sp-structural-cleaning": {
+        "heroV4": {
+          "showForm": false,
+          "showBreadcrumbs": false,
+          "showBullets": false,
+          "showPhoneCta": false,
+          "eyebrow": "Spartan Restoration · Vancouver, WA",
+          "headline": "Structural Cleaning & Sanitization\nin Vancouver, WA",
+          "body": "After water intrusion or demolition, exposed framing, subfloors, and other structural surfaces often need careful cleaning—not just a quick wipe-down. Contaminants, debris, and residue can remain on building materials that will stay in place during drying and restoration. Proper structural cleaning helps prepare those surfaces for the next steps in the mitigation process.\n\nSpartan Restoration provides structural cleaning and sanitization for homes and businesses throughout Vancouver, Clark County, and the Portland metro area. Our crews work on exposed materials with methods suited to the surface and the job conditions, as part of an active restoration project. Photos on this page show work in progress during cleaning and documentation—not finished repairs or before-and-after results.",
+          "bullets": [],
+          "primaryCtaLabel": "CALL (503) 975-9082",
+          "primaryCtaHref": "tel:+15039759082",
+          "phoneLabel": "503-975-9082",
+          "phoneHref": "tel:+15039759082",
+          "formTitle": "REQUEST HELP",
+          "formSubtext": "",
+          "formTrustNotes": [],
+          "formLeadSource": "website-review",
+          "showServicePills": false,
+          "servicePills": [],
+          "breadcrumbs": [
+            {
+              "label": "Home",
+              "href": "/"
+            }
+          ],
+          "showGallery": true,
+          "gallerySlides": [
+            {
+              "type": "image",
+              "value": "/org-assets/spartan/library/03-spartan-restoration-surface-cleaning.webp"
+            }
+          ],
+          "galleryIntervalMs": 5000,
+          "galleryTransition": "fade",
+          "galleryHeightPx": 300,
+          "galleryBackground": "#000000",
+          "galleryRadiusPx": 0,
+          "galleryBorderWidthPx": 1,
+          "galleryBorderColor": "",
+          "labelFontStyle": "normal",
+          "headlineBold": false,
+          "headlineFirstLineItalic": false,
+          "headlineUppercase": false,
+          "headlineLevel": "h1",
+          "button": {
+            "navBackground": "#ffc233",
+            "navTextColor": "#000000",
+            "navTextHoverColor": "#000000",
+            "navHoverBackground": "#f8ad0d",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 4
+          },
+          "phoneButton": {
+            "navBackground": "#000000",
+            "navTextColor": "#ffffff",
+            "navTextHoverColor": "#ffffff",
+            "navHoverBackground": "#4f4f4f",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 8
+          },
+          "buttonSize": "xlarge",
+          "buttonRadiusPx": 0,
+          "backgroundColor": "#ffffff",
+          "showContactInfo": false,
+          "contactInfoItems": [],
+          "formSubmitText": "Send Message",
+          "formButtonBackground": "#2c74b5",
+          "formButtonTextColor": "#ffffff",
+          "formButtonRadiusPx": 4,
+          "formFields": [
+            {
+              "id": "legacy-name",
+              "name": "name",
+              "label": "Full Name",
+              "placeholder": "Your name",
+              "type": "text",
+              "required": true
+            },
+            {
+              "id": "legacy-businessName",
+              "name": "businessName",
+              "label": "City",
+              "placeholder": "City",
+              "type": "text",
+              "required": false
+            },
+            {
+              "id": "legacy-email",
+              "name": "email",
+              "label": "Email",
+              "placeholder": "you@example.com",
+              "type": "email",
+              "required": true
+            },
+            {
+              "id": "legacy-phone",
+              "name": "phone",
+              "label": "Phone",
+              "placeholder": "(optional)",
+              "type": "tel",
+              "required": false
+            },
+            {
+              "id": "legacy-message",
+              "name": "message",
+              "label": "How can we help?",
+              "placeholder": "",
+              "type": "textarea",
+              "required": true
+            }
+          ]
+        }
+      },
       "hero-6d4e8f2a": {
         "heroV4": {
-          "showForm": true,
+          "showForm": false,
           "showBreadcrumbs": false,
           "showBullets": false,
           "showPhoneCta": false,
@@ -4310,19 +4656,25 @@
               "href": "/"
             }
           ],
-          "showGallery": false,
-          "gallerySlides": [],
+          "showGallery": true,
+          "gallerySlides": [
+            {
+              "type": "image",
+              "value": "/org-assets/spartan/library/01-spartan-restoration-drying-documentation.webp"
+            }
+          ],
           "galleryIntervalMs": 5000,
           "galleryTransition": "fade",
           "galleryHeightPx": 300,
           "galleryBackground": "#000000",
-          "galleryRadiusPx": 20,
+          "galleryRadiusPx": 0,
           "galleryBorderWidthPx": 1,
           "galleryBorderColor": "",
           "labelFontStyle": "normal",
           "headlineBold": false,
           "headlineFirstLineItalic": false,
           "headlineUppercase": false,
+          "headlineLevel": "h1",
           "button": {
             "navBackground": "#ffc233",
             "navTextColor": "#000000",

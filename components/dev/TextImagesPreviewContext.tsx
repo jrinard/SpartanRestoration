@@ -13,6 +13,7 @@ import {
   parseTextImageHeadlineDraft,
   shouldInvertTextImageForTheme,
   textImageEntranceSpeedOptions,
+  textImageImageMaxDimensionPx,
   textImagePhoneButtonMarginOptions,
   textImageSectionThemes,
   type TextImageSectionTheme,
@@ -53,6 +54,9 @@ type TextImagesPreviewContextValue = {
   setRow3Phone: (label: string, href?: string) => void;
   setRow3Image: (src: string, alt: string) => void;
   setRow3ImageAlt: (alt: string) => void;
+  setRow1ImageMaxHeightPx: (maxHeightPx: number | undefined) => void;
+  setRow2ImageMaxHeightPx: (maxHeightPx: number | undefined) => void;
+  setRow3ImageMaxHeightPx: (maxHeightPx: number | undefined) => void;
 };
 
 const TextImagesPreviewContext = createContext<TextImagesPreviewContextValue | null>(null);
@@ -239,6 +243,30 @@ export function TextImagesPreviewProvider({
     [enableContentEditing, settings, setSettings],
   );
 
+  const setRow1ImageMaxHeightPx = useCallback(
+    (maxHeightPx: number | undefined) => {
+      if (!enableContentEditing) return;
+      setSettings({ ...settings, row1ImageMaxHeightPx: maxHeightPx });
+    },
+    [enableContentEditing, settings, setSettings],
+  );
+
+  const setRow2ImageMaxHeightPx = useCallback(
+    (maxHeightPx: number | undefined) => {
+      if (!enableContentEditing) return;
+      setSettings({ ...settings, row2ImageMaxHeightPx: maxHeightPx });
+    },
+    [enableContentEditing, settings, setSettings],
+  );
+
+  const setRow3ImageMaxHeightPx = useCallback(
+    (maxHeightPx: number | undefined) => {
+      if (!enableContentEditing) return;
+      setSettings({ ...settings, row3ImageMaxHeightPx: maxHeightPx });
+    },
+    [enableContentEditing, settings, setSettings],
+  );
+
   return (
     <TextImagesPreviewContext.Provider
       value={{
@@ -260,6 +288,9 @@ export function TextImagesPreviewProvider({
         setRow3Phone,
         setRow3Image,
         setRow3ImageAlt,
+        setRow1ImageMaxHeightPx,
+        setRow2ImageMaxHeightPx,
+        setRow3ImageMaxHeightPx,
       }}
     >
       {children}
@@ -324,6 +355,35 @@ export function TextImagesPreviewControls() {
       >
         Img {imageInverted ? "inv" : "std"}
       </span>
+      {(
+        [
+          { row: 1, maxHKey: "row1ImageMaxHeightPx" },
+          { row: 2, maxHKey: "row2ImageMaxHeightPx" },
+          { row: 3, maxHKey: "row3ImageMaxHeightPx" },
+        ] as const
+      ).map(({ row, maxHKey }) => (
+        <label key={`${row}-max-h-top`} className="flex items-center gap-2">
+          <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+            R{row} Max H
+          </span>
+          <input
+            type="number"
+            min={0}
+            max={textImageImageMaxDimensionPx}
+            step={8}
+            value={context.settings[maxHKey] ?? 0}
+            onChange={(event) => {
+              const parsed = Number(event.target.value);
+              update({
+                [maxHKey]: parsed > 0 ? parsed : undefined,
+              });
+            }}
+            className="w-[4.5rem] rounded border border-accent-purple/40 bg-background/90 px-1.5 py-1 font-mono text-xs text-accent-purple"
+            aria-label={`Text and images row ${row} image max height in pixels, 0 for no limit`}
+          />
+          <span className="font-mono text-[0.65rem] text-accent-purple/70">px</span>
+        </label>
+      ))}
       <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">BG</span>
         <input
@@ -452,9 +512,21 @@ export function TextImagesPreviewControls() {
       </label>
       {(
         [
-          { row: 1, alignKey: "row1CopyVerticalAlign", padKey: "row1CopyPaddingTopPx" },
-          { row: 2, alignKey: "row2CopyVerticalAlign", padKey: "row2CopyPaddingTopPx" },
-          { row: 3, alignKey: "row3CopyVerticalAlign", padKey: "row3CopyPaddingTopPx" },
+          {
+            row: 1,
+            alignKey: "row1CopyVerticalAlign",
+            padKey: "row1CopyPaddingTopPx",
+          },
+          {
+            row: 2,
+            alignKey: "row2CopyVerticalAlign",
+            padKey: "row2CopyPaddingTopPx",
+          },
+          {
+            row: 3,
+            alignKey: "row3CopyVerticalAlign",
+            padKey: "row3CopyPaddingTopPx",
+          },
         ] as const
       ).flatMap(({ row, alignKey, padKey }) => [
         <label key={`${row}-align`} className="flex items-center gap-2">

@@ -22,6 +22,7 @@ const legacyGlobalPlaygroundKeys = [
   "lifespring-reviews-preview-v1",
   "lifespring-cta-v1-preview",
   "lifespring-portfolio-v2-preview",
+  "lifespring-portfolio-v3-preview",
   "lifespring-hero-v21-preview",
   "lifespring-hero-button-preview",
   "lifespring-hero-banner-preview",

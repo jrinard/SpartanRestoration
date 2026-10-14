@@ -14,6 +14,7 @@ import type { HeroV21PreviewSettings } from "@/lib/hero-v21-preview";
 import type { HeroV4PreviewSettings } from "@/lib/hero-v4-preview";
 import type { PortfolioPreviewSettings } from "@/lib/portfolio-preview";
 import type { PortfolioV2PreviewSettings } from "@/lib/portfolio-v2-preview";
+import type { PortfolioV3PreviewSettings } from "@/lib/portfolio-v3-preview";
 import type { ImagesV1PreviewSettings } from "@/lib/images-v1-preview";
 import type { CardsV1PreviewSettings } from "@/lib/cards-v1-preview";
 import type { FlipCardsPreviewSettings } from "@/lib/flip-cards-preview-storage";
@@ -48,6 +49,7 @@ export type HomepagePreviewSettings = {
   footerV4?: FooterV4PreviewSettings;
   portfolio?: PortfolioPreviewSettings;
   portfolioV2?: PortfolioV2PreviewSettings;
+  portfolioV3?: PortfolioV3PreviewSettings;
   servicesV1LayoutWidth?: ServicesV1LayoutWidth;
   /** @deprecated — first spacer without an id; use spacers instead. */
   spacerStripe?: SpacerStripeStyle;

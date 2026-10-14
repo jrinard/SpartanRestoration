@@ -142,7 +142,10 @@ export function loadEffectiveTextIconsV3InstanceSettings(
 export function loadEffectiveTextImageInstanceSettings(
   instanceId: string,
 ): TextImagePreviewSettings {
-  return loadTextImageInstanceSettings(instanceId) ?? loadTextImagePreviewSettings();
+  const base = loadTextImagePreviewSettings();
+  const instance = loadTextImageInstanceSettings(instanceId);
+  if (!instance) return base;
+  return normalizeTextImagePreviewSettings({ ...base, ...instance });
 }
 
 export function loadTextImagesInstanceSettings(
@@ -164,7 +167,10 @@ export function saveTextImagesInstanceSettings(
 export function loadEffectiveTextImagesInstanceSettings(
   instanceId: string,
 ): TextImagesPreviewSettings {
-  return loadTextImagesInstanceSettings(instanceId) ?? loadTextImagesPreviewSettings();
+  const base = loadTextImagesPreviewSettings();
+  const instance = loadTextImagesInstanceSettings(instanceId);
+  if (!instance) return base;
+  return normalizeTextImagesPreviewSettings({ ...base, ...instance });
 }
 
 export function loadImagesV1InstanceSettings(

@@ -16,6 +16,7 @@ import type { HeroV4PreviewSettings } from "@/lib/hero-v4-preview";
 import type { NavBarPreviewSettings } from "@/lib/nav-bar-preview";
 import type { PortfolioPreviewSettings } from "@/lib/portfolio-preview";
 import type { PortfolioV2PreviewSettings } from "@/lib/portfolio-v2-preview";
+import type { PortfolioV3PreviewSettings } from "@/lib/portfolio-v3-preview";
 import type { ImagesV1PreviewSettings } from "@/lib/images-v1-preview";
 import type { CardsV1PreviewSettings } from "@/lib/cards-v1-preview";
 import type { FlipCardsPreviewSettings } from "@/lib/flip-cards-preview-storage";
@@ -66,6 +67,7 @@ export type SectionInstanceSettings = {
   reviewbox?: ReviewboxPreviewSettings;
   portfolio?: PortfolioPreviewSettings;
   portfolioV2?: PortfolioV2PreviewSettings;
+  portfolioV3?: PortfolioV3PreviewSettings;
   reviews?: ReviewsPreviewSettings;
   contact?: ContactPreviewSettings;
   ctaV1?: CtaV1PreviewSettings;

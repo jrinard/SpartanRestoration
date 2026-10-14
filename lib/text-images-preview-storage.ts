@@ -9,6 +9,8 @@ import { normalizeImageLibrarySrc } from "@/lib/image-library";
 import {
   getTextImageColorsForTheme,
   normalizeTextImageHeadlineLines,
+  normalizeTextImageImageBorderRadiusPx,
+  normalizeTextImageImageMaxPx,
   textImageEntranceSpeedValues,
   textImagePhoneButtonMarginOptions,
   type TextImageSectionTheme,
@@ -114,6 +116,10 @@ export function normalizeTextImagesPreviewSettings(
       typeof value.phoneButtonVisible === "boolean"
         ? value.phoneButtonVisible
         : defaultTextImagesPreviewSettings.phoneButtonVisible,
+    imageBorderRadiusPx: normalizeTextImageImageBorderRadiusPx(value.imageBorderRadiusPx),
+    row1ImageMaxHeightPx: normalizeTextImageImageMaxPx(value.row1ImageMaxHeightPx),
+    row2ImageMaxHeightPx: normalizeTextImageImageMaxPx(value.row2ImageMaxHeightPx),
+    row3ImageMaxHeightPx: normalizeTextImageImageMaxPx(value.row3ImageMaxHeightPx),
     headlineLevel: normalizeHeadlineLevel(value.headlineLevel, "h2"),
     row1CopyPaddingTopPx:
       typeof value.row1CopyPaddingTopPx === "number"

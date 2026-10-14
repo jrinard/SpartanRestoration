@@ -144,6 +144,18 @@ export function TextImageV1({
   const [altEditorOpen, setAltEditorOpen] = useState(false);
   const imageInverted = shouldInvertTextImageForTheme(settings.theme, defaultTextImageV1Theme);
   const imageBoxShadow = getTextImageImageBoxShadow(settings.imageShadowIntensity);
+  const imageMaxWidthPx = settings.imageMaxWidthPx;
+  const imageMaxHeightPx = settings.imageMaxHeightPx;
+  const imageWrapSizeStyle: CSSProperties = {
+    ...(imageMaxWidthPx ? { maxWidth: imageMaxWidthPx } : {}),
+    ...(imageMaxHeightPx ? { maxHeight: imageMaxHeightPx } : {}),
+    ...(imageMaxWidthPx ? { width: "100%" } : {}),
+    borderRadius: settings.imageBorderRadiusPx,
+  };
+  const imageStyle: CSSProperties = {
+    ...(imageMaxHeightPx ? { maxHeight: imageMaxHeightPx, width: "auto", maxWidth: "100%" } : {}),
+    ...(imageMaxWidthPx && !imageMaxHeightPx ? { maxWidth: "100%" } : {}),
+  };
 
   const sectionStyle: CSSProperties = {
     backgroundColor: settings.backgroundColor,
@@ -270,13 +282,22 @@ export function TextImageV1({
             )}
           </div>
 
-          <div className="text-image-v1-media">
-            <div className="relative">
+          <div
+            className={cn(
+              "text-image-v1-media",
+              (imageMaxWidthPx || imageMaxHeightPx) && "flex flex-col items-start",
+            )}
+          >
+            <div className="relative max-w-full">
               <div
                 ref={imageWrapRef}
-                className="text-image-v1-image-wrap overflow-hidden rounded-lg"
+                className={cn(
+                  "text-image-v1-image-wrap overflow-hidden",
+                  (imageMaxWidthPx || imageMaxHeightPx) && "inline-block max-w-full",
+                )}
                 style={{
                   ...imageWrapStyle,
+                  ...imageWrapSizeStyle,
                   ...(imageBoxShadow ? { boxShadow: imageBoxShadow } : {}),
                 }}
               >
@@ -286,9 +307,11 @@ export function TextImageV1({
                   width={960}
                   height={720}
                   className={cn(
-                    "text-image-v1-image h-auto w-full object-cover",
+                    "text-image-v1-image object-cover",
+                    imageMaxHeightPx ? "h-auto w-auto max-w-full" : "h-auto w-full",
                     imageInverted && "text-image-v1-image--inverted",
                   )}
+                  style={imageStyle}
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>

@@ -6061,6 +6061,175 @@ main:not(.playground-sections) .header-custom.header-logo-overflow {
   }
 }
 
+/* Portfolio v3 — masonry / cube wall + shared modal */
+.portfolio-v3[data-portfolio-theme="dark"] {
+  color-scheme: dark;
+  --background: #030303;
+  --foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.12);
+  --portfolio-v2-modal-backdrop: rgba(0, 0, 0, 0.62);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.portfolio-v3[data-portfolio-theme="light"] {
+  color-scheme: light;
+  --background: #ffffff;
+  --foreground: #12121c;
+  --border: rgba(0, 0, 0, 0.1);
+  --portfolio-v2-modal-backdrop: rgba(0, 0, 0, 0.45);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.portfolio-v3-inner--split {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+@media (min-width: 1024px) {
+  .portfolio-v3-inner--split {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2.5rem;
+  }
+
+  .portfolio-v3-inner--split .portfolio-v3-intro {
+    flex: 0 0 min(22rem, 36%);
+    max-width: 22rem;
+  }
+
+  .portfolio-v3-inner--split .portfolio-v3-wall {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+.portfolio-v3-heading {
+  margin: 0 0 1rem;
+  font-family: var(--font-serif), ui-serif, serif;
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  font-weight: 600;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.portfolio-v3-description {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.65;
+  text-wrap: pretty;
+  white-space: pre-line;
+}
+
+.portfolio-v3-intro--editable .portfolio-v3-intro-heading-wrap,
+.portfolio-v3-intro--editable .portfolio-v3-intro-description-wrap,
+.portfolio-v3-intro--editable .portfolio-v3-phone-bar-wrap {
+  padding-right: 2rem;
+}
+
+.portfolio-v3-phone-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: none;
+  border-radius: 0;
+  background-color: var(--portfolio-v3-phone-bar-bg, #2c73b5);
+  color: var(--portfolio-v3-phone-bar-color, #ffffff);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.portfolio-v3-phone-bar:hover {
+  filter: brightness(1.08);
+}
+
+.portfolio-v3-phone-bar--placeholder {
+  cursor: default;
+  opacity: 0.85;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.portfolio-v3-wall {
+  width: 100%;
+}
+
+.portfolio-v3--masonry .portfolio-v3-grid {
+  column-count: var(--portfolio-v3-columns, 3);
+  column-gap: var(--portfolio-v3-gap, 10px);
+}
+
+.portfolio-v3--masonry .portfolio-v3-card-wrap {
+  break-inside: avoid;
+  margin-bottom: var(--portfolio-v3-gap, 10px);
+}
+
+.portfolio-v3--cube .portfolio-v3-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--portfolio-v3-columns, 3), minmax(0, 1fr));
+  gap: var(--portfolio-v3-gap, 10px);
+}
+
+.portfolio-v3-card {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--portfolio-v3-radius, 0px);
+  overflow: hidden;
+  cursor: pointer;
+  background: transparent;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  transform-origin: center center;
+}
+
+.portfolio-v3-card:hover {
+  transform: scale(var(--portfolio-v3-hover-scale, 1.04));
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  z-index: 2;
+  position: relative;
+}
+
+.portfolio-v3-card-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+.portfolio-v3-card-image--cube {
+  aspect-ratio: 1;
+  object-fit: cover;
+  height: 100%;
+}
+
+.portfolio-v3-card-caption {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--foreground) 78%, transparent);
+  text-wrap: pretty;
+}
+
+@media (max-width: 767px) {
+  .portfolio-v3--masonry .portfolio-v3-grid,
+  .portfolio-v3--cube .portfolio-v3-grid {
+    --portfolio-v3-columns: 2;
+  }
+}
+
 /* ——— Ported from LifeSpring Design Official (Hero-v4, Service-area-v2, Reviews-v1) ——— */
 /* Service-area-v2 — SEO location card grid (Legacy-style) */
 .service-area-v2-heading {

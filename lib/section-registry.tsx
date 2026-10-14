@@ -21,6 +21,7 @@ import { TextImagesV1 } from "@/components/sections/TextImages-v1";
 import { ImagesV1 } from "@/components/sections/Images-v1";
 import { PortfolioV1 } from "@/components/sections/Portfolio-v1";
 import { PortfolioV2 } from "@/components/sections/Portfolio-v2";
+import { PortfolioV3 } from "@/components/sections/Portfolio-v3";
 import { FeatureTilesV1 } from "@/components/sections/FeatureTiles-v1";
 import { TestimonialsV1 } from "@/components/sections/Testimonials-v1";
 import { TestimonialsV2 } from "@/components/sections/Testimonials-v2";
@@ -338,6 +339,10 @@ export const sectionGroups = {
       "portfolio-v2": {
         label: "Portfolio-v2 (Slices)",
         render: () => <PortfolioV2 />,
+      },
+      "portfolio-v3": {
+        label: "Portfolio-v3 (Wall)",
+        render: () => <PortfolioV3 />,
       },
     },
   },

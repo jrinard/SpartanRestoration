@@ -9,6 +9,7 @@ import { HeroV21PreviewProvider } from "@/components/dev/HeroV21PreviewContext";
 import { HeaderV3PreviewProvider } from "@/components/dev/HeaderV3PreviewContext";
 import { PortfolioPreviewProvider } from "@/components/dev/PortfolioPreviewContext";
 import { PortfolioV2PreviewProvider } from "@/components/dev/PortfolioV2PreviewContext";
+import { PortfolioV3PreviewProvider } from "@/components/dev/PortfolioV3PreviewContext";
 import { FooterV3PreviewProvider } from "@/components/dev/FooterV3PreviewContext";
 import { FooterV1PreviewProvider } from "@/components/dev/FooterV1PreviewContext";
 import { FooterV4PreviewProvider } from "@/components/dev/FooterV4PreviewContext";
@@ -279,6 +280,17 @@ export function SectionPreview({
       >
         {content}
       </PortfolioV2PreviewProvider>
+    );
+  }
+
+  if (group === "portfolio" && variantId === "portfolio-v3") {
+    return (
+      <PortfolioV3PreviewProvider
+        instanceId={sectionId}
+        initialSettings={savedField("portfolioV3", "portfolioV3")}
+      >
+        {content}
+      </PortfolioV3PreviewProvider>
     );
   }
 

@@ -20,6 +20,8 @@ import {
   textImagePhoneButtonMarginOptions,
   getTextImageImageBoxShadow,
   textImageImageShadowMax,
+  textImageImageMaxDimensionPx,
+  textImageImageBorderRadiusMaxPx,
   textImageSectionThemes,
   type TextImageContent,
   type TextImagePreviewSettings,
@@ -349,6 +351,62 @@ export function TextImagePreviewControls() {
         />
         <span className="w-7 shrink-0 font-mono text-[0.65rem] text-accent-purple/80 tabular-nums">
           {context.settings.imageShadowIntensity}
+        </span>
+      </label>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Max W</span>
+        <input
+          type="number"
+          min={0}
+          max={textImageImageMaxDimensionPx}
+          step={8}
+          value={context.settings.imageMaxWidthPx ?? 0}
+          onChange={(event) => {
+            const parsed = Number(event.target.value);
+            update({
+              imageMaxWidthPx: parsed > 0 ? parsed : undefined,
+            });
+          }}
+          className="w-[4.5rem] rounded border border-accent-purple/40 bg-background/90 px-1.5 py-1 font-mono text-xs text-accent-purple"
+          aria-label="Text and image max width in pixels, 0 for no limit"
+        />
+        <span className="font-mono text-[0.65rem] text-accent-purple/70">px</span>
+      </label>
+      <label className="flex items-center gap-2">
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Max H</span>
+        <input
+          type="number"
+          min={0}
+          max={textImageImageMaxDimensionPx}
+          step={8}
+          value={context.settings.imageMaxHeightPx ?? 0}
+          onChange={(event) => {
+            const parsed = Number(event.target.value);
+            update({
+              imageMaxHeightPx: parsed > 0 ? parsed : undefined,
+            });
+          }}
+          className="w-[4.5rem] rounded border border-accent-purple/40 bg-background/90 px-1.5 py-1 font-mono text-xs text-accent-purple"
+          aria-label="Text and image max height in pixels, 0 for no limit"
+        />
+        <span className="font-mono text-[0.65rem] text-accent-purple/70">px</span>
+      </label>
+      <label className="flex min-w-0 flex-1 items-center gap-2">
+        <span className="shrink-0 font-mono text-xs tracking-wide text-accent-purple uppercase">
+          Radius
+        </span>
+        <input
+          type="range"
+          min={0}
+          max={textImageImageBorderRadiusMaxPx}
+          step={1}
+          value={context.settings.imageBorderRadiusPx}
+          onChange={(event) => update({ imageBorderRadiusPx: Number(event.target.value) })}
+          className="h-1.5 min-w-0 flex-1 accent-accent-purple"
+          aria-label="Text and image photo corner radius in pixels"
+        />
+        <span className="w-7 shrink-0 font-mono text-[0.65rem] text-accent-purple/80 tabular-nums">
+          {context.settings.imageBorderRadiusPx}
         </span>
       </label>
       <label className="flex items-center gap-2">

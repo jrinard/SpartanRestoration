@@ -22,6 +22,7 @@ import {
 } from "@/lib/playground-pages";
 import { portfolioPreviewStorageKey } from "@/lib/portfolio-preview-storage";
 import { portfolioV2PreviewStorageKey } from "@/lib/portfolio-v2-preview-storage";
+import { portfolioV3PreviewStorageKey } from "@/lib/portfolio-v3-preview-storage";
 import { reviewboxPreviewStorageKey } from "@/lib/reviewbox-preview-storage";
 import { textIconsV3PreviewStorageKey } from "@/lib/text-icons-v3-preview-storage";
 import { textImagePreviewStorageKey } from "@/lib/text-image-preview-storage";
@@ -123,6 +124,7 @@ export function applyHomepageConfigToStorage(config: HomepageConfig): void {
   writeOptionalJson(footerV4PreviewStorageKey, previewSettings.footerV4);
   writeOptionalJson(portfolioPreviewStorageKey, previewSettings.portfolio);
   writeOptionalJson(portfolioV2PreviewStorageKey, previewSettings.portfolioV2);
+  writeOptionalJson(portfolioV3PreviewStorageKey, previewSettings.portfolioV3);
   writeOptionalJson(spacerStripeStorageKey, previewSettings.spacerStripe);
   writeOptionalJson(spacerGradientStorageKey, previewSettings.spacerGradient);
   writeOptionalJson(contactPreviewStorageKey, previewSettings.contact);

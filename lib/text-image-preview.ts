@@ -31,6 +31,12 @@ export type TextImagePreviewSettings = TextImageTextColors &
     phoneButtonVisible: boolean;
     /** Image drop shadow intensity (0 = none, 100 = strongest). */
     imageShadowIntensity: number;
+    /** Corner radius on the content image (px). Default matches legacy rounded-lg (8px). */
+    imageBorderRadiusPx: number;
+    /** Cap image width in px; unset or 0 = fill column. */
+    imageMaxWidthPx?: number;
+    /** Cap image height in px; unset or 0 = natural height. */
+    imageMaxHeightPx?: number;
     /** Semantic heading level — missing keeps h2 (Text-image default). */
     headlineLevel?: HeadlineLevel;
     /** Playground copy overrides. */
@@ -162,6 +168,29 @@ export const defaultTextImagePhoneButtonMarginTopPx: TextImagePhoneButtonMarginP
 
 export const textImageImageShadowMax = 100;
 
+export const textImageImageBorderRadiusMaxPx = 64;
+
+export const defaultTextImageImageBorderRadiusPx = 8;
+
+export function normalizeTextImageImageBorderRadiusPx(value: unknown): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return defaultTextImageImageBorderRadiusPx;
+  }
+  return Math.min(
+    textImageImageBorderRadiusMaxPx,
+    Math.max(0, Math.round(value)),
+  );
+}
+
+export const textImageImageMaxDimensionPx = 1600;
+
+export function normalizeTextImageImageMaxPx(value: unknown): number | undefined {
+  if (typeof value !== "number" || !Number.isFinite(value)) return undefined;
+  const rounded = Math.round(value);
+  if (rounded <= 0) return undefined;
+  return Math.min(textImageImageMaxDimensionPx, rounded);
+}
+
 /** Down-and-right box shadow for the content image; undefined when intensity is 0. */
 export function getTextImageImageBoxShadow(intensity: number): string | undefined {
   const value = Math.min(
@@ -199,6 +228,7 @@ export const defaultTextImagePreviewSettings: TextImagePreviewSettings = {
   phoneButtonMarginTopPx: defaultTextImagePhoneButtonMarginTopPx,
   phoneButtonVisible: true,
   imageShadowIntensity: 0,
+  imageBorderRadiusPx: defaultTextImageImageBorderRadiusPx,
 };
 
 export function pickTextImageButtonSettings(

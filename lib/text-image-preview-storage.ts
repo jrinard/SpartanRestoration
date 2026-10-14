@@ -10,6 +10,8 @@ import {
   normalizeTextImageHeadlineLines,
   textImageEntranceSpeedValues,
   textImageImageShadowMax,
+  normalizeTextImageImageMaxPx,
+  normalizeTextImageImageBorderRadiusPx,
   textImagePhoneButtonMarginOptions,
   type TextImagePreviewSettings,
   type TextImageSectionTheme,
@@ -102,6 +104,9 @@ export function normalizeTextImagePreviewSettings(
       typeof value.imageShadowIntensity === "number"
         ? Math.min(textImageImageShadowMax, Math.max(0, Math.round(value.imageShadowIntensity)))
         : defaultTextImagePreviewSettings.imageShadowIntensity,
+    imageMaxWidthPx: normalizeTextImageImageMaxPx(value.imageMaxWidthPx),
+    imageMaxHeightPx: normalizeTextImageImageMaxPx(value.imageMaxHeightPx),
+    imageBorderRadiusPx: normalizeTextImageImageBorderRadiusPx(value.imageBorderRadiusPx),
     headlineLevel: normalizeHeadlineLevel(value.headlineLevel, "h2"),
     contentEyebrow: normalizeContentOverrideString(value.contentEyebrow),
     contentHeadlineLines: normalizeTextImageHeadlineLines(value.contentHeadlineLines),

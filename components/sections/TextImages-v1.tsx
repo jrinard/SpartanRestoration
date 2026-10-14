@@ -23,7 +23,10 @@ import {
   type TextImagesRow3Content,
   type TextImagesStandardRowContent,
 } from "@/lib/text-images-preview";
-import { shouldInvertTextImageForTheme } from "@/lib/text-image-preview";
+import {
+  shouldInvertTextImageForTheme,
+  textImageImageMaxDimensionPx,
+} from "@/lib/text-image-preview";
 import { getButtonPreviewStyleRecord } from "@/lib/button-preview";
 import {
   devEditButtonClassName,
@@ -106,16 +109,22 @@ function TextImagesMediaBlock({
   editingEnabled,
   onImageSelect,
   onImageAltChange,
+  onMaxHeightChange,
   overlapIndex,
+  imageBorderRadiusPx,
+  imageMaxHeightPx,
 }: {
   imageSrc: string;
   imageAlt: string;
   imageInverted: boolean;
+  imageBorderRadiusPx: number;
+  imageMaxHeightPx?: number;
   animationEnabled: boolean;
   animationSpeedMs: number;
   editingEnabled: boolean;
   onImageSelect?: (src: string, alt: string) => void;
   onImageAltChange?: (alt: string) => void;
+  onMaxHeightChange?: (maxHeightPx: number | undefined) => void;
   overlapIndex?: 1 | 2;
 }) {
   const [libraryOpen, setLibraryOpen] = useState(false);
@@ -126,19 +135,29 @@ function TextImagesMediaBlock({
     resetKey: imageSrc,
   });
 
+  const imageWrapSizeStyle: CSSProperties = {
+    ...imageWrapStyle,
+    borderRadius: imageBorderRadiusPx,
+    ...(imageMaxHeightPx ? { maxHeight: imageMaxHeightPx } : {}),
+  };
+  const imageStyle: CSSProperties | undefined = imageMaxHeightPx
+    ? { maxHeight: imageMaxHeightPx, width: "auto", maxWidth: "100%" }
+    : undefined;
+
   return (
     <div
       className={cn(
         "text-images-v1-media",
         overlapIndex === 1 && "text-images-v1-media--overlap-1",
         overlapIndex === 2 && "text-images-v1-media--overlap-2",
+        imageMaxHeightPx && "flex flex-col items-start",
       )}
     >
-      <div className="relative">
+      <div className={cn("relative", imageMaxHeightPx && "inline-block max-w-full")}>
         <div
           ref={imageWrapRef}
-          className="text-images-v1-image-wrap overflow-hidden rounded-lg"
-          style={imageWrapStyle}
+          className="text-images-v1-image-wrap overflow-hidden"
+          style={imageWrapSizeStyle}
         >
           <Image
             src={imageSrc}
@@ -146,15 +165,41 @@ function TextImagesMediaBlock({
             width={960}
             height={720}
             className={cn(
-              "text-images-v1-image h-auto w-full object-cover",
+              "text-images-v1-image object-cover",
+              imageMaxHeightPx ? "h-auto w-auto max-w-full" : "h-auto w-full",
               imageInverted && "text-images-v1-image--inverted",
             )}
+            style={imageStyle}
             sizes="(max-width: 1024px) 100vw, 50vw"
           />
         </div>
         {editingEnabled && onImageSelect && (
           <>
             <div className="absolute top-2 right-2 z-30 flex flex-wrap items-center justify-end gap-1.5">
+              {onMaxHeightChange ? (
+                <label
+                  className={cn(
+                    devLibraryPillClassName,
+                    "cursor-text gap-1 px-2 py-1 normal-case tracking-normal",
+                  )}
+                >
+                  <span className={devLibraryLabelClassName}>Max H</span>
+                  <input
+                    type="number"
+                    min={0}
+                    max={textImageImageMaxDimensionPx}
+                    step={8}
+                    value={imageMaxHeightPx ?? 0}
+                    onChange={(event) => {
+                      const parsed = Number(event.target.value);
+                      onMaxHeightChange(parsed > 0 ? parsed : undefined);
+                    }}
+                    onClick={(event) => event.stopPropagation()}
+                    className="w-12 border-0 bg-transparent p-0 font-mono text-[0.65rem] text-inherit outline-none"
+                    aria-label="Image max height in pixels, 0 for no limit"
+                  />
+                </label>
+              ) : null}
               {onImageAltChange ? (
                 <button
                   type="button"
@@ -322,11 +367,16 @@ function TextImagesRow1Block({
         imageSrc={row.imageSrc}
         imageAlt={row.imageAlt}
         imageInverted={imageInverted}
+        imageBorderRadiusPx={settings.imageBorderRadiusPx}
+        imageMaxHeightPx={settings.row1ImageMaxHeightPx}
         animationEnabled={settings.entranceAnimationEnabled}
         animationSpeedMs={settings.entranceAnimationSpeedMs}
         editingEnabled={editingEnabled}
         onImageSelect={preview ? (src, alt) => preview.setRow1Image(src, alt) : undefined}
         onImageAltChange={preview ? (alt) => preview.setRow1ImageAlt(alt) : undefined}
+        onMaxHeightChange={
+          preview ? (px) => preview.setRow1ImageMaxHeightPx(px) : undefined
+        }
       />
     </div>
   );
@@ -344,7 +394,9 @@ function TextImagesStandardRowBlock({
   onBodySave,
   onImageSelect,
   onImageAltChange,
+  onMaxHeightChange,
   overlapIndex,
+  imageMaxHeightPx,
 }: {
   row: TextImagesStandardRowContent;
   rowNumber: 2 | 3;
@@ -357,7 +409,9 @@ function TextImagesStandardRowBlock({
   onBodySave?: (value: string) => void;
   onImageSelect?: (src: string, alt: string) => void;
   onImageAltChange?: (alt: string) => void;
+  onMaxHeightChange?: (maxHeightPx: number | undefined) => void;
   overlapIndex?: 1 | 2;
+  imageMaxHeightPx?: number;
 }) {
   return (
     <div
@@ -421,11 +475,14 @@ function TextImagesStandardRowBlock({
         imageSrc={row.imageSrc}
         imageAlt={row.imageAlt}
         imageInverted={imageInverted}
+        imageBorderRadiusPx={settings.imageBorderRadiusPx}
+        imageMaxHeightPx={imageMaxHeightPx}
         animationEnabled={settings.entranceAnimationEnabled}
         animationSpeedMs={settings.entranceAnimationSpeedMs}
         editingEnabled={editingEnabled}
         onImageSelect={onImageSelect}
         onImageAltChange={onImageAltChange}
+        onMaxHeightChange={onMaxHeightChange}
         overlapIndex={overlapIndex}
       />
     </div>
@@ -528,11 +585,16 @@ function TextImagesRow3Block({
         imageSrc={row.imageSrc}
         imageAlt={row.imageAlt}
         imageInverted={imageInverted}
+        imageBorderRadiusPx={settings.imageBorderRadiusPx}
+        imageMaxHeightPx={settings.row3ImageMaxHeightPx}
         animationEnabled={settings.entranceAnimationEnabled}
         animationSpeedMs={settings.entranceAnimationSpeedMs}
         editingEnabled={editingEnabled}
         onImageSelect={preview ? (src, alt) => preview.setRow3Image(src, alt) : undefined}
         onImageAltChange={preview ? (alt) => preview.setRow3ImageAlt(alt) : undefined}
+        onMaxHeightChange={
+          preview ? (px) => preview.setRow3ImageMaxHeightPx(px) : undefined
+        }
         overlapIndex={2}
       />
     </div>
@@ -589,7 +651,11 @@ export function TextImagesV1({ row1, row2, row3, className }: TextImagesV1Props)
             onBodySave={preview ? (value) => preview.setRow2Body(value) : undefined}
             onImageSelect={preview ? (src, alt) => preview.setRow2Image(src, alt) : undefined}
             onImageAltChange={preview ? (alt) => preview.setRow2ImageAlt(alt) : undefined}
+            onMaxHeightChange={
+              preview ? (px) => preview.setRow2ImageMaxHeightPx(px) : undefined
+            }
             overlapIndex={1}
+            imageMaxHeightPx={settings.row2ImageMaxHeightPx}
           />
           <TextImagesRow3Block
             row={content.row3}

@@ -64,6 +64,18 @@
       "description": "Contact Spartan Restoration for water damage, mold remediation, and environmental restoration in Vancouver, WA, Clark County, and the Portland metro. Mon–Fri 8 AM–5 PM.",
       "path": "/contact"
     },
+    "portfolio": {
+      "title": "Restoration Project Gallery | Spartan Restoration",
+      "description": "In-progress restoration photos from Spartan Restoration—documentation, cleaning, and drying work in Vancouver, WA and Clark County. Work-in-progress images, not before-and-after results.",
+      "path": "/portfolio",
+      "ogImageAlt": "Spartan Restoration project gallery — restoration work in progress"
+    },
+    "structural-cleaning": {
+      "title": "Structural Cleaning & Sanitization | Spartan Restoration",
+      "description": "Structural cleaning and sanitization during water damage restoration in Vancouver, WA and Clark County—careful cleaning of exposed surfaces as part of an active mitigation project.",
+      "path": "/structural-cleaning",
+      "ogImageAlt": "Spartan Restoration worker cleaning exposed wood flooring during structural cleaning"
+    },
     "water-damage-restoration": {
       "title": "Water Damage Restoration in Vancouver, WA | Spartan Restoration",
       "description": "Emergency water damage restoration in Vancouver, WA and Clark County—extraction, structural drying, and insurance documentation. Licensed, insured, IICRC-certified crews. Mon–Fri 8 AM–5 PM.",

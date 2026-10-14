@@ -1,5 +1,6 @@
 import {
   defaultTextImageButtonSettings,
+  defaultTextImagePreviewSettings,
   defaultTextImagesV1Theme,
   getTextImageColorsForTheme,
   normalizeTextImageHeadlineLines,
@@ -53,6 +54,7 @@ export type TextImagesPreviewSettings = TextImageTextColors &
     | "navButtonSize"
     | "navButtonRadiusPx"
     | "headlineLevel"
+    | "imageBorderRadiusPx"
   > & {
     /** Top padding on row 1 text column (px). */
     row1CopyPaddingTopPx: number;
@@ -83,6 +85,10 @@ export type TextImagesPreviewSettings = TextImageTextColors &
     contentRow3PhoneHref?: string;
     contentRow3ImageSrc?: string;
     contentRow3ImageAlt?: string;
+    /** Optional max height (px) per row image — unset = full column width, no cap. */
+    row1ImageMaxHeightPx?: number;
+    row2ImageMaxHeightPx?: number;
+    row3ImageMaxHeightPx?: number;
     /** Scroll anchor id for row 1 (header v1 nav target). */
     row1AnchorId?: string;
     row2AnchorId?: string;
@@ -168,6 +174,7 @@ export const defaultTextImagesPreviewSettings: TextImagesPreviewSettings = {
   row1AnchorId: headerV1TextImagesRowAnchorIds[0],
   row2AnchorId: headerV1TextImagesRowAnchorIds[1],
   row3AnchorId: headerV1TextImagesRowAnchorIds[2],
+  imageBorderRadiusPx: defaultTextImagePreviewSettings.imageBorderRadiusPx,
 };
 
 export function normalizeTextImagesAnchorId(value: unknown, fallback: string): string {

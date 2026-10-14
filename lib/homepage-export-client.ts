@@ -43,6 +43,7 @@ import {
 } from "@/lib/playground-sections";
 import { portfolioPreviewStorageKey } from "@/lib/portfolio-preview-storage";
 import { portfolioV2PreviewStorageKey } from "@/lib/portfolio-v2-preview-storage";
+import { portfolioV3PreviewStorageKey } from "@/lib/portfolio-v3-preview-storage";
 import { reviewboxPreviewStorageKey } from "@/lib/reviewbox-preview-storage";
 import { textIconsV3PreviewStorageKey } from "@/lib/text-icons-v3-preview-storage";
 import { textImagePreviewStorageKey } from "@/lib/text-image-preview-storage";
@@ -187,6 +188,7 @@ function collectPreviewSettingsFromPages(
     footerV4: readJson(footerV4PreviewStorageKey),
     portfolio: readJson(portfolioPreviewStorageKey),
     portfolioV2: readJson(portfolioV2PreviewStorageKey),
+    portfolioV3: readJson(portfolioV3PreviewStorageKey),
     servicesV1LayoutWidth: readJson<{ layoutWidth?: HomepagePreviewSettings["servicesV1LayoutWidth"] }>(
       servicesV1PreviewStorageKey,
     )?.layoutWidth,
