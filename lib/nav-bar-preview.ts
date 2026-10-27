@@ -8,6 +8,15 @@ export type NavBarMobileToggleAlign = "left" | "center" | "right";
 
 export type NavBarLinkTarget = "_self" | "_blank";
 
+/** Sub-link shown under a nav item when `dropdown` is enabled on the parent. */
+export type NavBarDropdownItem = {
+  id: string;
+  label: string;
+  href: string;
+  target?: NavBarLinkTarget;
+  openContactModal?: boolean;
+};
+
 export type NavBarLink = {
   id: string;
   label: string;
@@ -22,6 +31,9 @@ export type NavBarLink = {
    * false navigates to the contact page.
    */
   openContactModal?: boolean;
+  /** When true, show `dropdownItems` in a menu under this link label. */
+  dropdown?: boolean;
+  dropdownItems?: NavBarDropdownItem[];
 };
 
 export type NavBarPreviewSettings = {
@@ -141,6 +153,55 @@ export function buildNavBarLinkHref(pageHref: string, anchorId: string): string 
   return `${page}#${anchor}`;
 }
 
+export function navBarLinkHasDropdown(link: Pick<NavBarLink, "dropdown" | "dropdownItems">): boolean {
+  return link.dropdown === true && Boolean(link.dropdownItems?.length);
+}
+
+export function createNavBarDropdownItem(
+  partial: Partial<NavBarDropdownItem> = {},
+  index = 0,
+): NavBarDropdownItem {
+  const pageHref = partial.href ? parseNavBarLinkHref(partial.href).pageHref : "/";
+  const anchorId = partial.href ? parseNavBarLinkHref(partial.href).anchorId : "";
+
+  return {
+    id: partial.id ?? createNavBarLinkId(),
+    label: partial.label?.trim() || `Sub link ${index + 1}`,
+    href: partial.href?.trim() || buildNavBarLinkHref(pageHref, anchorId),
+    target: partial.target,
+    openContactModal:
+      partial.openContactModal === false
+        ? false
+        : partial.openContactModal === true
+          ? true
+          : undefined,
+  };
+}
+
+/** Footer and other flat nav lists — parent link plus dropdown children. */
+export function flattenNavBarLinks(links: readonly NavBarLink[]): NavBarLink[] {
+  const flat: NavBarLink[] = [];
+
+  for (const link of links) {
+    flat.push(link);
+    if (!navBarLinkHasDropdown(link)) continue;
+
+    for (const sub of link.dropdownItems ?? []) {
+      flat.push({
+        id: sub.id,
+        label: sub.label,
+        href: sub.href,
+        target: sub.target,
+        openContactModal: sub.openContactModal,
+        visibleDesktop: link.visibleDesktop,
+        visibleMobile: link.visibleMobile,
+      });
+    }
+  }
+
+  return flat;
+}
+
 export function createNavBarLink(partial: Partial<NavBarLink> = {}, index = 0): NavBarLink {
   const pageHref = partial.href ? parseNavBarLinkHref(partial.href).pageHref : "/";
   const anchorId = partial.href ? parseNavBarLinkHref(partial.href).anchorId : "";
@@ -158,6 +219,14 @@ export function createNavBarLink(partial: Partial<NavBarLink> = {}, index = 0): 
         : partial.openContactModal === true
           ? true
           : undefined,
+    ...(partial.dropdown === true
+      ? {
+          dropdown: true as const,
+          dropdownItems: (partial.dropdownItems ?? []).map((item, itemIndex) =>
+            createNavBarDropdownItem(item, itemIndex),
+          ),
+        }
+      : {}),
   };
 }
 

@@ -4,20 +4,1755 @@
       "group": "header",
       "variant": "header-v1",
       "id": "header-69bf8b7a"
+    },
+    {
+      "group": "spacer",
+      "variant": "spacer-v1",
+      "id": "spacer-8f554df1"
+    },
+    {
+      "group": "hero",
+      "variant": "hero-banner",
+      "id": "playground-hero"
+    },
+    {
+      "group": "spacer",
+      "variant": "spacer-v1",
+      "id": "spacer-ee0906b4"
+    },
+    {
+      "group": "content",
+      "variant": "flipCards-v2",
+      "id": "content-f1f080f2"
+    },
+    {
+      "group": "content",
+      "variant": "text-icons-v3",
+      "id": "content-7ec941e0"
+    },
+    {
+      "group": "reviews",
+      "variant": "reviews-v1",
+      "id": "playground-reviews"
+    },
+    {
+      "group": "spacer",
+      "variant": "spacer-v1",
+      "id": "spacer-bb5385a7"
+    },
+    {
+      "group": "footer",
+      "variant": "footer-v4",
+      "id": "playground-footer"
     }
   ],
-  "colorThemeId": "spartan",
-  "fontThemeId": "editorial",
+  "pages": [
+    {
+      "slug": "contact",
+      "name": "Contact",
+      "sections": [
+        {
+          "group": "header",
+          "variant": "header-v1",
+          "id": "header-69bf8b7a"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v1",
+          "id": "spacer-8f554df1"
+        },
+        {
+          "group": "hero",
+          "variant": "hero-v4",
+          "id": "hero-ptl-contact"
+        },
+        {
+          "group": "footer",
+          "variant": "footer-v4",
+          "id": "playground-footer"
+        }
+      ]
+    },
+    {
+      "slug": "planning-and-design",
+      "name": "Planning & Design",
+      "sections": [
+        {
+          "group": "header",
+          "variant": "header-v1",
+          "id": "header-69bf8b7a"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v1",
+          "id": "spacer-8f554df1"
+        },
+        {
+          "group": "hero",
+          "variant": "hero-v4",
+          "id": "hero-ptl-planning-design"
+        },
+        {
+          "group": "footer",
+          "variant": "footer-v4",
+          "id": "playground-footer"
+        }
+      ]
+    },
+    {
+      "slug": "lawn-and-turf",
+      "name": "Lawn & Turf",
+      "sections": [
+        {
+          "group": "header",
+          "variant": "header-v1",
+          "id": "header-69bf8b7a"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v1",
+          "id": "spacer-8f554df1"
+        },
+        {
+          "group": "hero",
+          "variant": "hero-v4",
+          "id": "hero-ptl-lawn-turf"
+        },
+        {
+          "group": "footer",
+          "variant": "footer-v4",
+          "id": "playground-footer"
+        }
+      ]
+    },
+    {
+      "slug": "hardscaping",
+      "name": "Hardscaping",
+      "sections": [
+        {
+          "group": "header",
+          "variant": "header-v1",
+          "id": "header-69bf8b7a"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v1",
+          "id": "spacer-8f554df1"
+        },
+        {
+          "group": "hero",
+          "variant": "hero-v4",
+          "id": "hero-ptl-hardscaping"
+        },
+        {
+          "group": "footer",
+          "variant": "footer-v4",
+          "id": "playground-footer"
+        }
+      ]
+    },
+    {
+      "slug": "outdoor-living-and-water",
+      "name": "Outdoor Living & Water",
+      "sections": [
+        {
+          "group": "header",
+          "variant": "header-v1",
+          "id": "header-69bf8b7a"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v1",
+          "id": "spacer-8f554df1"
+        },
+        {
+          "group": "hero",
+          "variant": "hero-v4",
+          "id": "hero-ptl-outdoor-living"
+        },
+        {
+          "group": "footer",
+          "variant": "footer-v4",
+          "id": "playground-footer"
+        }
+      ]
+    },
+    {
+      "slug": "service-area",
+      "name": "Service Area",
+      "sections": [
+        {
+          "group": "header",
+          "variant": "header-v1",
+          "id": "header-69bf8b7a"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v1",
+          "id": "spacer-8f554df1"
+        },
+        {
+          "group": "hero",
+          "variant": "hero-v4",
+          "id": "hero-ptl-service-area"
+        },
+        {
+          "group": "spacer",
+          "variant": "spacer-v1",
+          "id": "spacer-ptl-sa-hub"
+        },
+        {
+          "group": "services",
+          "variant": "service-area-v2",
+          "id": "services-ptl-sa-v2"
+        },
+        {
+          "group": "footer",
+          "variant": "footer-v4",
+          "id": "playground-footer"
+        }
+      ]
+    }
+  ],
+  "colorThemeId": "green",
+  "fontThemeId": "inter",
+  "pageBackgroundColor": "#000000",
   "previewSettings": {
+    "headerV3": {
+      "from": "#000000",
+      "to": "#18371c",
+      "backgroundMode": "linear",
+      "backgroundDirection": "to right",
+      "navBackground": "transparent",
+      "navTextColor": "#ffffff",
+      "navTextHoverColor": "#87ab87",
+      "navHoverBackground": "transparent",
+      "navButtonSize": "medium",
+      "navButtonRadiusPx": 4,
+      "logoVariant": "color",
+      "layoutWidth": "contained",
+      "headerHeightPx": 88,
+      "logoSizePx": 72,
+      "logoHeightPx": 0,
+      "logoBackgroundColor": "#4d82b8",
+      "logoMarginTopPx": 0,
+      "logoVerticalAlign": "center",
+      "headerV1NavTextSizeEm": 1,
+      "headerV1NavIcons": {},
+      "headerV1NavIconFrameShape": "none",
+      "headerV1NavIconFrameSize": "medium",
+      "headerV1NavIconColor": "#416b5c",
+      "headerV1NavIconBorderColor": "rgba(0, 0, 0, 0.35)",
+      "headerV1NavIconBackgroundColor": "transparent",
+      "headerV1ShowNavIcons": false,
+      "headerV1NavTilt": true,
+      "headerV1IncludeMobileNav": false,
+      "headerV1NavFontStyle": "normal",
+      "headerV1NavLinks": [
+        {
+          "id": "commercial",
+          "label": "PLANNING & DESIGN",
+          "pageHref": "/planning-and-design",
+          "anchorId": "",
+          "icon": "layout-grid",
+          "side": "left"
+        },
+        {
+          "id": "residential",
+          "label": "LAWN & TURF",
+          "pageHref": "/lawn-and-turf",
+          "anchorId": "",
+          "icon": "brush",
+          "side": "left"
+        },
+        {
+          "id": "restoration",
+          "label": "HARDSCAPING",
+          "pageHref": "/hardscaping",
+          "anchorId": "",
+          "icon": "brick-wall",
+          "side": "right"
+        },
+        {
+          "id": "nav-link-924d413d",
+          "label": "OUTDOOR LIVING & WATER",
+          "pageHref": "/outdoor-living-and-water",
+          "anchorId": "",
+          "icon": "waves",
+          "side": "left"
+        },
+        {
+          "id": "nav-link-ptl-contact",
+          "label": "CONTACT",
+          "pageHref": "/contact",
+          "anchorId": "",
+          "icon": "mail",
+          "side": "right",
+          "openContactModal": false
+        }
+      ],
+      "headerV2NavVisible": true,
+      "headerV2UseGradientBackground": false,
+      "headerV2BackgroundColor": "#faf0e0",
+      "headerV2BackgroundImageSrc": "",
+      "headerLogoSrc": "/org-assets/professional-turf-landscape/images/logo-white.png",
+      "headerV2MobileLogoAlign": "center"
+    },
+    "footerV4": {
+      "bannerFrom": "#6e906e",
+      "bannerTo": "#18371c",
+      "bannerBackgroundImageSrc": "",
+      "headingColor": "#ffffff",
+      "textColor": "#ffffff",
+      "linkColor": "#ffffff",
+      "linkHoverColor": "#000000",
+      "socialColor": "#19381d",
+      "socialHoverColor": "#000000",
+      "bottomBarBackgroundColor": "#000000",
+      "bottomBarTextColor": "#ffffff",
+      "logoSizePx": 96,
+      "logoOffsetXPx": 0,
+      "showFacebook": true,
+      "showInstagram": false,
+      "contentAddress": "Proudly located in Battle Ground",
+      "contentPhone": "(360)723-6281",
+      "contentEmail": "donald.cendana@gmail.com",
+      "contentCopyright": "© 2026 Professional Turf & Landscape. All rights reserved.",
+      "contentHours": [
+        "Monday – Friday 8:00 AM to 5:00 PM"
+      ],
+      "contentServiceArea": "Serving Clark County",
+      "contentServiceAreaHref": "/service-area",
+      "contentLicenses": [],
+      "contentLogoSrc": "/org-assets/professional-turf-landscape/images/logo-green.png",
+      "contentFacebookUrl": "https://www.facebook.com/proturflandscape",
+      "serviceLinks": [
+        {
+          "id": "footer-v4-siding",
+          "label": "PLANNING & DESIGN",
+          "href": "/planning-and-design",
+          "pageHref": "/planning-and-design",
+          "anchorId": ""
+        },
+        {
+          "id": "footer-v4-windows",
+          "label": "LAWN & TURF",
+          "href": "/lawn-and-turf",
+          "pageHref": "/lawn-and-turf",
+          "anchorId": ""
+        },
+        {
+          "id": "footer-v4-doors",
+          "label": "HARDSCAPING",
+          "href": "/hardscaping",
+          "pageHref": "/hardscaping",
+          "anchorId": ""
+        },
+        {
+          "id": "footer-v4-warranty",
+          "label": "OUTDOOR LIVING & WATER",
+          "href": "/outdoor-living-and-water",
+          "pageHref": "/outdoor-living-and-water",
+          "anchorId": ""
+        }
+      ]
+    },
+    "spacers": {
+      "spacer-8f554df1": {
+        "stripe": {
+          "from": "#6e906e",
+          "to": "#18371c",
+          "direction": "to left",
+          "mode": "linear",
+          "heightPx": 8,
+          "overlap": false
+        }
+      },
+      "spacer-ee0906b4": {
+        "stripe": {
+          "from": "#6e906e",
+          "to": "#18371c",
+          "direction": "to right",
+          "mode": "linear",
+          "heightPx": 5,
+          "overlap": false
+        },
+        "gradient": {
+          "heightPx": 40
+        },
+        "layoutWidth": "full",
+        "outerBackgroundColor": "#ffffff"
+      },
+      "spacer-bb5385a7": {
+        "stripe": {
+          "from": "#6e906e",
+          "to": "#18371c",
+          "direction": "to left",
+          "mode": "linear",
+          "heightPx": 5,
+          "overlap": false
+        },
+        "gradient": {
+          "heightPx": 40
+        },
+        "layoutWidth": "full",
+        "outerBackgroundColor": "#ffffff"
+      }
+    },
+    "contents": {
+      "content-f1f080f2": {
+        "flipCards": {
+          "heading": "SERVICES",
+          "showTornDivider": false,
+          "cards": [
+            {
+              "id": "landscape",
+              "frontLabel": "Landscape & Design",
+              "frontLines": [
+                "Landscape",
+                "& Design"
+              ],
+              "title": "Landscape & Design",
+              "variant": "dark",
+              "frontImage": "/org-assets/professional-turf-landscape/images/Design-shutterstock_3122138-1024x768.jpg",
+              "bullets": [
+                "Landscape plans shaped around your property and how you live outside",
+                "New plantings, beds, and full-yard landscape upgrades",
+                "Design through installation — one team, clear timelines",
+                "Curb appeal and lasting value for your home"
+              ]
+            },
+            {
+              "id": "lawn-turf-care",
+              "frontLabel": "Lawn & Turf Care",
+              "frontLines": [
+                "Lawn &",
+                "Turf Care"
+              ],
+              "title": "Lawn & Turf Care",
+              "variant": "medium",
+              "frontImage": "/org-assets/professional-turf-landscape/images/Lawn1.png",
+              "bullets": [
+                "Scheduled mowing and lawn maintenance you can count on",
+                "Fertilization, aeration, and treatments for thick, healthy grass",
+                "Seasonal turf care tuned to our climate",
+                "A green, even lawn that looks great week after week"
+              ]
+            },
+            {
+              "id": "hardscaping",
+              "frontLabel": "Hardscaping",
+              "title": "Hardscaping",
+              "variant": "light",
+              "frontImage": "/org-assets/professional-turf-landscape/images/HardScape.jpg",
+              "paragraph": "Organic Growth Management includes removing and preventing moss, algae, mildew, and other biological buildup on exterior surfaces. This helps protect your property from slip-and-fall hazards, reduces liability risk, and prevents costly long-term surface damage."
+            },
+            {
+              "id": "outdoor-living",
+              "frontLabel": "Outdoor Living",
+              "title": "Outdoor Living",
+              "variant": "accent",
+              "frontImage": "/org-assets/professional-turf-landscape/images/Patio.jpg",
+              "bullets": [
+                "Outdoor kitchens and built-in areas for cooking and hosting",
+                "Fire pits, seating walls, and pergolas for gathering year-round",
+                "Fountains, ponds, and water features as backyard focal points",
+                "Backyard spaces made for family, friends, and quiet evenings outside"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sections": {
+      "header-69bf8b7a": {
+        "headerV3": {
+          "from": "#000000",
+          "to": "#18371c",
+          "backgroundMode": "linear",
+          "backgroundDirection": "to right",
+          "navBackground": "transparent",
+          "navTextColor": "#ffffff",
+          "navTextHoverColor": "#87ab87",
+          "navHoverBackground": "transparent",
+          "navButtonSize": "medium",
+          "navButtonRadiusPx": 4,
+          "logoVariant": "color",
+          "layoutWidth": "contained",
+          "headerHeightPx": 88,
+          "logoSizePx": 72,
+          "logoHeightPx": 0,
+          "logoBackgroundColor": "#4d82b8",
+          "logoMarginTopPx": 0,
+          "logoVerticalAlign": "center",
+          "headerV1NavTextSizeEm": 1,
+          "headerV1NavIcons": {},
+          "headerV1NavIconFrameShape": "none",
+          "headerV1NavIconFrameSize": "medium",
+          "headerV1NavIconColor": "#416b5c",
+          "headerV1NavIconBorderColor": "rgba(0, 0, 0, 0.35)",
+          "headerV1NavIconBackgroundColor": "transparent",
+          "headerV1ShowNavIcons": false,
+          "headerV1NavTilt": true,
+          "headerV1IncludeMobileNav": false,
+          "headerV1NavFontStyle": "normal",
+          "headerV1NavLinks": [
+            {
+              "id": "commercial",
+              "label": "PLANNING & DESIGN",
+              "pageHref": "/planning-and-design",
+              "anchorId": "",
+              "icon": "layout-grid",
+              "side": "left"
+            },
+            {
+              "id": "residential",
+              "label": "LAWN & TURF",
+              "pageHref": "/lawn-and-turf",
+              "anchorId": "",
+              "icon": "brush",
+              "side": "left"
+            },
+            {
+              "id": "restoration",
+              "label": "HARDSCAPING",
+              "pageHref": "/hardscaping",
+              "anchorId": "",
+              "icon": "brick-wall",
+              "side": "right"
+            },
+            {
+              "id": "nav-link-924d413d",
+              "label": "OUTDOOR LIVING & WATER",
+              "pageHref": "/outdoor-living-and-water",
+              "anchorId": "",
+              "icon": "waves",
+              "side": "left"
+            },
+            {
+              "id": "nav-link-ptl-contact",
+              "label": "CONTACT",
+              "pageHref": "/contact",
+              "anchorId": "",
+              "icon": "mail",
+              "side": "right",
+              "openContactModal": false
+            }
+          ],
+          "headerV2NavVisible": true,
+          "headerV2UseGradientBackground": false,
+          "headerV2BackgroundColor": "#faf0e0",
+          "headerV2BackgroundImageSrc": "",
+          "headerLogoSrc": "/org-assets/professional-turf-landscape/images/logo-white.png",
+          "headerV2MobileLogoAlign": "center"
+        }
+      },
+      "spacer-8f554df1": {
+        "spacer": {
+          "stripe": {
+            "from": "#6e906e",
+            "to": "#18371c",
+            "direction": "to left",
+            "mode": "linear",
+            "heightPx": 8,
+            "overlap": false
+          }
+        }
+      },
+      "playground-hero": {
+        "heroBanner": {
+          "background": {
+            "from": "#ffffff",
+            "to": "#000000",
+            "intensity": 50
+          },
+          "intervalMs": 5000,
+          "transition": "fade",
+          "slides": [
+            {
+              "type": "image",
+              "value": "/org-assets/professional-turf-landscape/images/ProBanner.jpg"
+            },
+            {
+              "type": "color",
+              "value": "#6e906e"
+            }
+          ],
+          "heightPx": 520
+        }
+      },
+      "spacer-ee0906b4": {
+        "spacer": {
+          "stripe": {
+            "from": "#6e906e",
+            "to": "#18371c",
+            "direction": "to right",
+            "mode": "linear",
+            "heightPx": 5,
+            "overlap": false
+          },
+          "gradient": {
+            "heightPx": 40
+          },
+          "layoutWidth": "full",
+          "outerBackgroundColor": "#ffffff"
+        }
+      },
+      "content-f1f080f2": {
+        "flipCards": {
+          "heading": "SERVICES",
+          "showTornDivider": false,
+          "cards": [
+            {
+              "id": "landscape",
+              "frontLabel": "Landscape & Design",
+              "frontLines": [
+                "Landscape",
+                "& Design"
+              ],
+              "title": "Landscape & Design",
+              "variant": "dark",
+              "frontImage": "/org-assets/professional-turf-landscape/images/Design-shutterstock_3122138-1024x768.jpg",
+              "bullets": [
+                "Landscape plans shaped around your property and how you live outside",
+                "New plantings, beds, and full-yard landscape upgrades",
+                "Design through installation — one team, clear timelines",
+                "Curb appeal and lasting value for your home"
+              ]
+            },
+            {
+              "id": "lawn-turf-care",
+              "frontLabel": "Lawn & Turf Care",
+              "frontLines": [
+                "Lawn &",
+                "Turf Care"
+              ],
+              "title": "Lawn & Turf Care",
+              "variant": "medium",
+              "frontImage": "/org-assets/professional-turf-landscape/images/Lawn1.png",
+              "bullets": [
+                "Scheduled mowing and lawn maintenance you can count on",
+                "Fertilization, aeration, and treatments for thick, healthy grass",
+                "Seasonal turf care tuned to our climate",
+                "A green, even lawn that looks great week after week"
+              ]
+            },
+            {
+              "id": "hardscaping",
+              "frontLabel": "Hardscaping",
+              "title": "Hardscaping",
+              "variant": "light",
+              "frontImage": "/org-assets/professional-turf-landscape/images/HardScape.jpg",
+              "paragraph": "Organic Growth Management includes removing and preventing moss, algae, mildew, and other biological buildup on exterior surfaces. This helps protect your property from slip-and-fall hazards, reduces liability risk, and prevents costly long-term surface damage."
+            },
+            {
+              "id": "outdoor-living",
+              "frontLabel": "Outdoor Living",
+              "title": "Outdoor Living",
+              "variant": "accent",
+              "frontImage": "/org-assets/professional-turf-landscape/images/Patio.jpg",
+              "bullets": [
+                "Outdoor kitchens and built-in areas for cooking and hosting",
+                "Fire pits, seating walls, and pergolas for gathering year-round",
+                "Fountains, ponds, and water features as backyard focal points",
+                "Backyard spaces made for family, friends, and quiet evenings outside"
+              ]
+            }
+          ]
+        }
+      },
+      "playground-reviews": {
+        "reviews": {
+          "theme": "light",
+          "eyebrow": "What Customers Say",
+          "headline": "Rated [RATING] on Google",
+          "subtext": "Real, verified Google reviews from the local businesses and teams we've partnered with on websites, software, and branding across Clark County and the Pacific Northwest.",
+          "accentColor": "#6e906e",
+          "cardBackground": "#416b5c",
+          "placeId": "ChIJhcAHmu2vlVQRFrojPYV0MTI",
+          "solidBackground": "#f6f5fa",
+          "backgroundMode": "solid",
+          "background": {
+            "from": "#111111",
+            "to": "#1a2744",
+            "direction": "to bottom",
+            "intensity": 0
+          },
+          "topBorder": {
+            "size": 0,
+            "color": "#12121c"
+          },
+          "sliderSpeed": 0.22,
+          "sliderPaused": false,
+          "aggregateRating": 0,
+          "totalReviewCount": 0,
+          "reviews": [],
+          "lastFetchedAt": null
+        }
+      },
+      "spacer-bb5385a7": {
+        "spacer": {
+          "stripe": {
+            "from": "#6e906e",
+            "to": "#18371c",
+            "direction": "to left",
+            "mode": "linear",
+            "heightPx": 5,
+            "overlap": false
+          },
+          "gradient": {
+            "heightPx": 40
+          },
+          "layoutWidth": "full",
+          "outerBackgroundColor": "#ffffff"
+        }
+      },
+      "hero-ptl-contact": {
+        "heroV4": {
+          "showForm": true,
+          "showCta": false,
+          "showBreadcrumbs": true,
+          "showBullets": false,
+          "showPhoneCta": false,
+          "eyebrow": "Contact · Clark County, WA",
+          "headline": "Let's chat about the outdoors at your place.",
+          "body": "For more than 30 years, Don and the Professional Turf & Landscape team have been creating beautiful outdoor spaces across Clark County — from planning and design through hardscaping, water features, outdoor kitchens, and lawn care.\n\nShare a few details about your property and what you have in mind. We read every message personally and will follow up to talk scope, timing, and next steps — no pressure, just a straight conversation about your project.",
+          "bullets": [],
+          "primaryCtaLabel": "GET A QUOTE",
+          "primaryCtaHref": "/contact",
+          "phoneLabel": "(360) 723-6281",
+          "phoneHref": "tel:+13607236281",
+          "formTitle": "Get in touch",
+          "formSubtext": "Fill out the form below and we will be in touch shortly.",
+          "formTrustNotes": [],
+          "formLeadSource": "contact-form",
+          "showServicePills": false,
+          "servicePills": [],
+          "breadcrumbs": [
+            {
+              "label": "Home",
+              "href": "/"
+            },
+            {
+              "label": "Contact",
+              "href": "/contact"
+            }
+          ],
+          "showGallery": false,
+          "gallerySlides": [],
+          "galleryIntervalMs": 5000,
+          "galleryTransition": "fade",
+          "galleryHeightPx": 300,
+          "galleryBackground": "#000000",
+          "galleryRadiusPx": 0,
+          "galleryBorderWidthPx": 12,
+          "galleryBorderColor": "#000000",
+          "labelFontStyle": "normal",
+          "headlineBold": true,
+          "headlineFirstLineItalic": false,
+          "headlineUppercase": false,
+          "headlineLevel": "h1",
+          "buttonSize": "large",
+          "buttonRadiusPx": 4,
+          "backgroundColor": "#000000",
+          "eyebrowColor": "#87ab87",
+          "headlineColor": "#ffffff",
+          "bodyColor": "#ffffff",
+          "showContactInfo": true,
+          "contactInfoItems": [
+            {
+              "label": "Call us",
+              "value": "(360) 723-6281",
+              "icon": "phone",
+              "href": "tel:+13607236281"
+            },
+            {
+              "label": "Email us",
+              "value": "don@professionalturfland.com",
+              "icon": "mail",
+              "href": "mailto:don@professionalturfland.com"
+            },
+            {
+              "label": "Hours",
+              "value": "Monday – Friday 8:00 AM to 5:00 PM",
+              "icon": "clock"
+            },
+            {
+              "label": "Serving",
+              "value": "Vancouver, Ridgefield, Camas, La Center, Battle Ground, Amboy, Yacolt, Kalama & Woodland",
+              "icon": "map-pin"
+            }
+          ],
+          "contactInfoIconColor": "#18371c",
+          "contactInfoIconBackground": "#6e906e",
+          "contactInfoIconRadiusPx": 8,
+          "contactInfoLabelColor": "#ffffff",
+          "contactInfoValueColor": "#ffffff",
+          "contactInfoLinkHoverColor": "#87ab87",
+          "formSubmitText": "Get in touch",
+          "formButtonBackground": "#6e906e",
+          "formButtonTextColor": "#ffffff",
+          "formButtonRadiusPx": 4,
+          "formFields": [
+            {
+              "id": "legacy-name",
+              "name": "name",
+              "label": "Name",
+              "placeholder": "Your name",
+              "type": "text",
+              "required": true
+            },
+            {
+              "id": "legacy-phone",
+              "name": "phone",
+              "label": "Phone",
+              "placeholder": "Best number to reach you",
+              "type": "tel",
+              "required": true
+            },
+            {
+              "id": "legacy-email",
+              "name": "email",
+              "label": "Email",
+              "placeholder": "you@example.com",
+              "type": "email",
+              "required": true
+            },
+            {
+              "id": "legacy-message",
+              "name": "message",
+              "label": "Describe your project",
+              "placeholder": "Planning and design, hardscaping, water features, outdoor kitchen, lawn care — tell us what you're envisioning.",
+              "type": "textarea",
+              "required": true
+            }
+          ]
+        }
+      },
+      "playground-footer": {
+        "footerV4": {
+          "bannerFrom": "#6e906e",
+          "bannerTo": "#18371c",
+          "bannerBackgroundImageSrc": "",
+          "headingColor": "#ffffff",
+          "textColor": "#ffffff",
+          "linkColor": "#ffffff",
+          "linkHoverColor": "#000000",
+          "socialColor": "#19381d",
+          "socialHoverColor": "#000000",
+          "bottomBarBackgroundColor": "#000000",
+          "bottomBarTextColor": "#ffffff",
+          "logoSizePx": 96,
+          "logoOffsetXPx": 0,
+          "showFacebook": true,
+          "showInstagram": false,
+          "contentAddress": "Proudly located in Battle Ground",
+          "contentPhone": "(360)723-6281",
+          "contentEmail": "donald.cendana@gmail.com",
+          "contentCopyright": "© 2026 Professional Turf & Landscape. All rights reserved.",
+          "contentHours": [
+            "Monday – Friday 8:00 AM to 5:00 PM"
+          ],
+          "contentServiceArea": "Serving Clark County",
+          "contentServiceAreaHref": "/service-area",
+          "contentLicenses": [],
+          "contentLogoSrc": "/org-assets/professional-turf-landscape/images/logo-green.png",
+          "contentFacebookUrl": "https://www.facebook.com/proturflandscape",
+          "serviceLinks": [
+            {
+              "id": "footer-v4-siding",
+              "label": "PLANNING & DESIGN",
+              "href": "/planning-and-design",
+              "pageHref": "/planning-and-design",
+              "anchorId": ""
+            },
+            {
+              "id": "footer-v4-windows",
+              "label": "LAWN & TURF",
+              "href": "/lawn-and-turf",
+              "pageHref": "/lawn-and-turf",
+              "anchorId": ""
+            },
+            {
+              "id": "footer-v4-doors",
+              "label": "HARDSCAPING",
+              "href": "/hardscaping",
+              "pageHref": "/hardscaping",
+              "anchorId": ""
+            },
+            {
+              "id": "footer-v4-warranty",
+              "label": "OUTDOOR LIVING & WATER",
+              "href": "/outdoor-living-and-water",
+              "pageHref": "/outdoor-living-and-water",
+              "anchorId": ""
+            }
+          ]
+        }
+      },
+      "hero-ptl-planning-design": {
+        "heroV4": {
+          "showForm": true,
+          "showCta": false,
+          "showBreadcrumbs": true,
+          "showBullets": true,
+          "showPhoneCta": true,
+          "eyebrow": "Planning & Design · Clark County, WA",
+          "headline": "Landscape plans shaped around your property and how you live outside.",
+          "body": "Professional Turf & Landscape has spent more than 30 years helping homeowners across Vancouver, Ridgefield, Camas, Battle Ground, and Clark County turn vague backyard ideas into clear, buildable plans.\n\nWe start with how you want to use the space, whether that is entertaining, play areas, privacy, or curb appeal, then layer in grading, planting beds, circulation, and the hardscape and water features that tie it together. One team handles design through installation so timelines stay coherent and the finished yard feels intentional, not pieced together.",
+          "bullets": [
+            "Concept-to-completion landscape design",
+            "Planting plans and bed layouts for Northwest seasons",
+            "Coordination with hardscape, water features, and outdoor kitchens",
+            "Serving Vancouver, Ridgefield, Camas, and Clark County"
+          ],
+          "primaryCtaLabel": "CALL (360) 723-6281",
+          "primaryCtaHref": "tel:+13607236281",
+          "phoneLabel": "(360) 723-6281",
+          "phoneHref": "tel:+13607236281",
+          "formTitle": "Request a design consult",
+          "formSubtext": "Tell us about your property and what you want the yard to do for you.",
+          "formTrustNotes": [
+            "30+ years serving Clark County",
+            "Design through installation, one team"
+          ],
+          "formLeadSource": "planning-and-design-form",
+          "showServicePills": true,
+          "servicePills": [
+            {
+              "label": "Planning & Design",
+              "href": "/planning-and-design",
+              "title": "Landscape planning and design in Clark County, WA",
+              "description": "Site plans, plantings, and outdoor layouts for Vancouver, Ridgefield, Camas, and Clark County homes."
+            },
+            {
+              "label": "Lawn & Turf",
+              "href": "/lawn-and-turf",
+              "title": "Lawn and turf care in Vancouver, WA",
+              "description": "Mowing, fertilization, aeration, and seasonal turf programs across Clark County."
+            },
+            {
+              "label": "Hardscaping",
+              "href": "/hardscaping",
+              "title": "Hardscaping contractor Clark County, WA",
+              "description": "Patios, walkways, retaining walls, and structural outdoor features built to last."
+            },
+            {
+              "label": "Outdoor Living & Water",
+              "href": "/outdoor-living-and-water",
+              "title": "Outdoor kitchens and water features Vancouver WA",
+              "description": "Outdoor kitchens, fire features, ponds, and waterfalls for year-round backyard living."
+            }
+          ],
+          "breadcrumbs": [
+            {
+              "label": "Home",
+              "href": "/"
+            },
+            {
+              "label": "Planning & Design",
+              "href": "/planning-and-design"
+            }
+          ],
+          "showGallery": false,
+          "gallerySlides": [],
+          "galleryIntervalMs": 5000,
+          "galleryTransition": "fade",
+          "galleryHeightPx": 300,
+          "galleryBackground": "#000000",
+          "galleryRadiusPx": 0,
+          "galleryBorderWidthPx": 12,
+          "galleryBorderColor": "#000000",
+          "labelFontStyle": "normal",
+          "headlineBold": true,
+          "headlineFirstLineItalic": false,
+          "headlineUppercase": false,
+          "headlineLevel": "h1",
+          "buttonSize": "large",
+          "buttonRadiusPx": 4,
+          "backgroundColor": "#000000",
+          "eyebrowColor": "#87ab87",
+          "headlineColor": "#ffffff",
+          "bodyColor": "#ffffff",
+          "showContactInfo": false,
+          "contactInfoItems": [],
+          "formSubmitText": "Get in touch",
+          "formButtonBackground": "#6e906e",
+          "formButtonTextColor": "#ffffff",
+          "formButtonRadiusPx": 4,
+          "formFields": [
+            {
+              "id": "legacy-name",
+              "name": "name",
+              "label": "Name",
+              "placeholder": "Your name",
+              "type": "text",
+              "required": true
+            },
+            {
+              "id": "legacy-phone",
+              "name": "phone",
+              "label": "Phone",
+              "placeholder": "Best number to reach you",
+              "type": "tel",
+              "required": true
+            },
+            {
+              "id": "legacy-email",
+              "name": "email",
+              "label": "Email",
+              "placeholder": "you@example.com",
+              "type": "email",
+              "required": true
+            },
+            {
+              "id": "legacy-message",
+              "name": "message",
+              "label": "Describe your project",
+              "placeholder": "Lot size, goals (entertaining, kids, privacy), and any inspiration. We will follow up to schedule a conversation.",
+              "type": "textarea",
+              "required": true
+            }
+          ],
+          "phoneButton": {
+            "navBackground": "#87ab87",
+            "navTextColor": "#18371c",
+            "navTextHoverColor": "#ffffff",
+            "navHoverBackground": "#6e906e",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 4
+          }
+        }
+      },
+      "hero-ptl-lawn-turf": {
+        "heroV4": {
+          "showForm": true,
+          "showCta": false,
+          "showBreadcrumbs": true,
+          "showBullets": true,
+          "showPhoneCta": true,
+          "eyebrow": "Lawn & Turf · Clark County, WA",
+          "headline": "A thick, healthy lawn you can enjoy week after week.",
+          "body": "From routine mowing to fertilization, aeration, and seasonal treatments, our crew keeps turf looking even and green through Clark County’s wet winters and dry summers.\n\nWhether you need dependable maintenance on an established lawn or help recovering tired turf after construction, we tailor a program to your property, not a one-size-fits-all spray schedule. Don and the team have cared for Southwest Washington landscapes for decades; we show up when we say we will and leave the yard cleaner than we found it.",
+          "bullets": [
+            "Scheduled mowing and edging",
+            "Fertilization, aeration, and seasonal turf treatments",
+            "Programs tuned to Pacific Northwest grass types",
+            "Vancouver, Battle Ground, Ridgefield, Camas, and surrounding areas"
+          ],
+          "primaryCtaLabel": "CALL (360) 723-6281",
+          "primaryCtaHref": "tel:+13607236281",
+          "phoneLabel": "(360) 723-6281",
+          "phoneHref": "tel:+13607236281",
+          "formTitle": "Request lawn care",
+          "formSubtext": "Share your address area and what your lawn needs today.",
+          "formTrustNotes": [
+            "30+ years serving Clark County",
+            "Design through installation, one team"
+          ],
+          "formLeadSource": "lawn-and-turf-form",
+          "showServicePills": true,
+          "servicePills": [
+            {
+              "label": "Planning & Design",
+              "href": "/planning-and-design",
+              "title": "Landscape planning and design in Clark County, WA",
+              "description": "Site plans, plantings, and outdoor layouts for Vancouver, Ridgefield, Camas, and Clark County homes."
+            },
+            {
+              "label": "Lawn & Turf",
+              "href": "/lawn-and-turf",
+              "title": "Lawn and turf care in Vancouver, WA",
+              "description": "Mowing, fertilization, aeration, and seasonal turf programs across Clark County."
+            },
+            {
+              "label": "Hardscaping",
+              "href": "/hardscaping",
+              "title": "Hardscaping contractor Clark County, WA",
+              "description": "Patios, walkways, retaining walls, and structural outdoor features built to last."
+            },
+            {
+              "label": "Outdoor Living & Water",
+              "href": "/outdoor-living-and-water",
+              "title": "Outdoor kitchens and water features Vancouver WA",
+              "description": "Outdoor kitchens, fire features, ponds, and waterfalls for year-round backyard living."
+            }
+          ],
+          "breadcrumbs": [
+            {
+              "label": "Home",
+              "href": "/"
+            },
+            {
+              "label": "Lawn & Turf",
+              "href": "/lawn-and-turf"
+            }
+          ],
+          "showGallery": false,
+          "gallerySlides": [],
+          "galleryIntervalMs": 5000,
+          "galleryTransition": "fade",
+          "galleryHeightPx": 300,
+          "galleryBackground": "#000000",
+          "galleryRadiusPx": 0,
+          "galleryBorderWidthPx": 12,
+          "galleryBorderColor": "#000000",
+          "labelFontStyle": "normal",
+          "headlineBold": true,
+          "headlineFirstLineItalic": false,
+          "headlineUppercase": false,
+          "headlineLevel": "h1",
+          "buttonSize": "large",
+          "buttonRadiusPx": 4,
+          "backgroundColor": "#000000",
+          "eyebrowColor": "#87ab87",
+          "headlineColor": "#ffffff",
+          "bodyColor": "#ffffff",
+          "showContactInfo": false,
+          "contactInfoItems": [],
+          "formSubmitText": "Get in touch",
+          "formButtonBackground": "#6e906e",
+          "formButtonTextColor": "#ffffff",
+          "formButtonRadiusPx": 4,
+          "formFields": [
+            {
+              "id": "legacy-name",
+              "name": "name",
+              "label": "Name",
+              "placeholder": "Your name",
+              "type": "text",
+              "required": true
+            },
+            {
+              "id": "legacy-phone",
+              "name": "phone",
+              "label": "Phone",
+              "placeholder": "Best number to reach you",
+              "type": "tel",
+              "required": true
+            },
+            {
+              "id": "legacy-email",
+              "name": "email",
+              "label": "Email",
+              "placeholder": "you@example.com",
+              "type": "email",
+              "required": true
+            },
+            {
+              "id": "legacy-message",
+              "name": "message",
+              "label": "Describe your project",
+              "placeholder": "Approximate lot size, current lawn condition, and whether you need ongoing maintenance or a one-time recovery plan.",
+              "type": "textarea",
+              "required": true
+            }
+          ],
+          "phoneButton": {
+            "navBackground": "#87ab87",
+            "navTextColor": "#18371c",
+            "navTextHoverColor": "#ffffff",
+            "navHoverBackground": "#6e906e",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 4
+          }
+        }
+      },
+      "hero-ptl-hardscaping": {
+        "heroV4": {
+          "showForm": true,
+          "showCta": false,
+          "showBreadcrumbs": true,
+          "showBullets": true,
+          "showPhoneCta": true,
+          "eyebrow": "Hardscaping · Clark County, WA",
+          "headline": "Patios, walls, and outdoor structure built for decades of use.",
+          "body": "Hardscaping is the backbone of how you move through and use your yard, walkways that drain correctly, patios that stay level, retaining walls that hold grade, and steps that feel safe in every season.\n\nProfessional Turf & Landscape designs and builds hardscape that complements your home and the rest of the landscape. We manage excavation, base prep, and finishes so the project looks sharp on day one and holds up to Clark County weather. Tell us about the spaces you want to add or replace; we will walk the site and put together a straightforward estimate.",
+          "bullets": [
+            "Patios, walkways, and seating walls",
+            "Retaining walls and grade solutions",
+            "Pavers, stone, and durable Northwest-appropriate materials",
+            "Integrated with planting and outdoor living plans"
+          ],
+          "primaryCtaLabel": "CALL (360) 723-6281",
+          "primaryCtaHref": "tel:+13607236281",
+          "phoneLabel": "(360) 723-6281",
+          "phoneHref": "tel:+13607236281",
+          "formTitle": "Get a hardscape quote",
+          "formSubtext": "Describe the patio, path, or wall project you have in mind.",
+          "formTrustNotes": [
+            "30+ years serving Clark County",
+            "Design through installation, one team"
+          ],
+          "formLeadSource": "hardscaping-form",
+          "showServicePills": true,
+          "servicePills": [
+            {
+              "label": "Planning & Design",
+              "href": "/planning-and-design",
+              "title": "Landscape planning and design in Clark County, WA",
+              "description": "Site plans, plantings, and outdoor layouts for Vancouver, Ridgefield, Camas, and Clark County homes."
+            },
+            {
+              "label": "Lawn & Turf",
+              "href": "/lawn-and-turf",
+              "title": "Lawn and turf care in Vancouver, WA",
+              "description": "Mowing, fertilization, aeration, and seasonal turf programs across Clark County."
+            },
+            {
+              "label": "Hardscaping",
+              "href": "/hardscaping",
+              "title": "Hardscaping contractor Clark County, WA",
+              "description": "Patios, walkways, retaining walls, and structural outdoor features built to last."
+            },
+            {
+              "label": "Outdoor Living & Water",
+              "href": "/outdoor-living-and-water",
+              "title": "Outdoor kitchens and water features Vancouver WA",
+              "description": "Outdoor kitchens, fire features, ponds, and waterfalls for year-round backyard living."
+            }
+          ],
+          "breadcrumbs": [
+            {
+              "label": "Home",
+              "href": "/"
+            },
+            {
+              "label": "Hardscaping",
+              "href": "/hardscaping"
+            }
+          ],
+          "showGallery": false,
+          "gallerySlides": [],
+          "galleryIntervalMs": 5000,
+          "galleryTransition": "fade",
+          "galleryHeightPx": 300,
+          "galleryBackground": "#000000",
+          "galleryRadiusPx": 0,
+          "galleryBorderWidthPx": 12,
+          "galleryBorderColor": "#000000",
+          "labelFontStyle": "normal",
+          "headlineBold": true,
+          "headlineFirstLineItalic": false,
+          "headlineUppercase": false,
+          "headlineLevel": "h1",
+          "buttonSize": "large",
+          "buttonRadiusPx": 4,
+          "backgroundColor": "#000000",
+          "eyebrowColor": "#87ab87",
+          "headlineColor": "#ffffff",
+          "bodyColor": "#ffffff",
+          "showContactInfo": false,
+          "contactInfoItems": [],
+          "formSubmitText": "Get in touch",
+          "formButtonBackground": "#6e906e",
+          "formButtonTextColor": "#ffffff",
+          "formButtonRadiusPx": 4,
+          "formFields": [
+            {
+              "id": "legacy-name",
+              "name": "name",
+              "label": "Name",
+              "placeholder": "Your name",
+              "type": "text",
+              "required": true
+            },
+            {
+              "id": "legacy-phone",
+              "name": "phone",
+              "label": "Phone",
+              "placeholder": "Best number to reach you",
+              "type": "tel",
+              "required": true
+            },
+            {
+              "id": "legacy-email",
+              "name": "email",
+              "label": "Email",
+              "placeholder": "you@example.com",
+              "type": "email",
+              "required": true
+            },
+            {
+              "id": "legacy-message",
+              "name": "message",
+              "label": "Describe your project",
+              "placeholder": "Project type, approximate dimensions, access notes, and your target timeline.",
+              "type": "textarea",
+              "required": true
+            }
+          ],
+          "phoneButton": {
+            "navBackground": "#87ab87",
+            "navTextColor": "#18371c",
+            "navTextHoverColor": "#ffffff",
+            "navHoverBackground": "#6e906e",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 4
+          }
+        }
+      },
+      "hero-ptl-outdoor-living": {
+        "heroV4": {
+          "showForm": true,
+          "showCta": false,
+          "showBreadcrumbs": true,
+          "showBullets": true,
+          "showPhoneCta": true,
+          "eyebrow": "Outdoor Living & Water · Clark County, WA",
+          "headline": "Outdoor kitchens, gathering spaces, and water features you will use most of the year.",
+          "body": "The best Clark County backyards work for more than a few sunny weekends, covered cooking areas, fire features, ponds, and waterfalls extend how often you are outside and how guests experience your home.\n\nOur team builds outdoor kitchens, patios for hosting, and water features that become the focal point of the yard, with lighting and planting to finish the scene. If you have been dreaming about a space like the covered patios and outdoor kitchens our clients describe in their reviews, start here, we will help you scope something that fits your budget and how you actually live.",
+          "bullets": [
+            "Outdoor kitchens and built-in cooking areas",
+            "Fire pits, pergolas, and covered patio structures",
+            "Fountains, ponds, and waterfall features",
+            "Design and build across Vancouver and Clark County"
+          ],
+          "primaryCtaLabel": "CALL (360) 723-6281",
+          "primaryCtaHref": "tel:+13607236281",
+          "phoneLabel": "(360) 723-6281",
+          "phoneHref": "tel:+13607236281",
+          "formTitle": "Plan your outdoor living space",
+          "formSubtext": "Water feature, kitchen, fire pit, or full backyard transformation. Tell us what you are envisioning.",
+          "formTrustNotes": [
+            "30+ years serving Clark County",
+            "Design through installation, one team"
+          ],
+          "formLeadSource": "outdoor-living-and-water-form",
+          "showServicePills": true,
+          "servicePills": [
+            {
+              "label": "Planning & Design",
+              "href": "/planning-and-design",
+              "title": "Landscape planning and design in Clark County, WA",
+              "description": "Site plans, plantings, and outdoor layouts for Vancouver, Ridgefield, Camas, and Clark County homes."
+            },
+            {
+              "label": "Lawn & Turf",
+              "href": "/lawn-and-turf",
+              "title": "Lawn and turf care in Vancouver, WA",
+              "description": "Mowing, fertilization, aeration, and seasonal turf programs across Clark County."
+            },
+            {
+              "label": "Hardscaping",
+              "href": "/hardscaping",
+              "title": "Hardscaping contractor Clark County, WA",
+              "description": "Patios, walkways, retaining walls, and structural outdoor features built to last."
+            },
+            {
+              "label": "Outdoor Living & Water",
+              "href": "/outdoor-living-and-water",
+              "title": "Outdoor kitchens and water features Vancouver WA",
+              "description": "Outdoor kitchens, fire features, ponds, and waterfalls for year-round backyard living."
+            }
+          ],
+          "breadcrumbs": [
+            {
+              "label": "Home",
+              "href": "/"
+            },
+            {
+              "label": "Outdoor Living & Water",
+              "href": "/outdoor-living-and-water"
+            }
+          ],
+          "showGallery": false,
+          "gallerySlides": [],
+          "galleryIntervalMs": 5000,
+          "galleryTransition": "fade",
+          "galleryHeightPx": 300,
+          "galleryBackground": "#000000",
+          "galleryRadiusPx": 0,
+          "galleryBorderWidthPx": 12,
+          "galleryBorderColor": "#000000",
+          "labelFontStyle": "normal",
+          "headlineBold": true,
+          "headlineFirstLineItalic": false,
+          "headlineUppercase": false,
+          "headlineLevel": "h1",
+          "buttonSize": "large",
+          "buttonRadiusPx": 4,
+          "backgroundColor": "#000000",
+          "eyebrowColor": "#87ab87",
+          "headlineColor": "#ffffff",
+          "bodyColor": "#ffffff",
+          "showContactInfo": false,
+          "contactInfoItems": [],
+          "formSubmitText": "Get in touch",
+          "formButtonBackground": "#6e906e",
+          "formButtonTextColor": "#ffffff",
+          "formButtonRadiusPx": 4,
+          "formFields": [
+            {
+              "id": "legacy-name",
+              "name": "name",
+              "label": "Name",
+              "placeholder": "Your name",
+              "type": "text",
+              "required": true
+            },
+            {
+              "id": "legacy-phone",
+              "name": "phone",
+              "label": "Phone",
+              "placeholder": "Best number to reach you",
+              "type": "tel",
+              "required": true
+            },
+            {
+              "id": "legacy-email",
+              "name": "email",
+              "label": "Email",
+              "placeholder": "you@example.com",
+              "type": "email",
+              "required": true
+            },
+            {
+              "id": "legacy-message",
+              "name": "message",
+              "label": "Describe your project",
+              "placeholder": "Outdoor kitchen, pond/waterfall, fire feature, or combination, plus anything you want for seating and lighting.",
+              "type": "textarea",
+              "required": true
+            }
+          ],
+          "phoneButton": {
+            "navBackground": "#87ab87",
+            "navTextColor": "#18371c",
+            "navTextHoverColor": "#ffffff",
+            "navHoverBackground": "#6e906e",
+            "navButtonSize": "large",
+            "navButtonRadiusPx": 4
+          }
+        }
+      },
+      "hero-ptl-service-area": {
+        "heroV4": {
+          "showForm": true,
+          "showCta": false,
+          "showBreadcrumbs": true,
+          "showBullets": false,
+          "showPhoneCta": true,
+          "eyebrow": "Where We Serve",
+          "headline": "Serving Clark County\n& Southwest Washington",
+          "body": "From Vancouver and Salmon Creek to Battle Ground, Ridgefield, Camas, La Center, Amboy, Yacolt, Kalama, and Woodland, Professional Turf & Landscape brings more than 30 years of experience designing and building outdoor spaces across Southwest Washington.\n\nWhether you need a landscape plan, hardscaping, an outdoor kitchen, a water feature, or ongoing lawn care, Don and the team respond with straight answers and workmanship you can see in every finished yard.",
+          "bullets": [],
+          "primaryCtaLabel": "CALL (360) 723-6281",
+          "primaryCtaHref": "tel:+13607236281",
+          "phoneLabel": "(360) 723-6281",
+          "phoneHref": "tel:+13607236281",
+          "formTitle": "Get in touch",
+          "formSubtext": "Landscaping, hardscape, or outdoor living work in your area.",
+          "formTrustNotes": [
+            "30+ years in Clark County",
+            "Design through installation"
+          ],
+          "formLeadSource": "service-area-form",
+          "showServicePills": true,
+          "servicePills": [
+            {
+              "label": "Planning & Design",
+              "href": "/planning-and-design",
+              "title": "Landscape planning and design in Clark County, WA",
+              "description": "Site plans and outdoor layouts for Vancouver and Clark County."
+            },
+            {
+              "label": "Lawn & Turf",
+              "href": "/lawn-and-turf",
+              "title": "Lawn and turf care in Vancouver, WA",
+              "description": "Mowing and seasonal turf programs across Clark County."
+            },
+            {
+              "label": "Hardscaping",
+              "href": "/hardscaping",
+              "title": "Hardscaping contractor Clark County, WA",
+              "description": "Patios, walkways, and retaining walls built to last."
+            },
+            {
+              "label": "Outdoor Living & Water",
+              "href": "/outdoor-living-and-water",
+              "title": "Outdoor kitchens and water features Vancouver WA",
+              "description": "Kitchens, fire features, ponds, and waterfalls."
+            }
+          ],
+          "breadcrumbs": [
+            {
+              "label": "Home",
+              "href": "/"
+            },
+            {
+              "label": "Service Area",
+              "href": "/service-area"
+            }
+          ],
+          "showGallery": false,
+          "gallerySlides": [],
+          "galleryIntervalMs": 5000,
+          "galleryTransition": "fade",
+          "galleryHeightPx": 300,
+          "galleryBackground": "#000000",
+          "galleryRadiusPx": 0,
+          "galleryBorderWidthPx": 12,
+          "galleryBorderColor": "#000000",
+          "labelFontStyle": "normal",
+          "headlineBold": true,
+          "headlineFirstLineItalic": false,
+          "headlineUppercase": false,
+          "headlineLevel": "h1",
+          "buttonSize": "large",
+          "buttonRadiusPx": 4,
+          "backgroundColor": "#000000",
+          "eyebrowColor": "#87ab87",
+          "headlineColor": "#ffffff",
+          "bodyColor": "#ffffff",
+          "showContactInfo": false,
+          "contactInfoItems": [],
+          "formSubmitText": "Get in touch",
+          "formButtonBackground": "#6e906e",
+          "formButtonTextColor": "#ffffff",
+          "formButtonRadiusPx": 4,
+          "formFields": [
+            {
+              "id": "legacy-name",
+              "name": "name",
+              "label": "Name",
+              "placeholder": "Your name",
+              "type": "text",
+              "required": true
+            },
+            {
+              "id": "legacy-phone",
+              "name": "phone",
+              "label": "Phone",
+              "placeholder": "Best number to reach you",
+              "type": "tel",
+              "required": true
+            },
+            {
+              "id": "legacy-email",
+              "name": "email",
+              "label": "Email",
+              "placeholder": "you@example.com",
+              "type": "email",
+              "required": true
+            },
+            {
+              "id": "legacy-message",
+              "name": "message",
+              "label": "Describe your project",
+              "placeholder": "Your city and what you want for your yard — design, hardscape, water feature, lawn care, or a full transformation.",
+              "type": "textarea",
+              "required": true
+            }
+          ]
+        }
+      },
+      "spacer-ptl-sa-hub": {
+        "spacer": {
+          "stripe": {
+            "from": "#6e906e",
+            "to": "#18371c",
+            "direction": "to right",
+            "mode": "linear",
+            "heightPx": 8,
+            "overlap": false
+          },
+          "gradient": {
+            "heightPx": 32
+          },
+          "layoutWidth": "full",
+          "outerBackgroundColor": "#000000"
+        }
+      },
+      "services-ptl-sa-v2": {
+        "serviceAreaV2": {
+          "theme": "dark",
+          "eyebrow": "How we help locally",
+          "heading": "Landscaping where you are",
+          "intro": "One Clark County team for design, hardscape, outdoor living, water features, and lawn care.",
+          "accentColor": "#87ab87",
+          "layoutWidth": "contained",
+          "solidBackground": "#000000",
+          "backgroundMode": "solid",
+          "background": {
+            "from": "#000000",
+            "to": "#18371c",
+            "direction": "to bottom",
+            "intensity": 0
+          },
+          "cardBackgroundColor": "#6e906e",
+          "cardHoverBackgroundColor": "#18371c",
+          "cardTextColor": "#ffffff",
+          "cardMutedColor": "#d4e0d4",
+          "cardBodyColor": "#ffffff",
+          "linkColor": "#ffffff",
+          "cardBorderRadiusPx": 12,
+          "cards": [
+            {
+              "id": "clark-county",
+              "slug": "clark-county-wa",
+              "title": "Clark County, WA",
+              "description": "Based in Battle Ground, Professional Turf & Landscape serves homeowners across Clark County with planning and design, hardscaping, outdoor living and water features, and dependable lawn and turf care. One local team from the first site visit through installation.",
+              "ctaLabel": "Clark County help",
+              "href": "/contact"
+            },
+            {
+              "id": "vancouver",
+              "slug": "vancouver-wa",
+              "title": "Vancouver, WA",
+              "description": "Vancouver and Salmon Creek homeowners work with Professional Turf & Landscape for planting plans, patio and walkway hardscape, outdoor kitchens, water features, and turf programs tuned to Southwest Washington weather.",
+              "ctaLabel": "Vancouver area help",
+              "href": "/contact"
+            },
+            {
+              "id": "battle-ground",
+              "slug": "battle-ground-wa",
+              "title": "Battle Ground, Amboy & Yacolt",
+              "description": "North Clark County is home base for our crew. Battle Ground, Amboy, and Yacolt clients rely on Professional Turf & Landscape for acreage-friendly design, hardscape that handles rain, and outdoor spaces built for family gatherings.",
+              "ctaLabel": "North county help",
+              "href": "/contact"
+            },
+            {
+              "id": "ridgefield",
+              "slug": "ridgefield-wa",
+              "title": "Ridgefield & La Center",
+              "description": "Growing neighborhoods in Ridgefield and La Center deserve landscapes that match new construction and mature lots alike. Professional Turf & Landscape handles beds, irrigation-friendly plantings, patios, and lawn maintenance you can schedule on.",
+              "ctaLabel": "Ridgefield area help",
+              "href": "/contact"
+            },
+            {
+              "id": "camas-washougal",
+              "slug": "camas-washougal-wa",
+              "title": "Camas & Washougal",
+              "description": "East Clark County yards often blend views, slope, and entertaining space. We design and build hardscape, water features, and planting that fit Camas and Washougal homes and how you use the backyard.",
+              "ctaLabel": "Camas & Washougal help",
+              "href": "/contact"
+            },
+            {
+              "id": "woodland-kalama",
+              "slug": "woodland-kalama-wa",
+              "title": "Woodland, Kalama & south county",
+              "description": "Along the I-5 corridor south of Vancouver, Woodland and Kalama homeowners call Professional Turf & Landscape for lawn and turf care, outdoor living upgrades, and landscape refreshes with clear estimates and local experience.",
+              "ctaLabel": "South county help",
+              "href": "/contact"
+            }
+          ]
+        }
+      },
+      "content-7ec941e0": {
+        "textIconsV3": {
+          "backgroundFrom": "#000000",
+          "backgroundTo": "#000000",
+          "backgroundDirection": "none",
+          "backgroundImageSrc": "",
+          "layoutWidth": "full",
+          "outerBackgroundColor": "#000000",
+          "headingColor": "#ffffff",
+          "subheadingColor": "#d4e0d4",
+          "iconColor": "#87ab87",
+          "iconBorderColor": "rgba(135, 171, 135, 0.55)",
+          "iconBackgroundColor": "rgba(110, 144, 110, 0.2)",
+          "iconFrameShape": "card",
+          "iconFrameSize": "medium",
+          "itemIcons": {
+            "ptl-design": "layout-grid",
+            "ptl-build": "hard-hat",
+            "ptl-maintain": "brush"
+          },
+          "itemTitles": {
+            "ptl-design": "Design",
+            "ptl-build": "Build",
+            "ptl-maintain": "Maintain"
+          },
+          "itemDescriptions": {
+            "ptl-design": "Planning outdoor spaces tailored to your property, needs, and Clark County's environment.",
+            "ptl-build": "Professional installation of landscaping, hardscaping, fencing, and outdoor living features.",
+            "ptl-maintain": "Ongoing care including lawn service, pruning, irrigation repair, and seasonal cleanup."
+          },
+          "contentHeading": "Design. Build. Maintain.",
+          "contentSubheading": "For more than 30 years, Professional Turf & Landscape has helped homeowners across Vancouver, Battle Ground, Ridgefield, Camas, and Clark County love their yards. One local team handles the plan, the build, and the care so your outdoor space stays useful and beautiful season after season.",
+          "items": [
+            {
+              "id": "ptl-design",
+              "title": "Design",
+              "description": "Planning outdoor spaces tailored to your property, needs, and Clark County's environment.",
+              "icon": "layout-grid"
+            },
+            {
+              "id": "ptl-build",
+              "title": "Build",
+              "description": "Professional installation of landscaping, hardscaping, fencing, and outdoor living features.",
+              "icon": "hard-hat"
+            },
+            {
+              "id": "ptl-maintain",
+              "title": "Maintain",
+              "description": "Ongoing care including lawn service, pruning, irrigation repair, and seasonal cleanup.",
+              "icon": "brush"
+            }
+          ],
+          "itemBoxBorderEnabled": true,
+          "itemBoxBorderColor": "rgba(255, 255, 255, 0.4)",
+          "itemBoxBorderRadiusPx": 12,
+          "itemsGridFluid": true,
+          "itemsGridFluidMinPx": 168
+        }
+      }
+    },
     "contact": {
       "backgroundMode": "solid",
       "solidColor": "#0f0f12",
       "gradientFrom": "#0f0f12",
-      "gradientTo": "#4d82b8",
+      "gradientTo": "#18371c",
       "gradientAngle": 135,
-      "borderRadius": 28,
+      "borderRadius": 12,
       "titleColor": "#ffffff",
-      "bodyColor": "#a8a8b8"
+      "bodyColor": "#ffffff",
+      "phoneColor": "#87ab87",
+      "submitText": "Get in touch",
+      "formFields": [
+        {
+          "id": "legacy-name",
+          "name": "name",
+          "label": "Name",
+          "placeholder": "Your name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "legacy-phone",
+          "name": "phone",
+          "label": "Phone",
+          "placeholder": "Best number to reach you",
+          "type": "tel",
+          "required": true
+        },
+        {
+          "id": "legacy-email",
+          "name": "email",
+          "label": "Email",
+          "placeholder": "you@example.com",
+          "type": "email",
+          "required": true
+        },
+        {
+          "id": "legacy-message",
+          "name": "message",
+          "label": "Describe your project",
+          "placeholder": "Planning and design, hardscaping, water features, outdoor kitchen, lawn care — tell us what you're envisioning.",
+          "type": "textarea",
+          "required": true
+        }
+      ],
+      "contentTitle": "Get in touch",
+      "contentSubtext": "Fill out the form below and we will be in touch shortly.",
+      "contentPhonePrefix": "Call us at",
+      "contentPhoneLabel": "(360) 723-6281",
+      "contentPhoneHref": "tel:+13607236281",
+      "buttonBackground": "#6e906e",
+      "buttonTextColor": "#ffffff",
+      "buttonRadiusPx": 4,
+      "leadToEmail": "don@professionalturfland.com"
     },
     "analytics": {
       "enabled": false,
@@ -25,8 +1760,8 @@
     },
     "favicon": {
       "browserTitle": "Professional Turf & Landscape",
-      "favicon32": "/org-assets/professional-turf-landscape/images/logo.png",
-      "favicon180": "/org-assets/langham/Langham-Brand.png"
+      "favicon32": "/org-assets/professional-turf-landscape/images/logo-green.png",
+      "favicon180": "/org-assets/professional-turf-landscape/images/logo-green.png"
     }
   }
 }

@@ -4,6 +4,8 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
+  useState,
   type ReactNode,
 } from "react";
 import {
@@ -11,6 +13,8 @@ import {
   defaultPortfolioV3SectionDescription,
   defaultPortfolioV3SectionHeading,
   defaultPortfolioV3PhoneLabel,
+  defaultPortfolioV3IntroButtonSize,
+  defaultPortfolioV3PhoneBarHoverBackground,
   getPortfolioV3SectionDescriptionColor,
   defaultPortfolioV3CardGapPx,
   defaultPortfolioV3ColumnCount,
@@ -27,17 +31,28 @@ import {
   savePortfolioV3PreviewSettings,
 } from "@/lib/portfolio-v3-preview-storage";
 import { updatePortfolioV3Card } from "@/lib/portfolio-v3-cards";
+import {
+  portfolioV3HasGalleryTabs,
+  syncPortfolioV3CardsFromGalleryTabs,
+} from "@/lib/portfolio-v3-gallery-tabs";
 import { useInstancePreviewSettings } from "@/lib/instance-preview-bind";
 import { siteLayoutWidthOptions, type SiteLayoutWidth } from "@/lib/site-layout";
 import { portfolioSectionThemes } from "@/lib/portfolio-v3-preview";
 import { phoneTelHref } from "@/lib/phone";
+import { buttonPreviewSizes, type ButtonPreviewSize } from "@/lib/button-preview";
 import { cn } from "@/lib/utils";
 
 type PortfolioV3PreviewContextValue = {
   settings: PortfolioV3PreviewSettings;
   setSettings: (settings: PortfolioV3PreviewSettings) => void;
   contentEditingEnabled: boolean;
-  updateCard: (cardId: string, patch: Partial<Omit<PortfolioV3Card, "id">>) => void;
+  updateCard: (
+    cardId: string,
+    patch: Partial<Omit<PortfolioV3Card, "id">>,
+    galleryTabId?: string,
+  ) => void;
+  activeGalleryTabId: string | null;
+  setActiveGalleryTabId: (tabId: string | null) => void;
   getSectionHeading: (fallback: string) => string;
   setSectionHeading: (heading: string) => void;
   getSectionDescription: (fallback: string) => string;
@@ -70,15 +85,47 @@ export function PortfolioV3PreviewProvider({
     normalize: normalizePortfolioV3PreviewSettings,
   });
 
+  const [activeGalleryTabId, setActiveGalleryTabId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!portfolioV3HasGalleryTabs(settings)) {
+      setActiveGalleryTabId(null);
+      return;
+    }
+    setActiveGalleryTabId((current) => {
+      if (current && settings.galleryTabs!.some((tab) => tab.id === current)) return current;
+      return settings.galleryTabs![0]?.id ?? null;
+    });
+  }, [settings]);
+
   const setSettings = useCallback(
     (next: PortfolioV3PreviewSettings) => {
-      persistSettings(next);
+      const normalized = normalizePortfolioV3PreviewSettings(
+        portfolioV3HasGalleryTabs(next) ? syncPortfolioV3CardsFromGalleryTabs(next) : next,
+      );
+      persistSettings(normalized);
     },
     [persistSettings],
   );
 
   const updateCard = useCallback(
-    (cardId: string, patch: Partial<Omit<PortfolioV3Card, "id">>) => {
+    (
+      cardId: string,
+      patch: Partial<Omit<PortfolioV3Card, "id">>,
+      galleryTabId?: string,
+    ) => {
+      if (portfolioV3HasGalleryTabs(settings) && galleryTabId) {
+        setSettings({
+          ...settings,
+          galleryTabs: settings.galleryTabs!.map((tab) =>
+            tab.id === galleryTabId
+              ? { ...tab, cards: updatePortfolioV3Card(tab.cards, cardId, patch) }
+              : tab,
+          ),
+        });
+        return;
+      }
+
       setSettings({
         ...settings,
         cards: updatePortfolioV3Card(settings.cards, cardId, patch),
@@ -138,6 +185,8 @@ export function PortfolioV3PreviewProvider({
         setSettings,
         contentEditingEnabled: enableContentEditing,
         updateCard,
+        activeGalleryTabId,
+        setActiveGalleryTabId,
         getSectionHeading,
         setSectionHeading,
         getSectionDescription,
@@ -326,46 +375,124 @@ export function PortfolioV3PreviewControls() {
         />
       </label>
       <label className="flex items-center gap-2">
-        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Phone bar</span>
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Button</span>
         <input
           type="checkbox"
           checked={context.settings.phoneBarVisible}
-          onChange={(event) => update({ phoneBarVisible: event.target.checked })}
+          onChange={(event) => {
+            const enabled = event.target.checked;
+            const patch: Partial<PortfolioV3PreviewSettings> = { phoneBarVisible: enabled };
+            if (enabled && !context.settings.contentPhoneLabel?.trim()) {
+              patch.contentPhoneLabel = defaultPortfolioV3PhoneLabel;
+            }
+            update(patch);
+          }}
           className="accent-accent-purple"
-          aria-label="Show blue phone bar under gallery intro"
+          aria-label="Show CTA button under gallery intro copy"
         />
       </label>
       {context.settings.phoneBarVisible && (
         <>
           <label className="flex min-w-[10rem] flex-col gap-1">
-            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Phone</span>
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Label</span>
             <input
               type="text"
-              value={context.settings.contentPhoneLabel ?? defaultPortfolioV3PhoneLabel}
+              value={context.settings.contentPhoneLabel ?? ""}
+              placeholder="Contact us — (503) 975-9082"
               onChange={(event) => update({ contentPhoneLabel: event.target.value })}
               className={contentInputClassName}
-              aria-label="Phone bar label"
+              aria-label="Intro button label"
+            />
+          </label>
+          <label className="flex min-w-[10rem] flex-col gap-1">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Link</span>
+            <input
+              type="text"
+              value={context.settings.contentPhoneHref ?? ""}
+              placeholder="tel: or /contact"
+              onChange={(event) =>
+                update({ contentPhoneHref: event.target.value.trim() || undefined })
+              }
+              className={contentInputClassName}
+              aria-label="Intro button link (optional; tel: inferred from label)"
             />
           </label>
           <label className="flex items-center gap-2">
-            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Bar bg</span>
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Bg</span>
             <input
               type="color"
               value={context.settings.phoneBarBackgroundColor}
               onChange={(event) => update({ phoneBarBackgroundColor: event.target.value })}
               className={colorInputClassName}
-              aria-label="Phone bar background color"
+              aria-label="Intro button background color"
             />
           </label>
           <label className="flex items-center gap-2">
-            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Bar text</span>
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Text</span>
             <input
               type="color"
               value={context.settings.phoneBarTextColor}
               onChange={(event) => update({ phoneBarTextColor: event.target.value })}
               className={colorInputClassName}
-              aria-label="Phone bar text color"
+              aria-label="Intro button text color"
             />
+          </label>
+          <label className="flex items-center gap-2">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Hover bg</span>
+            <input
+              type="color"
+              value={
+                context.settings.phoneBarHoverBackgroundColor ??
+                defaultPortfolioV3PhoneBarHoverBackground
+              }
+              onChange={(event) =>
+                update({ phoneBarHoverBackgroundColor: event.target.value })
+              }
+              className={colorInputClassName}
+              aria-label="Intro button hover background"
+            />
+          </label>
+          <label className="flex items-center gap-2">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Hover text</span>
+            <input
+              type="color"
+              value={context.settings.phoneBarTextHoverColor ?? context.settings.phoneBarTextColor}
+              onChange={(event) => update({ phoneBarTextHoverColor: event.target.value })}
+              className={colorInputClassName}
+              aria-label="Intro button hover text color"
+            />
+          </label>
+          <label className="flex items-center gap-2">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Size</span>
+            <select
+              value={context.settings.introButtonSize ?? defaultPortfolioV3IntroButtonSize}
+              onChange={(event) =>
+                update({ introButtonSize: event.target.value as ButtonPreviewSize })
+              }
+              className={selectClassName}
+              aria-label="Intro button size (hero-v4 CTA sizes)"
+            >
+              {buttonPreviewSizes.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex items-center gap-2">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">Radius</span>
+            <input
+              type="number"
+              min={0}
+              max={48}
+              value={context.settings.introButtonRadiusPx ?? 4}
+              onChange={(event) =>
+                update({ introButtonRadiusPx: Number(event.target.value) || 0 })
+              }
+              className={cn(selectClassName, "w-14")}
+              aria-label="Intro button corner radius in pixels"
+            />
+            <span className="font-mono text-[0.65rem] text-accent-purple/70">px</span>
           </label>
         </>
       )}

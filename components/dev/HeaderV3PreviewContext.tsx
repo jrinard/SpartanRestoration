@@ -446,6 +446,7 @@ export function HeaderV3PreviewControls({ variantId }: { variantId?: string }) {
                   <div className="absolute top-full left-0 z-50 mt-2">
                     <ImageLibraryPicker
                       value={context.settings.headerV2BackgroundImageSrc || undefined}
+                      promptAlt={false}
                       onSelect={(entry) => {
                         update({ headerV2BackgroundImageSrc: entry.src });
                         setHeaderV2BgImagePickerOpen(false);

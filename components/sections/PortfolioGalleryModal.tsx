@@ -13,11 +13,14 @@ import type { CSSProperties } from "react";
 export function PortfolioGalleryModal({
   title,
   images,
+  caption,
   theme,
   onClose,
 }: {
   title: string;
   images: PortfolioV2ModalImage[];
+  /** When set with a single image, caption is shown beside the photo in the modal. */
+  caption?: string;
   theme: PortfolioSectionTheme;
   onClose: () => void;
 }) {
@@ -25,6 +28,8 @@ export function PortfolioGalleryModal({
     ...image,
     imageSrc: image.imageSrc.trim() || defaultPortfolioV2SampleImage,
   }));
+  const captionText = caption?.trim() ?? "";
+  const showCaptionBesideImage = resolved.length === 1 && captionText.length > 0;
   const creative = useCreativeThemeOptional();
   const fontTheme = getFontTheme(creative?.fontThemeId ?? defaultFontThemeId);
   const fontStyle = {
@@ -60,7 +65,7 @@ export function PortfolioGalleryModal({
         onClick={onClose}
       />
       <div
-        className="portfolio-v2-modal-panel relative z-[121] w-full max-w-4xl rounded-xl p-5 shadow-2xl sm:p-6"
+        className={`portfolio-v2-modal-panel relative z-[121] w-full rounded-xl p-5 shadow-2xl sm:p-6 ${showCaptionBesideImage ? "max-w-6xl" : "max-w-4xl"}`}
         data-portfolio-theme={theme}
         role="dialog"
         aria-modal="true"
@@ -82,20 +87,38 @@ export function PortfolioGalleryModal({
 
         {resolved.length > 0 ? (
           <div className="portfolio-v2-modal-body">
-            <ul className="portfolio-v2-modal-grid m-0 list-none p-0">
-              {resolved.map((image) => (
-                <li key={image.id} className="portfolio-v2-modal-grid-item">
+            {showCaptionBesideImage ? (
+              <div className="portfolio-v2-modal-split">
+                <div className="portfolio-v2-modal-split-media">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={image.imageSrc}
-                    alt={image.imageAlt || title}
-                    className="portfolio-v2-modal-image block h-auto w-full object-cover"
+                    src={resolved[0].imageSrc}
+                    alt={resolved[0].imageAlt || title}
+                    className="portfolio-v2-modal-split-image block h-auto w-full object-contain"
                     loading="lazy"
                     decoding="async"
                   />
-                </li>
-              ))}
-            </ul>
+                </div>
+                <p className="portfolio-v2-modal-caption m-0 text-sm leading-relaxed sm:text-base">
+                  {captionText}
+                </p>
+              </div>
+            ) : (
+              <ul className="portfolio-v2-modal-grid m-0 list-none p-0">
+                {resolved.map((image) => (
+                  <li key={image.id} className="portfolio-v2-modal-grid-item">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={image.imageSrc}
+                      alt={image.imageAlt || title}
+                      className="portfolio-v2-modal-image block h-auto w-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         ) : (
           <p className="portfolio-v2-modal-empty text-sm">No gallery images yet.</p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type MouseEvent } from "react";
 import Link from "next/link";
 import { useContactModal } from "@/components/contact/ContactModalContext";
 import { useNavBarPreview } from "@/components/dev/NavBarPreviewContext";
@@ -14,11 +14,21 @@ import {
   getNavBarMobileToggleAlignClassName,
   getNavBarLayoutWidthClassName,
   isExternalNavHref,
+  navBarLinkHasDropdown,
   navBarLinkOpensContactModal,
   resolveNavBarLinkTarget,
+  type NavBarDropdownItem,
   type NavBarLink,
 } from "@/lib/nav-bar-preview";
 import { cn } from "@/lib/utils";
+
+function NavBarDropdownChevron() {
+  return (
+    <svg viewBox="0 0 10 10" className="nav-bar-v1-dropdown-chevron" aria-hidden="true">
+      <path fill="currentColor" d="M2 1.5 8 5 2 8.5Z" />
+    </svg>
+  );
+}
 
 function NavBarMenuIcon({ open }: { open: boolean }) {
   if (open) {
@@ -39,14 +49,72 @@ function NavBarMenuIcon({ open }: { open: boolean }) {
   );
 }
 
+type NavBarV1LinkRenderProps = {
+  item: NavBarLink | NavBarDropdownItem;
+  linkClassName?: string;
+  onNavigate?: () => void;
+  resolveHref: (href: string) => string;
+  handleHashNavigation: (href: string, event: MouseEvent<HTMLAnchorElement>) => void;
+  contactModal: ReturnType<typeof useContactModal>;
+};
+
+function NavBarV1Anchor({
+  item,
+  linkClassName,
+  onNavigate,
+  resolveHref,
+  handleHashNavigation,
+  contactModal,
+}: NavBarV1LinkRenderProps) {
+  const isExternal = isExternalNavHref(item.href);
+  const opensNewTab = resolveNavBarLinkTarget(item) === "_blank";
+  const linkClassNameValue = cn("nav-bar-v1-link", linkClassName);
+
+  if (isExternal) {
+    return (
+      <a
+        href={item.href}
+        target={opensNewTab ? "_blank" : undefined}
+        rel={opensNewTab ? "noopener noreferrer" : undefined}
+        onClick={() => onNavigate?.()}
+        className={linkClassNameValue}
+      >
+        {item.label}
+      </a>
+    );
+  }
+
+  return (
+    <Link
+      href={resolveHref(item.href)}
+      target={opensNewTab ? "_blank" : undefined}
+      rel={opensNewTab ? "noopener noreferrer" : undefined}
+      onClick={(event) => {
+        if (contactModal && navBarLinkOpensContactModal(item)) {
+          event.preventDefault();
+          contactModal.openContact();
+          onNavigate?.();
+          return;
+        }
+        handleHashNavigation(item.href, event);
+        onNavigate?.();
+      }}
+      className={linkClassNameValue}
+    >
+      {item.label}
+    </Link>
+  );
+}
+
 type NavBarV1LinksProps = {
   items: readonly NavBarLink[];
   className?: string;
   linkClassName?: string;
   onNavigate?: () => void;
   resolveHref: (href: string) => string;
-  handleHashNavigation: (href: string, event: React.MouseEvent<HTMLAnchorElement>) => void;
+  handleHashNavigation: (href: string, event: MouseEvent<HTMLAnchorElement>) => void;
   contactModal: ReturnType<typeof useContactModal>;
+  menuVariant?: "desktop" | "mobile";
 };
 
 function NavBarV1Links({
@@ -57,50 +125,83 @@ function NavBarV1Links({
   resolveHref,
   handleHashNavigation,
   contactModal,
+  menuVariant = "desktop",
 }: NavBarV1LinksProps) {
+  const linkProps = {
+    linkClassName,
+    onNavigate,
+    resolveHref,
+    handleHashNavigation,
+    contactModal,
+  };
+
   return (
     <ul className={className}>
       {items.map((item) => {
-        const isExternal = isExternalNavHref(item.href);
-        const opensNewTab = resolveNavBarLinkTarget(item) === "_blank";
-        const linkClassNameValue = cn("nav-bar-v1-link", linkClassName);
+        const hasDropdown = navBarLinkHasDropdown(item);
 
-        if (isExternal) {
+        if (!hasDropdown) {
           return (
             <li key={item.id} className="nav-bar-v1-item">
-              <a
-                href={item.href}
-                target={opensNewTab ? "_blank" : undefined}
-                rel={opensNewTab ? "noopener noreferrer" : undefined}
-                onClick={() => onNavigate?.()}
-                className={linkClassNameValue}
-              >
-                {item.label}
-              </a>
+              <NavBarV1Anchor item={item} {...linkProps} />
+            </li>
+          );
+        }
+
+        const dropdownItems = item.dropdownItems ?? [];
+
+        if (menuVariant === "mobile") {
+          return (
+            <li key={item.id} className="nav-bar-v1-item nav-bar-v1-item--dropdown-mobile">
+              <div className={cn("nav-bar-v1-dropdown-trigger", linkClassName)}>
+                <NavBarDropdownChevron />
+                <NavBarV1Anchor
+                  item={item}
+                  {...linkProps}
+                  linkClassName="nav-bar-v1-dropdown-label-link"
+                />
+              </div>
+              <ul className="nav-bar-v1-dropdown-mobile-list">
+                {dropdownItems.map((sub) => (
+                  <li key={sub.id} className="nav-bar-v1-item">
+                    <NavBarV1Anchor
+                      item={sub}
+                      {...linkProps}
+                      linkClassName={cn(linkClassName, "nav-bar-v1-link--dropdown-sub")}
+                    />
+                  </li>
+                ))}
+              </ul>
             </li>
           );
         }
 
         return (
-          <li key={item.id} className="nav-bar-v1-item">
-            <Link
-              href={resolveHref(item.href)}
-              target={opensNewTab ? "_blank" : undefined}
-              rel={opensNewTab ? "noopener noreferrer" : undefined}
-              onClick={(event) => {
-                if (contactModal && navBarLinkOpensContactModal(item)) {
-                  event.preventDefault();
-                  contactModal.openContact();
-                  onNavigate?.();
-                  return;
-                }
-                handleHashNavigation(item.href, event);
-                onNavigate?.();
-              }}
-              className={linkClassNameValue}
-            >
-              {item.label}
-            </Link>
+          <li key={item.id} className="nav-bar-v1-item nav-bar-v1-item--dropdown">
+            <div className="nav-bar-v1-dropdown">
+              <div className={cn("nav-bar-v1-dropdown-trigger", linkClassName)}>
+                <NavBarDropdownChevron />
+                <NavBarV1Anchor
+                  item={item}
+                  {...linkProps}
+                  linkClassName="nav-bar-v1-dropdown-label-link"
+                />
+              </div>
+              <ul className="nav-bar-v1-dropdown-menu" role="menu" aria-label={`${item.label} menu`}>
+                {dropdownItems.map((sub) => (
+                  <li key={sub.id} role="none">
+                    <NavBarV1Anchor
+                      item={sub}
+                      {...linkProps}
+                      linkClassName="nav-bar-v1-link nav-bar-v1-link--dropdown-sub"
+                      onNavigate={() => {
+                        onNavigate?.();
+                      }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
           </li>
         );
       })}
@@ -121,6 +222,7 @@ export function NavV1() {
     "--nav-bar-height": `${settings.heightPx}px`,
     "--nav-bar-link-color": settings.linkColor,
     "--nav-bar-link-hover-color": settings.linkHoverColor,
+    "--nav-bar-dropdown-bg": settings.backgroundColor,
   } as CSSProperties;
 
   const isContained = settings.layoutWidth === "contained";
@@ -189,6 +291,7 @@ export function NavV1() {
             {...linkProps}
             items={desktopItems}
             className="nav-bar-v1-list nav-bar-v1-list--desktop"
+            menuVariant="desktop"
           />
 
           <div
@@ -220,6 +323,7 @@ export function NavV1() {
               className="nav-bar-v1-mobile-list"
               linkClassName="nav-bar-v1-link--mobile"
               onNavigate={() => setMobileOpen(false)}
+              menuVariant="mobile"
             />
           </div>
         </nav>

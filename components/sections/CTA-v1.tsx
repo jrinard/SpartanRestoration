@@ -16,6 +16,7 @@ import {
 } from "@/lib/cta-v1-preview";
 import { getButtonPreviewStyleRecord } from "@/lib/button-preview";
 import { devEditButtonClassName, devEditIconSize } from "@/lib/dev-overlay-controls";
+import { OPENAI_PIXEL_CTA_ATTR } from "@/lib/openai-pixel-preview";
 import { cn } from "@/lib/utils";
 
 type CTAV1Props = {
@@ -151,6 +152,7 @@ export function CTAV1({ headlineLines, phoneLabel, phoneHref, className }: CTAV1
               className="cta-v1-phone-btn text-image-v1-phone-btn text-image-v1-phone-btn--custom radial-hover-shine inline-flex items-center justify-center font-semibold no-underline transition-colors"
               style={buttonStyle}
               data-nav-button-size={buttonSettings.navButtonSize}
+              {...{ [OPENAI_PIXEL_CTA_ATTR]: "" }}
             >
               <span className="relative z-[1]">{content.phoneLabel}</span>
             </a>

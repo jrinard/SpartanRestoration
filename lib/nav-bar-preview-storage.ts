@@ -6,6 +6,8 @@ import {
   navBarHeightOptions,
   type NavBarLayoutWidth,
   type NavBarMobileToggleAlign,
+  createNavBarDropdownItem,
+  type NavBarDropdownItem,
   type NavBarLink,
   type NavBarPreviewSettings,
 } from "@/lib/nav-bar-preview";
@@ -25,6 +27,19 @@ function isNavBarMobileToggleAlign(value: unknown): value is NavBarMobileToggleA
 
 function isHexColor(value: unknown): value is string {
   return typeof value === "string" && /^#[0-9a-fA-F]{6}$/.test(value);
+}
+
+function normalizeNavBarDropdownItems(value: unknown): NavBarDropdownItem[] | undefined {
+  if (!Array.isArray(value) || value.length === 0) return undefined;
+
+  const items = value
+    .map((entry, index) => {
+      if (!entry || typeof entry !== "object") return null;
+      return createNavBarDropdownItem(entry as Partial<NavBarDropdownItem>, index);
+    })
+    .filter((entry): entry is NavBarDropdownItem => entry !== null);
+
+  return items.length > 0 ? items : undefined;
 }
 
 function normalizeNavBarLink(value: unknown, fallback: NavBarLink, index: number): NavBarLink {
@@ -49,8 +64,24 @@ function normalizeNavBarLink(value: unknown, fallback: NavBarLink, index: number
       : link.openContactModal === true
         ? true
         : undefined;
+  const dropdown = link.dropdown === true;
+  const dropdownItems = dropdown ? normalizeNavBarDropdownItems(link.dropdownItems) : undefined;
 
-  return { id, label, href, target, visibleDesktop, visibleMobile, openContactModal };
+  return {
+    id,
+    label,
+    href,
+    target,
+    visibleDesktop,
+    visibleMobile,
+    openContactModal,
+    ...(dropdown
+      ? {
+          dropdown: true as const,
+          dropdownItems: dropdownItems ?? [],
+        }
+      : {}),
+  };
 }
 
 export function normalizeNavBarItems(value: unknown): NavBarLink[] {

@@ -195,6 +195,67 @@
           }
         ]
       }
+    },
+    {
+      "id": "professional-turf",
+      "label": "Professional Turf",
+      "settings": {
+        "backgroundFrom": "#000000",
+        "backgroundTo": "#000000",
+        "backgroundDirection": "none",
+        "backgroundImageSrc": "",
+        "layoutWidth": "full",
+        "outerBackgroundColor": "#000000",
+        "headingColor": "#ffffff",
+        "subheadingColor": "#d4e0d4",
+        "iconColor": "#87ab87",
+        "iconBorderColor": "rgba(135, 171, 135, 0.55)",
+        "iconBackgroundColor": "rgba(110, 144, 110, 0.2)",
+        "iconFrameShape": "card",
+        "iconFrameSize": "medium",
+        "itemIcons": {
+          "ptl-design": "layout-grid",
+          "ptl-build": "hard-hat",
+          "ptl-maintain": "brush"
+        },
+        "itemTitles": {
+          "ptl-design": "Design",
+          "ptl-build": "Build",
+          "ptl-maintain": "Maintain"
+        },
+        "itemDescriptions": {
+          "ptl-design": "Planning outdoor spaces tailored to your property, needs, and Clark County's environment.",
+          "ptl-build": "Professional installation of landscaping, hardscaping, fencing, and outdoor living features.",
+          "ptl-maintain": "Ongoing care including lawn service, pruning, irrigation repair, and seasonal cleanup."
+        },
+        "contentHeading": "Design. Build. Maintain.",
+        "contentSubheading": "For more than 30 years, Professional Turf & Landscape has helped homeowners across Vancouver, Battle Ground, Ridgefield, Camas, and Clark County love their yards. One local team handles the plan, the build, and the care so your outdoor space stays useful and beautiful season after season.",
+        "itemBoxBorderEnabled": true,
+        "itemBoxBorderColor": "rgba(255, 255, 255, 0.4)",
+        "itemBoxBorderRadiusPx": 12,
+        "itemsGridFluid": true,
+        "itemsGridFluidMinPx": 168,
+        "items": [
+          {
+            "id": "ptl-design",
+            "title": "Design",
+            "description": "Planning outdoor spaces tailored to your property, needs, and Clark County's environment.",
+            "icon": "layout-grid"
+          },
+          {
+            "id": "ptl-build",
+            "title": "Build",
+            "description": "Professional installation of landscaping, hardscaping, fencing, and outdoor living features.",
+            "icon": "hard-hat"
+          },
+          {
+            "id": "ptl-maintain",
+            "title": "Maintain",
+            "description": "Ongoing care including lawn service, pruning, irrigation repair, and seasonal cleanup.",
+            "icon": "brush"
+          }
+        ]
+      }
     }
   ]
 }

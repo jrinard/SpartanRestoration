@@ -27,6 +27,10 @@ export type FooterV4Content = {
   serviceLinks: FooterV4ServiceLink[];
   facebookUrl: string;
   instagramUrl: string;
+  /** Optional line under hours (e.g. service area tagline). */
+  serviceArea: string;
+  /** When set with serviceArea, the line links here (defaults to /service-area). */
+  serviceAreaHref: string;
 };
 
 export type FooterV4PreviewSettings = {
@@ -59,6 +63,8 @@ export type FooterV4PreviewSettings = {
   contentLogoSrc?: string;
   contentFacebookUrl?: string;
   contentInstagramUrl?: string;
+  contentServiceArea?: string;
+  contentServiceAreaHref?: string;
   serviceLinks?: NavBarLink[];
 };
 
@@ -191,6 +197,8 @@ export function resolveFooterV4Content(
     serviceLinks: resolveFooterV4ServiceLinks(settings, defaults.serviceLinks),
     facebookUrl: resolveString(settings.contentFacebookUrl, defaults.facebookUrl),
     instagramUrl: resolveString(settings.contentInstagramUrl, defaults.instagramUrl),
+    serviceArea: resolveString(settings.contentServiceArea, defaults.serviceArea),
+    serviceAreaHref: resolveString(settings.contentServiceAreaHref, defaults.serviceAreaHref),
   };
 }
 
@@ -252,6 +260,8 @@ export const footerV4ContentOverrideKeys = [
   "contentLogoSrc",
   "contentFacebookUrl",
   "contentInstagramUrl",
+  "contentServiceArea",
+  "contentServiceAreaHref",
 ] as const satisfies readonly (keyof FooterV4PreviewSettings)[];
 
 export type FooterV4ContentOverrideKey = (typeof footerV4ContentOverrideKeys)[number];
@@ -296,6 +306,8 @@ export function buildFooterV4DefaultContent(
     serviceLinks: props.serviceLinks,
     facebookUrl: siteConfig.social.facebook,
     instagramUrl: siteConfig.social.instagram,
+    serviceArea: "",
+    serviceAreaHref: "",
   };
 }
 
@@ -386,6 +398,14 @@ export function normalizeFooterV4PreviewSettings(
       typeof value.contentInstagramUrl === "string"
         ? value.contentInstagramUrl
         : value.contentInstagramUrl,
+    contentServiceArea:
+      typeof value.contentServiceArea === "string"
+        ? value.contentServiceArea
+        : value.contentServiceArea,
+    contentServiceAreaHref:
+      typeof value.contentServiceAreaHref === "string"
+        ? value.contentServiceAreaHref
+        : value.contentServiceAreaHref,
     serviceLinks: Array.isArray(value.serviceLinks)
       ? value.serviceLinks.filter(isFooterV4NavBarLink)
       : value.serviceLinks,

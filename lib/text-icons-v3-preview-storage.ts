@@ -128,6 +128,26 @@ export function normalizeTextIconsV3PreviewSettings(
     backgroundImageSrc:
       typeof value.backgroundImageSrc === "string" ? value.backgroundImageSrc.trim() : "",
     items: normalizeOptionalItems(value.items),
+    ...(value.itemBoxBorderEnabled === true ? { itemBoxBorderEnabled: true } : {}),
+    ...(isColor(value.itemBoxBorderColor)
+      ? { itemBoxBorderColor: value.itemBoxBorderColor }
+      : {}),
+    ...(typeof value.itemBoxBorderRadiusPx === "number" &&
+    Number.isFinite(value.itemBoxBorderRadiusPx) &&
+    value.itemBoxBorderRadiusPx >= 0
+      ? { itemBoxBorderRadiusPx: Math.round(value.itemBoxBorderRadiusPx) }
+      : {}),
+    ...(typeof value.itemsGridMaxWidthPx === "number" &&
+    Number.isFinite(value.itemsGridMaxWidthPx) &&
+    value.itemsGridMaxWidthPx > 0
+      ? { itemsGridMaxWidthPx: Math.round(value.itemsGridMaxWidthPx) }
+      : {}),
+    ...(value.itemsGridFluid === true ? { itemsGridFluid: true } : {}),
+    ...(typeof value.itemsGridFluidMinPx === "number" &&
+    Number.isFinite(value.itemsGridFluidMinPx) &&
+    value.itemsGridFluidMinPx > 0
+      ? { itemsGridFluidMinPx: Math.round(value.itemsGridFluidMinPx) }
+      : {}),
   };
 }
 

@@ -152,6 +152,13 @@ export function resolveServiceAreaV2Cards(
       .map((card) => [card.id, card]),
   );
   if (byId.size === 0) return fallbackCards;
+  const fallbackIds = new Set(fallbackCards.map((card) => card.id));
+  const hasCardOutsideFallback = [...byId.keys()].some((id) => !fallbackIds.has(id));
+  if (hasCardOutsideFallback) {
+    return storedCards.map((card) =>
+      normalizeServiceAreaV2Card({ ...card, id: card.id, slug: card.slug }),
+    );
+  }
   return fallbackCards.map((card) => {
     const saved = byId.get(card.id);
     if (!saved) return card;

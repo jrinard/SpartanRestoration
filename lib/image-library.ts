@@ -56,6 +56,21 @@ export function isImageFileName(name: string): boolean {
   return IMAGE_EXT.test(name);
 }
 
+/** Relative path under org assets/library (e.g. Commercial-ti). */
+export function normalizeImageLibrarySubpath(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+
+  const trimmed = value.trim().replace(/^\/+|\/+$/g, "");
+  if (!trimmed || trimmed.includes("..")) return null;
+
+  for (const segment of trimmed.split("/")) {
+    if (!segment || segment === "." || segment === "..") return null;
+    if (!/^[a-zA-Z0-9][a-zA-Z0-9_-]*$/.test(segment)) return null;
+  }
+
+  return trimmed;
+}
+
 export function toImageLibraryEntry(src: string): ImageLibraryEntry {
   const label = imageLabelFromSrc(src);
   return {

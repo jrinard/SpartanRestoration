@@ -5,6 +5,8 @@ import { normalizeHomepageConfig, type HomepageConfig } from "@/lib/homepage-con
 import { defaultColorThemeId } from "@/lib/color-themes";
 import { defaultFontThemeId } from "@/lib/creative-themes";
 import type { AnalyticsPreviewSettings } from "@/lib/analytics-preview";
+import type { OpenAiPixelPreviewSettings } from "@/lib/openai-pixel-preview";
+import { normalizeOpenAiPixelPreviewSettings } from "@/lib/openai-pixel-preview";
 import { normalizeAnalyticsPreviewSettings } from "@/lib/analytics-preview";
 import type { FaviconPreviewSettings } from "@/lib/favicon-preview";
 import { normalizeFaviconPreviewSettings } from "@/lib/favicon-preview";
@@ -527,6 +529,7 @@ export async function writeOrgSettings(
     theme?: OrgThemeFile;
     favicon?: FaviconPreviewSettings;
     analytics?: AnalyticsPreviewSettings;
+    openaiPixel?: OpenAiPixelPreviewSettings;
     contact?: OrgContactFile;
     policies?: OrgPoliciesFile;
   },
@@ -549,10 +552,11 @@ export async function writeOrgSettings(
   if (patch.policies) {
     await writeOrgPolicies(orgId, patch.policies);
   }
-  if (patch.favicon || patch.analytics) {
+  if (patch.favicon || patch.analytics || patch.openaiPixel) {
     await mergeOrgPreviewSettings(orgId, {
       favicon: patch.favicon,
       analytics: patch.analytics,
+      openaiPixel: patch.openaiPixel,
     });
   }
   return readOrgPillar(orgId);
@@ -563,11 +567,15 @@ async function mergeOrgPreviewSettings(
   patch: {
     favicon?: FaviconPreviewSettings;
     analytics?: AnalyticsPreviewSettings;
+    openaiPixel?: OpenAiPixelPreviewSettings;
   },
 ): Promise<void> {
   const favicon = patch.favicon ? normalizeFaviconPreviewSettings(patch.favicon) : undefined;
   const analytics = patch.analytics
     ? normalizeAnalyticsPreviewSettings(patch.analytics)
+    : undefined;
+  const openaiPixel = patch.openaiPixel
+    ? normalizeOpenAiPixelPreviewSettings(patch.openaiPixel)
     : undefined;
 
   const live = await readOrgHomepageConfig(orgId);
@@ -577,6 +585,7 @@ async function mergeOrgPreviewSettings(
       ...live.previewSettings,
       ...(favicon ? { favicon } : {}),
       ...(analytics ? { analytics } : {}),
+      ...(openaiPixel ? { openaiPixel } : {}),
     },
   });
 
@@ -595,6 +604,7 @@ async function mergeOrgPreviewSettings(
         ...stagingBase.previewSettings,
         ...(favicon ? { favicon } : {}),
         ...(analytics ? { analytics } : {}),
+        ...(openaiPixel ? { openaiPixel } : {}),
       },
     });
   }

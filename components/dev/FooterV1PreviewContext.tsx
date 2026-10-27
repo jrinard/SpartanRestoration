@@ -593,6 +593,7 @@ export function FooterV1PreviewControls() {
           <div className="absolute top-full left-0 z-50 mt-2">
             <ImageLibraryPicker
               value={context.settings.mainBackgroundImageSrc || undefined}
+              promptAlt={false}
               onSelect={(entry) => {
                 update({ mainBackgroundImageSrc: entry.src });
                 setBackgroundImagePickerOpen(false);

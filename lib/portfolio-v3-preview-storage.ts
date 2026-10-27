@@ -14,8 +14,10 @@ import {
   type PortfolioV3WallStyle,
 } from "@/lib/portfolio-v3-preview";
 import { dedupePortfolioV3CardIds as dedupeCards } from "@/lib/portfolio-v3-cards";
+import { normalizePortfolioV3GalleryTabs } from "@/lib/portfolio-v3-gallery-tabs";
 import type { PortfolioV2ModalImage } from "@/lib/portfolio-v2-preview";
 import type { SiteLayoutWidth } from "@/lib/site-layout";
+import { isButtonPreviewSize } from "@/lib/button-preview";
 import { orgStorageGet, orgStorageSet } from "@/lib/org/browser-storage";
 
 export const portfolioV3PreviewStorageKey = "lifespring-portfolio-v3-preview";
@@ -141,11 +143,28 @@ export function normalizePortfolioV3PreviewSettings(
       : defaultPortfolioV3PhoneBarTextColor,
     contentPhoneLabel: normalizeOptionalString(value.contentPhoneLabel),
     contentPhoneHref: normalizeOptionalString(value.contentPhoneHref),
+    introButtonRadiusPx:
+      typeof value.introButtonRadiusPx === "number" &&
+      Number.isFinite(value.introButtonRadiusPx) &&
+      value.introButtonRadiusPx >= 0
+        ? Math.min(48, value.introButtonRadiusPx)
+        : undefined,
+    introButtonSize: isButtonPreviewSize(value.introButtonSize) ? value.introButtonSize : undefined,
+    phoneBarHoverBackgroundColor: isHexColor(value.phoneBarHoverBackgroundColor)
+      ? value.phoneBarHoverBackgroundColor
+      : undefined,
+    phoneBarTextHoverColor: isHexColor(value.phoneBarTextHoverColor)
+      ? value.phoneBarTextHoverColor
+      : undefined,
     captionsVisible:
       typeof value.captionsVisible === "boolean"
         ? value.captionsVisible
         : defaultPortfolioV3PreviewSettings.captionsVisible,
     cards: normalizeCards(value.cards),
+    ...((): Record<string, never> | { galleryTabs: NonNullable<ReturnType<typeof normalizePortfolioV3GalleryTabs>> } => {
+      const galleryTabs = normalizePortfolioV3GalleryTabs(value.galleryTabs, normalizeCards);
+      return galleryTabs ? { galleryTabs } : {};
+    })(),
   };
 }
 

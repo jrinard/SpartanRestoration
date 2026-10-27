@@ -12,8 +12,10 @@ import {
 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalyticsRuntime } from "@/components/analytics/GoogleAnalyticsRuntime";
+import { OpenAiPixelRuntime } from "@/components/analytics/OpenAiPixelRuntime";
 import { FaviconRuntime } from "@/components/seo/FaviconRuntime";
 import { readPublishedAnalyticsSettings } from "@/lib/resolve-analytics.server";
+import { readPublishedOpenAiPixelSettings } from "@/lib/resolve-openai-pixel.server";
 import { readPublishedFaviconSettings } from "@/lib/resolve-favicon.server";
 import { RecaptchaProvider } from "@/components/forms/RecaptchaProvider";
 import { SiteRuntimeProvider } from "@/components/site/SiteRuntimeProvider";
@@ -106,12 +108,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const orgId = await readCurrentOrgId();
-  const [publishedAnalytics, publishedFavicon, site, policies] = await Promise.all([
-    readPublishedAnalyticsSettings(),
-    readPublishedFaviconSettings(),
-    readOrgSite(orgId),
-    readOrgPolicies(orgId),
-  ]);
+  const [publishedAnalytics, publishedOpenAiPixel, publishedFavicon, site, policies] =
+    await Promise.all([
+      readPublishedAnalyticsSettings(),
+      readPublishedOpenAiPixelSettings(),
+      readPublishedFaviconSettings(),
+      readOrgSite(orgId),
+      readOrgPolicies(orgId),
+    ]);
   setRuntimeSite(site);
   setRuntimePolicies(policies);
 
@@ -133,6 +137,10 @@ export default async function RootLayout({
         <GoogleAnalyticsRuntime
           allowTracking={isVisionRuntime() && process.env.NODE_ENV === "production"}
           initialSettings={publishedAnalytics}
+        />
+        <OpenAiPixelRuntime
+          allowTracking={isVisionRuntime() && process.env.NODE_ENV === "production"}
+          initialSettings={publishedOpenAiPixel}
         />
         <FaviconRuntime initialSettings={publishedFavicon} />
         <Analytics />

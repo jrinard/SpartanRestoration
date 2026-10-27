@@ -95,17 +95,33 @@ export function commitTextIconsV3Items(
 }
 
 export function getTextIconsV3ItemGrid(count: number): {
+  columnsMobile: number;
+  columnsSm: number;
   columns: number;
   columnsLg: number;
   compact: boolean;
 } {
   const safeCount = Number.isFinite(count) ? Math.max(0, Math.floor(count)) : 0;
-  if (safeCount <= 1) return { columns: 1, columnsLg: 1, compact: false };
-  if (safeCount === 2) return { columns: 2, columnsLg: 2, compact: false };
-  if (safeCount === 3) return { columns: 3, columnsLg: 3, compact: false };
-  if (safeCount === 4) return { columns: 4, columnsLg: 4, compact: false };
-  if (safeCount === 5) return { columns: 5, columnsLg: 3, compact: true };
-  if (safeCount === 6) return { columns: 3, columnsLg: 3, compact: false };
-  if (safeCount <= 8) return { columns: 4, columnsLg: 4, compact: true };
-  return { columns: 5, columnsLg: 3, compact: true };
+  if (safeCount <= 1) {
+    return { columnsMobile: 1, columnsSm: 1, columns: 1, columnsLg: 1, compact: false };
+  }
+  if (safeCount === 2) {
+    return { columnsMobile: 1, columnsSm: 2, columns: 2, columnsLg: 2, compact: false };
+  }
+  if (safeCount === 3) {
+    return { columnsMobile: 1, columnsSm: 3, columns: 3, columnsLg: 3, compact: false };
+  }
+  if (safeCount === 4) {
+    return { columnsMobile: 1, columnsSm: 2, columns: 4, columnsLg: 4, compact: false };
+  }
+  if (safeCount === 5) {
+    return { columnsMobile: 1, columnsSm: 2, columns: 5, columnsLg: 3, compact: true };
+  }
+  if (safeCount === 6) {
+    return { columnsMobile: 1, columnsSm: 3, columns: 3, columnsLg: 3, compact: false };
+  }
+  if (safeCount <= 8) {
+    return { columnsMobile: 1, columnsSm: 2, columns: 4, columnsLg: 4, compact: true };
+  }
+  return { columnsMobile: 1, columnsSm: 2, columns: 5, columnsLg: 3, compact: true };
 }

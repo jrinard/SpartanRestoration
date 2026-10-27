@@ -204,6 +204,7 @@ export function FooterV1({ description }: FooterV1Props) {
                         <div className="absolute top-full left-0 z-40 mt-2">
                           <ImageLibraryPicker
                             value={logoSrc}
+                            promptAlt={false}
                             onSelect={(entry) => preview.setContentLogo(entry.src)}
                             onClose={() => setLogoLibraryOpen(false)}
                           />

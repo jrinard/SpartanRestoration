@@ -282,6 +282,7 @@ export function ImagesV1PreviewControls() {
           <div className="absolute top-full left-0 z-50 mt-2">
             <ImageLibraryPicker
               value={context.settings.backgroundImageSrc ?? ""}
+              promptAlt={false}
               onSelect={(entry) => {
                 update({ backgroundImageSrc: entry.src });
                 setBackgroundImagePickerOpen(false);

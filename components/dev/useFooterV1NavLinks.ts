@@ -9,7 +9,7 @@ import {
   footerUsesGlobalNav,
   getDefaultFooterV1NavLinks,
 } from "@/lib/footer-v1-preview";
-import type { NavBarLink } from "@/lib/nav-bar-preview";
+import { flattenNavBarLinks, type NavBarLink } from "@/lib/nav-bar-preview";
 
 function isForgePath(pathname: string | null): boolean {
   return pathname?.startsWith("/forge") === true || pathname?.startsWith("/playground") === true;
@@ -24,8 +24,8 @@ export function useFooterV1NavLinks(): NavBarLink[] {
   const settings = footer?.settings ?? defaultFooterV1PreviewSettings;
 
   if (footerUsesGlobalNav(settings)) {
-    if (navPreview) return navPreview.settings.items;
-    if (isForgePath(pathname)) return playgroundLinks;
+    if (navPreview) return flattenNavBarLinks(navPreview.settings.items);
+    if (isForgePath(pathname)) return flattenNavBarLinks(playgroundLinks);
     return getDefaultFooterV1NavLinks();
   }
 

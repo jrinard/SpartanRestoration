@@ -147,12 +147,42 @@ export function FooterV4({ hours, serviceLinks, licenses }: FooterV4Props) {
     });
   }
 
+  const serviceAreaHref = content.serviceAreaHref.trim();
+  const serviceAreaLine = content.serviceArea.trim();
+
+  const serviceAreaNode =
+    serviceAreaLine && serviceAreaHref ? (
+      <Link
+        href={resolveNavHref(serviceAreaHref)}
+        onClick={(event) => handleHashNavigation(serviceAreaHref, event)}
+        className="footer-washing-service-area"
+      >
+        {serviceAreaLine}
+      </Link>
+    ) : serviceAreaLine ? (
+      <span className="footer-washing-service-area">{serviceAreaLine}</span>
+    ) : null;
+
   const hoursBlock = (
     <>
       <h2 className="footer-washing-heading">Hours</h2>
       {content.hours.map((line) => (
         <p key={line}>{line}</p>
       ))}
+      {serviceAreaLine || canEditContent ? (
+        <EditableTextBlock
+          editingEnabled={canEditContent}
+          ariaLabel="Edit footer service area line"
+          editorTitle="Footer service area"
+          value={content.serviceArea}
+          multiline
+          rows={2}
+          className="footer-washing-service-area-wrap"
+          onSave={(value) => preview?.saveContentOverrides({ contentServiceArea: value })}
+        >
+          {serviceAreaNode ? <p>{serviceAreaNode}</p> : canEditContent ? <p className="opacity-60">Service area line</p> : null}
+        </EditableTextBlock>
+      ) : null}
       <div className="footer-washing-licenses">
         {content.licenses.map((line) => (
           <p key={line}>{line}</p>
@@ -194,6 +224,7 @@ export function FooterV4({ hours, serviceLinks, licenses }: FooterV4Props) {
                     <div className="absolute top-full left-0 z-40 mt-2">
                           <ImageLibraryPicker
                             value={logoSrc}
+                            promptAlt={false}
                             onSelect={(entry) => {
                               preview.saveContentOverrides({ contentLogoSrc: entry.src });
                               setLogoLibraryOpen(false);

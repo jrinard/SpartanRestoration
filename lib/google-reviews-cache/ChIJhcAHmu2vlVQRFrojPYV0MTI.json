@@ -3,8 +3,8 @@
   "summary": {
     "placeId": "ChIJhcAHmu2vlVQRFrojPYV0MTI",
     "placeName": "Professional Turf & Landscape",
-    "rating": 3.7,
-    "totalReviews": 3,
+    "rating": 4.8,
+    "totalReviews": 4,
     "reviews": [
       {
         "author": "Adriane North",
@@ -14,22 +14,29 @@
         "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjV3tNLrq4K8mtJm-xZ-Hk-22vUxMgkTjIAi05WD1UtJ2Slds0ZgHA=s128-c0x00000000-cc-rp-mo-ba3"
       },
       {
+        "author": "Eileen Pederson",
+        "rating": 5,
+        "text": "Professional, kind and hardworking.",
+        "relativeTime": "in the last week",
+        "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjWNKLgsZs_3HKr8qs2bi2QdqYkW6s1xnIUgRxHOOWrQRo-1pCA=s128-c0x00000000-cc-rp-mo-ba3"
+      },
+      {
+        "author": "Weston Cendana",
+        "rating": 4,
+        "text": "Professional, quality work, reasonable pricing. Local and been in the area a long time.",
+        "relativeTime": "a week ago",
+        "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUAkqI7y-kjQcg0Xq56rMRdWvzlJ4mV7wAjc0cvLUBxtiFOAPXz=s128-c0x00000000-cc-rp-mo"
+      },
+      {
         "author": "Joshua Rinard",
         "rating": 5,
         "text": "Great experience working with Professional Turf & Landscape. Very friendly, knowledgeable. Definitely recommend them if you’re looking for landscaping services.",
-        "relativeTime": "2 weeks ago",
+        "relativeTime": "4 weeks ago",
         "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjVvcZSH4lljCQisJh0Vhhswtj7HdxWSBrGo6ZIPiw_kYsx3Xic=s128-c0x00000000-cc-rp-mo"
-      },
-      {
-        "author": "Eileen Pederson",
-        "rating": 1,
-        "text": "Left a rating on Google.",
-        "relativeTime": "7 months ago",
-        "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjWNKLgsZs_3HKr8qs2bi2QdqYkW6s1xnIUgRxHOOWrQRo-1pCA=s128-c0x00000000-cc-rp-mo-ba3"
       }
     ],
-    "fetchedAt": "2026-10-08T22:59:34.900Z"
+    "fetchedAt": "2026-10-23T01:53:49.502Z"
   },
-  "googleFetchCount": 1,
-  "cachedAt": "2026-10-08T22:59:34.900Z"
+  "googleFetchCount": 2,
+  "cachedAt": "2026-10-23T01:53:49.502Z"
 }

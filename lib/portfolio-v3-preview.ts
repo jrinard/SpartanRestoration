@@ -6,6 +6,13 @@ import {
   defaultPortfolioV2SampleImage,
   type PortfolioV2ModalImage,
 } from "@/lib/portfolio-v2-preview";
+import type { PortfolioV3GalleryTab } from "@/lib/portfolio-v3-gallery-tabs";
+import {
+  type ButtonPreviewSettings,
+  type ButtonPreviewSize,
+  getButtonPreviewStyleRecord,
+  isButtonPreviewSize,
+} from "@/lib/button-preview";
 
 export { portfolioSectionThemes } from "@/lib/portfolio-preview";
 export type { PortfolioSectionTheme };
@@ -41,16 +48,26 @@ export type PortfolioV3PreviewSettings = {
   sectionDescriptionColor?: string;
   /** Intro copy sits left of the wall on large screens when enabled. */
   copyOnLeft: boolean;
-  /** Blue (or custom) call bar under intro copy. */
+  /** CTA button under intro copy (Forge: “Button”). */
   phoneBarVisible: boolean;
   phoneBarBackgroundColor: string;
   phoneBarTextColor: string;
   contentPhoneLabel?: string;
   contentPhoneHref?: string;
+  /** Corner radius for intro CTA button (px). */
+  introButtonRadiusPx?: number;
+  /** Matches hero-v4 CTA sizing (`data-button-size`). */
+  introButtonSize?: ButtonPreviewSize;
+  phoneBarHoverBackgroundColor?: string;
+  phoneBarTextHoverColor?: string;
   /** Show per-card caption text under thumbnails. */
   captionsVisible: boolean;
   cards: PortfolioV3Card[];
+  /** When 2+ entries, tabs above the wall swap between card sets. */
+  galleryTabs?: PortfolioV3GalleryTab[];
 };
+
+export type { PortfolioV3GalleryTab } from "@/lib/portfolio-v3-gallery-tabs";
 
 export const defaultPortfolioV3SectionHeading = "Project gallery";
 export const defaultPortfolioV3SectionDescription =
@@ -61,9 +78,12 @@ export const defaultPortfolioV3CardBorderRadiusPx = 0;
 export const defaultPortfolioV3ColumnCount = 3;
 export const defaultPortfolioV3HoverScale = 1.04;
 
-export const defaultPortfolioV3PhoneBarBackground = "#2C73B5";
-export const defaultPortfolioV3PhoneBarTextColor = "#ffffff";
-export const defaultPortfolioV3PhoneLabel = "Call now";
+/** Defaults aligned with hero-v4 primary CTA (Stone Pillar yellow). */
+export const defaultPortfolioV3PhoneBarBackground = "#ffc233";
+export const defaultPortfolioV3PhoneBarTextColor = "#000000";
+export const defaultPortfolioV3PhoneBarHoverBackground = "#f8ad0d";
+export const defaultPortfolioV3IntroButtonSize: ButtonPreviewSize = "large";
+export const defaultPortfolioV3PhoneLabel = "Contact us";
 
 export function createPortfolioV3CardId(): string {
   if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
@@ -120,6 +140,43 @@ export function getPortfolioV3SectionDescriptionColor(settings: PortfolioV3Previ
   return settings.theme === "light" ? "#000000" : "#ffffff";
 }
 
+function portfolioV3IntroButtonHoverBackground(fallbackBg: string): string {
+  const bg = fallbackBg.trim();
+  if (/^#[0-9a-fA-F]{6}$/.test(bg)) {
+    return `color-mix(in srgb, ${bg} 88%, #000000)`;
+  }
+  return defaultPortfolioV3PhoneBarHoverBackground;
+}
+
+export function getPortfolioV3IntroButtonSettings(
+  settings: PortfolioV3PreviewSettings,
+): ButtonPreviewSettings {
+  const radius =
+    typeof settings.introButtonRadiusPx === "number" ? settings.introButtonRadiusPx : 4;
+  const size =
+    settings.introButtonSize && isButtonPreviewSize(settings.introButtonSize)
+      ? settings.introButtonSize
+      : defaultPortfolioV3IntroButtonSize;
+
+  return {
+    navBackground: settings.phoneBarBackgroundColor,
+    navTextColor: settings.phoneBarTextColor,
+    navTextHoverColor:
+      settings.phoneBarTextHoverColor?.trim() || settings.phoneBarTextColor,
+    navHoverBackground:
+      settings.phoneBarHoverBackgroundColor?.trim() ||
+      portfolioV3IntroButtonHoverBackground(settings.phoneBarBackgroundColor),
+    navButtonSize: size,
+    navButtonRadiusPx: radius,
+  };
+}
+
+export function getPortfolioV3IntroButtonStyle(
+  settings: PortfolioV3PreviewSettings,
+): CSSProperties {
+  return getButtonPreviewStyleRecord(getPortfolioV3IntroButtonSettings(settings)) as CSSProperties;
+}
+
 export function getPortfolioV3CssVariables(settings: PortfolioV3PreviewSettings): CSSProperties {
   return {
     "--portfolio-v3-gap": `${settings.cardGapPx}px`,
@@ -127,8 +184,6 @@ export function getPortfolioV3CssVariables(settings: PortfolioV3PreviewSettings)
     "--portfolio-v3-columns": String(Math.max(1, Math.min(6, settings.columnCount))),
     "--portfolio-v3-hover-scale": String(clampPortfolioV3HoverScale(settings.cardHoverScale)),
     "--portfolio-v3-intro-color": getPortfolioV3SectionDescriptionColor(settings),
-    "--portfolio-v3-phone-bar-bg": settings.phoneBarBackgroundColor,
-    "--portfolio-v3-phone-bar-color": settings.phoneBarTextColor,
   } as CSSProperties;
 }
 

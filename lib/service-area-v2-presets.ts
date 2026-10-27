@@ -31,6 +31,7 @@ export function labelForServiceAreaV2PresetId(id: string): string {
   if (id === "lifespring") return "LifeSpring";
   if (id === "spartan") return "Spartan";
   if (id === "stonepillar") return "Stone Pillar";
+  if (id === "professional-turf-landscape") return "Professional Turf & Landscape";
   return id
     .split("-")
     .filter(Boolean)

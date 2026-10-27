@@ -333,6 +333,58 @@ export function TextIconsV3BackgroundControls() {
         ariaLabel="Text-icons v3 layout width"
       />
       <label className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          checked={context.settings.itemBoxBorderEnabled === true}
+          onChange={(event) =>
+            update({
+              itemBoxBorderEnabled: event.target.checked ? true : undefined,
+            })
+          }
+          className="size-3.5 accent-accent-purple"
+        />
+        <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+          Item boxes
+        </span>
+      </label>
+      {context.settings.itemBoxBorderEnabled ? (
+        <>
+          <label className="flex items-center gap-2">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+              Box border
+            </span>
+            <input
+              type="text"
+              value={context.settings.itemBoxBorderColor ?? "rgba(255, 255, 255, 0.35)"}
+              onChange={(event) => update({ itemBoxBorderColor: event.target.value })}
+              className="section-switcher-select w-40 rounded border border-accent-purple/40 bg-background/90 px-2 py-1 font-mono text-[0.65rem] text-accent-purple backdrop-blur-sm focus:border-accent-purple focus:outline-none"
+              aria-label="Text-icons v3 item box border color"
+            />
+          </label>
+          <label className="flex items-center gap-2">
+            <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
+              Grid max (px)
+            </span>
+            <input
+              type="number"
+              min={320}
+              max={1600}
+              step={8}
+              value={context.settings.itemsGridMaxWidthPx ?? ""}
+              onChange={(event) => {
+                const raw = event.target.value.trim();
+                update({
+                  itemsGridMaxWidthPx: raw ? Number(raw) : undefined,
+                });
+              }}
+              className="section-switcher-select w-24 rounded border border-accent-purple/40 bg-background/90 px-2 py-1 font-mono text-sm text-accent-purple backdrop-blur-sm focus:border-accent-purple focus:outline-none"
+              aria-label="Text-icons v3 items grid max width in pixels"
+              placeholder="auto"
+            />
+          </label>
+        </>
+      ) : null}
+      <label className="flex items-center gap-2">
         <span className="font-mono text-xs tracking-wide text-accent-purple uppercase">
           Anchor
         </span>

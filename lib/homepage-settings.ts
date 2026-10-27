@@ -32,6 +32,7 @@ import type { ReviewsPreviewSettings } from "@/lib/reviews-preview";
 import type { ServicesV1LayoutWidth } from "@/lib/services-v1-preview";
 import type { AnalyticsPreviewSettings } from "@/lib/analytics-preview";
 import type { FaviconPreviewSettings } from "@/lib/favicon-preview";
+import type { OpenAiPixelPreviewSettings } from "@/lib/openai-pixel-preview";
 
 /** Section-specific preview settings baked into the live homepage. */
 export type HomepagePreviewSettings = {
@@ -74,6 +75,7 @@ export type HomepagePreviewSettings = {
   reviews?: ReviewsPreviewSettings;
   analytics?: AnalyticsPreviewSettings;
   favicon?: FaviconPreviewSettings;
+  openaiPixel?: OpenAiPixelPreviewSettings;
 };
 
 let committedPreviewSettings: HomepagePreviewSettings | null = null;

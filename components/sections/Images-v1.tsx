@@ -158,6 +158,7 @@ function ImagesV1CardBlock({
             {libraryOpen && (
               <ImageLibraryPicker
                 value={card.imageSrc}
+                defaultAlt={card.imageAlt}
                 onSelect={(entry) => {
                   onImageSelect(entry.src, entry.alt);
                   setLibraryOpen(false);

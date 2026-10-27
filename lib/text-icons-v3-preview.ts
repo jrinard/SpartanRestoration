@@ -54,7 +54,20 @@ export type TextIconsV3PreviewSettings = IconFramePreviewSettings & {
    * Explicit `[]` is a saved empty grid.
    */
   items?: TextIconsV3Item[];
+  /** When true, each item renders in a bordered card (legacy orgs omit this). */
+  itemBoxBorderEnabled?: boolean;
+  itemBoxBorderColor?: string;
+  itemBoxBorderRadiusPx?: number;
+  /** Caps grid width (px) — useful with boxed items on wide layouts. */
+  itemsGridMaxWidthPx?: number;
+  /** Auto-fit columns across full section width; wrap only when cells hit min width. */
+  itemsGridFluid?: boolean;
+  /** Min column width (px) when `itemsGridFluid` is on. */
+  itemsGridFluidMinPx?: number;
 };
+
+export const defaultTextIconsV3ItemBoxBorderColor = "rgba(255, 255, 255, 0.35)";
+export const defaultTextIconsV3ItemBoxBorderRadiusPx = 12;
 
 export const defaultTextIconsV3OuterBackgroundColor = "#ffffff";
 
@@ -137,13 +150,33 @@ export function getTextIconsV3SectionId(
 export function getTextIconsV3CssVariables(
   settings: TextIconsV3PreviewSettings,
 ): Record<string, string> {
-  return {
+  const vars: Record<string, string> = {
     "--text-icons-v3-heading-color": settings.headingColor,
     "--text-icons-v3-subheading-color": settings.subheadingColor,
     "--text-icons-v3-icon-color": settings.iconColor,
     "--text-icons-v3-icon-border-color": settings.iconBorderColor,
     "--text-icons-v3-icon-background-color": settings.iconBackgroundColor,
   };
+
+  if (settings.itemBoxBorderEnabled) {
+    vars["--text-icons-v3-item-box-border-color"] =
+      settings.itemBoxBorderColor?.trim() || defaultTextIconsV3ItemBoxBorderColor;
+    vars["--text-icons-v3-item-box-radius"] = `${settings.itemBoxBorderRadiusPx ?? defaultTextIconsV3ItemBoxBorderRadiusPx}px`;
+  }
+
+  if (settings.itemsGridMaxWidthPx && settings.itemsGridMaxWidthPx > 0) {
+    vars["--text-icons-v3-grid-max-width"] = `${Math.round(settings.itemsGridMaxWidthPx)}px`;
+  }
+
+  if (settings.itemsGridFluid) {
+    const minPx =
+      settings.itemsGridFluidMinPx && settings.itemsGridFluidMinPx > 0
+        ? Math.round(settings.itemsGridFluidMinPx)
+        : 176;
+    vars["--text-icons-v3-fluid-min"] = `${minPx}px`;
+  }
+
+  return vars;
 }
 
 /** Settings `items` when present; otherwise the section's built-in cards. */

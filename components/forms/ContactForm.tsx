@@ -24,6 +24,7 @@ import {
   validateContactSmsOptIn,
   type ContactPreviewSettings,
 } from "@/lib/contact-preview";
+import { measureOpenAiLeadCreated } from "@/lib/openai-pixel-client";
 import { devEditButtonClassName, devEditIconSize } from "@/lib/dev-overlay-controls";
 import { defaultContactSmsOptInLabel } from "@/lib/contact-sms-opt-in";
 import {
@@ -215,6 +216,7 @@ export function ContactForm({ className, settings, initialValues }: ContactFormP
       if (result.success) {
         setStatus("success");
         setMessage(result.message);
+        measureOpenAiLeadCreated();
         form.reset();
       } else {
         setStatus("error");

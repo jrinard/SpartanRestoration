@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { ComponentPropsWithoutRef, MouseEvent, ReactNode } from "react";
 import { useContactModal } from "@/components/contact/ContactModalContext";
 import { CONTACT_PAGE_HREF, isContactHref } from "@/lib/contact-modal";
+import { OPENAI_PIXEL_CTA_ATTR } from "@/lib/openai-pixel-preview";
 
 type ContactTriggerProps = Omit<ComponentPropsWithoutRef<"a">, "href"> & {
   href?: string;
@@ -30,7 +31,12 @@ export function ContactTrigger({
   }
 
   return (
-    <Link href={href} onClick={handleClick} {...props}>
+    <Link
+      href={href}
+      onClick={handleClick}
+      {...props}
+      {...{ [OPENAI_PIXEL_CTA_ATTR]: "" }}
+    >
       {children}
     </Link>
   );

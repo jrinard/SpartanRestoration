@@ -163,6 +163,7 @@ export function HeaderV1({ className }: HeaderV1Props) {
                 <div className="absolute top-full left-0 z-40 mt-2">
                   <ImageLibraryPicker
                     value={logoSrc}
+                    promptAlt={false}
                     onSelect={(entry) => {
                       preview.setSettings({ ...settings, headerLogoSrc: entry.src });
                       setLogoLibraryOpen(false);

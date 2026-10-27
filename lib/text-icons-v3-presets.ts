@@ -33,6 +33,7 @@ export function labelForTextIconsV3PresetId(id: string): string {
   if (id === "langham") return "Langham";
   if (id === "stone-pillar") return "Stone Pillar";
   if (id === "spartan") return "Spartan";
+  if (id === "professional-turf") return "Professional Turf";
   return id
     .split("-")
     .filter(Boolean)

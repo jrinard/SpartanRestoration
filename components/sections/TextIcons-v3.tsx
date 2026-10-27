@@ -161,6 +161,9 @@ export function TextIconsV3({ heading, subheading, items, className }: TextIcons
   const displaySubheading = preview?.getSubheading(subheading) ?? subheading;
   const displayItems = resolveTextIconsV3Items(settings, items);
   const itemGrid = getTextIconsV3ItemGrid(displayItems.length);
+  const useFlexRowLayout =
+    settings.itemsGridFluid === true ||
+    (settings.itemBoxBorderEnabled === true && displayItems.length === 3);
   const sectionId = getTextIconsV3SectionId(settings);
 
   const innerBackgroundStyle = getTextIconsV3InnerBackgroundStyle(settings);
@@ -203,15 +206,31 @@ export function TextIconsV3({ heading, subheading, items, className }: TextIcons
 
       <div
         className={cn(
-          "text-icons-v3-grid mt-12 grid gap-10 sm:grid-cols-2 lg:mt-16",
-          !itemGrid.compact && "lg:gap-8",
+          "mt-12 lg:mt-16",
+          useFlexRowLayout
+            ? "text-icons-v3-flex w-full"
+            : cn(
+                "text-icons-v3-grid grid gap-10",
+                !itemGrid.compact && !settings.itemBoxBorderEnabled && "lg:gap-8",
+                settings.itemBoxBorderEnabled && "text-icons-v3-grid--boxed gap-6 lg:gap-6",
+                settings.itemsGridMaxWidthPx &&
+                  settings.itemsGridMaxWidthPx > 0 &&
+                  "text-icons-v3-grid--max-width mx-auto w-full",
+              ),
         )}
         data-compact={itemGrid.compact ? "true" : undefined}
+        data-boxed={settings.itemBoxBorderEnabled ? "true" : undefined}
+        data-item-count={displayItems.length > 0 ? String(displayItems.length) : undefined}
         style={
-          {
-            "--text-icons-v3-cols": String(itemGrid.columns),
-            "--text-icons-v3-cols-lg": String(itemGrid.columnsLg),
-          } as CSSProperties
+          useFlexRowLayout
+            ? (textStyle as CSSProperties)
+            : ({
+                ...textStyle,
+                "--text-icons-v3-cols-mobile": String(itemGrid.columnsMobile),
+                "--text-icons-v3-cols-sm": String(itemGrid.columnsSm),
+                "--text-icons-v3-cols": String(itemGrid.columns),
+                "--text-icons-v3-cols-lg": String(itemGrid.columnsLg),
+              } as CSSProperties)
         }
       >
         {displayItems.map((item) => {
@@ -223,7 +242,10 @@ export function TextIconsV3({ heading, subheading, items, className }: TextIcons
           return (
             <article
               key={item.id}
-              className="text-icons-v3-item flex flex-col items-center text-center"
+              className={cn(
+                "text-icons-v3-item flex flex-col items-center text-center",
+                settings.itemBoxBorderEnabled && "text-icons-v3-item--boxed",
+              )}
             >
               <TextIconsV3Icon
                 itemId={item.id}
@@ -239,11 +261,11 @@ export function TextIconsV3({ heading, subheading, items, className }: TextIcons
                 ariaLabel={`Edit ${displayTitle} title`}
                 editorTitle="Edit item title"
                 value={displayTitle}
-                className="mt-5 w-full max-w-full"
+                className="mt-5 w-full max-w-full text-center"
                 onSave={preview ? (value) => preview.setItemTitle(item.id, value) : undefined}
               >
                 {(displayTitle || editingEnabled) && (
-                  <h3 className="text-lg font-semibold leading-snug text-white">{displayTitle}</h3>
+                  <h3 className="text-icons-v3-item-title text-white">{displayTitle}</h3>
                 )}
               </EditableTextBlock>
               <EditableTextBlock
