@@ -4,6 +4,7 @@ import type { HomepageConfig } from "@/lib/homepage-config";
 import { creativeStorageKeys } from "@/lib/creative-themes";
 import { contactPreviewStorageKey } from "@/lib/contact-preview-storage";
 import { analyticsPreviewStorageKey } from "@/lib/analytics-preview-storage";
+import { openAiPixelPreviewStorageKey } from "@/lib/openai-pixel-preview-storage";
 import { ctaV1PreviewStorageKey } from "@/lib/cta-v1-preview-storage";
 import { footerV3PreviewStorageKey } from "@/lib/footer-v3-preview-storage";
 import { footerV1PreviewStorageKey } from "@/lib/footer-v1-preview-storage";
@@ -130,6 +131,7 @@ export function applyHomepageConfigToStorage(config: HomepageConfig): void {
   writeOptionalJson(contactPreviewStorageKey, previewSettings.contact);
   writeOptionalJson(analyticsPreviewStorageKey, previewSettings.analytics);
   writeOptionalJson(faviconPreviewStorageKey, previewSettings.favicon);
+  writeOptionalJson(openAiPixelPreviewStorageKey, previewSettings.openaiPixel);
   writeOptionalJson(ctaV1PreviewStorageKey, previewSettings.ctaV1);
   writeOptionalJson(textIconsV3PreviewStorageKey, previewSettings.textIconsV3);
   writeOptionalJson(textImagePreviewStorageKey, previewSettings.textImage);

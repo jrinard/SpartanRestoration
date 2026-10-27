@@ -67,6 +67,8 @@ import { analyticsPreviewStorageKey } from "@/lib/analytics-preview-storage";
 import { normalizeAnalyticsPreviewSettings } from "@/lib/analytics-preview";
 import { faviconPreviewStorageKey } from "@/lib/favicon-preview-storage";
 import { normalizeFaviconPreviewSettings } from "@/lib/favicon-preview";
+import { openAiPixelPreviewStorageKey } from "@/lib/openai-pixel-preview-storage";
+import { normalizeOpenAiPixelPreviewSettings } from "@/lib/openai-pixel-preview";
 import { getClientOrgId, orgStorageGet } from "@/lib/org/browser-storage";
 import {
   normalizeHomepageConfigForSave,
@@ -215,6 +217,14 @@ function collectPreviewSettingsFromPages(
     favicon: (() => {
       const stored = readJson<HomepagePreviewSettings["favicon"]>(faviconPreviewStorageKey);
       return stored ? normalizeFaviconPreviewSettings(stored) : undefined;
+    })(),
+    openaiPixel: (() => {
+      const stored = readJson<HomepagePreviewSettings["openaiPixel"]>(openAiPixelPreviewStorageKey);
+      if (stored) return normalizeOpenAiPixelPreviewSettings(stored);
+      if (baseline?.openaiPixel) {
+        return normalizeOpenAiPixelPreviewSettings(baseline.openaiPixel);
+      }
+      return undefined;
     })(),
   };
 

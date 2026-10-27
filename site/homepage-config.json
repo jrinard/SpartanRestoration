@@ -4860,6 +4860,10 @@
       "browserTitle": "Spartan Restoration",
       "favicon32": "/org-assets/spartan/spartan-favicon-32.png",
       "favicon180": "/org-assets/spartan/spartan-favicon-180.png"
+    },
+    "openaiPixel": {
+      "enabled": true,
+      "pixelId": "1ZC5MpXoEZXc1LVwoS1oCR"
     }
   }
 }
