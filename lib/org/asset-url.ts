@@ -12,6 +12,16 @@ export function orgLibraryUrl(orgId: string, relative = ""): string {
   return rest ? orgAssetUrl(orgId, `images/${rest}`) : orgAssetUrl(orgId, "images");
 }
 
+/** Turn a stored `/org-assets/…` path into an absolute URL for previews (Forge iframe, toolbar). */
+export function resolvePublicAssetUrl(src: string, origin: string): string {
+  const trimmed = src.trim();
+  if (!trimmed) return "";
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  const base = origin.trim().replace(/\/$/, "");
+  if (!base) return trimmed.startsWith("/") ? trimmed : "";
+  return `${base}${trimmed.startsWith("/") ? trimmed : `/${trimmed}`}`;
+}
+
 /** `/org-assets/lsd/logo.png` → `{ orgId: "lsd", relative: "logo.png" }` */
 export function parseOrgAssetUrl(
   value: string,

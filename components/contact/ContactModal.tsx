@@ -3,7 +3,9 @@
 import { useEffect, useRef } from "react";
 import { ContactCard } from "@/components/contact/ContactCard";
 import { useContactModal } from "@/components/contact/ContactModalContext";
+import { ContactLeadEmailPreviewPanel } from "@/components/dev/ContactLeadEmailPreviewPanel";
 import { useContactV1Preview } from "@/components/dev/ContactV1PreviewContext";
+import { cn } from "@/lib/utils";
 import { defaultContactPreviewSettings } from "@/lib/contact-preview";
 import { contactContent } from "@/lib/demo-content";
 import { phoneTelHref } from "@/lib/phone";
@@ -51,6 +53,8 @@ export function ContactModal() {
 
   if (!modal?.isOpen) return null;
 
+  const showLeadEmailPreview = preview?.contentEditingEnabled ?? false;
+
   return (
     <div className="contact-modal fixed inset-0 z-[100]">
       <button
@@ -68,22 +72,38 @@ export function ContactModal() {
             aria-modal="true"
             aria-labelledby="contact-modal-title"
             tabIndex={-1}
-            className="contact-modal-panel relative z-10 w-full max-w-lg shrink-0 outline-none"
+            className={cn(
+              "contact-modal-panel relative z-10 w-full shrink-0 outline-none",
+              showLeadEmailPreview ? "max-w-5xl" : "max-w-lg",
+            )}
           >
-            <ContactCard
-              title={content.title}
-              subtext={content.subtext}
-              phonePrefix={content.phonePrefix}
-              phone={content.phoneLabel}
-              formDivider={contactContent.formDivider}
-              formIntro={contactContent.formIntro}
-              settings={settings}
-              className="contact-card--in-modal"
-              titleId="contact-modal-title"
-              formKey={modal.formKey}
-              initialFormValues={modal.initialFormValues ?? undefined}
-              onClose={modal.closeContact}
-            />
+            <div
+              className={cn(
+                showLeadEmailPreview &&
+                  "grid items-start gap-4 sm:gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(240px,300px)]",
+              )}
+            >
+              <ContactCard
+                title={content.title}
+                subtext={content.subtext}
+                phonePrefix={content.phonePrefix}
+                phone={content.phoneLabel}
+                formDivider={contactContent.formDivider}
+                formIntro={contactContent.formIntro}
+                settings={settings}
+                className="contact-card--in-modal"
+                titleId="contact-modal-title"
+                formKey={modal.formKey}
+                initialFormValues={modal.initialFormValues ?? undefined}
+                onClose={modal.closeContact}
+              />
+              {showLeadEmailPreview ? (
+                <ContactLeadEmailPreviewPanel className="hidden lg:block" />
+              ) : null}
+            </div>
+            {showLeadEmailPreview ? (
+              <ContactLeadEmailPreviewPanel className="mt-4 lg:hidden" />
+            ) : null}
           </div>
         </div>
       </div>

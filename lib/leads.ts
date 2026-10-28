@@ -1,3 +1,5 @@
+import { isContactSmsOptInOrg } from "@/lib/contact-sms-opt-in";
+
 export type LeadPayload = {
   name: string;
   businessName: string;
@@ -93,6 +95,37 @@ export function leadPayloadFromFields(fields: LeadFieldSubmission[]): LeadPayloa
   };
 }
 
+const SMS_OPT_IN_FIELD_NAMES = new Set([
+  "sms_opt_in",
+  "sms_opt_in_source",
+  "sms_opt_in_at",
+  "sms_opt_in_label",
+]);
+
+/** Drop SMS consent from leads on client orgs (Forge JSON may still carry smsOptIn). */
+export function applyContactSmsOptInOrgPolicy(
+  submission: LeadSubmission,
+  orgId: string,
+): LeadSubmission {
+  if (isContactSmsOptInOrg(orgId)) return submission;
+
+  if (isDynamicLeadSubmission(submission)) {
+    return {
+      fields: submission.fields.filter((field) => !SMS_OPT_IN_FIELD_NAMES.has(field.name)),
+    };
+  }
+
+  const {
+    smsOptIn: _smsOptIn,
+    smsOptInSource: _smsOptInSource,
+    smsOptInAt: _smsOptInAt,
+    smsOptInLabel: _smsOptInLabel,
+    ...rest
+  } = submission;
+
+  return rest;
+}
+
 export function validateLeadSmsOptIn(submission: LeadSubmission): string | null {
   if (isDynamicLeadSubmission(submission)) {
     const legacy = leadPayloadFromFields(submission.fields);
@@ -168,37 +201,37 @@ export function appendSmsOptInLeadFields(
   fields: LeadFieldSubmission[],
   metadata: Pick<LeadPayload, "smsOptIn" | "smsOptInSource" | "smsOptInAt" | "smsOptInLabel">,
 ): LeadFieldSubmission[] {
+  if (!metadata.smsOptIn) return fields;
+
   const next: LeadFieldSubmission[] = [
     ...fields,
     {
       name: "sms_opt_in",
       label: "SMS opt-in",
-      value: metadata.smsOptIn ? "yes" : "no",
+      value: "yes",
     },
   ];
 
-  if (metadata.smsOptIn) {
-    if (metadata.smsOptInSource) {
-      next.push({
-        name: "sms_opt_in_source",
-        label: "SMS opt-in source",
-        value: metadata.smsOptInSource,
-      });
-    }
-    if (metadata.smsOptInAt) {
-      next.push({
-        name: "sms_opt_in_at",
-        label: "SMS opt-in at",
-        value: metadata.smsOptInAt,
-      });
-    }
-    if (metadata.smsOptInLabel) {
-      next.push({
-        name: "sms_opt_in_label",
-        label: "SMS consent text",
-        value: metadata.smsOptInLabel,
-      });
-    }
+  if (metadata.smsOptInSource) {
+    next.push({
+      name: "sms_opt_in_source",
+      label: "SMS opt-in source",
+      value: metadata.smsOptInSource,
+    });
+  }
+  if (metadata.smsOptInAt) {
+    next.push({
+      name: "sms_opt_in_at",
+      label: "SMS opt-in at",
+      value: metadata.smsOptInAt,
+    });
+  }
+  if (metadata.smsOptInLabel) {
+    next.push({
+      name: "sms_opt_in_label",
+      label: "SMS consent text",
+      value: metadata.smsOptInLabel,
+    });
   }
 
   return next;

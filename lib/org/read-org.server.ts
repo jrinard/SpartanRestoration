@@ -420,6 +420,14 @@ function normalizeOrgContact(stored: OrgContactFile | null, site: SiteConfigData
   return {
     schemaVersion: orgSchemaVersion,
     leadToEmail: typeof stored.leadToEmail === "string" ? stored.leadToEmail.trim() : base.leadToEmail,
+    leadToEmail2:
+      typeof stored.leadToEmail2 === "string" && stored.leadToEmail2.trim()
+        ? stored.leadToEmail2.trim()
+        : undefined,
+    leadEmailLogoSrc:
+      typeof stored.leadEmailLogoSrc === "string" && stored.leadEmailLogoSrc.trim()
+        ? stored.leadEmailLogoSrc.trim()
+        : undefined,
     formFields: Array.isArray(stored.formFields) ? stored.formFields : undefined,
   };
 }

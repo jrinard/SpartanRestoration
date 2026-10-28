@@ -5,6 +5,8 @@ import { Fragment, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Pencil } from "lucide-react";
 import { useContactV1Preview } from "@/components/dev/ContactV1PreviewContext";
+import { useOptionalOrg } from "@/components/dev/OrgProvider";
+import { siteConfig } from "@/config/site";
 import { TextImageTextEditor } from "@/components/dev/TextImageTextEditor";
 import { useRecaptcha } from "@/components/forms/RecaptchaProvider";
 import { recaptchaAction } from "@/lib/recaptcha-config";
@@ -44,9 +46,10 @@ type ContactFormProps = {
 
 function buildLegacyPayload(
   data: FormData,
-  settings?: ContactPreviewSettings,
+  settings: ContactPreviewSettings | undefined,
+  orgId: string,
 ): LeadPayload {
-  const smsSettings = getEffectiveContactSmsOptInSettings(settings);
+  const smsSettings = getEffectiveContactSmsOptInSettings(settings, orgId);
   const smsMetadata = buildSmsOptInLeadMetadata(data, smsSettings);
 
   return {
@@ -62,9 +65,10 @@ function buildLegacyPayload(
 function buildDynamicPayload(
   data: FormData,
   fields: readonly ContactFormField[],
-  settings?: ContactPreviewSettings,
+  settings: ContactPreviewSettings | undefined,
+  orgId: string,
 ): LeadFieldSubmission[] {
-  const smsSettings = getEffectiveContactSmsOptInSettings(settings);
+  const smsSettings = getEffectiveContactSmsOptInSettings(settings, orgId);
   const smsMetadata = buildSmsOptInLeadMetadata(data, smsSettings);
   const baseFields = fields.map((field) => ({
     name: field.name,
@@ -160,6 +164,8 @@ function renderField(
 
 export function ContactForm({ className, settings, initialValues }: ContactFormProps) {
   const { enabled: recaptchaEnabled, executeRecaptcha } = useRecaptcha();
+  const org = useOptionalOrg();
+  const orgId = org?.orgId ?? siteConfig.assets.themeFolder;
   const preview = useContactV1Preview();
   const editingEnabled = preview?.contentEditingEnabled ?? false;
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -167,7 +173,7 @@ export function ContactForm({ className, settings, initialValues }: ContactFormP
   const [submitEditorOpen, setSubmitEditorOpen] = useState(false);
 
   const fields = settings ? getEffectiveContactFormFields(settings) : defaultContactFormFields;
-  const smsOptInSettings = getEffectiveContactSmsOptInSettings(settings);
+  const smsOptInSettings = getEffectiveContactSmsOptInSettings(settings, orgId);
   const submitText = settings?.submitText ?? defaultContactButtonSettings.submitText;
   const useCustomSubmitButton = Boolean(settings && hasCustomContactSubmitButton(settings));
   const submitButtonStyle = useCustomSubmitButton && settings
@@ -205,8 +211,8 @@ export function ContactForm({ className, settings, initialValues }: ContactFormP
 
     try {
       const payload = useLegacySubmit
-        ? buildLegacyPayload(data, settings)
-        : { fields: buildDynamicPayload(data, fields, settings) };
+        ? buildLegacyPayload(data, settings, orgId)
+        : { fields: buildDynamicPayload(data, fields, settings, orgId) };
 
       const result = await submitLead(payload, {
         recaptchaToken,

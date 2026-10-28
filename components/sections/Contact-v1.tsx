@@ -1,6 +1,7 @@
 "use client";
 
 import { ContactCard } from "@/components/contact/ContactCard";
+import { ContactLeadEmailPreviewPanel } from "@/components/dev/ContactLeadEmailPreviewPanel";
 import { useContactV1Preview } from "@/components/dev/ContactV1PreviewContext";
 import { Container } from "@/components/ui/Container";
 import {
@@ -31,6 +32,7 @@ export function ContactV1({
 }: ContactV1Props) {
   const preview = useContactV1Preview();
   const settings = preview?.settings ?? defaultContactPreviewSettings;
+  const showLeadEmailPreview = preview?.contentEditingEnabled ?? false;
 
   return (
     <section
@@ -42,17 +44,25 @@ export function ContactV1({
       style={getContactSectionStyle(settings)}
       aria-labelledby="contact-heading"
     >
-      <Container className="max-w-xl">
-        <ContactCard
-          title={title}
-          subtext={subtext}
-          phonePrefix={phonePrefix}
-          phone={phone}
-          formDivider={formDivider}
-          formIntro={formIntro}
-          settings={settings}
-          titleId="contact-heading"
-        />
+      <Container className={showLeadEmailPreview ? "max-w-5xl" : "max-w-xl"}>
+        <div
+          className={cn(
+            showLeadEmailPreview &&
+              "grid items-start gap-6 lg:grid-cols-[minmax(0,26rem)_minmax(240px,1fr)] lg:gap-8 xl:grid-cols-[minmax(0,28rem)_minmax(260px,320px)]",
+          )}
+        >
+          <ContactCard
+            title={title}
+            subtext={subtext}
+            phonePrefix={phonePrefix}
+            phone={phone}
+            formDivider={formDivider}
+            formIntro={formIntro}
+            settings={settings}
+            titleId="contact-heading"
+          />
+          {showLeadEmailPreview ? <ContactLeadEmailPreviewPanel /> : null}
+        </div>
       </Container>
     </section>
   );

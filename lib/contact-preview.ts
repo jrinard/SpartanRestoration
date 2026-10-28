@@ -7,14 +7,17 @@ import {
   defaultContactFormFields,
   type ContactFormField,
 } from "@/lib/contact-form-fields";
+import { formatLeadInboxList, parseLeadInboxEmails } from "@/lib/contact-lead-inbox";
 import type { CSSProperties } from "react";
 import { phoneTelHref } from "@/lib/phone";
 import { siteConfig } from "@/config/site";
 import {
+  contactSmsOptInSettingsForOrg,
   normalizeContactSmsOptInSettings,
   getEffectiveContactSmsOptIn,
   type ContactSmsOptInSettings,
 } from "@/lib/contact-sms-opt-in";
+import type { LeadPayload } from "@/lib/leads";
 import { isRecaptchaEnabled } from "@/lib/recaptcha-config";
 
 export type ContactBackgroundMode = "solid" | "gradient";
@@ -56,6 +59,8 @@ export type ContactPreviewSettings = {
   buttonRadiusPx?: number;
   /** Inbox for contact form submissions — defaults to siteConfig.email. */
   leadToEmail?: string;
+  /** Logo at top of lead notification emails. */
+  leadEmailLogoSrc?: string;
   /** SMS consent for Foundation CRM — omitted until an org turns it on. */
   smsOptIn?: ContactSmsOptInSettings;
   /** When false, skip reCAPTCHA on contact forms (modal + hero). Omitted = use env keys when set. */
@@ -107,20 +112,21 @@ export function isValidLeadToEmail(value: string): boolean {
 }
 
 export function getEffectiveLeadToEmail(settings?: ContactPreviewSettings): string {
-  const stored = settings?.leadToEmail?.trim();
-  if (stored && isValidLeadToEmail(stored)) return stored;
+  const parsed = parseLeadInboxEmails(settings?.leadToEmail);
+  if (parsed.length > 0) return formatLeadInboxList(parsed);
   return siteConfig.email;
 }
 
 /** Org Settings lead inbox — contact.json first, then site.json email. */
 export function resolveOrgLeadInbox(options: {
   leadToEmail?: string;
+  leadToEmail2?: string;
   siteEmail?: string;
 }): string {
-  const fromContact = options.leadToEmail?.trim();
-  if (fromContact && isValidLeadToEmail(fromContact)) return fromContact;
-  const fromSite = options.siteEmail?.trim();
-  if (fromSite && isValidLeadToEmail(fromSite)) return fromSite;
+  const fromContact = parseLeadInboxEmails(options.leadToEmail, options.leadToEmail2);
+  if (fromContact.length > 0) return formatLeadInboxList(fromContact);
+  const fromSite = parseLeadInboxEmails(options.siteEmail);
+  if (fromSite.length > 0) return formatLeadInboxList(fromSite);
   return "";
 }
 
@@ -128,32 +134,89 @@ export function resolveOrgLeadInbox(options: {
 export const contactLeadInboxFallbackNote =
   "Otherwise submissions honor CONTACT_LEAD_TO in .env.local / Vercel, then fall back to LifeSpring Design.";
 
+export const CONTACT_LEAD_TO_ENV = "CONTACT_LEAD_TO";
+export const CONTACT_LEAD_FROM_ENV = "CONTACT_LEAD_FROM";
+
+export type ContactLeadToPreview =
+  | { kind: "address"; address: string }
+  | { kind: "env"; variable: typeof CONTACT_LEAD_TO_ENV }
+  | { kind: "unset" };
+
+/** Matches server `resolveContactLeadTo` order (before dev-only overrides). */
+export function resolveContactLeadToPreview(options: {
+  orgLeadToEmail?: string;
+  orgLeadToEmail2?: string;
+  sectionLeadToEmail?: string;
+  siteEmail?: string;
+}): ContactLeadToPreview {
+  const fromOrgInbox = parseLeadInboxEmails(
+    options.orgLeadToEmail,
+    options.orgLeadToEmail2,
+  );
+  if (fromOrgInbox.length > 0) {
+    return { kind: "address", address: formatLeadInboxList(fromOrgInbox) };
+  }
+
+  const fromSection = parseLeadInboxEmails(options.sectionLeadToEmail);
+  if (fromSection.length > 0) {
+    return { kind: "address", address: formatLeadInboxList(fromSection) };
+  }
+
+  const fromSite = parseLeadInboxEmails(options.siteEmail);
+  if (fromSite.length > 0) {
+    return { kind: "address", address: formatLeadInboxList(fromSite) };
+  }
+
+  return { kind: "env", variable: CONTACT_LEAD_TO_ENV };
+}
+
+export function formatContactLeadToPreview(preview: ContactLeadToPreview): string {
+  if (preview.kind === "address") return preview.address;
+  if (preview.kind === "env") return `env (${preview.variable})`;
+  return "Set Lead inbox in Org Settings";
+}
+
+/** Resend From — only available on the server via env in this app. */
+export function formatContactLeadFromPreview(): string {
+  return `env (${CONTACT_LEAD_FROM_ENV})`;
+}
+
+/** Explicit lead-email logo only — no site logo fallback (avoids empty/broken img tags). */
+export function resolveContactLeadEmailLogoSrc(options: {
+  orgLeadEmailLogoSrc?: string;
+  sectionLeadEmailLogoSrc?: string;
+}): string {
+  const fromOrg = options.orgLeadEmailLogoSrc?.trim();
+  if (fromOrg) return fromOrg;
+  const fromSection = options.sectionLeadEmailLogoSrc?.trim();
+  if (fromSection) return fromSection;
+  return "";
+}
+
 export function hasSavedContactFormFields(settings: ContactPreviewSettings): boolean {
   return settings.formFields !== undefined;
 }
 
 export function getEffectiveContactSmsOptInSettings(
   settings?: ContactPreviewSettings,
+  orgId?: string | null,
 ): ContactSmsOptInSettings {
-  return getEffectiveContactSmsOptIn(settings?.smsOptIn);
+  const base = getEffectiveContactSmsOptIn(settings?.smsOptIn);
+  const resolvedOrgId = orgId ?? siteConfig.assets.themeFolder;
+  return contactSmsOptInSettingsForOrg(base, resolvedOrgId);
 }
 
 export function buildSmsOptInLeadMetadata(
   data: FormData,
   smsSettings: ContactSmsOptInSettings,
-): {
-  smsOptIn: boolean;
-  smsOptInSource?: string;
-  smsOptInAt?: string;
-  smsOptInLabel?: string;
-} {
+): Partial<Pick<LeadPayload, "smsOptIn" | "smsOptInSource" | "smsOptInAt" | "smsOptInLabel">> {
   if (!smsSettings.enabled) {
-    return { smsOptIn: false };
+    return {};
   }
 
   const checked = data.get("smsOptIn") === "yes";
   if (!checked) {
-    return { smsOptIn: false };
+    return {};
   }
 
   return {

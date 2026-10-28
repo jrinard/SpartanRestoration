@@ -73,7 +73,11 @@ export type OrgCurrentFile = {
 
 export type OrgContactFile = {
   schemaVersion: number;
-  /** Inbox for contact form submissions. Empty = do not send. */
+  /** Inbox for contact form submissions. Empty = do not send. Comma-separated allowed. */
   leadToEmail: string;
+  /** Optional second inbox (also supports comma-separated in leadToEmail alone). */
+  leadToEmail2?: string;
+  /** Logo shown at top of contact lead emails (/org-assets/… or library path). */
+  leadEmailLogoSrc?: string;
   formFields?: ContactFormField[];
 };

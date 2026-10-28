@@ -26,6 +26,24 @@ export const defaultContactSmsOptInSettings: ContactSmsOptInSettings = {
   source: defaultContactSmsOptInSource,
 };
 
+/** Foundation SMS consent is only for the LifeSpring site — not client orgs. */
+export const CONTACT_SMS_OPT_IN_ORG_ID = "lsd";
+
+export function isContactSmsOptInOrg(orgId: string | null | undefined): boolean {
+  return orgId?.trim() === CONTACT_SMS_OPT_IN_ORG_ID;
+}
+
+/** Saved contact settings may include smsOptIn; only honor `enabled` on the LSD org. */
+export function contactSmsOptInSettingsForOrg(
+  settings: ContactSmsOptInSettings,
+  orgId: string | null | undefined,
+): ContactSmsOptInSettings {
+  if (!isContactSmsOptInOrg(orgId)) {
+    return { ...settings, enabled: false };
+  }
+  return settings;
+}
+
 export function normalizeContactSmsOptInSettings(
   value: Partial<ContactSmsOptInSettings> | null | undefined,
 ): ContactSmsOptInSettings {

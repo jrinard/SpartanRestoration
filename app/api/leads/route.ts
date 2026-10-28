@@ -5,11 +5,13 @@ import { recaptchaAction } from "@/lib/recaptcha-config";
 import { sendLeadEmail } from "@/lib/send-lead-email";
 import { sendFoundationContactWebhook } from "@/lib/send-foundation-contact-webhook.server";
 import {
+  applyContactSmsOptInOrgPolicy,
   normalizeLeadSubmission,
   validateLeadSmsOptIn,
   type LeadFieldSubmission,
   type LeadPayload,
 } from "@/lib/leads";
+import { readCurrentOrgId } from "@/lib/org/read-org.server";
 
 type LeadRequestBody = (LeadPayload | { fields: LeadFieldSubmission[] }) & {
   recaptchaToken?: string;
@@ -36,14 +38,17 @@ export async function POST(request: Request) {
   }
 
   const { recaptchaToken, leadToEmail, ...leadFields } = body as LeadRequestBody;
-  const submission = normalizeLeadSubmission(leadFields);
+  const normalized = normalizeLeadSubmission(leadFields);
 
-  if (!submission) {
+  if (!normalized) {
     return Response.json(
       { success: false, message: "Please fill in all required fields." },
       { status: 400 },
     );
   }
+
+  const orgId = await readCurrentOrgId();
+  const submission = applyContactSmsOptInOrgPolicy(normalized, orgId);
 
   const smsValidationError = validateLeadSmsOptIn(submission);
   if (smsValidationError) {

@@ -1,4 +1,4 @@
-import { isValidLeadToEmail } from "@/lib/contact-preview";
+import { parseLeadInboxEmails } from "@/lib/contact-lead-inbox";
 import { getContactLeadTo } from "@/lib/email-config";
 import {
   readCurrentOrgId,
@@ -9,17 +9,18 @@ import {
 
 const LSD_INBOX = "josh@lifespringdesign.com";
 
-function normalizeEmail(value: string | undefined): string | undefined {
-  const email = value?.trim();
-  if (!email || !isValidLeadToEmail(email)) return undefined;
-  return email;
+function filterAllowedRecipients(orgId: string, emails: string[]): string[] {
+  if (orgId === "lsd") return emails;
+  return emails.filter((email) => email.toLowerCase() !== LSD_INBOX);
 }
 
 /**
- * Resolve this org's lead inbox. Never uses another org's staging file.
+ * Resolve lead inboxes for this org. Never uses another org's staging file.
  * Sandbox (or any non-lsd org) cannot send to the LifeSpring inbox.
  */
-export async function resolveContactLeadTo(clientOverride?: string): Promise<string> {
+export async function resolveContactLeadToAddresses(
+  clientOverride?: string,
+): Promise<string[]> {
   const orgId = await readCurrentOrgId();
   const [contact, site, workshop] = await Promise.all([
     readOrgContact(orgId),
@@ -27,33 +28,41 @@ export async function resolveContactLeadTo(clientOverride?: string): Promise<str
     readOrgWorkshopConfig(orgId),
   ]);
 
-  const fromContact = normalizeEmail(contact.leadToEmail);
-  const fromWorkshop = normalizeEmail(workshop.previewSettings?.contact?.leadToEmail);
-  const fromSite = normalizeEmail(site.email);
+  let addresses = parseLeadInboxEmails(
+    contact.leadToEmail,
+    contact.leadToEmail2,
+  );
 
-  let to = fromContact ?? fromWorkshop ?? fromSite;
+  if (addresses.length === 0) {
+    addresses = parseLeadInboxEmails(workshop.previewSettings?.contact?.leadToEmail);
+  }
+
+  if (addresses.length === 0) {
+    addresses = parseLeadInboxEmails(site.email);
+  }
 
   const allowOrgSend = process.env.ALLOW_ORG_SEND?.trim();
   if (process.env.NODE_ENV === "development" && allowOrgSend) {
     if (allowOrgSend !== orgId) {
-      return "";
+      return [];
     }
-  } else if (process.env.NODE_ENV === "development") {
-    const client = normalizeEmail(clientOverride);
-    if (client && (!to || client.toLowerCase() === to.toLowerCase())) {
-      to = client;
+  } else if (process.env.NODE_ENV === "development" && clientOverride?.trim()) {
+    const clientList = parseLeadInboxEmails(clientOverride);
+    const client = clientList[0];
+    if (client && addresses.length === 0) {
+      addresses = clientList;
     }
   }
 
-  if (!to) {
-    to = normalizeEmail(getContactLeadTo());
+  if (addresses.length === 0) {
+    addresses = parseLeadInboxEmails(getContactLeadTo());
   }
 
-  if (!to) return "";
+  return filterAllowedRecipients(orgId, addresses);
+}
 
-  if (orgId !== "lsd" && to.toLowerCase() === LSD_INBOX) {
-    return "";
-  }
-
-  return to;
+/** @deprecated Prefer resolveContactLeadToAddresses — first recipient only. */
+export async function resolveContactLeadTo(clientOverride?: string): Promise<string> {
+  const addresses = await resolveContactLeadToAddresses(clientOverride);
+  return addresses[0] ?? "";
 }

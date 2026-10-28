@@ -96,6 +96,10 @@ export function normalizeContactPreviewSettings(
       typeof value.leadToEmail === "string" && value.leadToEmail.trim()
         ? value.leadToEmail.trim()
         : undefined,
+    leadEmailLogoSrc:
+      typeof value.leadEmailLogoSrc === "string" && value.leadEmailLogoSrc.trim()
+        ? value.leadEmailLogoSrc.trim()
+        : undefined,
     smsOptIn: value.smsOptIn ? normalizeContactSmsOptInSettings(value.smsOptIn) : undefined,
     requireRecaptcha: value.requireRecaptcha === false ? false : undefined,
   };
